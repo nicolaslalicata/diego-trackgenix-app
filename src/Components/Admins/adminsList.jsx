@@ -1,15 +1,20 @@
 import { useEffect, useState } from 'react';
 import styles from './admins.module.css';
+import AdminItem from './eachAdmin';
 
 function List() {
-  const [Admins, saveAdmins] = useState([]);
-  useEffect(() => {
-    fetch('http://localhost:4000/admins')
+  const [Admins, setAdmins] = useState([]);
+  const fetchAdmins = () => {
+    fetch(`http://localhost:4000/admins`)
       .then((response) => response.json())
-      .then((response) => {
-        saveAdmins(response.data);
-      })
-      .catch((err) => console.error(err));
+      .then((response) => setAdmins(response.data));
+  };
+  useEffect(async () => {
+    try {
+      await fetchAdmins();
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
   return (
     <div className={styles.container}>
@@ -23,20 +28,14 @@ function List() {
           </tr>
         </thead>
         <tbody>
-          {Admins.map((admins) => {
+          {Admins.map((admin) => {
             return (
-              <tr key={admins._id}>
-                <td>{admins._id}</td>
-                <td>{admins.lastName}</td>
-                <td>{admins.firstName}</td>
-                <td>{admins.email}</td>
-                <td>
-                  <button className={styles.buttons}>Edit</button>
-                </td>
-                <td>
-                  <button className={styles.buttons}>Delete</button>
-                </td>
-              </tr>
+              <AdminItem
+                key={admin._id}
+                admin={admin}
+                setAdmins={setAdmins}
+                fetchAdmins={fetchAdmins}
+              />
             );
           })}
         </tbody>
