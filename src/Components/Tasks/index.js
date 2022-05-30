@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import TasksList from './TasksList';
 import styles from './tasks.module.css';
 import Modal from './TasksModal';
+import AddTask from './AddTask';
 
 const Tasks = () => {
   const [taskList, setTasksList] = useState([]);
@@ -35,12 +36,24 @@ const Tasks = () => {
       setModalState(!modalState);
     }
   };
+
+  const addTask = ({ description, workedHours, date }) => {
+    const newTask = {
+      _id: Math.floor(Math.random() * 10000),
+      description,
+      workedHours,
+      date
+    };
+    setTasksList([...taskList, newTask]);
+  };
+
   return (
     <div className={styles.container}>
       <Modal modalState={modalState} setModalState={setModalState}>
         <h2>Are you sure?</h2>
         <button onClick={deleteItem}>Yes</button>
       </Modal>
+      <AddTask addTask={addTask}></AddTask>
       <TasksList tasklist={taskList} deleteItem={openModal}></TasksList>
     </div>
   );
