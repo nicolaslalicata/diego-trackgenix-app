@@ -1,0 +1,52 @@
+button {
+    width: 35px;
+}
+.overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: large;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .5);
+}
+
+.contenedorModal {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    position: relative;
+    width: 300px;
+    background: #fff;
+    position: relative;
+    border-radius: 5px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding: 20px;
+}
+
+.encabezado {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #E8E8E8;
+    width: 100%;
+    font-weight: 500;
+    font-size: 16px;
+    color:black;
+}
+
+.botonModal {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    height: 10px;
+    border: none;
+    color: #EA3354;
+    font-weight: bold;
+    background-color: transparent;
+}
