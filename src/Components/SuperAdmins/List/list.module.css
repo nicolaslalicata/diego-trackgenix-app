@@ -3,8 +3,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: .2rem solid black;
-  background-color: grey;
+  border: .2rem solid #EA3354;
+  background-color: #F0F4F9;
   margin-bottom: 1.5rem ;
 }
 

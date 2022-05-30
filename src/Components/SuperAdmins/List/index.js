@@ -1,3 +1,4 @@
+require('dotenv').config();
 import { useState, useEffect } from 'react';
 import React from 'react';
 import Row from '../Row';
@@ -5,9 +6,10 @@ import style from '../List/list.module.css';
 
 function List() {
   const [superAdmins, setSuperAdmins] = useState([]);
+  const url = `${process.env.REACT_APP_API_URL}/super-admins`;
   useEffect(() => {
     try {
-      fetch(`http://localhost:4000/super-admins`)
+      fetch(url)
         .then((response) => response.json())
         .then((response) => {
           setSuperAdmins(response.data);
@@ -17,8 +19,14 @@ function List() {
     }
   }, []);
 
-  const deleteRow = (_id) => {
-    setSuperAdmins([...superAdmins.filter((row) => row._id !== _id)]);
+  const deleteRow = async (_id) => {
+    const response = confirm('You are deleting a super admin. Are you sure?');
+    if (response) {
+      await fetch(`${url}/${_id}`, {
+        method: 'DELETE'
+      });
+      setSuperAdmins(superAdmins.filter((row) => row._id !== _id));
+    }
   };
 
   return (
