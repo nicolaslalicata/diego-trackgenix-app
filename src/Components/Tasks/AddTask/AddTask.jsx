@@ -23,7 +23,7 @@ const AddTask = ({ addTask }) => {
 
   return (
     <div>
-      <h2>Add new Task</h2>
+      <h2>Add New Task</h2>
       <form onSubmit={onSubmit}>
         <div>
           <label htmlFor="description"></label>

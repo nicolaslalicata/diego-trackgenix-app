@@ -1,4 +1,4 @@
-import styles from './tasks.module.css';
+import styles from '../tasks.module.css';
 import ListItem from './ListItem';
 
 const TasksList = ({ tasklist, deleteItem }) => {

@@ -1,16 +1,16 @@
 require('dotenv').config();
 import { useEffect, useState } from 'react';
-import TasksList from './TasksList';
+import TasksList from './ListTasks/TasksList';
 import styles from './tasks.module.css';
-import Modal from './TasksModal';
-import AddTask from './AddTask';
+import Modal from './Modal/TasksModal';
+import AddTask from './AddTask/AddTask';
 
 const Tasks = () => {
   const [taskList, setTasksList] = useState([]);
 
   useEffect(() => {
     try {
-      fetch(process.env.REACT_APP_API_URL)
+      fetch(`${process.env.REACT_APP_API_URL}/tasks`)
         .then((response) => response.json())
         .then((response) => {
           setTasksList(response.data);
@@ -30,7 +30,7 @@ const Tasks = () => {
 
   const deleteItem = () => {
     if (modalState.id) {
-      fetch(process.env.REACT_APP_API_URL, { method: 'DELETE' }).then(() =>
+      fetch(`${process.env.REACT_APP_API_URL}/tasks/${modalState.id}`, { method: 'DELETE' }).then(
         setTasksList([...taskList.filter((listItem) => listItem._id !== modalState.id)])
       );
       setModalState(!modalState);
@@ -39,12 +39,29 @@ const Tasks = () => {
 
   const addTask = ({ description, workedHours, date }) => {
     const newTask = {
-      _id: Math.floor(Math.random() * 10000),
       description,
       workedHours,
       date
     };
-    setTasksList([...taskList, newTask]);
+    const url = `${process.env.REACT_APP_API_URL}/tasks/`;
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        description: newTask.description,
+        workedHours: newTask.workedHours,
+        date: newTask.date
+      })
+    };
+    console.log(newTask.description);
+    fetch(url, options)
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+        console.log(options.body);
+      });
   };
 
   return (
