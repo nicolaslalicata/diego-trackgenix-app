@@ -1,18 +1,24 @@
 import React from 'react';
 
-function Row({ name, lastName, email, id, password }) {
+function Row({ row, deleteRow }) {
+  const handleDelete = () => {
+    deleteRow(row._id);
+  };
+
   return (
     <tr>
-      <td>{id}</td>
-      <td>{name}</td>
-      <td>{lastName}</td>
-      <td>{email}</td>
-      <td>{password}</td>
+      <td>{row._id}</td>
+      <td>{row.firstName}</td>
+      <td>{row.lastName}</td>
+      <td>{row.email}</td>
+      <td>{row.password}</td>
       <td>
-        <button>Edit</button>
+        <a href="/super-admins/form">
+          <button>Edit</button>
+        </a>
       </td>
       <td>
-        <button>Delete</button>
+        <button onClick={() => handleDelete(row._id)}>Delete</button>
       </td>
     </tr>
   );

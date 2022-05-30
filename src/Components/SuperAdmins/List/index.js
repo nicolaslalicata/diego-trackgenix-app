@@ -6,39 +6,37 @@ import style from '../List/list.module.css';
 function List() {
   const [superAdmins, setSuperAdmins] = useState([]);
   useEffect(() => {
-    fetch(`http://localhost:4000/super-admins`)
-      .then((response) => response.json())
-      .then((response) => {
-        setSuperAdmins(response.data);
-      });
+    try {
+      fetch(`http://localhost:4000/super-admins`)
+        .then((response) => response.json())
+        .then((response) => {
+          setSuperAdmins(response.data);
+        });
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
+
+  const deleteRow = (_id) => {
+    setSuperAdmins([...superAdmins.filter((row) => row._id !== _id)]);
+  };
+
   return (
     <div className={style.container}>
       <table className={style.table}>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Last name</th>
-            <th>Email</th>
-            <th>Password</th>
+            <th id="id">ID</th>
+            <th id="Name">Name</th>
+            <th id="LastName">Last name</th>
+            <th id="Email">Email</th>
+            <th id="Password">Password</th>
           </tr>
         </thead>
         <tbody>
-          {superAdmins.map((superAdmin) => {
-            return (
-              <>
-                <Row
-                  key={superAdmin._id}
-                  id={superAdmin._id}
-                  name={superAdmin.firstName}
-                  lastName={superAdmin.lastName}
-                  email={superAdmin.email}
-                  password={superAdmin.password}
-                />
-              </>
-            );
-          })}
+          {superAdmins.map((superAdmin) => (
+            <Row key={superAdmin._id} row={superAdmin} deleteRow={deleteRow} />
+          ))}
         </tbody>
       </table>
     </div>

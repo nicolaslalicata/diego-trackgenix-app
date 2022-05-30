@@ -1,5 +1,11 @@
 .container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: .2rem solid black;
   background-color: grey;
+  margin-bottom: 1.5rem ;
 }
 
 .table {

@@ -1,11 +1,11 @@
-import styles from './super-admins.module.css';
 import List from './List';
+import styles from './super-admins.module.css';
 
 function SuperAdmins() {
   return (
     <section className={styles.container}>
-      {/* <h2>SuperAdmins</h2> */}
       <div>
+        <h2>SuperAdmins</h2>
         <List />
       </div>
     </section>
