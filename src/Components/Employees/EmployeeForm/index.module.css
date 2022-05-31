@@ -1,0 +1,44 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    width: auto;
+}
+.title{
+    display: flex;
+    justify-content: center;
+}
+.title h2{
+   border-bottom: 1px solid #000;
+}
+
+.containerForm{
+    display: flex;
+    align-items: center;
+}
+
+.formItem{
+    display: flex;
+    align-items: center;
+    width: auto;
+    margin: 2%;
+}
+
+.formItem input{
+    width: 100%;
+    height: 30px;
+    margin-left: 3px;
+    border: 3px solid #EA3354;
+    background-color: #F0F4F9;
+    color: #000;
+}
+.formItemSend{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: auto;
+    height: 50px;
+}
+.formItemSend input{
+    background-color: #000;
+    color: #fff;
+}
