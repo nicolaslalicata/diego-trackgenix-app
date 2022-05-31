@@ -26,7 +26,7 @@ const Employees = () => {
       method: 'DELETE'
     });
     saveEmployees([...employees.filter((listItem) => listItem._id != id)]);
-    //ALERT
+    alert(`the employee was delete`);
   };
 
   //ADD NEW ITEM
@@ -48,7 +48,7 @@ const Employees = () => {
         .then((data) => {
           saveEmployees([...employees, data.data]);
         });
-      //ALERT
+      alert(`the employee ${firstName} was added successfully`);
     } catch (error) {
       console.error(error);
     }
@@ -79,7 +79,7 @@ const Employees = () => {
           saveEmployees(employeesUpdated);
         });
       setEditItem(null);
-      //ALERT
+      alert(`the Employee ${firstName} was edited successfully`);
     } catch (error) {
       console.error(error);
     }
