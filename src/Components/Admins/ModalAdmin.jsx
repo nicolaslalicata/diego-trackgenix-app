@@ -3,13 +3,7 @@ import styles from './admins.module.css';
 import { useState } from 'react';
 import ModalAdd from './ModalAdd';
 
-const ModalAdmin = ({
-  showModal,
-  fetchAdmins,
-  setShowModal,
-  setSucModalIsOpen,
-  setErrModalIsOpen
-}) => {
+const ModalAdmin = ({ showModal, fetchAdmins, setShowModal }) => {
   const [AddModalIsOpen, setAddModalIsOpen] = useState(false);
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -44,7 +38,7 @@ const ModalAdmin = ({
         response.json(),
           response.status == 201
             ? alert(`Admin added successfully`)
-            : alert(`there was a problem adding the admin: ${response.message}`);
+            : alert(`there was a problem adding the admin`);
       })
       .then(fetchAdmins)
       .then(emptyParameters)
