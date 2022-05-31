@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from '../Row/row.module.css';
 
 function Row({ row, deleteRow }) {
   const handleDelete = () => {
@@ -14,11 +15,13 @@ function Row({ row, deleteRow }) {
       <td>{row.password}</td>
       <td>
         <a href={url}>
-          <button>Edit</button>
+          <button className={styles.editButton}>Edit</button>
         </a>
       </td>
       <td>
-        <button onClick={() => handleDelete(row._id)}>Delete</button>
+        <button className={styles.deleteButton} onClick={() => handleDelete(row._id)}>
+          Delete
+        </button>
       </td>
     </tr>
   );

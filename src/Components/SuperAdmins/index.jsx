@@ -6,10 +6,10 @@ function SuperAdmins() {
   return (
     <section className={styles.container}>
       <div>
-        <a href="/super-admins/form">
-          <button>New user</button>
-        </a>
         <h2>SuperAdmins</h2>
+        <a href="/super-admins/form">
+          <button className={styles.createButton}>New user</button>
+        </a>
         <List />
       </div>
     </section>

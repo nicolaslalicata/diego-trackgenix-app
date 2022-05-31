@@ -2,7 +2,7 @@ require('dotenv').config();
 import { useState, useEffect } from 'react';
 import React from 'react';
 import Row from '../Row';
-import style from '../List/list.module.css';
+import styles from '../List/list.module.css';
 
 function List() {
   const [superAdmins, setSuperAdmins] = useState([]);
@@ -30,8 +30,8 @@ function List() {
   };
 
   return (
-    <div className={style.container}>
-      <table className={style.table}>
+    <div className={styles.container}>
+      <table className={styles.table}>
         <thead>
           <tr>
             <th id="id">ID</th>

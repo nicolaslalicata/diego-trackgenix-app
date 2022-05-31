@@ -47,7 +47,12 @@ function Form() {
         body: JSON.stringify(superAdmin)
       });
       const data = await response.json();
-      setSuperAdmins([...superAdmins, data]);
+      if (response.status === 200 || response.status === 201) {
+        setSuperAdmins([...superAdmins, data]);
+        alert('Super admin created successfully');
+      } else {
+        alert(data.message);
+      }
     }
   };
 
@@ -62,7 +67,13 @@ function Form() {
         body: JSON.stringify(superAdmin)
       });
       const data = await response.json();
-      setSuperAdmins([...superAdmins, data]);
+      if (response.status === 200 || response.status === 201) {
+        setSuperAdmins([...superAdmins, data]);
+        alert('Super admin edited successfully');
+        superAdminId = '';
+      } else {
+        alert(data.message);
+      }
     }
   };
 
@@ -70,14 +81,12 @@ function Form() {
     submitSuperAdmin.preventDefault();
     if (superAdminId !== '') {
       editSuperAdmin({ firstName, lastName, email, password });
-      superAdminId = '';
     } else {
       if (!firstName || !lastName || !email || !password) {
         alert('Please complete all inputs');
         return;
       }
       newSuperAdmin({ firstName, lastName, email, password });
-      alert('Super admin created successfully');
       setFirstName('');
       setLastName('');
       setEmail('');
