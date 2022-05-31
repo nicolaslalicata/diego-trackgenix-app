@@ -2,8 +2,12 @@ import List from './adminsList';
 import styles from './admins.module.css';
 import ModalAdmin from './ModalAdmin';
 import { useState, useEffect } from 'react';
+import ModalSuc from './ModalSuccess';
+import ModalError from './ModalError';
 
 function Admins() {
+  const [SucModalIsOpen, setSucModalIsOpen] = useState(false);
+  const [ErrModalIsOpen, setErrModalIsOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [admins, setAdmins] = useState([]);
   const fetchAdmins = () => {
@@ -32,6 +36,11 @@ function Admins() {
         </button>
       </div>
       <div>
+        <ModalSuc setSucModalIsOpen={setSucModalIsOpen} SucModalIsOpen={SucModalIsOpen}></ModalSuc>
+        <ModalError
+          setErrModalIsOpen={setErrModalIsOpen}
+          ErrModalIsOpen={ErrModalIsOpen}
+        ></ModalError>
         <ModalAdmin
           showModal={showModal}
           setShowModal={setShowModal}

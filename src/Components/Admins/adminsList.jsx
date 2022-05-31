@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
 import styles from './admins.module.css';
 import AdminItem from './eachAdmin';
-import Admins from './index';
 
 function List({ admins, setAdmins, fetchAdmins }) {
   return (

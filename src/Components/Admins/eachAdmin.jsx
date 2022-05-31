@@ -2,9 +2,11 @@ import React from 'react';
 import styles from './admins.module.css';
 import EditModalAdmin from './EditModalAdmin';
 import { useState } from 'react';
+import ModalDelete from './ModalDelete';
 
 const AdminItem = ({ admin, fetchAdmins }) => {
-  const [boolean, setBoolean] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   function deleteAdmin() {
     fetch(`${process.env.REACT_APP_API_URL}/admins/${admin._id}`, {
       method: 'DELETE',
@@ -21,25 +23,26 @@ const AdminItem = ({ admin, fetchAdmins }) => {
       <td>{admin.firstName}</td>
       <td>{admin.email}</td>
       <td>
+        <ModalDelete setIsOpen={setIsOpen} isOpen={isOpen} deleteAdmin={deleteAdmin} />
         <button
           onClick={() => {
-            setBoolean(!boolean);
+            setEditModal(true);
           }}
           className={styles.buttons}
         >
           Edit
         </button>
         <EditModalAdmin
-          boolean={boolean}
+          editModal={editModal}
           admin={admin}
-          setBoolean={setBoolean}
+          setEditModal={setEditModal}
           fetchAdmins={fetchAdmins}
         ></EditModalAdmin>
       </td>
       <td>
         <button
           onClick={() => {
-            deleteAdmin();
+            setIsOpen(true);
           }}
           className={styles.buttons}
         >

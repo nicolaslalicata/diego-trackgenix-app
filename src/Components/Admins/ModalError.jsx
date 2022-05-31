@@ -1,19 +1,19 @@
 import styles from './admins.module.css';
 
-const ModalSuc = ({ setSucModalIsOpen, SucModalIsOpen }) => {
-  if (SucModalIsOpen) {
+const ModalError = ({ setErrModalIsOpen, ErrModalIsOpen }) => {
+  if (ErrModalIsOpen) {
     return (
       <>
-        <div className={styles.darkBG} onClick={() => setSucModalIsOpen(false)} />
+        <div className={styles.darkBG} onClick={() => setErrModalIsOpen(false)} />
         <div className={styles.centered}>
           <div className={styles.modal}>
             <div className={styles.modalHeader}>
-              <h5 className={styles.heading}>Success</h5>
+              <h5 className={styles.heading}>Error</h5>
             </div>
-            <div className={styles.modalContent}>Operation carried out successfully</div>
+            <div className={styles.modalContent}>The operation had errors to be performed</div>
             <div className={styles.modalActions}>
               <div className={styles.actionsContainer}>
-                <button className={styles.deleteBtn} onClick={() => setSucModalIsOpen(false)}>
+                <button className={styles.deleteBtn} onClick={() => setErrModalIsOpen(false)}>
                   Close
                 </button>
               </div>
@@ -25,4 +25,4 @@ const ModalSuc = ({ setSucModalIsOpen, SucModalIsOpen }) => {
   } else return false;
 };
 
-export default ModalSuc;
+export default ModalError;
