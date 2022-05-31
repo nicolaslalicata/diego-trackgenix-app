@@ -1,4 +1,5 @@
 import styles from './projects.module.css';
+
 function ProjectItem(props) {
   return (
     <tr>
@@ -9,10 +10,14 @@ function ProjectItem(props) {
       <td className={styles.tdClass}>{props.startDate}</td>
       <td className={styles.tdClass}>{props.endDate}</td>
       <td>
-        <button className={styles.buttons}>Edit</button>
+        <button className={styles.buttons} onClick={props.editHandler}>
+          Edit
+        </button>
       </td>
       <td>
-        <button className={styles.buttons}>Delete</button>
+        <button className={styles.buttons} onClick={props.deleteHandler}>
+          Delete
+        </button>
       </td>
     </tr>
   );
