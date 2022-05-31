@@ -1,29 +1,48 @@
 import React from 'react';
 import styles from './admins.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const ModalAdmin = ({ modal }) => {
+const ModalAdmin = ({ showModal, fetchAdmins, setShowModal }) => {
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [gender, setGender] = useState('');
   const [status, setStatus] = useState('');
   const [password, setPassword] = useState('');
-  // const [listAdmins, setListAdmins] = useState({});
-  function addAdmin(data) {
-    fetch(`http://localhost:4000/admins/`, {
+  const [responseStatus, setResponseStatus] = useState(0);
+  function emptyParameters() {
+    setName('');
+    setLastName('');
+    setEmail('');
+    setGender('');
+    setStatus('');
+    setPassword('');
+    setResponseStatus(0);
+  }
+  function addAdmin() {
+    fetch(`${process.env.REACT_APP_API_URL}/admins/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify({
+        firstName: name,
+        lastName: lastName,
+        email: email,
+        gender: gender,
+        active: status,
+        password: password
+      })
     })
-      .then((response) => response.json())
-      // .then((response) => setListAdmins(response))
-      .catch((err) => console.error(err));
-    console.log(data);
+      .then((response) => {
+        response.json(), setResponseStatus(response.status);
+      })
+      .then(responseStatus == 201 ? alert('add') : alert('error'))
+      .then(fetchAdmins)
+      .then(emptyParameters)
+      .then(setShowModal(false));
   }
-  if (modal) {
+  if (showModal) {
     return (
       <div className={styles.modal}>
         <input
@@ -68,21 +87,31 @@ const ModalAdmin = ({ modal }) => {
             setPassword(e.target.value);
           }}
         />
-        <button
-          onClick={() => {
-            addAdmin({
-              firstName: name,
-              lastName: lastName,
-              email: email,
-              gender: gender,
-              active: status,
-              password: password
-            });
-          }}
-          className={styles.buttons}
-        >
-          Send
-        </button>
+        <span className={styles.modalContainer}>
+          <button
+            onClick={() => {
+              addAdmin({
+                firstName: name,
+                lastName: lastName,
+                email: email,
+                gender: gender,
+                active: status,
+                password: password
+              });
+            }}
+            className={styles.buttons}
+          >
+            Send
+          </button>
+          <button
+            className={styles.buttons}
+            onClick={() => {
+              setShowModal(false);
+            }}
+          >
+            Cancel
+          </button>
+        </span>
       </div>
     );
   } else {
