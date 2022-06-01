@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react';
 import styles from './employees.module.css';
 import ListEmployee from './List';
 import EmployeeForm from './EmployeeForm';
+import Modal from './Modals';
 require('dotenv').config();
 
 const Employees = () => {
   const [employees, saveEmployees] = useState([]);
   const [editItem, setEditItem] = useState(null);
+  const [modalMsg, setModalMsg] = useState('');
+
   const url = `${process.env.REACT_APP_API_URL}/employees`;
   useEffect(() => {
     try {
@@ -26,7 +29,7 @@ const Employees = () => {
       method: 'DELETE'
     });
     saveEmployees([...employees.filter((listItem) => listItem._id != id)]);
-    alert(`the employee was delete`);
+    setModalMsg('delete');
   };
 
   //ADD NEW ITEM
@@ -48,7 +51,8 @@ const Employees = () => {
         .then((data) => {
           saveEmployees([...employees, data.data]);
         });
-      alert(`the employee ${firstName} was added successfully`);
+      // alert(`the employee ${firstName} was added successfully`);
+      setModalMsg('added');
     } catch (error) {
       console.error(error);
     }
@@ -79,7 +83,7 @@ const Employees = () => {
           saveEmployees(employeesUpdated);
         });
       setEditItem(null);
-      alert(`the Employee ${firstName} was edited successfully`);
+      setModalMsg('edit');
     } catch (error) {
       console.error(error);
     }
@@ -100,6 +104,7 @@ const Employees = () => {
           setEditItem={setEditItem}
           deleteItem={deleteItem}
         />
+        <Modal setModalMsg={modalMsg} />
       </div>
     </section>
   );
