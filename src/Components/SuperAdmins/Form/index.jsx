@@ -96,51 +96,57 @@ function Form() {
 
   return (
     <form className={styles.container} onSubmit={onSubmit}>
-      <div className={styles.card}>
-        <label>
-          <h3>First name:</h3>
-        </label>
-        <input
-          type="text"
-          placeholder="FirstName"
-          value={firstName}
-          onChange={(submitSuperAdmin) => setFirstName(submitSuperAdmin.target.value)}
-        />
+      <div className={styles.cards}>
+        <div className={styles.card}>
+          <label>
+            <h3>First name:</h3>
+          </label>
+          <input
+            className={styles.input}
+            type="text"
+            placeholder="FirstName"
+            value={firstName}
+            onChange={(submitSuperAdmin) => setFirstName(submitSuperAdmin.target.value)}
+          />
+        </div>
+        <div className={styles.card}>
+          <label>
+            <h3>Last name:</h3>
+          </label>
+          <input
+            className={styles.input}
+            type="text"
+            placeholder="LastName"
+            value={lastName}
+            onChange={(submitSuperAdmin) => setLastName(submitSuperAdmin.target.value)}
+          />
+        </div>
+        <div className={styles.card}>
+          <label>
+            <h3>Email:</h3>
+          </label>
+          <input
+            className={styles.input}
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(submitSuperAdmin) => setEmail(submitSuperAdmin.target.value)}
+          />
+        </div>
+        <div className={styles.card}>
+          <label>
+            <h3>Password:</h3>
+          </label>
+          <input
+            className={styles.input}
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(submitSuperAdmin) => setPassword(submitSuperAdmin.target.value)}
+          />
+        </div>
       </div>
-      <div className={styles.card}>
-        <label>
-          <h3>Last name:</h3>
-        </label>
-        <input
-          type="text"
-          placeholder="LastName"
-          value={lastName}
-          onChange={(submitSuperAdmin) => setLastName(submitSuperAdmin.target.value)}
-        />
-      </div>
-      <div className={styles.card}>
-        <label>
-          <h3>Email:</h3>
-        </label>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(submitSuperAdmin) => setEmail(submitSuperAdmin.target.value)}
-        />
-      </div>
-      <div className={styles.card}>
-        <label>
-          <h3>Password:</h3>
-        </label>
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(submitSuperAdmin) => setPassword(submitSuperAdmin.target.value)}
-        />
-      </div>
-      <input className={styles.but} type="submit" value="SaveSuperAdmin" />
+      <input className={styles.submitButton} type="submit" value="Submit" />
     </form>
   );
 }
