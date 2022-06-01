@@ -1,13 +1,13 @@
 import React from 'react';
 import styles from './modal.module.css';
 
-const Modal = ({ children, modalState, setModalState, tittle }) => {
+const Modal = ({ children, showModal, setShowModal, tittle }) => {
   return (
     <>
-      {modalState && (
+      {showModal && (
         <div className={styles.overlay}>
           <div className={styles.contenedorModal}>
-            <button className={styles.botonModal} onClick={() => setModalState(false)}>
+            <button className={styles.botonModal} onClick={() => setShowModal(false)}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"

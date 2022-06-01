@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../tasks.module.css';
 
-const AddTask = ({ modalStateAddTask, setModalStateAddTask, addTask }) => {
+const AddTask = ({ showAddTask, setShowAddTask, addTask }) => {
   const [taskInput, setTaskInput] = useState({
     description: '',
     workedHours: '',
@@ -21,14 +21,14 @@ const AddTask = ({ modalStateAddTask, setModalStateAddTask, addTask }) => {
       workedHours: '',
       date: ''
     });
-    setModalStateAddTask(false);
+    setShowAddTask(false);
   };
   return (
     <>
-      {modalStateAddTask && (
+      {showAddTask && (
         <div>
           <form onSubmit={onSubmit}>
-            <button className={styles.closeForm} onClick={() => setModalStateAddTask(false)}>
+            <button className={styles.closeForm} onClick={() => setShowAddTask(false)}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"

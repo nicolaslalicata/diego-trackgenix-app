@@ -5,12 +5,14 @@ import styles from './tasks.module.css';
 import Modal from './Modal/TasksModal';
 import AddTask from './AddTask/AddTask';
 
+// cambiar a showModal...
 const Tasks = () => {
   const [taskList, setTasksList] = useState([]);
-  const [modalState, setModalState] = useState(false, { id: null });
-  const [modalStateAddTask, setModalStateAddTask] = useState(false);
-  const [modalStateAdd, setModalStateAdd] = useState(false, { id: null });
-  const [modalStateDelete, setModalStateDelete] = useState(false, { id: null });
+  const [showModal, setShowModal] = useState(false, { id: null });
+  const [showAddTask, setShowAddTask] = useState(false);
+  const [showModalTaskAdded, setShowModalTaskAdded] = useState(false);
+  const [showModalDelete, setShowModalDelete] = useState(false, { id: null });
+  const [showModalError, setShowModalError] = useState(false);
 
   useEffect(() => {
     try {
@@ -25,19 +27,19 @@ const Tasks = () => {
   }, []);
 
   const openModal = (id) => {
-    setModalState({
-      setModalState: true,
+    setShowModal({
+      showModal: true,
       id
     });
   };
 
   const deleteItem = () => {
-    if (modalState.id) {
-      fetch(`${process.env.REACT_APP_API_URL}/tasks/${modalState.id}`, { method: 'DELETE' }).then(
-        setTasksList([...taskList.filter((listItem) => listItem._id !== modalState.id)])
+    if (showModal.id) {
+      fetch(`${process.env.REACT_APP_API_URL}/tasks/${showModal.id}`, { method: 'DELETE' }).then(
+        setTasksList([...taskList.filter((listItem) => listItem._id !== showModal.id)])
       );
-      setModalState(!modalState);
-      setModalStateDelete(!modalStateDelete);
+      setShowModal(!setShowModal);
+      setShowModalDelete(!showModalDelete);
     }
   };
 
@@ -60,8 +62,19 @@ const Tasks = () => {
       })
     };
     try {
-      fetch(url, options).then((response) => response.json());
-      setModalStateAdd(!modalStateAdd);
+      fetch(url, options)
+        .then((response) => {
+          if (response.ok) {
+            setShowModalTaskAdded(!showModalTaskAdded);
+            return response.json();
+          }
+          throw setShowModalError({
+            showModal: true
+          });
+        })
+        .then((data) => {
+          setTasksList([...taskList, data.newTaskDone]);
+        });
     } catch (error) {
       console.error(error);
     }
@@ -69,7 +82,7 @@ const Tasks = () => {
 
   return (
     <div className={styles.container}>
-      <button onClick={() => setModalStateAddTask(true)}>
+      <button onClick={() => setShowAddTask(true)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -82,22 +95,23 @@ const Tasks = () => {
           <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
         </svg>
       </button>
-      <Modal modalState={modalState} setModalState={setModalState} tittle={'Are you sure?'}>
+      <Modal showModal={showModal} setShowModal={setShowModal} tittle={'Are you sure?'}>
         <button onClick={deleteItem}>Yes</button>
       </Modal>
       <Modal
-        modalState={modalStateAdd}
-        setModalState={setModalStateAdd}
+        showModal={showModalTaskAdded}
+        setShowModal={setShowModalTaskAdded}
         tittle={'Task added'}
       ></Modal>
       <Modal
-        modalState={modalStateDelete}
-        setModalState={setModalStateDelete}
+        showModal={showModalDelete}
+        setShowModal={setShowModalDelete}
         tittle={'Task deleted'}
       ></Modal>
+      <Modal showModal={showModalError} setShowModal={setShowModalError} tittle={'Error'}></Modal>
       <AddTask
-        modalStateAddTask={modalStateAddTask}
-        setModalStateAddTask={setModalStateAddTask}
+        showAddTask={showAddTask}
+        setShowAddTask={setShowAddTask}
         addTask={addTask}
       ></AddTask>
       <TasksList tasklist={taskList} deleteItem={openModal}></TasksList>
