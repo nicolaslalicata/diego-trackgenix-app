@@ -16,12 +16,12 @@ function ProjectItem(props) {
       <td className={styles.tdClass}>{props.endDate}</td>
       <td>
         <button className={styles.buttons} onClick={editHandler}>
-          Edit
+          Edit!
         </button>
       </td>
       <td>
         <button className={styles.buttons} onClick={deleteItem}>
-          Delete
+          Delete!
         </button>
       </td>
     </tr>
