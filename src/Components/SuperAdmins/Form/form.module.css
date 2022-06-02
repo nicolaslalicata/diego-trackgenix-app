@@ -43,3 +43,13 @@
   cursor: pointer;
   margin-bottom: 1rem;
 }
+
+.backButton {
+  margin: 1.5rem 0 0 1.5rem;
+  background-color: #F0F4F9;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  border-radius: 6px;
+  font-size: large;
+  width: 200px;
+  cursor: pointer;
+}

@@ -8,7 +8,6 @@ function Row({ row, deleteRow }) {
   const url = `/super-admins/form?id=${row._id}`;
   return (
     <tr>
-      <td>{row._id}</td>
       <td>{row.firstName}</td>
       <td>{row.lastName}</td>
       <td>{row.email}</td>

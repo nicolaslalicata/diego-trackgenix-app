@@ -34,7 +34,6 @@ function List() {
       <table className={styles.table}>
         <thead>
           <tr>
-            <th id="id">ID</th>
             <th id="Name">Name</th>
             <th id="LastName">Last name</th>
             <th id="Email">Email</th>
