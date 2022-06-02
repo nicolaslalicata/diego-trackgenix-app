@@ -5,10 +5,10 @@ function Employees() {
   const [employees, saveEmployees] = useState([]);
 
   useEffect(() => {
-    fetch(`https://jsonplaceholder.typicode.com/users`)
+    fetch(`http://localhost:4000/employees`)
       .then((response) => response.json())
       .then((response) => {
-        saveEmployees(response);
+        saveEmployees(response.data);
       });
   }, []);
 
@@ -17,7 +17,7 @@ function Employees() {
       <h2>Employees</h2>
       <div>
         {employees.map((employee) => {
-          return <div key={employee.id}>{employee.name}</div>;
+          return <div key={employee._id}>{employee.first_Name}</div>;
         })}
       </div>
     </section>
