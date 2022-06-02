@@ -29,7 +29,7 @@ const Employees = () => {
       method: 'DELETE'
     });
     saveEmployees([...employees.filter((listItem) => listItem._id != id)]);
-    setModalMsg('delete');
+    setModalMsg('deleted');
   };
 
   //ADD NEW ITEM
@@ -51,7 +51,6 @@ const Employees = () => {
         .then((data) => {
           saveEmployees([...employees, data.data]);
         });
-      // alert(`the employee ${firstName} was added successfully`);
       setModalMsg('added');
     } catch (error) {
       console.error(error);
@@ -83,7 +82,7 @@ const Employees = () => {
           saveEmployees(employeesUpdated);
         });
       setEditItem(null);
-      setModalMsg('edit');
+      setModalMsg('edited');
     } catch (error) {
       console.error(error);
     }

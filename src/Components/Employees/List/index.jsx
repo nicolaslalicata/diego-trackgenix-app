@@ -8,10 +8,10 @@ const ListEmployee = ({ Employees, setEditItem, deleteItem }) => {
       <table>
         <thead>
           <tr className={styles.trItem}>
-            <th>ID</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
+            <th>Password</th>
           </tr>
         </thead>
         <tbody>

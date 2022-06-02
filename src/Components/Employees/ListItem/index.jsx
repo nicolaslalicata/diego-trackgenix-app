@@ -11,7 +11,6 @@ const ListItem = ({ listItem, setEditItem, deleteItem }) => {
 
   return (
     <tr>
-      <td>{listItem._id}</td>
       <td>{listItem.firstName}</td>
       <td>{listItem.lastName}</td>
       <td>{listItem.email}</td>
