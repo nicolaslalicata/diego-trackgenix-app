@@ -45,13 +45,16 @@ const Employees = () => {
           password
         })
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          }
+        })
         .then((data) => {
           saveEmployees([...employees, data.data]);
-          alert(`The employee ${firstName} was added`);
         });
     } catch (error) {
-      console.error(error);
+      alert(`There was an error: ${error}`);
     }
   };
 
