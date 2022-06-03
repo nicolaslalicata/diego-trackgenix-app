@@ -54,7 +54,7 @@ const Employees = () => {
           saveEmployees([...employees, data.data]);
         });
     } catch (error) {
-      alert(`There was an error: ${error}`);
+      alert(`There was an error`);
     }
   };
 
@@ -86,6 +86,7 @@ const Employees = () => {
       alert(`The employee ${firstName} was edited`);
     } catch (error) {
       alert('There was an error with an input');
+      setEditItem(null);
       console.error(error);
     }
   };

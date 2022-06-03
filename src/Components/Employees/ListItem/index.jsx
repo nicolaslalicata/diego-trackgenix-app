@@ -7,6 +7,7 @@ const ListItem = ({ listItem, setEditItem, deleteItem }) => {
   };
   const handleEdit = () => {
     setEditItem(listItem);
+    console.log(listItem);
     alert(`Employee ${listItem.firstName} ready for edit`);
   };
 
