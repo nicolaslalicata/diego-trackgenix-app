@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import styles from './employees.module.css';
+import styles from './index.module.css';
 import ListEmployee from './List';
 import EmployeeForm from './EmployeeForm';
 require('dotenv').config();
@@ -75,15 +75,20 @@ const Employees = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          const employeesUpdated = employees.map((emp) => {
-            if (emp._id === data.data._id) {
-              return data.data;
-            } else return emp;
-          });
-          saveEmployees(employeesUpdated);
+          if (!firstName || !lastName || !email || !password) {
+            alert('Incomplete data');
+            setEditItem(null);
+          } else {
+            const employeesUpdated = employees.map((emp) => {
+              if (emp._id === data.data._id) {
+                return data.data;
+              } else return emp;
+            });
+            saveEmployees(employeesUpdated);
+            setEditItem(null);
+            alert(`The employee ${firstName} was edited`);
+          }
         });
-      setEditItem(null);
-      alert(`The employee ${firstName} was edited`);
     } catch (error) {
       alert('There was an error with an input');
       setEditItem(null);

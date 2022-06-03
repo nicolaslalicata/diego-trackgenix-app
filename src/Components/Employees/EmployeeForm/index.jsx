@@ -18,24 +18,20 @@ const EmployeeForm = ({ addEmployee, editEmployee, initialValue }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!firstName || !lastName || !email || !password) {
-      alert('Incomplete data');
+    if (initialValue) {
+      editEmployee({
+        firstName,
+        lastName,
+        email,
+        password
+      });
     } else {
-      if (initialValue) {
-        editEmployee({
-          firstName,
-          lastName,
-          email,
-          password
-        });
-      } else {
-        addEmployee({
-          firstName,
-          lastName,
-          email,
-          password
-        });
-      }
+      addEmployee({
+        firstName,
+        lastName,
+        email,
+        password
+      });
     }
     setFirstName('');
     setLastName('');
