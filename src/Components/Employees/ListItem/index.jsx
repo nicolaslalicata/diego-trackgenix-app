@@ -3,7 +3,7 @@ import styles from './index.module.css';
 
 const ListItem = ({ listItem, setEditItem, deleteItem }) => {
   const handleDelete = () => {
-    deleteItem(listItem._id);
+    deleteItem(listItem._id, listItem.firstName);
   };
   const handleEdit = () => {
     setEditItem(listItem);
@@ -16,7 +16,7 @@ const ListItem = ({ listItem, setEditItem, deleteItem }) => {
       <td>{listItem.email}</td>
       <td>{listItem.password}</td>
       <td>
-        <button onClick={() => handleDelete(listItem._id)}>X</button>
+        <button onClick={() => handleDelete(listItem._id, listItem.firstName)}>X</button>
       </td>
       <td className={styles.containerButton}>
         <button onClick={() => handleEdit(listItem)}>Edit</button>

@@ -2,13 +2,11 @@ import { useEffect, useState } from 'react';
 import styles from './employees.module.css';
 import ListEmployee from './List';
 import EmployeeForm from './EmployeeForm';
-import Modal from './Modals';
 require('dotenv').config();
 
 const Employees = () => {
   const [employees, saveEmployees] = useState([]);
   const [editItem, setEditItem] = useState(null);
-  const [modalMsg, setModalMsg] = useState('');
 
   const url = `${process.env.REACT_APP_API_URL}/employees`;
   useEffect(() => {
@@ -24,12 +22,12 @@ const Employees = () => {
   }, []);
 
   //DELETE ITEM
-  const deleteItem = async (id) => {
+  const deleteItem = async (id, firstName) => {
     await fetch(`${url}/${id}`, {
       method: 'DELETE'
     });
     saveEmployees([...employees.filter((listItem) => listItem._id != id)]);
-    setModalMsg('deleted');
+    alert(`The employee ${firstName} was deleted`);
   };
 
   //ADD NEW ITEM
@@ -50,8 +48,8 @@ const Employees = () => {
         .then((response) => response.json())
         .then((data) => {
           saveEmployees([...employees, data.data]);
+          alert(`The employee ${firstName} was added`);
         });
-      setModalMsg('added');
     } catch (error) {
       console.error(error);
     }
@@ -82,8 +80,9 @@ const Employees = () => {
           saveEmployees(employeesUpdated);
         });
       setEditItem(null);
-      setModalMsg('edited');
+      alert(`The employee ${firstName} was edited`);
     } catch (error) {
+      alert('There was an error with an input');
       console.error(error);
     }
   };
@@ -103,7 +102,6 @@ const Employees = () => {
           setEditItem={setEditItem}
           deleteItem={deleteItem}
         />
-        <Modal setModalMsg={modalMsg} />
       </div>
     </section>
   );
