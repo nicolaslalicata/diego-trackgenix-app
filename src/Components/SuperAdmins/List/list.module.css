@@ -1,0 +1,14 @@
+.container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: .2rem solid #EA3354;
+  border-radius: 8px;
+  background-color: #F0F4F9;
+  margin-bottom: 1.5rem ;
+}
+
+.table {
+  border-spacing: 1rem;
+}

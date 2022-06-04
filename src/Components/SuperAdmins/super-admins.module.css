@@ -1,6 +1,25 @@
+h2 {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
+}
+
 .container {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.createButton {
+  display: inline-block;
+  background-color: #78ae22;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  border-radius: 6px;
+  font-size: large;
+  width: 200px;
+  cursor: pointer;
+  margin-bottom: 1rem;
 }
