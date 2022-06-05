@@ -12,8 +12,8 @@ function ProjectItem(props) {
       <td className={styles.tdClass}>{props.name}</td>
       <td className={styles.tdClass}>{props.description}</td>
       <td className={styles.tdClass}>{props.client}</td>
-      <td className={styles.tdClass}>{props.startDate}</td>
-      <td className={styles.tdClass}>{props.endDate}</td>
+      <td className={styles.tdClass}>{new Date(props.startDate).toISOString().substr(0, 10)}</td>
+      <td className={styles.tdClass}>{new Date(props.endDate).toISOString().substr(0, 10)}</td>
       <td>
         <button className={styles.buttons} onClick={editHandler}>
           Edit!
