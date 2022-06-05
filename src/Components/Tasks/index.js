@@ -73,7 +73,7 @@ const Tasks = () => {
           });
         })
         .then((data) => {
-          setTasksList([...taskList, data.newTaskDone]);
+          setTasksList([...taskList, data.data]);
         });
     } catch (error) {
       console.error(error);
