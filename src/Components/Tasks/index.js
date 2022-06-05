@@ -2,7 +2,7 @@ require('dotenv').config();
 import { useEffect, useState } from 'react';
 import TasksList from './ListTasks/TasksList';
 import styles from './tasks.module.css';
-import Modal from './Modal/TasksModal';
+import Modal from '../Shared/Modal';
 import AddTask from './AddTask/AddTask';
 
 // cambiar a showModal...
