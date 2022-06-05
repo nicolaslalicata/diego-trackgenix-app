@@ -3,14 +3,7 @@ import { useState } from 'react';
 import styles from './admins.module.css';
 import ModalEdit from './ModalEdit';
 
-const ModalEditAdmin = ({
-  editModal,
-  admin,
-  fetchAdmins,
-  setEditModal,
-  setSucModalIsOpen,
-  setErrModalIsOpen
-}) => {
+const ModalEditAdmin = ({ editModal, admin, fetchAdmins, setEditModal }) => {
   const [EditModalIsOpen, setEditModalIsOpen] = useState(false);
   const [name, setName] = useState(admin.firstName);
   const [lastName, setLastName] = useState(admin.lastName);
