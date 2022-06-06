@@ -3,7 +3,6 @@ import styles from './admins.module.css';
 import EditModalAdmin from './EditModalAdmin';
 import { useState } from 'react';
 import ModalDelete from './ModalDelete';
-import Button from '../Shared/Buttons/buttons';
 
 const AdminItem = ({ admin, fetchAdmins }) => {
   const [editModal, setEditModal] = useState(false);
@@ -25,13 +24,14 @@ const AdminItem = ({ admin, fetchAdmins }) => {
       <td>{admin.email}</td>
       <td>
         <ModalDelete setIsOpen={setIsOpen} isOpen={isOpen} deleteAdmin={deleteAdmin} />
-        <Button
+        <button
           onClick={() => {
             setEditModal(true);
           }}
           className={styles.buttons}
-          icons={'edit'}
-        />
+        >
+          Edit
+        </button>
         <EditModalAdmin
           editModal={editModal}
           admin={admin}
