@@ -13,6 +13,12 @@ const Tasks = () => {
   const [showModalTaskAdded, setShowModalTaskAdded] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false, { id: null });
   const [showModalError, setShowModalError] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
+  const [taskInput, setTaskInput] = useState({
+    description: '',
+    workedHours: '',
+    date: ''
+  });
 
   useEffect(() => {
     try {
@@ -80,6 +86,21 @@ const Tasks = () => {
     }
   };
 
+  const onChange = (e) => {
+    console.log(e);
+    setTaskInput({ ...taskInput, [e.target.name]: e.target.value });
+  };
+  const onSubmit = (e) => {
+    e.preventDefault();
+    addTask(taskInput);
+    setTaskInput({
+      description: '',
+      workedHours: '',
+      date: ''
+    });
+    setIsAdding(false);
+  };
+
   return (
     <div className={styles.container}>
       <button onClick={() => setShowAddTask(true)}>
@@ -95,8 +116,41 @@ const Tasks = () => {
           <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
         </svg>
       </button>
-      <Modal showModal={showModal} setShowModal={setShowModal} tittle={'Are you sure?'}>
+      <Modal isOpen={showModal} setIsOpen={setShowModal}>
+        <h3>Are you sure?</h3>
         <button onClick={deleteItem}>Yes</button>
+      </Modal>
+      <Modal isOpen={isAdding} setIsOpen={setIsAdding}>
+        <h3>Add new Task</h3>
+        <div className={styles.contenedorModal}>
+          <form onSubmit={onSubmit}>
+            <div>
+              <label htmlFor="description">Description:</label>
+              <input
+                type="text"
+                name="description"
+                value={taskInput.description}
+                onChange={onChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="workedHours">Worked Hours:</label>
+              <input
+                type="text"
+                name="workedHours"
+                value={taskInput.workedHours}
+                onChange={onChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="date">Date:</label>
+              <input type="text" name="date" value={taskInput.date} onChange={onChange} />
+            </div>
+            <div>
+              <input type="submit" value="submit" />
+            </div>
+          </form>
+        </div>
       </Modal>
       <Modal
         showModal={showModalTaskAdded}
