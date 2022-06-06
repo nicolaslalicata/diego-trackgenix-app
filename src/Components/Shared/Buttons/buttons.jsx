@@ -1,11 +1,12 @@
 import { MdDeleteForever } from 'react-icons/md';
 import { FiEdit } from 'react-icons/fi';
 import { IoMdSend, IoIosAddCircleOutline } from 'react-icons/io';
+import styles from './buttons.module.css';
 
 const Button = function ({ text, callback, icons }) {
   if (icons === 'add') {
     return (
-      <button onClick={callback}>
+      <button style={styles} onClick={callback}>
         {text}
         <IoIosAddCircleOutline />
       </button>
