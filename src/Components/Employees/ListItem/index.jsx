@@ -34,6 +34,14 @@ const ListItem = ({ listItem, setEditItem, deleteItem }) => {
           icons={'edit'}
         />
       </td>
+      <td>
+        <Button
+          callback={() => {
+            console.log('hola');
+          }}
+          text={'Wenassssssssssss'}
+        />
+      </td>
     </tr>
   );
 };

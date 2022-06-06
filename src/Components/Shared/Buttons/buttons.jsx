@@ -33,10 +33,12 @@ const Button = function ({ text, callback, icons }) {
       </button>
     );
   } else {
-    return <button onClick={callback}>{text}</button>;
+    return (
+      <button className={styles.generic} onClick={callback}>
+        {text}
+      </button>
+    );
   }
 };
-// const myCallback = () => {};
-// <Button text="description" callback={myCallback} />
 
 export default Button;
