@@ -1,16 +1,17 @@
 import React from 'react';
 import styles from './input.module.css';
 
-const Input = ({ text, type, value, placeholder, onChange }) => {
+const Input = ({ labelText, type, value, placeholder, onChange, onClick }) => {
   return (
     <div className={styles.inputContainer}>
-      <label>{text}</label>
+      <label className={styles.label}>{labelText}</label>
       <input
         className={styles.input}
         type={type}
         value={value}
         placeholder={placeholder}
         onChange={onChange}
+        onClick={onClick}
       ></input>
     </div>
   );

@@ -10,10 +10,25 @@
 .input {
   background-color: #F0F4F9;
   border: 1px solid #393939;
+  margin: 1rem;
   width: 100%;
   border-radius: 5px;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
   color: #393939;
+  cursor: pointer;
   font-size: 12px;
   padding: 5px;
+}
+
+.input:focus {
+  border: 2px solid #393939;
+}
+
+.label {
+  font-size: 1.17em;
+  font-weight: bold;
+}
+
+.inputError {
+  border: 1px solid #ff0000;
 }
