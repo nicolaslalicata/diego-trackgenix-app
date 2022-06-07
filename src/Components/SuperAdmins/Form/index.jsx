@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
+import Input from '../../Shared/Input';
 
 function Form() {
   let initialValues = {
@@ -102,50 +103,38 @@ function Form() {
       <form className={styles.container} onSubmit={onSubmit}>
         <div className={styles.cards}>
           <div className={styles.card}>
-            <label>
-              <h3>First name:</h3>
-            </label>
-            <input
-              className={styles.input}
-              type="text"
-              placeholder="FirstName"
+            <Input
+              labelText={'First Name:'}
+              type={'text'}
               value={firstName}
+              placeholder={'First name'}
               onChange={(submitSuperAdmin) => setFirstName(submitSuperAdmin.target.value)}
             />
           </div>
           <div className={styles.card}>
-            <label>
-              <h3>Last name:</h3>
-            </label>
-            <input
-              className={styles.input}
-              type="text"
-              placeholder="LastName"
+            <Input
+              labelText={'Last Name:'}
+              type={'text'}
               value={lastName}
+              placeholder={'Last name'}
               onChange={(submitSuperAdmin) => setLastName(submitSuperAdmin.target.value)}
             />
           </div>
           <div className={styles.card}>
-            <label>
-              <h3>Email:</h3>
-            </label>
-            <input
-              className={styles.input}
-              type="email"
-              placeholder="Email"
+            <Input
+              labelText={'Email:'}
+              type={'email'}
               value={email}
+              placeholder={'Email'}
               onChange={(submitSuperAdmin) => setEmail(submitSuperAdmin.target.value)}
             />
           </div>
           <div className={styles.card}>
-            <label>
-              <h3>Password:</h3>
-            </label>
-            <input
-              className={styles.input}
-              type="password"
-              placeholder="Password"
+            <Input
+              labelText={'Password:'}
+              type={'password'}
               value={password}
+              placeholder={'Password'}
               onChange={(submitSuperAdmin) => setPassword(submitSuperAdmin.target.value)}
             />
           </div>
