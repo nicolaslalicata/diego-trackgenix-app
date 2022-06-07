@@ -2,10 +2,9 @@ require('dotenv').config();
 import { useEffect, useState } from 'react';
 import TasksList from './ListTasks/TasksList';
 import styles from './tasks.module.css';
-import Modal from '../Shared/Modal/Modal.jsx';
+import Modal from '../Shared/Modal/index.jsx';
 import Button from '../Shared/Buttons/buttons';
 import { IoIosAddCircleOutline } from 'react-icons/io';
-import Input from '../Shared/Input/index';
 
 // cambiar a showModal...
 const Tasks = () => {
