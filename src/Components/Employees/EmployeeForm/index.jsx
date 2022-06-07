@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './index.module.css';
+import Button from '../../Shared/Buttons/buttons';
 
 const EmployeeForm = ({ addEmployee, editEmployee, initialValue }) => {
   const [password, setPassword] = useState('');
@@ -82,7 +83,7 @@ const EmployeeForm = ({ addEmployee, editEmployee, initialValue }) => {
           />
         </div>
         <div className={styles.formItemSend}>
-          <input type="submit" value="Submit" />
+          <Button type="submit" value="Submit" icons={'submit'} />
         </div>
       </form>
     </div>

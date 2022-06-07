@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './index.module.css';
+import Button from '../../Shared/Buttons/buttons';
 
 const ListItem = ({ listItem, setEditItem, deleteItem }) => {
   const handleDelete = () => {
@@ -18,10 +19,20 @@ const ListItem = ({ listItem, setEditItem, deleteItem }) => {
       <td>{listItem.email}</td>
       <td>{listItem.password}</td>
       <td>
-        <button onClick={() => handleDelete(listItem._id, listItem.firstName)}>X</button>
+        <Button
+          callback={() => {
+            handleDelete(listItem._id, listItem.firstName);
+          }}
+          icons={'delete'}
+        />
       </td>
       <td className={styles.containerButton}>
-        <button onClick={() => handleEdit(listItem)}>Edit</button>
+        <Button
+          callback={() => {
+            handleEdit(listItem);
+          }}
+          icons={'edit'}
+        />
       </td>
     </tr>
   );
