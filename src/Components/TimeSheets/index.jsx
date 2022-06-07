@@ -37,7 +37,11 @@ const TimeSheets = () => {
         setShowModal={setShowModal}
         fetchTimeSheets={fetchTimeSheets}
       ></ModalTimeSheet>
-      <Table data={list} headers={['description', 'startDate', 'endDate', 'hours']}></Table>
+      <Table
+        data={list}
+        headers={['description', 'startDate', 'endDate', 'hours']}
+        actions={<button>sads</button>}
+      ></Table>
     </section>
   );
 };

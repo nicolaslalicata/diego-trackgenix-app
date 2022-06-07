@@ -50,7 +50,7 @@ const ModalTimeSheet = ({ showModal, fetchTimeSheets, setShowModal }) => {
     <div className={styles.modalContainer}>
       <div className={styles.modalPost}>
         <span>
-          Description{' '}
+          Description
           <input
             type="text"
             placeholder="Description"
@@ -60,7 +60,7 @@ const ModalTimeSheet = ({ showModal, fetchTimeSheets, setShowModal }) => {
           />
         </span>
         <span>
-          Hours{' '}
+          Hours
           <input
             type="text"
             placeholder="Hours"
@@ -70,7 +70,7 @@ const ModalTimeSheet = ({ showModal, fetchTimeSheets, setShowModal }) => {
           />
         </span>
         <span>
-          Start date{' '}
+          Start date
           <input
             type="date"
             placeholder="updatedAt"
@@ -80,7 +80,7 @@ const ModalTimeSheet = ({ showModal, fetchTimeSheets, setShowModal }) => {
           />
         </span>
         <span>
-          End Date{' '}
+          End Date
           <input
             type="date"
             placeholder="endDate"
@@ -90,7 +90,7 @@ const ModalTimeSheet = ({ showModal, fetchTimeSheets, setShowModal }) => {
           />
         </span>
         <span>
-          Task id{' '}
+          Task id
           <input
             type="text"
             placeholder="taskId"
@@ -100,7 +100,7 @@ const ModalTimeSheet = ({ showModal, fetchTimeSheets, setShowModal }) => {
           />
         </span>
         <span>
-          Employee id{' '}
+          Employee id
           <input
             type="text"
             placeholder="employeeId"
@@ -110,7 +110,7 @@ const ModalTimeSheet = ({ showModal, fetchTimeSheets, setShowModal }) => {
           />
         </span>
         <span>
-          Project id{' '}
+          Project id
           <input
             type="text"
             placeholder="projectId"
@@ -120,7 +120,7 @@ const ModalTimeSheet = ({ showModal, fetchTimeSheets, setShowModal }) => {
           />
         </span>
         <span>
-          Validated{' '}
+          Validated
           <input
             type="text"
             placeholder="Validated"
