@@ -14,3 +14,13 @@ button:hover {
     border-color: #EA3354;
     border: 2px solid #EA3354;
 }
+
+button {
+    margin-top: 1rem;
+    height: 35px;
+    border-radius: 5px;
+    font-size: small;
+    color: #ddd;
+    border-color: #EA3354;
+    background-color: #EA3354;
+  }

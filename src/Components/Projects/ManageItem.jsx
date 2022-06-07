@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styles from './manageItem.module.css';
+import Input from '../Shared/Input';
 
 const ManageItem = function ({ handler, project }) {
   const defaultValue = {
@@ -41,27 +42,30 @@ const ManageItem = function ({ handler, project }) {
 
   return (
     <form className={styles.form} onSubmit={onSubmit}>
-      <label htmlFor="name">Name</label>
-      <input id="name" value={userInput.name} onChange={(event) => onChange(event, 'name')} />
-      <label htmlFor="description">Description</label>
-      <input
-        id="description"
+      <Input
+        labelText="name"
+        value={userInput.name}
+        onChange={(event) => onChange(event, 'name')}
+      />
+      <Input
+        labelText="description"
         value={userInput.description}
         onChange={(event) => onChange(event, 'description')}
       />
-      <label htmlFor="client">Client</label>
-      <input id="client" value={userInput.client} onChange={(event) => onChange(event, 'client')} />
-      <label htmlFor="startDate">Start Date</label>
-      <input
-        type="date"
-        id="startDate"
-        value={userInput.startDate}
-        onChange={(event) => onChange(event, 'startDate')}
+      <Input
+        labelText="client"
+        value={userInput.client}
+        onChange={(event) => onChange(event, 'client')}
       />
-      <label htmlFor="endDate">End Date</label>
-      <input
+      <Input
         type="date"
-        id="endDate"
+        labelText="starDate"
+        value={userInput.startDate}
+        onChange={(event) => onChange(event, 'starDate')}
+      />
+      <Input
+        type="date"
+        labelText="endDate"
         value={userInput.endDate}
         onChange={(event) => onChange(event, 'endDate')}
       />
