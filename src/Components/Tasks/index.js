@@ -2,14 +2,12 @@ require('dotenv').config();
 import { useEffect, useState } from 'react';
 import TasksList from './ListTasks/TasksList';
 import styles from './tasks.module.css';
-import Modal from '../Shared/Modal';
-import AddTask from './AddTask/AddTask';
+import Modal from '../Shared/Modal/Modal.jsx';
 
 // cambiar a showModal...
 const Tasks = () => {
   const [taskList, setTasksList] = useState([]);
   const [showModal, setShowModal] = useState(false, { id: null });
-  const [showAddTask, setShowAddTask] = useState(false);
   const [showModalTaskAdded, setShowModalTaskAdded] = useState(false);
   const [showModalDelete, setShowModalDelete] = useState(false, { id: null });
   const [showModalError, setShowModalError] = useState(false);
@@ -103,7 +101,7 @@ const Tasks = () => {
 
   return (
     <div className={styles.container}>
-      <button onClick={() => setShowAddTask(true)}>
+      <button onClick={() => setIsAdding(true)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -152,22 +150,15 @@ const Tasks = () => {
           </form>
         </div>
       </Modal>
-      <Modal
-        showModal={showModalTaskAdded}
-        setShowModal={setShowModalTaskAdded}
-        tittle={'Task added'}
-      ></Modal>
+      <Modal isOpen={showModalTaskAdded} setIsOpen={setShowModalTaskAdded}>
+        <h3>Task Added</h3>
+      </Modal>
       <Modal
         showModal={showModalDelete}
         setShowModal={setShowModalDelete}
         tittle={'Task deleted'}
       ></Modal>
-      <Modal showModal={showModalError} setShowModal={setShowModalError} tittle={'Error'}></Modal>
-      <AddTask
-        showAddTask={showAddTask}
-        setShowAddTask={setShowAddTask}
-        addTask={addTask}
-      ></AddTask>
+      <Modal isOpen={showModalError} setIsOpen={setShowModalError} tittle={'Error'}></Modal>
       <TasksList tasklist={taskList} deleteItem={openModal}></TasksList>
     </div>
   );
