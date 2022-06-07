@@ -1,0 +1,16 @@
+button svg {
+    width: 1.8em;
+    height: 1.8em;
+}
+
+.generic {
+    width: 100%;
+}
+
+button:hover {
+    cursor: pointer;
+    color: #EA3354;
+    background-color: #fff;
+    border-color: #EA3354;
+    border: 2px solid #EA3354;
+}
