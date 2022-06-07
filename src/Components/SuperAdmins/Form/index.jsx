@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import styles from './form.module.css';
 import Input from '../../Shared/Input';
+import Button from '../../Shared/Buttons/buttons';
 
 function Form() {
   let initialValues = {
@@ -138,8 +139,8 @@ function Form() {
               onChange={(submitSuperAdmin) => setPassword(submitSuperAdmin.target.value)}
             />
           </div>
+          <Button type="submit" value="Submit" icons={'submit'} />
         </div>
-        <input className={styles.submitButton} type="submit" value="Submit" />
       </form>
     </div>
   );

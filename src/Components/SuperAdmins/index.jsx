@@ -1,6 +1,7 @@
 import React from 'react';
 import List from './List';
 import styles from './super-admins.module.css';
+import Button from '../Shared/Buttons/buttons';
 
 function SuperAdmins() {
   return (
@@ -8,7 +9,8 @@ function SuperAdmins() {
       <div>
         <h2>SuperAdmins</h2>
         <a href="/super-admins/form">
-          <button className={styles.createButton}>New user</button>
+          {/* <button className={styles.createButton}>New user</button> */}
+          <Button icons={'add'} />
         </a>
         <List />
       </div>
