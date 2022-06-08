@@ -3,10 +3,6 @@ button svg {
     height: 1.8em;
 }
 
-/* .generic {
-    width: 100%;
-} */
-
 button:hover {
     cursor: pointer;
     color: #EA3354;
