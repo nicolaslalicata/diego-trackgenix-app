@@ -6,6 +6,11 @@ const ListItem = ({ tasksItem, deleteItem }) => {
     deleteItem(tasksItem._id);
   };
 
+  let date = tasksItem.date;
+
+  let newDate = new Date(date).toISOString().substr(0, 10);
+  console.log(newDate);
+
   return (
     <tr>
       <td>{tasksItem._id}</td>

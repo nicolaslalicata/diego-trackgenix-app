@@ -5,8 +5,9 @@ import styles from './tasks.module.css';
 import Modal from '../Shared/Modal/index.jsx';
 import Button from '../Shared/Buttons/buttons';
 import { IoIosAddCircleOutline } from 'react-icons/io';
+import Table from '../Shared/Table/Table';
+import Input from '../Shared/Input';
 
-// cambiar a showModal...
 const Tasks = () => {
   const [taskList, setTasksList] = useState([]);
   const [showModal, setShowModal] = useState(false, { id: null });
@@ -87,7 +88,7 @@ const Tasks = () => {
   };
   // borrar este console.log
   const onChange = (e) => {
-    console.log(e);
+    console.log(e.target.value);
     setTaskInput({ ...taskInput, [e.target.name]: e.target.value });
   };
   const onSubmit = (e) => {
@@ -112,33 +113,33 @@ const Tasks = () => {
         <Button callback={() => setShowModal(false)} text={'NO'}></Button>
       </Modal>
       <Modal isOpen={isAdding} setIsOpen={setIsAdding}>
-        <h3>Add new Task</h3>
+        <h3>Add a new Task</h3>
         <div className={styles.contenedorModal}>
           <form onSubmit={onSubmit}>
             <div>
               <label className={styles.label}>{'Description:'}</label>
-              <input
+              <Input
                 type={'text'}
-                name="description"
+                name={'description'}
                 value={taskInput.description}
                 onChange={onChange}
               />
             </div>
             <div>
               <label className={styles.label}>{'Worked Hours:'}</label>
-              <input
+              <Input
                 type={'text'}
-                name="workedHours"
+                name={'workedHours'}
                 value={taskInput.workedHours}
                 onChange={onChange}
               />
             </div>
             <div>
               <label className={styles.label}>{'Date:'}</label>
-              <input type={'text'} name="date" value={taskInput.date} onChange={onChange} />
+              <Input type={'text'} name={'date'} value={taskInput.date} onChange={onChange} />
             </div>
             <div>
-              <input type="submit" value="submit" />
+              <Input type="submit" value="submit" />
             </div>
           </form>
         </div>

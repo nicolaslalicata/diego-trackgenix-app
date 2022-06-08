@@ -3,9 +3,9 @@ button svg {
     height: 1.8em;
 }
 
-.generic {
+/* .generic {
     width: 100%;
-}
+} */
 
 button:hover {
     cursor: pointer;
