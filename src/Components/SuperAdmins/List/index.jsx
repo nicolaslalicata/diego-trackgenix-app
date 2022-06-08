@@ -25,6 +25,7 @@ function List() {
         method: 'DELETE'
       });
       setSuperAdmins(superAdmins.filter((row) => row._id !== _id));
+      alert('Super admin deleted successfully');
     }
   };
 
