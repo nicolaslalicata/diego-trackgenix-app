@@ -90,6 +90,7 @@ function SuperAdmins() {
     if (resp.status === 200) {
       setSuperAdmins(superAdmins.filter((row) => row._id !== _id));
       setIsOpen(false);
+      alert('Super admin deleted successfully');
     } else {
       alert('There has been an error');
     }
@@ -107,6 +108,7 @@ function SuperAdmins() {
     if (response.status === 200 || response.status === 201) {
       setSuperAdmins([...superAdmins, data]);
       setIsOpenAdd(false);
+      alert('Super admin created successfully');
     } else {
       alert(data.message);
     }
@@ -124,6 +126,7 @@ function SuperAdmins() {
     if (response.status === 200 || response.status === 201) {
       setSuperAdmins([...superAdmins, data]);
       setIsOpenEdit(false);
+      alert('Super admin edited successfully');
     } else {
       alert(data.message);
     }
@@ -149,87 +152,81 @@ function SuperAdmins() {
         {/* MODAL ADD */}
         <Modal isOpen={isOpenAdd} setIsOpen={setIsOpenAdd}>
           <h3>Add new super admin</h3>
-          <form className={styles.container}>
-            <Input
-              labelText={'First Name:'}
-              type={'text'}
-              value={firstName}
-              placeholder={'First name'}
-              onChange={(submitSuperAdmin) => setFirstName(submitSuperAdmin.target.value)}
-            />
-            <Input
-              labelText={'Last Name:'}
-              type={'text'}
-              value={lastName}
-              placeholder={'Last name'}
-              onChange={(submitSuperAdmin) => setLastName(submitSuperAdmin.target.value)}
-            />
-            <Input
-              labelText={'Email:'}
-              type={'email'}
-              value={email}
-              placeholder={'Email'}
-              onChange={(submitSuperAdmin) => setEmail(submitSuperAdmin.target.value)}
-            />
-            <Input
-              labelText={'Password:'}
-              type={'password'}
-              value={password}
-              placeholder={'Password'}
-              onChange={(submitSuperAdmin) => setPassword(submitSuperAdmin.target.value)}
-            />
-            <Button
-              value="Submit"
-              icons={'submit'}
-              callback={(e) => {
-                e.preventDefault();
-                newSuperAdmin({ firstName, lastName, email, password });
-              }}
-            />
+          <form>
+            <div>
+              <Input
+                labelText={'First Name:'}
+                type={'text'}
+                value={firstName}
+                placeholder={'First name'}
+                onChange={(submitSuperAdmin) => setFirstName(submitSuperAdmin.target.value)}
+              />
+              <Input
+                labelText={'Last Name:'}
+                type={'text'}
+                value={lastName}
+                placeholder={'Last name'}
+                onChange={(submitSuperAdmin) => setLastName(submitSuperAdmin.target.value)}
+              />
+              <Input
+                labelText={'Email:'}
+                type={'email'}
+                value={email}
+                placeholder={'Email'}
+                onChange={(submitSuperAdmin) => setEmail(submitSuperAdmin.target.value)}
+              />
+              <Input
+                labelText={'Password:'}
+                type={'password'}
+                value={password}
+                placeholder={'Password'}
+                onChange={(submitSuperAdmin) => setPassword(submitSuperAdmin.target.value)}
+              />
+              <Button
+                value="Submit"
+                icons={'submit'}
+                callback={(noRefresh) => {
+                  noRefresh.preventDefault();
+                  newSuperAdmin({ firstName, lastName, email, password });
+                }}
+              />
+            </div>
           </form>
         </Modal>
         {/* MODAL EDIT */}
         <Modal isOpen={isOpenEdit} setIsOpen={setIsOpenEdit}>
           <h3>Edit super admin</h3>
-          <form className={styles.container}>
-            <div className={styles.cards}>
-              <div className={styles.card}>
-                <Input
-                  labelText={'First Name:'}
-                  type={'text'}
-                  value={firstName}
-                  onChange={(submitSuperAdmin) => setFirstName(submitSuperAdmin.target.value)}
-                />
-              </div>
-              <div className={styles.card}>
-                <Input
-                  labelText={'Last Name:'}
-                  type={'text'}
-                  value={lastName}
-                  onChange={(submitSuperAdmin) => setLastName(submitSuperAdmin.target.value)}
-                />
-              </div>
-              <div className={styles.card}>
-                <Input
-                  labelText={'Email:'}
-                  type={'email'}
-                  value={email}
-                  onChange={(submitSuperAdmin) => setEmail(submitSuperAdmin.target.value)}
-                />
-              </div>
-              <div className={styles.card}>
-                <Input
-                  labelText={'Password:'}
-                  type={'password'}
-                  value={password}
-                  onChange={(submitSuperAdmin) => setPassword(submitSuperAdmin.target.value)}
-                />
-              </div>
+          <form>
+            <div>
+              <Input
+                labelText={'First Name:'}
+                type={'text'}
+                value={firstName}
+                onChange={(submitSuperAdmin) => setFirstName(submitSuperAdmin.target.value)}
+              />
+              <Input
+                labelText={'Last Name:'}
+                type={'text'}
+                value={lastName}
+                onChange={(submitSuperAdmin) => setLastName(submitSuperAdmin.target.value)}
+              />
+              <Input
+                labelText={'Email:'}
+                type={'email'}
+                value={email}
+                onChange={(submitSuperAdmin) => setEmail(submitSuperAdmin.target.value)}
+              />
+              <Input
+                labelText={'Password:'}
+                type={'password'}
+                value={password}
+                onChange={(submitSuperAdmin) => setPassword(submitSuperAdmin.target.value)}
+              />
               <Button
                 value="Submit"
                 icons={'submit'}
-                callback={(e) => {
-                  e.preventDefault();
+                callback={(noRefresh) => {
+                  noRefresh.preventDefault();
                   editSuperAdmin({ firstName, lastName, email, password });
                 }}
               />
