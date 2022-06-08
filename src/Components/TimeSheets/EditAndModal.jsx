@@ -1,13 +1,13 @@
 import React from 'react';
 import { useState } from 'react';
 import styles from './time-sheets.module.css';
-import ModalAdd from './ModalConfirmation';
-const ModalTimeSheetEdit = ({ showModalEdit, timeSheet, fetchTimeSheets, setShowModalEdit }) => {
+// import ModalAdd from './ModalConfirmation';
+import Modal from '../Shared/Modal/Modal';
+const ModalTimeSheetEdit = ({ isModalEdit, timeSheet, fetchTimeSheets, setIsModalEdit }) => {
   const [description, setDescription] = useState(timeSheet.description);
   const [hours, setHours] = useState(timeSheet.hours);
   const [startDate, setStartDate] = useState(timeSheet.startDate);
   const [endDate, setEndDate] = useState(timeSheet.endDate);
-  const [addModalIsOpen, setAddModalIsOpen] = useState(false);
 
   const handleEdit = () => {
     fetch(`${process.env.REACT_APP_API_URL}/timesheets/${timeSheet._id}`, {
@@ -33,59 +33,68 @@ const ModalTimeSheetEdit = ({ showModalEdit, timeSheet, fetchTimeSheets, setShow
             : alert('There was an error during edition');
       })
       .then(fetchTimeSheets)
-      .then(() => setShowModalEdit(false));
+      .then(() => setIsModalEdit(false));
   };
 
-  return showModalEdit ? (
-    <div className={styles.modalEditContainer}>
-      <span>
-        Description{' '}
-        <input
-          type="text"
-          value={description}
-          onChange={(e) => {
-            setDescription(e.target.value);
+  return (
+    <Modal isOpen={isModalEdit} setIsOpen={setIsModalEdit}>
+      <div className={styles.modalEditContainer}>
+        <span>
+          Description
+          <input
+            type="text"
+            value={description}
+            onChange={(e) => {
+              setDescription(e.target.value);
+            }}
+          />
+        </span>
+        <span>
+          Hours
+          <input
+            type="text"
+            value={hours}
+            onChange={(e) => {
+              setHours(e.target.value);
+            }}
+          />
+        </span>
+        <span>
+          Start date
+          <input
+            type="date"
+            onChange={(e) => {
+              setStartDate(e.target.value);
+            }}
+          />
+        </span>
+        <span>
+          End Date
+          <input
+            type="date"
+            onChange={(e) => {
+              setEndDate(e.target.value);
+            }}
+          />
+        </span>
+        <button
+          onClick={() => {
+            handleEdit(), setIsModalEdit(false);
           }}
-        />
-      </span>
-      <span>
-        Hours{' '}
-        <input
-          type="text"
-          value={hours}
-          onChange={(e) => {
-            setHours(e.target.value);
+        >
+          Confirm
+        </button>
+        <button
+          onClick={() => {
+            setIsModalEdit(false);
+            console.log(description, timeSheet);
           }}
-        />
-      </span>
-      <span>
-        Start date{' '}
-        <input
-          type="date"
-          onChange={(e) => {
-            setStartDate(e.target.value);
-          }}
-        />
-      </span>
-      <span>
-        End Date{' '}
-        <input
-          type="date"
-          onChange={(e) => {
-            setEndDate(e.target.value);
-          }}
-        />
-      </span>
-      <button onClick={() => setAddModalIsOpen(true)}>Confirm</button>
-      <button onClick={() => setShowModalEdit(false)}>Cancel</button>
-      <ModalAdd
-        setShowModalEdit={setShowModalEdit}
-        addModalIsOpen={addModalIsOpen}
-        setAddModalIsOpen={setAddModalIsOpen}
-        handleEdit={handleEdit}
-      ></ModalAdd>
-    </div>
-  ) : null;
+        >
+          Cancel
+        </button>
+      </div>
+    </Modal>
+  );
 };
 
 export default ModalTimeSheetEdit;

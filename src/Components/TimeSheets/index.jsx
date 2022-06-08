@@ -1,19 +1,51 @@
 import { useState, useEffect } from 'react';
 import styles from './time-sheets.module.css';
-import ModalTimeSheet from './AddAndModal';
 import Table from '../Shared/Table/Table';
+import Button from '../Shared/Buttons/buttons';
+import Modal from '../Shared/Modal/Modal';
+import ModalAddTimeSheet from './AddAndModal';
+import ModalTimeSheetEdit from './EditAndModal';
 const TimeSheets = () => {
   const [list, setList] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+  const [timeSheet, setTimesheet] = useState({});
+  const [isModalDelete, setIsModalDelete] = useState(false);
+  const [isModalAdd, setIsModalAdd] = useState(false);
+  const [isModalEdit, setIsModalEdit] = useState(false);
   const fetchTimeSheets = () => {
     fetch(`${process.env.REACT_APP_API_URL}/timesheets/`)
       .then((response) => response.json())
       .then((response) => setList(response.data));
   };
-  const handleDelete = (timeSheet) => {
+  const handleDelete = () => {
     fetch(`${process.env.REACT_APP_API_URL}/timesheets/${timeSheet._id}`, { method: 'DELETE' })
       .then((response) => response.json())
-      .then(fetchTimeSheets);
+      .then(fetchTimeSheets)
+      .then(() => setIsModalDelete(false));
+  };
+  const onDelete = (timesheet) => {
+    setIsModalDelete(true);
+    setTimesheet(timesheet);
+  };
+  const onEdit = (timesheet) => {
+    setIsModalEdit(true);
+    setTimesheet(timesheet);
+  };
+
+  const getData = () => {
+    return list.map((timesheet) => ({
+      ...timesheet,
+      startDate: new Date(timesheet.startDate).toISOString().substr(0, 10),
+      endDate: new Date(timesheet.startDate).toISOString().substr(0, 10),
+      edit: (
+        <Button
+          icons="edit"
+          callback={() => {
+            onEdit(timesheet);
+          }}
+        />
+      ),
+      delete: <Button icons="delete" callback={() => onDelete(timesheet)} />
+    }));
   };
   useEffect(async () => {
     try {
@@ -22,26 +54,47 @@ const TimeSheets = () => {
       console.error(error);
     }
   }, []);
+
   return (
     <section className={styles.listSection}>
       <h2>Timesheets</h2>
-      <button
+      <Button
+        text={'Create Timesheet'}
         onClick={() => {
-          setShowModal(true);
+          setIsModalAdd(true);
         }}
-      >
-        Create Timesheet
-      </button>
-      <ModalTimeSheet
-        showModal={showModal}
-        setShowModal={setShowModal}
+      ></Button>
+      <ModalAddTimeSheet
+        isModalAdd={isModalAdd}
+        setIsModalAdd={setIsModalAdd}
         fetchTimeSheets={fetchTimeSheets}
-      ></ModalTimeSheet>
+      ></ModalAddTimeSheet>
       <Table
-        data={list}
-        headers={['description', 'startDate', 'endDate', 'hours']}
-        actions={<button>sads</button>}
+        data={getData()}
+        headers={['description', 'startDate', 'endDate', 'hours', 'edit', 'delete']}
       ></Table>
+      <Modal isOpen={isModalDelete} setIsOpen={setIsModalDelete}>
+        <div className={styles.modalHeader}>
+          <h5 className={styles.heading}>Confirmation</h5>
+        </div>
+        <div>Are you sure you want to delete the item?</div>
+        <div className={styles.modalActions}>
+          <div className={styles.actionsContainer}>
+            <button className={styles.deleteBtn} onClick={handleDelete}>
+              Delete
+            </button>
+            <button className={styles.cancelBtn} onClick={() => setIsModalDelete(false)}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      </Modal>
+      <ModalTimeSheetEdit
+        isModalEdit={isModalEdit}
+        setIsModalEdit={setIsModalEdit}
+        fetchTimeSheets={fetchTimeSheets}
+        timeSheet={timeSheet}
+      ></ModalTimeSheetEdit>
     </section>
   );
 };
