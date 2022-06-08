@@ -33,3 +33,6 @@
 .inputError {
   border: 1px solid #ff0000;
 }
+input:last-of-type {
+  margin-bottom: 1rem;
+}
