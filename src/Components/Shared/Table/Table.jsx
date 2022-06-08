@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './table.module.css';
 
-const Table = ({ data, headers, actions }) => {
+const Table = ({ data, headers }) => {
   return (
     <div className={styles.container}>
       <table className={styles.table}>
@@ -10,7 +10,6 @@ const Table = ({ data, headers, actions }) => {
             {headers.map((header, index) => {
               return <th key={index}>{header}</th>;
             })}
-            <th>actions</th>
           </tr>
         </thead>
         <tbody>
@@ -20,7 +19,6 @@ const Table = ({ data, headers, actions }) => {
                 {headers.map((header, index) => {
                   return <td key={index}>{row[header]}</td>;
                 })}
-                <td key={'actions'}>{actions}</td>
               </tr>
             );
           })}
