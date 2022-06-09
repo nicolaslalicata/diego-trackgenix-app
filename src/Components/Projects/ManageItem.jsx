@@ -44,41 +44,33 @@ const ManageItem = function ({ handler, project }) {
   return (
     <form id="projectForm" className={styles.form} onSubmit={onSubmit}>
       <tr>
-        <th>
-          <Input
-            className={styles.input}
-            labelText="name"
-            value={userInput.name}
-            onChange={(event) => onChange(event, 'name')}
-          />
-        </th>
-        <th>
-          <Input
-            className={styles.input}
-            labelText="description"
-            value={userInput.description}
-            onChange={(event) => onChange(event, 'description')}
-          />
-        </th>
+        <Input
+          className={styles.input}
+          labelText="name"
+          value={userInput.name}
+          onChange={(event) => onChange(event, 'name')}
+        />
+        <Input
+          className={styles.input}
+          labelText="description"
+          value={userInput.description}
+          onChange={(event) => onChange(event, 'description')}
+        />
       </tr>
       <tr>
-        <th>
-          <Input
-            className={styles.input}
-            labelText="client"
-            value={userInput.client}
-            onChange={(event) => onChange(event, 'client')}
-          />
-        </th>
-        <th>
-          <Input
-            className={styles.input}
-            type="date"
-            labelText="startDate"
-            value={userInput.startDate}
-            onChange={(event) => onChange(event, 'startDate')}
-          />
-        </th>
+        <Input
+          className={styles.input}
+          labelText="client"
+          value={userInput.client}
+          onChange={(event) => onChange(event, 'client')}
+        />
+        <Input
+          className={styles.input}
+          type="date"
+          labelText="startDate"
+          value={userInput.startDate}
+          onChange={(event) => onChange(event, 'startDate')}
+        />
       </tr>
       <Input
         className={styles.input}
