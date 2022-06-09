@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import styles from './index.module.css';
 import ListEmployee from './List';
 import EmployeeForm from './EmployeeForm';
-require('dotenv').config();
 
 const Employees = () => {
   const [employees, saveEmployees] = useState([]);

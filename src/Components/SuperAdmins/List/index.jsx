@@ -1,4 +1,3 @@
-require('dotenv').config();
 import { useState, useEffect } from 'react';
 import React from 'react';
 import Row from '../Row';
