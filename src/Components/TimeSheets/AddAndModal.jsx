@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Modal from '../Shared/Modal/Modal';
 import Input from '../Shared/Input';
 import Button from '../Shared/Buttons/buttons';
-
 const ModalAddTimeSheet = ({ setIsModalAdd, fetchTimeSheets, isModalAdd }) => {
   const [description, setDescription] = useState('');
   const [hours, setHours] = useState('');
@@ -120,12 +119,12 @@ const ModalAddTimeSheet = ({ setIsModalAdd, fetchTimeSheets, isModalAdd }) => {
               setValidated(e.target.value);
             }}
           />
-          <Button text={'Add'} onClick={handlePost}>
+          <Button text={'Add'} callback={handlePost}>
             Add
           </Button>
           <Button
             text={'Cancel'}
-            onClick={() => {
+            callback={() => {
               setIsModalAdd(false);
             }}
           ></Button>

@@ -35,7 +35,7 @@ const TimeSheets = () => {
     return list.map((timesheet) => ({
       ...timesheet,
       startDate: new Date(timesheet.startDate).toISOString().substr(0, 10),
-      endDate: new Date(timesheet.startDate).toISOString().substr(0, 10),
+      endDate: new Date(timesheet.endDate).toISOString().substr(0, 10),
       edit: (
         <Button
           icons="edit"
@@ -58,12 +58,14 @@ const TimeSheets = () => {
   return (
     <section className={styles.listSection}>
       <h2>Timesheets</h2>
-      <Button
-        text={'Create Timesheet'}
-        callback={() => {
-          setIsModalAdd(true);
-        }}
-      ></Button>
+      <div>
+        <Button
+          text={'Create Timesheet'}
+          callback={() => {
+            setIsModalAdd(true);
+          }}
+        />
+      </div>
       <ModalAddTimeSheet
         isModalAdd={isModalAdd}
         setIsModalAdd={setIsModalAdd}
@@ -80,12 +82,18 @@ const TimeSheets = () => {
         <div>Are you sure you want to delete the item?</div>
         <div className={styles.modalActions}>
           <div className={styles.actionsContainer}>
-            <button className={styles.deleteBtn} onClick={handleDelete}>
-              Delete
-            </button>
-            <button className={styles.cancelBtn} onClick={() => setIsModalDelete(false)}>
-              Cancel
-            </button>
+            <Button
+              callback={() => {
+                handleDelete();
+              }}
+              text={'Delete'}
+            />
+            <Button
+              callback={() => {
+                setIsModalDelete(false);
+              }}
+              text={'Cancel'}
+            />
           </div>
         </div>
       </Modal>
