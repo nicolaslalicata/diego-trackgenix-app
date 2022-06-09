@@ -135,106 +135,100 @@ function SuperAdmins() {
   const headers = ['firstName', 'lastName', 'email', 'password', 'edit', 'delete'];
   return (
     <section className={styles.container}>
-      <div>
-        <h2>SuperAdmins</h2>
-        <Button
-          icons={'add'}
-          callback={() => {
-            resetInputs();
-            setIsOpenAdd(true);
-          }}
-        />
-        {/* MODAL DELETE */}
-        <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-          <h3>Are you sure you want to delete this Super Admin?</h3>
-          <Button callback={() => deleteRow(id)} text={'Delete'} />
-        </Modal>
-        {/* MODAL ADD */}
-        <Modal isOpen={isOpenAdd} setIsOpen={setIsOpenAdd}>
-          <h3>Add new super admin</h3>
-          <form>
-            <div>
-              <Input
-                labelText={'First Name:'}
-                type={'text'}
-                value={firstName}
-                placeholder={'First name'}
-                onChange={(submitSuperAdmin) => setFirstName(submitSuperAdmin.target.value)}
-              />
-              <Input
-                labelText={'Last Name:'}
-                type={'text'}
-                value={lastName}
-                placeholder={'Last name'}
-                onChange={(submitSuperAdmin) => setLastName(submitSuperAdmin.target.value)}
-              />
-              <Input
-                labelText={'Email:'}
-                type={'email'}
-                value={email}
-                placeholder={'Email'}
-                onChange={(submitSuperAdmin) => setEmail(submitSuperAdmin.target.value)}
-              />
-              <Input
-                labelText={'Password:'}
-                type={'password'}
-                value={password}
-                placeholder={'Password'}
-                onChange={(submitSuperAdmin) => setPassword(submitSuperAdmin.target.value)}
-              />
-              <Button
-                value="Submit"
-                icons={'submit'}
-                callback={(noRefresh) => {
-                  noRefresh.preventDefault();
-                  newSuperAdmin({ firstName, lastName, email, password });
-                }}
-              />
-            </div>
-          </form>
-        </Modal>
-        {/* MODAL EDIT */}
-        <Modal isOpen={isOpenEdit} setIsOpen={setIsOpenEdit}>
-          <h3>Edit super admin</h3>
-          <form>
-            <div>
-              <Input
-                labelText={'First Name:'}
-                type={'text'}
-                value={firstName}
-                onChange={(submitSuperAdmin) => setFirstName(submitSuperAdmin.target.value)}
-              />
-              <Input
-                labelText={'Last Name:'}
-                type={'text'}
-                value={lastName}
-                onChange={(submitSuperAdmin) => setLastName(submitSuperAdmin.target.value)}
-              />
-              <Input
-                labelText={'Email:'}
-                type={'email'}
-                value={email}
-                onChange={(submitSuperAdmin) => setEmail(submitSuperAdmin.target.value)}
-              />
-              <Input
-                labelText={'Password:'}
-                type={'password'}
-                value={password}
-                onChange={(submitSuperAdmin) => setPassword(submitSuperAdmin.target.value)}
-              />
-              <Button
-                value="Submit"
-                icons={'submit'}
-                callback={(noRefresh) => {
-                  noRefresh.preventDefault();
-                  editSuperAdmin({ firstName, lastName, email, password });
-                }}
-              />
-            </div>
-          </form>
-        </Modal>
-        <Table data={getData()} headers={headers} />
-      </div>
+      <h2>SuperAdmins</h2>
+      <Button
+        icons={'add'}
+        callback={() => {
+          resetInputs();
+          setIsOpenAdd(true);
+        }}
+      />
+      {/* MODAL DELETE */}
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+        <h3>Are you sure you want to delete this Super Admin?</h3>
+        <Button callback={() => deleteRow(id)} text={'Delete'} />
+      </Modal>
+      {/* MODAL ADD */}
+      <Modal isOpen={isOpenAdd} setIsOpen={setIsOpenAdd}>
+        <h3>Add new super admin</h3>
+        <form className={styles.containerForm}>
+          <Input
+            labelText={'First Name:'}
+            type={'text'}
+            value={firstName}
+            placeholder={'First name'}
+            onChange={(submitSuperAdmin) => setFirstName(submitSuperAdmin.target.value)}
+          />
+          <Input
+            labelText={'Last Name:'}
+            type={'text'}
+            value={lastName}
+            placeholder={'Last name'}
+            onChange={(submitSuperAdmin) => setLastName(submitSuperAdmin.target.value)}
+          />
+          <Input
+            labelText={'Email:'}
+            type={'email'}
+            value={email}
+            placeholder={'Email'}
+            onChange={(submitSuperAdmin) => setEmail(submitSuperAdmin.target.value)}
+          />
+          <Input
+            labelText={'Password:'}
+            type={'password'}
+            value={password}
+            placeholder={'Password'}
+            onChange={(submitSuperAdmin) => setPassword(submitSuperAdmin.target.value)}
+          />
+          <Button
+            value="Submit"
+            icons={'submit'}
+            callback={(noRefresh) => {
+              noRefresh.preventDefault();
+              newSuperAdmin({ firstName, lastName, email, password });
+            }}
+          />
+        </form>
+      </Modal>
+      {/* MODAL EDIT */}
+      <Modal isOpen={isOpenEdit} setIsOpen={setIsOpenEdit}>
+        <h3>Edit super admin</h3>
+        <form className={styles.containerForm}>
+          <Input
+            labelText={'First Name:'}
+            type={'text'}
+            value={firstName}
+            onChange={(submitSuperAdmin) => setFirstName(submitSuperAdmin.target.value)}
+          />
+          <Input
+            labelText={'Last Name:'}
+            type={'text'}
+            value={lastName}
+            onChange={(submitSuperAdmin) => setLastName(submitSuperAdmin.target.value)}
+          />
+          <Input
+            labelText={'Email:'}
+            type={'email'}
+            value={email}
+            onChange={(submitSuperAdmin) => setEmail(submitSuperAdmin.target.value)}
+          />
+          <Input
+            labelText={'Password:'}
+            type={'password'}
+            value={password}
+            onChange={(submitSuperAdmin) => setPassword(submitSuperAdmin.target.value)}
+          />
+          <Button
+            value="Submit"
+            icons={'submit'}
+            callback={(noRefresh) => {
+              noRefresh.preventDefault();
+              editSuperAdmin({ firstName, lastName, email, password });
+            }}
+          />
+        </form>
+      </Modal>
+      <Table data={getData()} headers={headers} />
     </section>
   );
 }
