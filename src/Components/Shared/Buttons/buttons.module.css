@@ -1,13 +1,9 @@
-button svg {
+.button svg {
     width: 1.8em;
     height: 1.8em;
 }
 
-.generic {
-    width: 100%;
-}
-
-button:hover {
+.button:hover {
     cursor: pointer;
     color: #EA3354;
     background-color: #fff;
@@ -15,7 +11,7 @@ button:hover {
     border: 2px solid #EA3354;
 }
 
-button {
+.button {
     margin-top: 1rem;
     height: 35px;
     border-radius: 5px;
