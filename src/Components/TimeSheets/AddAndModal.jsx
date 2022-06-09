@@ -51,8 +51,8 @@ const ModalAddTimeSheet = ({ setIsModalAdd, fetchTimeSheets, isModalAdd }) => {
   };
   return (
     <Modal isOpen={isModalAdd} setIsOpen={setIsModalAdd}>
-      <div className={styles.modalAdd}>
-        <div>
+      <div className={styles.inputContainer}>
+        <div className={styles.inputColumnOne}>
           <Input
             labelText={'Description'}
             type="text"
@@ -94,7 +94,7 @@ const ModalAddTimeSheet = ({ setIsModalAdd, fetchTimeSheets, isModalAdd }) => {
             }}
           />
         </div>
-        <div>
+        <div className={styles.inputColumnTwo}>
           <Input
             labelText={'Employee ID'}
             type="text"
