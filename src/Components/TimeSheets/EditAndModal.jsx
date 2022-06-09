@@ -1,13 +1,21 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './time-sheets.module.css';
-import ModalAdd from './ModalConfirmation';
-const ModalTimeSheetEdit = ({ showModalEdit, timeSheet, fetchTimeSheets, setShowModalEdit }) => {
+import Button from '../Shared/Buttons/buttons';
+import Input from '../Shared/Input';
+import Modal from '../Shared/Modal/Modal';
+const ModalTimeSheetEdit = ({ isModalEdit, timeSheet, fetchTimeSheets, setIsModalEdit }) => {
   const [description, setDescription] = useState(timeSheet.description);
   const [hours, setHours] = useState(timeSheet.hours);
   const [startDate, setStartDate] = useState(timeSheet.startDate);
   const [endDate, setEndDate] = useState(timeSheet.endDate);
-  const [addModalIsOpen, setAddModalIsOpen] = useState(false);
+  const [isModalConfirm, setIsModalConfirm] = useState(false);
+  useEffect(() => {
+    setDescription(timeSheet.description);
+    setHours(timeSheet.hours);
+    setStartDate(timeSheet.startDate);
+    setEndDate(timeSheet.endDate);
+  }, [timeSheet]);
 
   const handleEdit = () => {
     fetch(`${process.env.REACT_APP_API_URL}/timesheets/${timeSheet._id}`, {
@@ -33,59 +41,73 @@ const ModalTimeSheetEdit = ({ showModalEdit, timeSheet, fetchTimeSheets, setShow
             : alert('There was an error during edition');
       })
       .then(fetchTimeSheets)
-      .then(() => setShowModalEdit(false));
+      .then(() => setIsModalEdit(false));
   };
-
-  return showModalEdit ? (
-    <div className={styles.modalEditContainer}>
-      <span>
-        Description{' '}
-        <input
-          type="text"
-          value={description}
-          onChange={(e) => {
-            setDescription(e.target.value);
+  return (
+    <section>
+      <Modal isOpen={isModalEdit} setIsOpen={setIsModalEdit}>
+        <div className={styles.modalEditContainer}>
+          <Input
+            type="text"
+            value={description}
+            onChange={(e) => {
+              setDescription(e.target.value);
+            }}
+            labelText={'Description'}
+          />
+          <Input
+            type="text"
+            value={hours}
+            onChange={(e) => {
+              setHours(e.target.value);
+            }}
+            labelText={'Hours'}
+          />
+          <Input
+            type="date"
+            value={startDate}
+            onChange={(e) => {
+              setStartDate(e.target.value);
+            }}
+            labelText={'Start date'}
+          />
+          <Input
+            type="date"
+            value={endDate}
+            onChange={(e) => {
+              setEndDate(e.target.value);
+            }}
+            labelText={'End Date'}
+          />
+          <Button
+            callback={() => {
+              setIsModalEdit(false), setIsModalConfirm(true);
+            }}
+            text={'Edit'}
+          ></Button>
+          <Button
+            callback={() => {
+              setIsModalEdit(false);
+            }}
+            text={'Cancel'}
+          ></Button>
+        </div>
+      </Modal>
+      <Modal isOpen={isModalConfirm} setIsOpen={setIsModalConfirm}>
+        <div>
+          <h5>Are you sure you want to edit the item?</h5>
+        </div>
+        <Button
+          className={styles.deleteBtn}
+          callback={() => {
+            handleEdit(), setIsModalConfirm(false);
           }}
+          text={'Confirm'}
         />
-      </span>
-      <span>
-        Hours{' '}
-        <input
-          type="text"
-          value={hours}
-          onChange={(e) => {
-            setHours(e.target.value);
-          }}
-        />
-      </span>
-      <span>
-        Start date{' '}
-        <input
-          type="date"
-          onChange={(e) => {
-            setStartDate(e.target.value);
-          }}
-        />
-      </span>
-      <span>
-        End Date{' '}
-        <input
-          type="date"
-          onChange={(e) => {
-            setEndDate(e.target.value);
-          }}
-        />
-      </span>
-      <button onClick={() => setAddModalIsOpen(true)}>Confirm</button>
-      <button onClick={() => setShowModalEdit(false)}>Cancel</button>
-      <ModalAdd
-        setShowModalEdit={setShowModalEdit}
-        addModalIsOpen={addModalIsOpen}
-        setAddModalIsOpen={setAddModalIsOpen}
-        handleEdit={handleEdit}
-      ></ModalAdd>
-    </div>
-  ) : null;
+        <Button callback={() => setIsModalConfirm(false)} text={'Cancel'} />
+      </Modal>
+    </section>
+  );
 };
 
 export default ModalTimeSheetEdit;

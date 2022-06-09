@@ -5,3 +5,12 @@
 	padding: 0 20px;
 	text-align: left;
 }
+/* input {
+	margin-top: 10px;
+} */
+.submit {
+	position: absolute;
+	bottom: 20px;
+	right: 30px;
+	width: 40%;
+}
