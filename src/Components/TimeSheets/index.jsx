@@ -60,6 +60,7 @@ const TimeSheets = () => {
       <h2>Timesheets</h2>
       <div>
         <Button
+          btnStyle={{ width: '150px', height: '150px' }}
           text={'Create Timesheet'}
           callback={() => {
             setIsModalAdd(true);

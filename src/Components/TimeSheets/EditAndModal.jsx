@@ -43,10 +43,6 @@ const ModalTimeSheetEdit = ({ isModalEdit, timeSheet, fetchTimeSheets, setIsModa
       .then(fetchTimeSheets)
       .then(() => setIsModalEdit(false));
   };
-  const asd = (date) => {
-    new Date(date).toISOString().substr(0, 10);
-  };
-  // console.log(asd(startDate));
   return (
     <section>
       <Modal isOpen={isModalEdit} setIsOpen={setIsModalEdit}>
