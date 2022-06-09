@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styles from './manageItem.module.css';
 import Input from '../Shared/Input';
+import Button from '../Shared/Buttons/buttons';
 
 const ManageItem = function ({ handler, project }) {
   const defaultValue = {
@@ -86,7 +87,7 @@ const ManageItem = function ({ handler, project }) {
         value={userInput.endDate}
         onChange={(event) => onChange(event, 'endDate')}
       />
-      <button className={styles.submit}>Submit</button>
+      <Button icons="submit" />
     </form>
   );
 };

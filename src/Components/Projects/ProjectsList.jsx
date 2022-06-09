@@ -128,12 +128,8 @@ function ProjectsList() {
         <div>Are you sure you want to delete the item?</div>
         <div className={styles.modalActions}>
           <div className={styles.actionsContainer}>
-            <button className={styles.deleteBtn} onClick={deleteItem}>
-              Delete
-            </button>
-            <button className={styles.cancelBtn} onClick={() => setModalCloseOpen(false)}>
-              Cancel
-            </button>
+            <Button icons="delete" callback={() => deleteItem()} />
+            <Button text="cancel" callback={() => setModalCloseOpen(false)} />
           </div>
         </div>
       </Modal>
