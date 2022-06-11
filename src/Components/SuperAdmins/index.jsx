@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './super-admins.module.css';
 import Button from '../Shared/Buttons/buttons';
 import Table from '../Shared/Table/Table';
-import Modal from '../Shared/Modal/Modal';
+import Modal from '../Shared/Modal/index';
 import Input from '../Shared/Input';
 
 function SuperAdmins() {

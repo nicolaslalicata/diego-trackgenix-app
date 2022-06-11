@@ -4,7 +4,6 @@ import styles from './tasks.module.css';
 import Modal from '../Shared/Modal/index.jsx';
 import Button from '../Shared/Buttons/buttons';
 import { IoIosAddCircleOutline } from 'react-icons/io';
-import Table from '../Shared/Table/Table';
 import Input from '../Shared/Input';
 
 const Tasks = () => {
