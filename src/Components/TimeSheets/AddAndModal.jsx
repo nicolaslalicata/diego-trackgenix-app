@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './time-sheets.module.css';
 import { useState } from 'react';
-import Modal from '../Shared/Modal/Modal';
+import Modal from '../Shared/Modal/index';
 import Input from '../Shared/Input';
 import Button from '../Shared/Buttons/buttons';
 const ModalAddTimeSheet = ({ setIsModalAdd, fetchTimeSheets, isModalAdd }) => {

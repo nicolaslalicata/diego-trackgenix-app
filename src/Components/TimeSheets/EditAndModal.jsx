@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import styles from './time-sheets.module.css';
 import Button from '../Shared/Buttons/buttons';
 import Input from '../Shared/Input';
-import Modal from '../Shared/Modal/Modal';
+import Modal from '../Shared/Modal/index';
 const ModalTimeSheetEdit = ({ isModalEdit, timeSheet, fetchTimeSheets, setIsModalEdit }) => {
   const [description, setDescription] = useState(timeSheet.description);
   const [hours, setHours] = useState(timeSheet.hours);

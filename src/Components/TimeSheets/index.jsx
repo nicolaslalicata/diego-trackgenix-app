@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from './time-sheets.module.css';
 import Table from '../Shared/Table/Table';
 import Button from '../Shared/Buttons/buttons';
-import Modal from '../Shared/Modal/Modal';
+import Modal from '../Shared/Modal/index';
 import ModalAddTimeSheet from './AddAndModal';
 import ModalTimeSheetEdit from './EditAndModal';
 const TimeSheets = () => {
