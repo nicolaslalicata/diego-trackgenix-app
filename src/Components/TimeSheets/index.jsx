@@ -74,7 +74,8 @@ const TimeSheets = () => {
       ></ModalAddTimeSheet>
       <Table
         data={getData()}
-        headers={['description', 'startDate', 'endDate', 'hours', 'edit', 'delete']}
+        objProp={['description', 'startDate', 'endDate', 'hours', 'edit', 'delete']}
+        headers={['Description', 'Start Date', 'End Date', 'Hours', 'Edit', 'Delete']}
       ></Table>
       <Modal isOpen={isModalDelete} setIsOpen={setIsModalDelete}>
         <div className={styles.modalHeader}>
