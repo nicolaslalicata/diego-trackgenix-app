@@ -15,7 +15,6 @@ justify-items: center;
   text-align: center;
 }
 .modalActions {
-  position: absolute;
   bottom: 2px;
   margin-bottom: 10px;
   width: 100%;

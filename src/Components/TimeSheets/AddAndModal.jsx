@@ -4,7 +4,15 @@ import { useState } from 'react';
 import Modal from '../Shared/Modal/Modal';
 import Input from '../Shared/Input';
 import Button from '../Shared/Buttons/buttons';
-const ModalAddTimeSheet = ({ setIsModalAdd, fetchTimeSheets, isModalAdd }) => {
+import Dropdown from '../Shared/Dropdown/Dropdown';
+
+const ModalAddTimeSheet = ({
+  setIsModalAdd,
+  fetchTimeSheets,
+  isModalAdd,
+  employees,
+  setEmployees
+}) => {
   const [description, setDescription] = useState('');
   const [hours, setHours] = useState('');
   const [startDate, setStartDate] = useState('');
@@ -95,12 +103,21 @@ const ModalAddTimeSheet = ({ setIsModalAdd, fetchTimeSheets, isModalAdd }) => {
           />
         </div>
         <div className={styles.inputColumnTwo}>
-          <Input
+          {/* <Input
             labelText={'Employee ID'}
             type="text"
             placeholder="employeeId"
             onChange={(e) => {
               setEmployeeId(e.target.value);
+            }}
+          /> */}
+          <Dropdown
+            label="Employees"
+            options={employees}
+            value={employeeId}
+            onChange={(e) => {
+              setEmployeeId(e.target.value);
+              console.log(employees);
             }}
           />
           <Input
