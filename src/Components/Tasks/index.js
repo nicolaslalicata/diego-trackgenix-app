@@ -1,4 +1,3 @@
-require('dotenv').config();
 import { useEffect, useState } from 'react';
 import TasksList from './ListTasks/TasksList';
 import styles from './tasks.module.css';

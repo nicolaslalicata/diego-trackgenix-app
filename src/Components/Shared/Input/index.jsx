@@ -13,7 +13,7 @@ const Input = ({ labelText, name, type, value, placeholder, onChange, onClick })
         placeholder={placeholder}
         onChange={onChange}
         onClick={onClick}
-      ></input>
+      />
     </div>
   );
 };

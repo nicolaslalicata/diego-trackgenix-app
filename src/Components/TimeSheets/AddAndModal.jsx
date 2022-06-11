@@ -1,7 +1,10 @@
 import React from 'react';
 import styles from './time-sheets.module.css';
 import { useState } from 'react';
-const ModalTimeSheet = ({ showModal, fetchTimeSheets, setShowModal }) => {
+import Modal from '../Shared/Modal/Modal';
+import Input from '../Shared/Input';
+import Button from '../Shared/Buttons/buttons';
+const ModalAddTimeSheet = ({ setIsModalAdd, fetchTimeSheets, isModalAdd }) => {
   const [description, setDescription] = useState('');
   const [hours, setHours] = useState('');
   const [startDate, setStartDate] = useState('');
@@ -35,7 +38,7 @@ const ModalTimeSheet = ({ showModal, fetchTimeSheets, setShowModal }) => {
       })
       .then(fetchTimeSheets)
       .then(() => {
-        setShowModal(false),
+        setIsModalAdd(false),
           setDescription(''),
           setHours(''),
           setStartDate(''),
@@ -46,100 +49,89 @@ const ModalTimeSheet = ({ showModal, fetchTimeSheets, setShowModal }) => {
           setProjectId('');
       });
   };
-  return showModal ? (
-    <div className={styles.modalContainer}>
-      <div className={styles.modalPost}>
-        <span>
-          Description{' '}
-          <input
+  return (
+    <Modal isOpen={isModalAdd} setIsOpen={setIsModalAdd}>
+      <div className={styles.modalAdd}>
+        <div>
+          <Input
+            labelText={'Description'}
             type="text"
             placeholder="Description"
             onChange={(e) => {
               setDescription(e.target.value);
             }}
           />
-        </span>
-        <span>
-          Hours{' '}
-          <input
+          <Input
+            labelText={'Hours'}
             type="text"
             placeholder="Hours"
             onChange={(e) => {
               setHours(e.target.value);
             }}
           />
-        </span>
-        <span>
-          Start date{' '}
-          <input
-            type="date"
-            placeholder="updatedAt"
+          <Input
+            labelText={'Start Date'}
+            type={'date'}
+            placeholder={'updatedAt'}
             onChange={(e) => {
               setStartDate(e.target.value);
             }}
           />
-        </span>
-        <span>
-          End Date{' '}
-          <input
+          <Input
+            labelText={'End Date'}
             type="date"
             placeholder="endDate"
             onChange={(e) => {
               setEndDate(e.target.value);
             }}
           />
-        </span>
-        <span>
-          Task id{' '}
-          <input
+          <Input
+            labelText={'Task ID'}
             type="text"
             placeholder="taskId"
             onChange={(e) => {
               setTaskId(e.target.value);
             }}
           />
-        </span>
-        <span>
-          Employee id{' '}
-          <input
+        </div>
+        <div>
+          <Input
+            labelText={'Employee ID'}
             type="text"
             placeholder="employeeId"
             onChange={(e) => {
               setEmployeeId(e.target.value);
             }}
           />
-        </span>
-        <span>
-          Project id{' '}
-          <input
+          <Input
+            labelText={'Project ID'}
             type="text"
             placeholder="projectId"
             onChange={(e) => {
               setProjectId(e.target.value);
             }}
           />
-        </span>
-        <span>
-          Validated{' '}
-          <input
+          <Input
+            labelText={'Validated'}
             type="text"
             placeholder="Validated"
             onChange={(e) => {
               setValidated(e.target.value);
             }}
           />
-        </span>
-        <button onClick={handlePost}>Add</button>
-        <button
-          onClick={() => {
-            setShowModal(false);
-          }}
-        >
-          Cancel
-        </button>
+          <Button text={'Add'} callback={handlePost}>
+            Add
+          </Button>
+          <Button
+            text={'Cancel'}
+            callback={() => {
+              setIsModalAdd(false);
+            }}
+          ></Button>
+        </div>
       </div>
-    </div>
-  ) : null;
+    </Modal>
+  );
 };
 
-export default ModalTimeSheet;
+export default ModalAddTimeSheet;

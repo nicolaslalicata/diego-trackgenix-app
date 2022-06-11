@@ -47,7 +47,7 @@
     background-color: transparent;
 }
 
-input[type=text], select {
+/* input[type=text], select {
     width: 100%;
     padding: 12px 47px;
     margin: 8px 0;

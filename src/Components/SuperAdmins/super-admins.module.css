@@ -1,16 +1,19 @@
-h2 {
+/* h2 {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 28px;
-}
+} */
 
 .container {
   flex: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  justify-items: center;
   align-items: center;
+  align-content: center;
 }
 
 .createButton {
@@ -22,4 +25,14 @@ h2 {
   width: 200px;
   cursor: pointer;
   margin-bottom: 1rem;
+}
+
+.containerForm {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  align-content: center;
 }
