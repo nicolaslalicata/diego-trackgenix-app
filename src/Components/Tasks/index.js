@@ -86,7 +86,7 @@ const Tasks = () => {
       console.error(error);
     }
   };
-  // borrar este console.log
+
   const onChange = (e) => {
     console.log(e.target.value);
     setTaskInput({ ...taskInput, [e.target.name]: e.target.value });
@@ -117,8 +117,8 @@ const Tasks = () => {
         <div className={styles.contenedorModal}>
           <form onSubmit={onSubmit}>
             <div>
-              <label className={styles.label}>{'Description:'}</label>
               <Input
+                labelText={'Description:'}
                 type={'text'}
                 name={'description'}
                 value={taskInput.description}
@@ -126,8 +126,8 @@ const Tasks = () => {
               />
             </div>
             <div>
-              <label className={styles.label}>{'Worked Hours:'}</label>
               <Input
+                labelText={'Worked Hours:'}
                 type={'text'}
                 name={'workedHours'}
                 value={taskInput.workedHours}
@@ -135,8 +135,13 @@ const Tasks = () => {
               />
             </div>
             <div>
-              <label className={styles.label}>{'Date:'}</label>
-              <Input type={'text'} name={'date'} value={taskInput.date} onChange={onChange} />
+              <Input
+                labelText={'Date:'}
+                type={'text'}
+                name={'date'}
+                value={taskInput.date}
+                onChange={onChange}
+              />
             </div>
             <div>
               <Input type="submit" value="submit" />
