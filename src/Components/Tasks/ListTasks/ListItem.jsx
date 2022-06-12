@@ -2,10 +2,6 @@ import React from 'react';
 import Button from '../../Shared/Buttons/buttons';
 
 const ListItem = ({ tasksItem, deleteItem }) => {
-  const handleDelete = () => {
-    deleteItem(tasksItem._id);
-  };
-
   return (
     <tr>
       <td>{tasksItem._id}</td>
@@ -16,7 +12,7 @@ const ListItem = ({ tasksItem, deleteItem }) => {
         <Button icons={'edit'}></Button>
       </td>
       <td>
-        <Button callback={() => handleDelete(tasksItem._id)} icons={'delete'}></Button>
+        <Button icons={'delete'}></Button>
       </td>
     </tr>
   );

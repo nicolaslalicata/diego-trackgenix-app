@@ -2,12 +2,12 @@ import styles from '../tasks.module.css';
 import Table from '../../Shared/Table/Table';
 import Button from '../../Shared/Buttons/buttons';
 
-const TasksList = ({ tasklist, deleteItem }) => {
+const TasksList = ({ tasklist, deleteItem, editItem }) => {
   const handleDelete = (id) => {
     deleteItem(id);
   };
-  const handleEdit = (task) => {
-    console.log(task);
+  const handleEdit = (id, description, workedHours, date) => {
+    editItem(id, description, workedHours, date);
   };
 
   const getData = () => {
@@ -17,7 +17,7 @@ const TasksList = ({ tasklist, deleteItem }) => {
         <Button
           icons="edit"
           callback={() => {
-            handleEdit(task);
+            handleEdit(task._id, task.description, task.workedHours, task.date);
           }}
         />
       ),
