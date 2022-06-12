@@ -4,6 +4,8 @@ import Button from '../Shared/Buttons/buttons';
 import Table from '../Shared/Table/Table';
 import Modal from '../Shared/Modal/index';
 import Input from '../Shared/Input';
+import { useDispatch, useSelector } from 'react-redux';
+import { addSuperAdminsFulfilled, getSuperAdminsFulfilled } from '../../redux/superAdmins/actions';
 
 function SuperAdmins() {
   let initialValues = {
@@ -12,7 +14,11 @@ function SuperAdmins() {
     email: '',
     password: ''
   };
-  const [superAdmins, setSuperAdmins] = useState([]);
+  // REDUX
+  const dispatch = useDispatch();
+  const superAdmins = useSelector((state) => state.superAdmins.superAdminsList);
+
+  // const [superAdmins, setSuperAdmins] = useState([]);
   const url = `${process.env.REACT_APP_API_URL}/super-admins`;
   const [id, setId] = useState('');
 
@@ -37,12 +43,13 @@ function SuperAdmins() {
       fetch(url)
         .then((response) => response.json())
         .then((response) => {
-          setSuperAdmins(response.data);
+          dispatch(getSuperAdminsFulfilled(response.data));
+          // setSuperAdmins(response.data);
         });
     } catch (error) {
       console.error(error);
     }
-  }, [superAdmins]);
+  }, []);
 
   const getData = () => {
     return superAdmins.map((superAdmin) => ({
@@ -88,7 +95,7 @@ function SuperAdmins() {
     console.log(data);
     console.log(resp);
     if (resp.status === 200) {
-      setSuperAdmins(superAdmins.filter((row) => row._id !== _id));
+      // setSuperAdmins(superAdmins.filter((row) => row._id !== _id));
       setIsOpen(false);
       alert('Super admin deleted successfully');
     } else {
@@ -106,7 +113,8 @@ function SuperAdmins() {
     });
     const data = await response.json();
     if (response.status === 200 || response.status === 201) {
-      setSuperAdmins([...superAdmins, data]);
+      // setSuperAdmins([...superAdmins, data]);
+      dispatch(addSuperAdminsFulfilled(newSuperAdmin));
       setIsOpenAdd(false);
       alert('Super admin created successfully');
     } else {
@@ -124,7 +132,7 @@ function SuperAdmins() {
     });
     const data = await response.json();
     if (response.status === 200 || response.status === 201) {
-      setSuperAdmins([...superAdmins, data]);
+      // setSuperAdmins([...superAdmins, data]);
       setIsOpenEdit(false);
       alert('Super admin edited successfully');
     } else {
