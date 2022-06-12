@@ -111,14 +111,6 @@ const ModalAddTimeSheet = ({
           />
         </div>
         <div className={styles.inputColumnTwo}>
-          {/* <Input
-            labelText={'Employee ID'}
-            type="text"
-            placeholder="employeeId"
-            onChange={(e) => {
-              setEmployeeId(e.target.value);
-            }}
-          /> */}
           <Dropdown
             initialOption="Select a project"
             label="Projects"
