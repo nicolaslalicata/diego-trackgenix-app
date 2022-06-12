@@ -136,7 +136,8 @@ function ProjectsList() {
       <Button icons="add" callback={() => setModalAddItemOpen(true)} />
       <Table
         data={getData()}
-        headers={['name', 'description', 'client', 'startDate', 'endDate', 'edit', 'delete']}
+        objProp={['name', 'description', 'client', 'startDate', 'endDate', 'edit', 'delete']}
+        headers={['Name', 'Description', 'Client', 'Start Date', 'End Date', 'Edit', 'Delete']}
       />
     </div>
   );
