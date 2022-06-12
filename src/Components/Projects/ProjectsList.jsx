@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Button from '../Shared/Buttons/buttons';
-import Modal from '../Shared/Modal/Modal';
+import Modal from '../Shared/Modal/index';
 import Table from '../Shared/Table/Table';
 import ManageItem from './ManageItem';
 import styles from './projects.module.css';

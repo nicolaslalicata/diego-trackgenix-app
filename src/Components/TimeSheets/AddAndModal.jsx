@@ -1,18 +1,42 @@
 import React from 'react';
 import styles from './time-sheets.module.css';
-import { useState } from 'react';
-import Modal from '../Shared/Modal/Modal';
+import { useState, useEffect } from 'react';
+import Modal from '../Shared/Modal/index';
 import Input from '../Shared/Input';
 import Button from '../Shared/Buttons/buttons';
-const ModalAddTimeSheet = ({ setIsModalAdd, fetchTimeSheets, isModalAdd }) => {
+import Dropdown from '../Shared/Dropdown/Dropdown';
+
+const ModalAddTimeSheet = ({
+  setIsModalAdd,
+  fetchTimeSheets,
+  isModalAdd,
+  employees,
+  tasks,
+  projects
+}) => {
   const [description, setDescription] = useState('');
   const [hours, setHours] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [taskId, setTaskId] = useState('');
-  const [validated, setValidated] = useState('');
+  const [validated, setValidated] = useState('false');
   const [employeeId, setEmployeeId] = useState('');
   const [projectId, setProjectId] = useState('');
+
+  // const getEmployee = (emp, id) => {
+  //   const result = emp.filter((e) => {
+  //     e._id === id;
+  //   });
+  //   return setEmp(result);
+  // };
+  // const result = employees.filter((e) => {
+  //   e._id == '629fa2d5338aeb26e9b29f50';
+  // });
+
+  // useEffect(() => {
+  //   getEmployee(employees, employeeId);
+  // }, [employeeId]);
+
   const handlePost = () => {
     fetch(`${process.env.REACT_APP_API_URL}/timesheets/`, {
       method: 'POST',
@@ -51,8 +75,8 @@ const ModalAddTimeSheet = ({ setIsModalAdd, fetchTimeSheets, isModalAdd }) => {
   };
   return (
     <Modal isOpen={isModalAdd} setIsOpen={setIsModalAdd}>
-      <div className={styles.modalAdd}>
-        <div>
+      <div className={styles.inputContainer}>
+        <div className={styles.inputColumnOne}>
           <Input
             labelText={'Description'}
             type="text"
@@ -85,50 +109,55 @@ const ModalAddTimeSheet = ({ setIsModalAdd, fetchTimeSheets, isModalAdd }) => {
               setEndDate(e.target.value);
             }}
           />
-          <Input
-            labelText={'Task ID'}
-            type="text"
-            placeholder="taskId"
-            onChange={(e) => {
-              setTaskId(e.target.value);
-            }}
-          />
         </div>
-        <div>
-          <Input
-            labelText={'Employee ID'}
-            type="text"
-            placeholder="employeeId"
-            onChange={(e) => {
-              setEmployeeId(e.target.value);
-            }}
-          />
-          <Input
-            labelText={'Project ID'}
-            type="text"
-            placeholder="projectId"
+        <div className={styles.inputColumnTwo}>
+          <Dropdown
+            initialOption="Select a project"
+            label="Projects"
+            options={projects}
+            value={projectId}
             onChange={(e) => {
               setProjectId(e.target.value);
             }}
           />
-          <Input
-            labelText={'Validated'}
-            type="text"
-            placeholder="Validated"
+          <Dropdown
+            initialOption="Select a employee"
+            label="Employees"
+            options={employees}
+            value={employeeId}
+            onChange={(e) => {
+              setEmployeeId(e.target.value);
+            }}
+          />
+          <Dropdown
+            initialOption="Select a task"
+            label="Tasks"
+            options={tasks}
+            value={taskId}
+            onChange={(e) => {
+              setTaskId(e.target.value);
+            }}
+          />
+          <Dropdown
+            label="Validated"
+            options={['true', 'false']}
+            value={validated}
             onChange={(e) => {
               setValidated(e.target.value);
             }}
           />
-          <Button text={'Add'} callback={handlePost}>
-            Add
-          </Button>
-          <Button
-            text={'Cancel'}
-            callback={() => {
-              setIsModalAdd(false);
-            }}
-          ></Button>
         </div>
+      </div>
+      <div className={styles.btnModalContainer}>
+        <Button text={'Add'} callback={handlePost}>
+          Add
+        </Button>
+        <Button
+          text={'Cancel'}
+          callback={() => {
+            setIsModalAdd(false);
+          }}
+        ></Button>
       </div>
     </Modal>
   );

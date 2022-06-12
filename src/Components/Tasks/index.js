@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import TasksList from './ListTasks/TasksList';
 import styles from './tasks.module.css';
-import Modal from '../Shared/Modal/Modal.jsx';
+import Modal from '../Shared/Modal/index.jsx';
+import Button from '../Shared/Buttons/buttons';
+import { IoIosAddCircleOutline } from 'react-icons/io';
+import Input from '../Shared/Input';
 
-// cambiar a showModal...
 const Tasks = () => {
   const [taskList, setTasksList] = useState([]);
   const [showModal, setShowModal] = useState(false, { id: null });
@@ -84,7 +86,7 @@ const Tasks = () => {
   };
 
   const onChange = (e) => {
-    console.log(e);
+    console.log(e.target.value);
     setTaskInput({ ...taskInput, [e.target.name]: e.target.value });
   };
   const onSubmit = (e) => {
@@ -100,51 +102,47 @@ const Tasks = () => {
 
   return (
     <div className={styles.container}>
-      <button onClick={() => setIsAdding(true)}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          className="bi bi-plus-circle"
-          viewBox="0 0 16 16"
-        >
-          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-        </svg>
-      </button>
+      <Button callback={() => setIsAdding(true)} icons={'add'}>
+        <IoIosAddCircleOutline />
+      </Button>
       <Modal isOpen={showModal} setIsOpen={setShowModal}>
         <h3>Are you sure?</h3>
-        <button onClick={deleteItem}>Yes</button>
+        <Button callback={deleteItem} text={'YES'}></Button>
+        <Button callback={() => setShowModal(false)} text={'NO'}></Button>
       </Modal>
       <Modal isOpen={isAdding} setIsOpen={setIsAdding}>
-        <h3>Add new Task</h3>
+        <h3>Add a new Task</h3>
         <div className={styles.contenedorModal}>
           <form onSubmit={onSubmit}>
             <div>
-              <label htmlFor="description">Description:</label>
-              <input
-                type="text"
-                name="description"
+              <Input
+                labelText={'Description:'}
+                type={'text'}
+                name={'description'}
                 value={taskInput.description}
                 onChange={onChange}
               />
             </div>
             <div>
-              <label htmlFor="workedHours">Worked Hours:</label>
-              <input
-                type="text"
-                name="workedHours"
+              <Input
+                labelText={'Worked Hours:'}
+                type={'text'}
+                name={'workedHours'}
                 value={taskInput.workedHours}
                 onChange={onChange}
               />
             </div>
             <div>
-              <label htmlFor="date">Date:</label>
-              <input type="text" name="date" value={taskInput.date} onChange={onChange} />
+              <Input
+                labelText={'Date:'}
+                type={'text'}
+                name={'date'}
+                value={taskInput.date}
+                onChange={onChange}
+              />
             </div>
             <div>
-              <input type="submit" value="submit" />
+              <Input type="submit" value="submit" />
             </div>
           </form>
         </div>
@@ -152,12 +150,12 @@ const Tasks = () => {
       <Modal isOpen={showModalTaskAdded} setIsOpen={setShowModalTaskAdded}>
         <h3>Task Added</h3>
       </Modal>
-      <Modal
-        showModal={showModalDelete}
-        setShowModal={setShowModalDelete}
-        tittle={'Task deleted'}
-      ></Modal>
-      <Modal isOpen={showModalError} setIsOpen={setShowModalError} tittle={'Error'}></Modal>
+      <Modal isOpen={showModalDelete} setIsOpen={setShowModalDelete}>
+        <h3>Task Deleted</h3>
+      </Modal>
+      <Modal isOpen={showModalError} setIsOpen={setShowModalError}>
+        <h3>Error</h3>
+      </Modal>
       <TasksList tasklist={taskList} deleteItem={openModal}></TasksList>
     </div>
   );
