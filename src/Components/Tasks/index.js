@@ -9,9 +9,7 @@ import Input from '../Shared/Input';
 const Tasks = () => {
   const [taskList, setTasksList] = useState([]);
   const [showModal, setShowModal] = useState(false, { id: null });
-  const [showModalTaskAdded, setShowModalTaskAdded] = useState(false);
-  const [showModalDelete, setShowModalDelete] = useState(false, { id: null });
-  const [showModalError, setShowModalError] = useState(false);
+  const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
   const [showEditModal, setShowEditModal] = useState(false, {
     id: '',
     description: '',
@@ -58,7 +56,10 @@ const Tasks = () => {
         setTasksList([...taskList.filter((listItem) => listItem._id !== showModal.id)])
       );
       setShowModal(!setShowModal);
-      setShowModalDelete(!showModalDelete);
+      setShowModalMessage({
+        showModalMessage: true,
+        message: 'Task deleted'
+      });
     }
   };
 
@@ -84,11 +85,15 @@ const Tasks = () => {
       fetch(url, options)
         .then((response) => {
           if (response.ok) {
-            setShowModalTaskAdded(!showModalTaskAdded);
+            setShowModalMessage({
+              showModalMessage: true,
+              message: 'Task Added'
+            });
             return response.json();
           }
-          throw setShowModalError({
-            showModal: true
+          throw setShowModalMessage({
+            showModalMessage: true,
+            message: 'Error'
           });
         })
         .then((data) => {
@@ -110,7 +115,6 @@ const Tasks = () => {
   };
 
   const editTask = async ({ id, description, workedHours, date }) => {
-    console.log(description);
     if (id && description && workedHours && date) {
       const taskEdited = {
         id,
@@ -134,12 +138,15 @@ const Tasks = () => {
         fetch(url, options)
           .then((response) => {
             if (response.ok) {
-              setShowEditModal(!showEditModal);
-              // setShowModalTaskAdded(!showModalTaskAdded);
+              setShowModalMessage({
+                showModalMessage: true,
+                message: 'Task edited'
+              });
               return response.json();
             }
-            throw setShowModalError({
-              showModal: true
+            throw setShowModalMessage({
+              showModalMessage: true,
+              message: 'Error'
             });
           })
           .then(() => {
@@ -152,11 +159,9 @@ const Tasks = () => {
   };
 
   const onChange = (e) => {
-    console.log(e.target.value);
     setTaskInput({ ...taskInput, [e.target.name]: e.target.value });
-    setShowEditModal({ ...showEditModal, [e.target.name]: e.target.value });
   };
-  const onSubmit = (e) => {
+  const addItem = (e) => {
     e.preventDefault();
     addTask(taskInput);
     setTaskInput({
@@ -167,6 +172,10 @@ const Tasks = () => {
     setIsAdding(false);
   };
 
+  const onChangeEdit = (e) => {
+    setShowEditModal({ ...showEditModal, [e.target.name]: e.target.value });
+  };
+
   const editItem = (e) => {
     e.preventDefault();
     editTask(showEditModal);
@@ -175,7 +184,7 @@ const Tasks = () => {
       workedHours: '',
       date: ''
     });
-    setIsAdding(false);
+    setShowEditModal(false);
   };
 
   return (
@@ -191,7 +200,7 @@ const Tasks = () => {
       <Modal isOpen={isAdding} setIsOpen={setIsAdding}>
         <h3>Add a new Task</h3>
         <div className={styles.contenedorModal}>
-          <form onSubmit={onSubmit}>
+          <form onSubmit={addItem}>
             <div>
               <Input
                 labelText={'Description:'}
@@ -235,7 +244,7 @@ const Tasks = () => {
                 type={'text'}
                 name={'description'}
                 value={showEditModal.description}
-                onChange={onChange}
+                onChange={onChangeEdit}
               />
             </div>
             <div>
@@ -244,7 +253,7 @@ const Tasks = () => {
                 type={'text'}
                 name={'workedHours'}
                 value={showEditModal.workedHours}
-                onChange={onChange}
+                onChange={onChangeEdit}
               />
             </div>
             <div>
@@ -253,7 +262,7 @@ const Tasks = () => {
                 type={'text'}
                 name={'date'}
                 value={showEditModal.date}
-                onChange={onChange}
+                onChange={onChangeEdit}
               />
             </div>
             <div>
@@ -262,15 +271,11 @@ const Tasks = () => {
           </form>
         </div>
       </Modal>
-      <Modal isOpen={showModalTaskAdded} setIsOpen={setShowModalTaskAdded}>
-        <h3>Task Added</h3>
-      </Modal>
-      <Modal isOpen={showModalDelete} setIsOpen={setShowModalDelete}>
-        <h3>Task Deleted</h3>
-      </Modal>
-      <Modal isOpen={showModalError} setIsOpen={setShowModalError}>
-        <h3>Error</h3>
-      </Modal>
+      <Modal
+        isOpen={showModalMessage}
+        setIsOpen={setShowModalMessage}
+        message={showModalMessage.message}
+      ></Modal>
       <TasksList tasklist={taskList} deleteItem={openModal} editItem={openEditModal}></TasksList>
     </div>
   );

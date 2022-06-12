@@ -1,10 +1,9 @@
 import React from 'react';
 import Button from '../../Shared/Buttons/buttons';
 
-const ListItem = ({ tasksItem, deleteItem }) => {
+const ListItem = ({ tasksItem }) => {
   return (
     <tr>
-      <td>{tasksItem._id}</td>
       <td>{tasksItem.description}</td>
       <td>{tasksItem.workedHours}</td>
       <td>{tasksItem.date}</td>
