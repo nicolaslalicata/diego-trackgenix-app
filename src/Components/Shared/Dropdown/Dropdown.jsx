@@ -1,16 +1,20 @@
 import React from 'react';
-const Dropdown = ({ label, value, options, onChange }) => {
+import styles from './dropdown.module.css';
+const Dropdown = ({ label, value, options, onChange, initialOption }) => {
   return (
-    <label>
-      {label}
-      <select value={value} onChange={onChange}>
+    <div className={styles.dropdownContainer}>
+      <label className={styles.labelDropdown}>{label}</label>
+      <select className={styles.selectDropdown} value={value} onChange={onChange}>
+        <option value="none" selected hidden>
+          {initialOption}
+        </option>
         {options.map((option, index) => (
           <option key={index} value={option.value}>
-            {option.description || option.firstName || option.name}
+            {option._id || option}
           </option>
         ))}
       </select>
-    </label>
+    </div>
   );
 };
 export default Dropdown;

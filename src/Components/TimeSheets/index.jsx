@@ -8,6 +8,8 @@ import ModalTimeSheetEdit from './EditAndModal';
 const TimeSheets = () => {
   const [list, setList] = useState([]);
   const [employees, setEmployees] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [timeSheet, setTimesheet] = useState({});
   const [isModalDelete, setIsModalDelete] = useState(false);
   const [isModalAdd, setIsModalAdd] = useState(false);
@@ -18,9 +20,15 @@ const TimeSheets = () => {
       .then((response) => setList(response.data));
   };
   useEffect(() => {
+    fetch(`${process.env.REACT_APP_API_URL}/projects/`)
+      .then((response) => response.json())
+      .then((response) => setProjects(response.data));
     fetch(`${process.env.REACT_APP_API_URL}/employees/`)
       .then((response) => response.json())
       .then((response) => setEmployees(response.data));
+    fetch(`${process.env.REACT_APP_API_URL}/tasks/`)
+      .then((response) => response.json())
+      .then((response) => setTasks(response.data));
   }, []);
 
   const handleDelete = () => {
@@ -78,7 +86,8 @@ const TimeSheets = () => {
         setIsModalAdd={setIsModalAdd}
         fetchTimeSheets={fetchTimeSheets}
         employees={employees}
-        setEmployees={setEmployees}
+        tasks={tasks}
+        projects={projects}
       ></ModalAddTimeSheet>
       <Table
         data={getData()}

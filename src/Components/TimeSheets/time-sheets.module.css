@@ -43,5 +43,12 @@ justify-items: center;
 }
 .inputContainer{
   display: flex;
-justify-content: space-between;
+  justify-content: space-around;
+  width: 100%;
+}
+.btnModalContainer{
+  display: flex;
+  justify-content: space-between;
+  width: 100px;
+  height: 50px;
 }
