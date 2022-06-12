@@ -7,6 +7,9 @@ import ModalAddTimeSheet from './AddAndModal';
 import ModalTimeSheetEdit from './EditAndModal';
 const TimeSheets = () => {
   const [list, setList] = useState([]);
+  const [employees, setEmployees] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [timeSheet, setTimesheet] = useState({});
   const [isModalDelete, setIsModalDelete] = useState(false);
   const [isModalAdd, setIsModalAdd] = useState(false);
@@ -16,6 +19,18 @@ const TimeSheets = () => {
       .then((response) => response.json())
       .then((response) => setList(response.data));
   };
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_API_URL}/projects/`)
+      .then((response) => response.json())
+      .then((response) => setProjects(response.data));
+    fetch(`${process.env.REACT_APP_API_URL}/employees/`)
+      .then((response) => response.json())
+      .then((response) => setEmployees(response.data));
+    fetch(`${process.env.REACT_APP_API_URL}/tasks/`)
+      .then((response) => response.json())
+      .then((response) => setTasks(response.data));
+  }, []);
+
   const handleDelete = () => {
     fetch(`${process.env.REACT_APP_API_URL}/timesheets/${timeSheet._id}`, { method: 'DELETE' })
       .then((response) => response.json())
@@ -54,7 +69,6 @@ const TimeSheets = () => {
       console.error(error);
     }
   }, []);
-
   return (
     <section className={styles.listSection}>
       <h2>Timesheets</h2>
@@ -71,10 +85,14 @@ const TimeSheets = () => {
         isModalAdd={isModalAdd}
         setIsModalAdd={setIsModalAdd}
         fetchTimeSheets={fetchTimeSheets}
+        employees={employees}
+        tasks={tasks}
+        projects={projects}
       ></ModalAddTimeSheet>
       <Table
         data={getData()}
-        headers={['description', 'startDate', 'endDate', 'hours', 'edit', 'delete']}
+        objProp={['description', 'startDate', 'endDate', 'hours', 'edit', 'delete']}
+        headers={['Description', 'Start Date', 'End Date', 'Hours', 'Edit', 'Delete']}
       ></Table>
       <Modal isOpen={isModalDelete} setIsOpen={setIsModalDelete}>
         <div className={styles.modalHeader}>
