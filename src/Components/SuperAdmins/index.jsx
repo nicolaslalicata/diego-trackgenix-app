@@ -6,7 +6,12 @@ import Modal from '../Shared/Modal/index';
 import Input from '../Shared/Input';
 import Loader from '../Shared/Loading';
 import { useDispatch, useSelector } from 'react-redux';
-import { addSuperAdminsFulfilled, getSuperAdminsFulfilled } from '../../redux/superAdmins/actions';
+import {
+  addSuperAdminsFulfilled,
+  getSuperAdminsFulfilled,
+  deleteSuperAdminsFulfilled,
+  editSuperAdminsFulfilled
+} from '../../redux/superAdmins/actions';
 
 function SuperAdmins() {
   let initialValues = {
@@ -46,13 +51,22 @@ function SuperAdmins() {
         .then((response) => {
           dispatch(getSuperAdminsFulfilled(response.data));
           setIsLoading(false);
-          // setSuperAdmins(response.data);
         });
     } catch (error) {
       console.error(error);
     }
   }, []);
-
+  const getById = (ids) => {
+    setIsOpenEdit(true);
+    fetch(`${process.env.REACT_APP_API_URL}/super-admins/${ids}`)
+      .then((response) => response.json())
+      .then((response) => {
+        setFirstName(response.data.firstName);
+        setLastName(response.data.lastName);
+        setEmail(response.data.email);
+        setPassword(response.data.password);
+      });
+  };
   const getData = () => {
     return superAdmins.map((superAdmin) => ({
       ...superAdmin,
@@ -77,18 +91,7 @@ function SuperAdmins() {
     }));
   };
 
-  const getById = (ids) => {
-    setIsOpenEdit(true);
-    fetch(`${process.env.REACT_APP_API_URL}/super-admins/${ids}`)
-      .then((response) => response.json())
-      .then((response) => {
-        setFirstName(response.data.firstName);
-        setLastName(response.data.lastName);
-        setEmail(response.data.email);
-        setPassword(response.data.password);
-      });
-  };
-
+  ////////////////////////////methods redux//////////////////////////////////////////////
   const deleteRow = async (_id) => {
     const resp = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${_id}`, {
       method: 'DELETE'
@@ -105,6 +108,12 @@ function SuperAdmins() {
     }
   };
 
+  const deleteSuperAdmin = (superAdmID) => {
+    deleteRow(superAdmID).then(() => {
+      dispatch(deleteSuperAdminsFulfilled(superAdmID));
+    });
+  };
+  ////////////////////////////methods redux//////////////////////////////////////////////
   const newSuperAdmin = async (superAdmin) => {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins`, {
       method: 'POST',
@@ -116,7 +125,7 @@ function SuperAdmins() {
     const data = await response.json();
     if (response.status === 200 || response.status === 201) {
       // setSuperAdmins([...superAdmins, data]);
-      dispatch(addSuperAdminsFulfilled(newSuperAdmin));
+      // dispatch(addSuperAdminsFulfilled(newSuperAdmin));
       setIsOpenAdd(false);
       alert('Super admin created successfully');
     } else {
@@ -124,6 +133,11 @@ function SuperAdmins() {
     }
   };
 
+  const addNewSuperAdmin = (superAdmin) => {
+    newSuperAdmin(superAdmin);
+    dispatch(addSuperAdminsFulfilled(superAdmin));
+  };
+  ////////////////////////////methods redux//////////////////////////////////////////////
   const editSuperAdmin = async (superAdmin) => {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`, {
       method: 'PUT',
@@ -141,7 +155,11 @@ function SuperAdmins() {
       alert(data.message);
     }
   };
-
+  const handlerEditSuperAdmin = (superAdmin) => {
+    editSuperAdmin(superAdmin);
+    dispatch(editSuperAdminsFulfilled(superAdmin));
+  };
+  ////////////////////////////methods redux//////////////////////////////////////////////
   const headers = ['First Name', 'Last Name', 'Email', 'Password', 'Edit', 'Delete'];
   const objProp = ['firstName', 'lastName', 'email', 'password', 'edit', 'delete'];
   if (isLoading) {
@@ -160,7 +178,7 @@ function SuperAdmins() {
         {/* MODAL DELETE */}
         <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
           <h3>Are you sure you want to delete this Super Admin?</h3>
-          <Button callback={() => deleteRow(id)} text={'Delete'} />
+          <Button callback={() => deleteSuperAdmin(id)} text={'Delete'} />
         </Modal>
         {/* MODAL ADD */}
         <Modal isOpen={isOpenAdd} setIsOpen={setIsOpenAdd}>
@@ -199,7 +217,7 @@ function SuperAdmins() {
               icons={'submit'}
               callback={(noRefresh) => {
                 noRefresh.preventDefault();
-                newSuperAdmin({ firstName, lastName, email, password });
+                addNewSuperAdmin({ firstName, lastName, email, password });
               }}
             />
           </form>
@@ -237,7 +255,8 @@ function SuperAdmins() {
               icons={'submit'}
               callback={(noRefresh) => {
                 noRefresh.preventDefault();
-                editSuperAdmin({ firstName, lastName, email, password });
+                handlerEditSuperAdmin({ firstName, lastName, email, password });
+                console.log(id);
               }}
             />
           </form>
