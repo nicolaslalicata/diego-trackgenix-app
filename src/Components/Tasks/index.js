@@ -1,18 +1,26 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  getTasksFulfilled,
+  addTaskFullfilled,
+  deleteTaskFullfilled
+} from '../../redux/tasks/actions';
+
+// Shared components
 import TasksList from './ListTasks/TasksList';
 import styles from './tasks.module.css';
 import Modal from '../Shared/Modal/index.jsx';
 import Button from '../Shared/Buttons/buttons';
-import { IoIosAddCircleOutline } from 'react-icons/io';
 import Input from '../Shared/Input';
-import { useDispatch, useSelector } from 'react-redux';
-import { getTasksFulfilled } from '../../redux/tasks/actions';
+import Loader from '../Shared/Loading';
+import { IoIosAddCircleOutline } from 'react-icons/io';
 
 const Tasks = () => {
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.tasks.tasksList);
 
-  // const [taskList, setTasksList] = useState([]);
+  // Modals
+  const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false, { id: null });
   const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
   const [showEditModal, setShowEditModal] = useState(false, {
@@ -42,6 +50,7 @@ const Tasks = () => {
         .then((response) => response.json())
         .then((response) => {
           dispatch(getTasksFulfilled(response.data));
+          setIsLoading(false);
         });
     } catch (error) {
       console.error(error);
@@ -57,14 +66,15 @@ const Tasks = () => {
 
   const deleteItem = () => {
     if (showModal.id) {
-      fetch(`${process.env.REACT_APP_API_URL}/tasks/${showModal.id}`, { method: 'DELETE' })
-        .then
-        // setTasksList([...taskList.filter((listItem) => listItem._id !== showModal.id)])
-        ();
+      fetch(`${process.env.REACT_APP_API_URL}/tasks/${showModal.id}`, { method: 'DELETE' }).then(
+        () => {
+          dispatch(deleteTaskFullfilled(showModal.id));
+        }
+      );
       setShowModal(!setShowModal);
       setShowModalMessage({
         showModalMessage: true,
-        message: 'Task deleted'
+        title: 'Task deleted'
       });
     }
   };
@@ -93,17 +103,18 @@ const Tasks = () => {
           if (response.ok) {
             setShowModalMessage({
               showModalMessage: true,
-              message: 'Task Added'
+              title: 'Task Added'
             });
             return response.json();
           }
           throw setShowModalMessage({
             showModalMessage: true,
-            message: 'Error'
+            title: 'Error'
           });
         })
-        .then((data) => {
-          // setTasksList([...taskList, data.data]);
+        .then((response) => {
+          dispatch(addTaskFullfilled(response.data));
+          setIsLoading(false);
         });
     } catch (error) {
       console.error(error);
@@ -146,13 +157,13 @@ const Tasks = () => {
             if (response.ok) {
               setShowModalMessage({
                 showModalMessage: true,
-                message: 'Task edited'
+                title: 'Task edited'
               });
               return response.json();
             }
             throw setShowModalMessage({
               showModalMessage: true,
-              message: 'Error'
+              title: 'Error'
             });
           })
           .then(() => {
@@ -193,6 +204,9 @@ const Tasks = () => {
     setShowEditModal(false);
   };
 
+  if (isLoading) {
+    return <Loader isLoading={isLoading} />;
+  }
   return (
     <div className={styles.container}>
       <Button callback={() => setIsAdding(true)} icons={'add'}>
@@ -280,7 +294,7 @@ const Tasks = () => {
       <Modal
         isOpen={showModalMessage}
         setIsOpen={setShowModalMessage}
-        message={showModalMessage.message}
+        title={showModalMessage.title}
       ></Modal>
       <TasksList tasklist={tasks} deleteItem={openModal} editItem={openEditModal}></TasksList>
     </div>
