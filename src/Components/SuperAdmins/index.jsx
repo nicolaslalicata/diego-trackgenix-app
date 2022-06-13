@@ -8,7 +8,7 @@ import Loader from '../Shared/Loading';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addSuperAdminsSuccess,
-  getSuperAdminsSuccess,
+  // getSuperAdminsSuccess,
   deleteSuperAdminsSuccess,
   editSuperAdminsSuccess
 } from '../../redux/superAdmins/actions';
@@ -163,6 +163,43 @@ function SuperAdmins() {
     editSuperAdmin(superAdmin);
     dispatch(editSuperAdminsSuccess(superAdmin));
   };
+
+  // const editSuperAdmin = async ({ firstName, lastName, email, password }) => {
+  //   try {
+  //     await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`, {
+  //       method: 'PUT',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify({
+  //         firstName,
+  //         lastName,
+  //         email,
+  //         password
+  //       })
+  //     })
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         if (!firstName || !lastName || !email || !password) {
+  //           alert('Incomplete data');
+  //           // setEditItem(null);
+  //         } else {
+  //           const employeesUpdated = employees.map((emp) => {
+  //             if (emp._id === data.data._id) {
+  //               return data.data;
+  //             } else return emp;
+  //           });
+  //           saveEmployees(employeesUpdated);
+  //           setEditItem(null);
+  //           alert(`The employee ${firstName} was edited`);
+  //         }
+  //       });
+  //   } catch (error) {
+  //     alert('There was an error with an input');
+  //     setEditItem(null);
+  //     console.error(error);
+  //   }
+  // };
   ////////////////////////////methods redux//////////////////////////////////////////////
   const headers = ['First Name', 'Last Name', 'Email', 'Password', 'Edit', 'Delete'];
   const objProp = ['firstName', 'lastName', 'email', 'password', 'edit', 'delete'];

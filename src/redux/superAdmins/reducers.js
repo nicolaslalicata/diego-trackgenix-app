@@ -8,7 +8,7 @@ import {
 const initialState = {
   superAdminsList: []
 };
-let updatedSA = [];
+// let updatedSA = [];
 export const superAdminsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_SUPERADMINS_SUCCESS:
@@ -27,16 +27,11 @@ export const superAdminsReducer = (state = initialState, action) => {
         superAdminsList: state.superAdminsList.filter((e) => e._id !== action.payload)
       };
     case EDIT_SUPERADMINS_SUCCESS:
-      updatedSA = state.list.map((item) => {
-        if (item._id === action.payload._id) {
-          return;
-        } else {
-          return item;
-        }
-      });
       return {
         ...state,
-        superAdminsList: updatedSA
+        superAdminsList: state.superAdminsList.map((element) =>
+          element.email === action.payload.email ? action.payload : element
+        )
       };
     default:
       return state;
