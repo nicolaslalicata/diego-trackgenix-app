@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   getTasksFulfilled,
   addTaskFullfilled,
-  deleteTaskFullfilled
+  deleteTaskFullfilled,
+  editTaskFullfilled
 } from '../../redux/tasks/actions';
 
 // Shared components
@@ -35,14 +36,6 @@ const Tasks = () => {
     workedHours: '',
     date: ''
   });
-
-  // const fetchTasks = () => {
-  //   fetch(`${process.env.REACT_APP_API_URL}/tasks`)
-  //     .then((response) => response.json())
-  //     .then((response) => {
-  //       setTasksList(response.data);
-  //     });
-  // };
 
   useEffect(() => {
     try {
@@ -166,8 +159,9 @@ const Tasks = () => {
               title: 'Error'
             });
           })
-          .then(() => {
-            // fetchTasks();
+          .then((response) => {
+            dispatch(editTaskFullfilled(response.data));
+            setIsLoading(false);
           });
       } catch (error) {
         console.error(error);
