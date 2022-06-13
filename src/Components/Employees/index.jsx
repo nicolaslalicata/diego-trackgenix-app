@@ -6,6 +6,9 @@ import EmployeeForm from './EmployeeForm';
 const Employees = () => {
   const [employees, saveEmployees] = useState([]);
   const [editItem, setEditItem] = useState(null);
+  const [ismodalOpen, setIsmodalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const url = `${process.env.REACT_APP_API_URL}/employees`;
   useEffect(() => {
@@ -21,12 +24,11 @@ const Employees = () => {
   }, []);
 
   //DELETE ITEM
-  const deleteItem = async (id, firstName) => {
+  const deleteItem = async (id) => {
     await fetch(`${url}/${id}`, {
       method: 'DELETE'
     });
     saveEmployees([...employees.filter((listItem) => listItem._id != id)]);
-    alert(`The employee ${firstName} was deleted`);
   };
 
   //ADD NEW ITEM
@@ -51,6 +53,8 @@ const Employees = () => {
         })
         .then((data) => {
           saveEmployees([...employees, data.data]);
+          alert(`Employee ${firstName} added successfully`);
+          setIsAddModalOpen(false);
         });
     } catch (error) {
       alert(`There was an error`);
@@ -86,6 +90,7 @@ const Employees = () => {
             saveEmployees(employeesUpdated);
             setEditItem(null);
             alert(`The employee ${firstName} was edited`);
+            setIsEditModalOpen(false);
           }
         });
     } catch (error) {
@@ -98,16 +103,34 @@ const Employees = () => {
   return (
     <section className={styles.container}>
       <h2>Employees</h2>
+      <button
+        onClick={() => {
+          setIsAddModalOpen(true);
+        }}
+      >
+        Agregar
+      </button>
       <div>
         <EmployeeForm
+          isEditModalOpen={isEditModalOpen}
+          setIsEditModalOpen={setIsEditModalOpen}
+          isAddModalOpen={isAddModalOpen}
+          setIsAddModalOpen={setIsAddModalOpen}
           addEmployee={addEmployee}
           editEmployee={editEmployee}
           initialValue={editItem}
+          ismodalOpen={ismodalOpen}
+          setIsmodalOpen={setIsmodalOpen}
         />
         <ListEmployee
+          isEditModalOpen={isEditModalOpen}
+          setIsEditModalOpen={setIsEditModalOpen}
           Employees={employees}
+          editEmployee={editEmployee}
           saveEmployees={saveEmployees}
           setEditItem={setEditItem}
+          ismodalOpen={ismodalOpen}
+          setIsModalOpen={setIsmodalOpen}
           deleteItem={deleteItem}
         />
       </div>
