@@ -1,30 +1,22 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
-import styles from './admins.module.css';
+import { useState } from 'react';
+import Modal from '../Shared/Modal/index';
 import Input from '../Shared/Input';
-import Modal from '../Shared/Modal';
 import Button from '../Shared/Buttons/buttons';
 import Dropdown from '../Shared/Dropdown/Dropdown';
+import styles from './admins.module.css';
 
-const ModalEditAdmin = ({ admin, fetchAdmins, setShowEditModal, showEditModal }) => {
-  const [EditModalIsOpen, setEditModalIsOpen] = useState(false);
-  const [name, setName] = useState(admin.firstName);
-  const [lastName, setLastName] = useState(admin.lastName);
-  const [email, setEmail] = useState(admin.email);
-  const [gender, setGender] = useState(admin.gender);
-  const [status, setStatus] = useState(admin.active);
-  const [password, setPassword] = useState(admin.password);
-  useEffect(() => {
-    setName(admin.firstName);
-    setLastName(admin.lastName);
-    setEmail(admin.email);
-    setGender(admin.gender);
-    setStatus(admin.status);
-    setPassword(admin.password);
-  }, [admin]);
-  const editAdmin = () => {
-    fetch(`${process.env.REACT_APP_API_URL}/admins/${admin._id}`, {
-      method: 'PUT',
+const ModalAddAdmin = ({ setShowAddModal, showAddModal, fetchAdmins }) => {
+  const [name, setName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [gender, setGender] = useState('');
+  const [status, setStatus] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handlePost = () => {
+    fetch(`${process.env.REACT_APP_API_URL}/admins/`, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -39,23 +31,29 @@ const ModalEditAdmin = ({ admin, fetchAdmins, setShowEditModal, showEditModal })
     })
       .then((response) => {
         response.json(),
-          response.status == 201
-            ? alert(`Admin edited successfully`)
-            : alert(`there was a problem editing the admin`);
+          response.status === 201
+            ? alert('Added successfully')
+            : alert('There was an error during creation');
       })
       .then(fetchAdmins)
-      .then(() => setShowEditModal(false))
-      .then(() => setEditModalIsOpen(false));
+      .then(() => {
+        setShowAddModal(false),
+          setName(''),
+          setLastName(''),
+          setEmail(''),
+          setGender(''),
+          setStatus(''),
+          setPassword('');
+      });
   };
   return (
-    <Modal isOpen={showEditModal} setIsOpen={setShowEditModal}>
+    <Modal isOpen={showAddModal} setIsOpen={setShowAddModal}>
       <div className={styles.addModalContainer}>
         <div>
           <Input
             labelText={'Name'}
             type="text"
             placeholder="Name"
-            value={name}
             onChange={(e) => {
               setName(e.target.value);
             }}
@@ -64,7 +62,6 @@ const ModalEditAdmin = ({ admin, fetchAdmins, setShowEditModal, showEditModal })
             labelText={'Last Name'}
             type="text"
             placeholder="Last Name"
-            value={lastName}
             onChange={(e) => {
               setLastName(e.target.value);
             }}
@@ -73,7 +70,6 @@ const ModalEditAdmin = ({ admin, fetchAdmins, setShowEditModal, showEditModal })
             labelText={'Email'}
             type={'text'}
             placeholder={'Email'}
-            value={email}
             onChange={(e) => {
               setEmail(e.target.value);
             }}
@@ -84,7 +80,6 @@ const ModalEditAdmin = ({ admin, fetchAdmins, setShowEditModal, showEditModal })
             labelText={'Gender'}
             type="text"
             placeholder="Gender"
-            value={gender}
             onChange={(e) => {
               setGender(e.target.value);
             }}
@@ -102,7 +97,6 @@ const ModalEditAdmin = ({ admin, fetchAdmins, setShowEditModal, showEditModal })
             labelText={'Password'}
             type="password"
             placeholder="password"
-            value={password}
             onChange={(e) => {
               setPassword(e.target.value);
             }}
@@ -110,14 +104,13 @@ const ModalEditAdmin = ({ admin, fetchAdmins, setShowEditModal, showEditModal })
         </div>
       </div>
       <div className={styles.modalButtons}>
-        <Button text={'Add'} callback={editAdmin}>
+        <Button text={'Add'} callback={handlePost}>
           Add
         </Button>
         <Button
           text={'Cancel'}
           callback={() => {
-            setShowEditModal(false);
-            console.log(name);
+            setShowAddModal(false);
           }}
         ></Button>
       </div>
@@ -125,4 +118,4 @@ const ModalEditAdmin = ({ admin, fetchAdmins, setShowEditModal, showEditModal })
   );
 };
 
-export default ModalEditAdmin;
+export default ModalAddAdmin;

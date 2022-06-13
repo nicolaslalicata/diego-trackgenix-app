@@ -170,3 +170,17 @@
 	transform: none;
 	background: whitesmoke;
   }
+  .addModalContainer {
+	display: flex;
+	justify-content: space-around;
+	width: 100%
+  }
+  .modalButtons {
+	display: flex;
+	justify-content: space-around;
+	width: 50%;
+  }
+  .addAdminButton {
+	position: absolute;
+	right: 450px;
+  }
