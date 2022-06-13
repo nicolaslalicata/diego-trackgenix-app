@@ -7,11 +7,12 @@ import Input from '../Shared/Input';
 import Loader from '../Shared/Loading';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  addSuperAdminsFulfilled,
-  getSuperAdminsFulfilled,
-  deleteSuperAdminsFulfilled,
-  editSuperAdminsFulfilled
+  addSuperAdminsSuccess,
+  getSuperAdminsSuccess,
+  deleteSuperAdminsSuccess,
+  editSuperAdminsSuccess
 } from '../../redux/superAdmins/actions';
+import { getSuperAdmins } from '../../redux/superAdmins/thunks';
 
 function SuperAdmins() {
   let initialValues = {
@@ -45,17 +46,20 @@ function SuperAdmins() {
   };
 
   useEffect(() => {
-    try {
-      fetch(`${process.env.REACT_APP_API_URL}/super-admins`)
-        .then((response) => response.json())
-        .then((response) => {
-          dispatch(getSuperAdminsFulfilled(response.data));
-          setIsLoading(false);
-        });
-    } catch (error) {
-      console.error(error);
-    }
+    dispatch(getSuperAdmins());
+    setIsLoading(false);
+    // try {
+    //   fetch(`${process.env.REACT_APP_API_URL}/super-admins`)             //lo cambie por el thunk, ver si esta bien
+    //     .then((response) => response.json())
+    //     .then((response) => {
+    //       dispatch(getSuperAdminsSuccess(response.data));
+    //       setIsLoading(false);
+    //     });
+    // } catch (error) {
+    //   console.error(error);
+    // }
   }, []);
+
   const getById = (ids) => {
     setIsOpenEdit(true);
     fetch(`${process.env.REACT_APP_API_URL}/super-admins/${ids}`)
@@ -110,7 +114,7 @@ function SuperAdmins() {
 
   const deleteSuperAdmin = (superAdmID) => {
     deleteRow(superAdmID).then(() => {
-      dispatch(deleteSuperAdminsFulfilled(superAdmID));
+      dispatch(deleteSuperAdminsSuccess(superAdmID));
     });
   };
   ////////////////////////////methods redux//////////////////////////////////////////////
@@ -125,7 +129,7 @@ function SuperAdmins() {
     const data = await response.json();
     if (response.status === 200 || response.status === 201) {
       // setSuperAdmins([...superAdmins, data]);
-      // dispatch(addSuperAdminsFulfilled(newSuperAdmin));
+      // dispatch(addSuperAdminsSuccess(newSuperAdmin));
       setIsOpenAdd(false);
       alert('Super admin created successfully');
     } else {
@@ -135,7 +139,7 @@ function SuperAdmins() {
 
   const addNewSuperAdmin = (superAdmin) => {
     newSuperAdmin(superAdmin);
-    dispatch(addSuperAdminsFulfilled(superAdmin));
+    dispatch(addSuperAdminsSuccess(superAdmin));
   };
   ////////////////////////////methods redux//////////////////////////////////////////////
   const editSuperAdmin = async (superAdmin) => {
@@ -157,7 +161,7 @@ function SuperAdmins() {
   };
   const handlerEditSuperAdmin = (superAdmin) => {
     editSuperAdmin(superAdmin);
-    dispatch(editSuperAdminsFulfilled(superAdmin));
+    dispatch(editSuperAdminsSuccess(superAdmin));
   };
   ////////////////////////////methods redux//////////////////////////////////////////////
   const headers = ['First Name', 'Last Name', 'Email', 'Password', 'Edit', 'Delete'];

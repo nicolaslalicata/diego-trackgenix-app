@@ -1,24 +1,62 @@
 import {
-  GET_SUPERADMINS_FULFILLED,
-  ADD_SUPERADMINS_FULFILLED,
-  DELETE_SUPERADMINS_FULFILLED,
-  EDIT_SUPERADMINS_FULFILLED
+  GET_SUPERADMINS_SUCCESS,
+  GET_SUPERADMINS_PENDING,
+  GET_SUPERADMINS_ERROR,
+  ADD_SUPERADMINS_SUCCESS,
+  ADD_SUPERADMINS_PENDING,
+  ADD_SUPERADMINS_ERROR,
+  DELETE_SUPERADMINS_SUCCESS,
+  DELETE_SUPERADMINS_PENDING,
+  DELETE_SUPERADMINS_ERROR,
+  EDIT_SUPERADMINS_SUCCESS,
+  EDIT_SUPERADMINS_PENDING,
+  EDIT_SUPERADMINS_ERROR
 } from './constants';
 
-export const getSuperAdminsFulfilled = (superAdmins) => ({
-  type: GET_SUPERADMINS_FULFILLED,
+export const getSuperAdminsSuccess = (superAdmins) => ({
+  type: GET_SUPERADMINS_SUCCESS,
   payload: superAdmins
 });
+export const getSuperAdminsPending = () => ({
+  type: GET_SUPERADMINS_PENDING
+});
+export const getSuperAdminsError = (error) => ({
+  type: GET_SUPERADMINS_ERROR,
+  payload: error
+});
 
-export const addSuperAdminsFulfilled = (superAdmin) => ({
-  type: ADD_SUPERADMINS_FULFILLED,
+export const addSuperAdminsSuccess = (superAdmin) => ({
+  type: ADD_SUPERADMINS_SUCCESS,
   payload: superAdmin
 });
-export const deleteSuperAdminsFulfilled = (superAdmin) => ({
-  type: DELETE_SUPERADMINS_FULFILLED,
+export const addSuperAdminsPending = () => ({
+  type: ADD_SUPERADMINS_PENDING
+});
+export const addSuperAdminsError = (error) => ({
+  type: ADD_SUPERADMINS_ERROR,
+  payload: error
+});
+
+export const deleteSuperAdminsSuccess = (superAdmin) => ({
+  type: DELETE_SUPERADMINS_SUCCESS,
   payload: superAdmin
 });
-export const editSuperAdminsFulfilled = (superAdmin) => ({
-  type: EDIT_SUPERADMINS_FULFILLED,
+export const deleteSuperAdminsPending = () => ({
+  type: DELETE_SUPERADMINS_PENDING
+});
+export const deleteSuperAdminsError = (error) => ({
+  type: DELETE_SUPERADMINS_ERROR,
+  payload: error
+});
+
+export const editSuperAdminsSuccess = (superAdmin) => ({
+  type: EDIT_SUPERADMINS_SUCCESS,
   payload: superAdmin
+});
+export const editSuperAdminsPending = () => ({
+  type: EDIT_SUPERADMINS_PENDING
+});
+export const editSuperAdminsError = (superAdmins) => ({
+  type: EDIT_SUPERADMINS_ERROR,
+  payload: superAdmins
 });
