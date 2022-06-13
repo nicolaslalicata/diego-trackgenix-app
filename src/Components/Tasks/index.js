@@ -5,9 +5,14 @@ import Modal from '../Shared/Modal/index.jsx';
 import Button from '../Shared/Buttons/buttons';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import Input from '../Shared/Input';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTasksFulfilled } from '../../redux/tasks/actions';
 
 const Tasks = () => {
-  const [taskList, setTasksList] = useState([]);
+  const dispatch = useDispatch();
+  const tasks = useSelector((state) => state.tasks.tasksList);
+
+  // const [taskList, setTasksList] = useState([]);
   const [showModal, setShowModal] = useState(false, { id: null });
   const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
   const [showEditModal, setShowEditModal] = useState(false, {
@@ -23,20 +28,20 @@ const Tasks = () => {
     date: ''
   });
 
-  const fetchTasks = () => {
-    fetch(`${process.env.REACT_APP_API_URL}/tasks`)
-      .then((response) => response.json())
-      .then((response) => {
-        setTasksList(response.data);
-      });
-  };
+  // const fetchTasks = () => {
+  //   fetch(`${process.env.REACT_APP_API_URL}/tasks`)
+  //     .then((response) => response.json())
+  //     .then((response) => {
+  //       setTasksList(response.data);
+  //     });
+  // };
 
   useEffect(() => {
     try {
       fetch(`${process.env.REACT_APP_API_URL}/tasks`)
         .then((response) => response.json())
         .then((response) => {
-          setTasksList(response.data);
+          dispatch(getTasksFulfilled(response.data));
         });
     } catch (error) {
       console.error(error);
@@ -52,9 +57,10 @@ const Tasks = () => {
 
   const deleteItem = () => {
     if (showModal.id) {
-      fetch(`${process.env.REACT_APP_API_URL}/tasks/${showModal.id}`, { method: 'DELETE' }).then(
-        setTasksList([...taskList.filter((listItem) => listItem._id !== showModal.id)])
-      );
+      fetch(`${process.env.REACT_APP_API_URL}/tasks/${showModal.id}`, { method: 'DELETE' })
+        .then
+        // setTasksList([...taskList.filter((listItem) => listItem._id !== showModal.id)])
+        ();
       setShowModal(!setShowModal);
       setShowModalMessage({
         showModalMessage: true,
@@ -97,7 +103,7 @@ const Tasks = () => {
           });
         })
         .then((data) => {
-          setTasksList([...taskList, data.data]);
+          // setTasksList([...taskList, data.data]);
         });
     } catch (error) {
       console.error(error);
@@ -150,7 +156,7 @@ const Tasks = () => {
             });
           })
           .then(() => {
-            fetchTasks();
+            // fetchTasks();
           });
       } catch (error) {
         console.error(error);
@@ -276,7 +282,7 @@ const Tasks = () => {
         setIsOpen={setShowModalMessage}
         message={showModalMessage.message}
       ></Modal>
-      <TasksList tasklist={taskList} deleteItem={openModal} editItem={openEditModal}></TasksList>
+      <TasksList tasklist={tasks} deleteItem={openModal} editItem={openEditModal}></TasksList>
     </div>
   );
 };
