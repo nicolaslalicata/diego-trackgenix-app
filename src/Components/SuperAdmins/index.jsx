@@ -201,17 +201,23 @@ function SuperAdmins() {
           </form>
         </Modal>
         {/* MODAL CREATED */}
-        <Modal isOpen={isOpenCreated} setIsOpen={setIsOpenCreated}>
-          <h3>Super admin created successfully</h3>
-        </Modal>
+        <Modal
+          isOpen={isOpenCreated}
+          setIsOpen={setIsOpenCreated}
+          message={'Super admin created successfully'}
+        ></Modal>
         {/* MODAL DELETED */}
-        <Modal isOpen={isOpenDeleted} setIsOpen={setIsOpenDeleted}>
-          <h3>Super admin deleted successfully</h3>
-        </Modal>
+        <Modal
+          isOpen={isOpenDeleted}
+          setIsOpen={setIsOpenDeleted}
+          message={'Super admin deleted successfully'}
+        ></Modal>
         {/* MODAL EDITED */}
-        <Modal isOpen={isOpenEdited} setIsOpen={setIsOpenEdited}>
-          <h3>Super admin edited successfully</h3>
-        </Modal>
+        <Modal
+          isOpen={isOpenEdited}
+          setIsOpen={setIsOpenEdited}
+          message={'Super admin edited successfully'}
+        ></Modal>
         <Table data={getData()} objProp={objProp} headers={headers} />
       </section>
     );
