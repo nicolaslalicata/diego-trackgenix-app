@@ -46,13 +46,13 @@ const ManageItem = function ({ handler, project }) {
       <tr>
         <Input
           className={styles.input}
-          labelText="name"
+          labelText="Name"
           value={userInput.name}
           onChange={(event) => onChange(event, 'name')}
         />
         <Input
           className={styles.input}
-          labelText="description"
+          labelText="Description"
           value={userInput.description}
           onChange={(event) => onChange(event, 'description')}
         />
@@ -60,14 +60,14 @@ const ManageItem = function ({ handler, project }) {
       <tr>
         <Input
           className={styles.input}
-          labelText="client"
+          labelText="Client"
           value={userInput.client}
           onChange={(event) => onChange(event, 'client')}
         />
         <Input
           className={styles.input}
           type="date"
-          labelText="startDate"
+          labelText="Start Date"
           value={userInput.startDate}
           onChange={(event) => onChange(event, 'startDate')}
         />
@@ -75,7 +75,7 @@ const ManageItem = function ({ handler, project }) {
       <Input
         className={styles.input}
         type="date"
-        labelText="endDate"
+        labelText="End Date"
         value={userInput.endDate}
         onChange={(event) => onChange(event, 'endDate')}
       />
