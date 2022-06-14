@@ -1,4 +1,5 @@
 import List from './adminsList';
+import Table from '../Shared/Table/Table';
 import styles from './admins.module.css';
 import ModalAdmin from './ModalAdmin';
 import { useState, useEffect } from 'react';
@@ -47,7 +48,8 @@ function Admins() {
           setAdmins={setAdmins}
           fetchAdmins={fetchAdmins}
         />
-        <List admins={admins} fetchAdmins={fetchAdmins} setAdmins={setAdmins} />
+        {/* <List admins={admins} fetchAdmins={fetchAdmins} setAdmins={setAdmins} /> */}
+        <Table data={admins} headers={['firstName', 'lastName', 'email']}></Table>
       </div>
       <div></div>
     </section>
