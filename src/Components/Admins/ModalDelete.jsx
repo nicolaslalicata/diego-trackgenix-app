@@ -8,17 +8,9 @@ const ModalDelete = ({ setShowDeleteModal, showDeleteModal, deleteAdmin }) => {
       <div>
         <h4>Are you sure you want to remove this administrator?</h4>
       </div>
-      <div className={styles.modalButtons}>
+      <div>
         <Button text={'Delete'} callback={deleteAdmin}>
           Delete
-        </Button>
-        <Button
-          text={'Cancel'}
-          callback={() => {
-            setShowDeleteModal(false);
-          }}
-        >
-          Cancel
         </Button>
       </div>
     </Modal>

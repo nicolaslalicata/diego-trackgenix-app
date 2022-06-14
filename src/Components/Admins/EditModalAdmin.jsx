@@ -109,18 +109,7 @@ const ModalEditAdmin = ({ admin, fetchAdmins, setShowEditModal, showEditModal })
           />
         </div>
       </div>
-      <div className={styles.modalButtons}>
-        <Button text={'Add'} callback={editAdmin}>
-          Add
-        </Button>
-        <Button
-          text={'Cancel'}
-          callback={() => {
-            setShowEditModal(false);
-            console.log(name);
-          }}
-        ></Button>
-      </div>
+      <Button value="Submit" icons={'submit'} callback={editAdmin} />
     </Modal>
   );
 };

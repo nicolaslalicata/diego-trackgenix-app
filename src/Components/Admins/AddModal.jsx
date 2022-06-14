@@ -104,17 +104,7 @@ const ModalAddAdmin = ({ setShowAddModal, showAddModal, fetchAdmins }) => {
           />
         </div>
       </div>
-      <div className={styles.modalButtons}>
-        <Button text={'Add'} callback={handlePost}>
-          Add
-        </Button>
-        <Button
-          text={'Cancel'}
-          callback={() => {
-            setShowAddModal(false);
-          }}
-        ></Button>
-      </div>
+      <Button value="Submit" icons={'submit'} callback={handlePost} />
     </Modal>
   );
 };
