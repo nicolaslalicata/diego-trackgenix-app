@@ -14,7 +14,7 @@ import {
 } from './constants';
 
 const initialState = {
-  superAdminsList: [],
+  List: [],
   error: '',
   isLoading: false
 };
@@ -25,7 +25,7 @@ export const superAdminsReducer = (state = initialState, action) => {
     case GET_SUPERADMINS_SUCCESS:
       return {
         ...state,
-        superAdminsList: action.payload,
+        List: action.payload,
         isLoading: false,
         error: ''
       };
@@ -45,7 +45,7 @@ export const superAdminsReducer = (state = initialState, action) => {
     case ADD_SUPERADMINS_SUCCESS:
       return {
         ...state,
-        superAdminsList: [...state.superAdminsList, action.payload],
+        List: [...state.List, action.payload],
         isLoading: false,
         error: ''
       };
@@ -65,7 +65,7 @@ export const superAdminsReducer = (state = initialState, action) => {
     case DELETE_SUPERADMINS_SUCCESS:
       return {
         ...state,
-        superAdminsList: state.superAdminsList.filter((e) => e._id !== action.payload),
+        List: state.List.filter((superAdm) => superAdm._id !== action.payload._id),
         isLoading: false,
         error: ''
       };
@@ -82,7 +82,7 @@ export const superAdminsReducer = (state = initialState, action) => {
         error: action.payload
       };
     case EDIT_SUPERADMINS_SUCCESS:
-      updatedSA = state.superAdminsList.map((superAdmin) => {
+      updatedSA = state.List.map((superAdmin) => {
         if (superAdmin._id === action.payload._id) {
           return action.payload.superAdmin;
         } else {
@@ -91,7 +91,7 @@ export const superAdminsReducer = (state = initialState, action) => {
       });
       return {
         ...state,
-        superAdminsList: updatedSA,
+        List: updatedSA,
         isLoading: false,
         error: ''
       };

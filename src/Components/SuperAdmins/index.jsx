@@ -23,15 +23,16 @@ function SuperAdmins() {
 
   // REDUX
   const dispatch = useDispatch();
-  const superAdmins = useSelector((state) => state.superAdmins.superAdminsList);
+  const superAdmins = useSelector((state) => state.superAdmins.List);
+  const isLoading = useSelector((state) => state.superAdmins.isLoading);
 
-  // const [superAdmins, setSuperAdmins] = useState([]);
   const [id, setId] = useState('');
-
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isOpenCreated, setIsOpenCreated] = useState(false);
+  const [isOpenDeleted, setIsOpenDeleted] = useState(false);
+  const [isOpenEdited, setIsOpenEdited] = useState(false);
 
   const [firstName, setFirstName] = useState(initialValues.firstName);
   const [lastName, setLastName] = useState(initialValues.lastName);
@@ -47,7 +48,6 @@ function SuperAdmins() {
 
   useEffect(() => {
     dispatch(getSuperAdmins());
-    setIsLoading(false);
   }, []);
 
   const getById = (ids) => {
@@ -85,23 +85,19 @@ function SuperAdmins() {
     }));
   };
 
-  ////////////////////////////methods redux//////////////////////////////////////////////
+  // HANDLERS REDUX
   const handleDeleteSuperAdmin = (superAdmID) => {
-    dispatch(deleteSuperAdmin(superAdmID));
-    alert('Super admin deleted successfully');
-    setIsOpen(false);
+    dispatch(deleteSuperAdmin(superAdmID, setIsOpen, setIsOpenDeleted));
   };
 
-  const handleNewSuperAdmin = () => {
-    dispatch(newSuperAdmin({ firstName, lastName, email, password }));
-    alert('Super admin created successfully');
-    setIsOpenAdd(false);
+  const handleCreateSuperAdmin = () => {
+    dispatch(
+      newSuperAdmin({ firstName, lastName, email, password }, setIsOpenAdd, setIsOpenCreated)
+    );
   };
 
   const handleEditSuperAdmin = (superAdmin) => {
-    dispatch(editSuperAdmin(superAdmin, id));
-    setIsOpenEdit(false);
-    alert('Super admin edited successfully');
+    dispatch(editSuperAdmin(superAdmin, id, setIsOpenEdit, setIsOpenEdited));
   };
 
   const headers = ['First Name', 'Last Name', 'Email', 'Password', 'Edit', 'Delete'];
@@ -161,7 +157,7 @@ function SuperAdmins() {
               icons={'submit'}
               callback={(noRefresh) => {
                 noRefresh.preventDefault();
-                handleNewSuperAdmin({ firstName, lastName, email, password });
+                handleCreateSuperAdmin({ firstName, lastName, email, password });
               }}
             />
           </form>
@@ -203,6 +199,18 @@ function SuperAdmins() {
               }}
             />
           </form>
+        </Modal>
+        {/* MODAL CREATED */}
+        <Modal isOpen={isOpenCreated} setIsOpen={setIsOpenCreated}>
+          <h3>Super admin created successfully</h3>
+        </Modal>
+        {/* MODAL DELETED */}
+        <Modal isOpen={isOpenDeleted} setIsOpen={setIsOpenDeleted}>
+          <h3>Super admin deleted successfully</h3>
+        </Modal>
+        {/* MODAL EDITED */}
+        <Modal isOpen={isOpenEdited} setIsOpen={setIsOpenEdited}>
+          <h3>Super admin edited successfully</h3>
         </Modal>
         <Table data={getData()} objProp={objProp} headers={headers} />
       </section>

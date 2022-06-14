@@ -28,22 +28,24 @@ export const getSuperAdmins = () => {
   };
 };
 
-export const deleteSuperAdmin = (_id) => {
+export const deleteSuperAdmin = (_id, setIsOpen, setIsOpenDeleted) => {
   return async (dispatch) => {
     try {
       dispatch(deleteSuperAdminsPending());
       const resp = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${_id}`, {
         method: 'DELETE'
       });
-      const data = resp.json;
-      dispatch(deleteSuperAdminsSuccess(data));
+      const data = await resp.json();
+      dispatch(deleteSuperAdminsSuccess(data.data));
+      setIsOpen(false);
+      setIsOpenDeleted(true);
     } catch (error) {
       dispatch(deleteSuperAdminsError(error.message));
     }
   };
 };
 
-export const newSuperAdmin = (superAdmin) => {
+export const newSuperAdmin = (superAdmin, setIsOpenAdd, setIsOpenCreated) => {
   return async (dispatch) => {
     try {
       dispatch(addSuperAdminsPending());
@@ -56,13 +58,15 @@ export const newSuperAdmin = (superAdmin) => {
       });
       const data = await response.json();
       dispatch(addSuperAdminsSuccess(data.data));
+      setIsOpenAdd(false);
+      setIsOpenCreated(true);
     } catch (error) {
       dispatch(addSuperAdminsError(error.message));
     }
   };
 };
 
-export const editSuperAdmin = (superAdmin, superadminId) => {
+export const editSuperAdmin = (superAdmin, superadminId, setIsOpenEdit, setIsOpenEdited) => {
   const { firstName, lastName, email, password } = superAdmin;
   return async (dispatch) => {
     dispatch(editSuperAdminsPending());
@@ -93,6 +97,8 @@ export const editSuperAdmin = (superAdmin, superadminId) => {
           superadminId
         )
       );
+      setIsOpenEdit(false);
+      setIsOpenEdited(true);
     } catch (error) {
       dispatch(editSuperAdminsError(error));
     }
