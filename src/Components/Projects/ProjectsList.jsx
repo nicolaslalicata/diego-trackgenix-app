@@ -1,31 +1,24 @@
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProjects } from '../../redux/projects/thunks';
 import Button from '../Shared/Buttons/buttons';
 import Modal from '../Shared/Modal/index';
 import Table from '../Shared/Table/Table';
 import ManageItem from './ManageItem';
+import Loader from '../Shared/Loading';
 import styles from './projects.module.css';
 
 function ProjectsList() {
-  const [projects, setProjects] = useState([]);
+  const dispatch = useDispatch();
+  const projects = useSelector((state) => state.projects.projectsList);
+  const isLoading = useSelector((state) => state.projects.loading);
   const [project, setProject] = useState({});
   const [modalCloseOpen, setModalCloseOpen] = useState(false);
   const [modalAddItemOpen, setModalAddItemOpen] = useState(false);
   const [modalEditItemOpen, setModalEditItemOpen] = useState(false);
 
-  const fetchProjects = () => {
-    fetch(`${process.env.REACT_APP_API_URL}/projects`)
-      .then((response) => response.json())
-      .then((response) => {
-        setProjects(response.data);
-      });
-  };
-
   useEffect(() => {
-    try {
-      fetchProjects();
-    } catch (error) {
-      console.error(error);
-    }
+    dispatch(getProjects());
   }, []);
 
   const addItem = (userInput) => {
@@ -39,7 +32,6 @@ function ProjectsList() {
       })
         .then((response) => response.json())
         .then(() => {
-          fetchProjects();
           setModalAddItemOpen(false);
         });
     } catch (error) {
@@ -60,7 +52,6 @@ function ProjectsList() {
       })
         .then((response) => response.json())
         .then(() => {
-          fetchProjects();
           setModalEditItemOpen(false);
         });
     } catch (error) {
@@ -75,7 +66,6 @@ function ProjectsList() {
     try {
       fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, params).then(() => {
         setModalCloseOpen(false);
-        fetchProjects();
       });
     } catch (error) {
       console.error(error);
@@ -97,7 +87,7 @@ function ProjectsList() {
     setProject(project);
   };
 
-  const getData = () => {
+  const getData = (projects) => {
     return projects.map((project) => ({
       ...project,
       startDate: new Date(project.startDate).toISOString().substr(0, 10),
@@ -106,6 +96,10 @@ function ProjectsList() {
       delete: <Button icons="delete" callback={() => onDelete(project)} />
     }));
   };
+
+  if (isLoading) {
+    return <Loader isLoading={isLoading} />;
+  }
 
   return (
     <div className={styles.container}>
@@ -128,14 +122,14 @@ function ProjectsList() {
         <div>Are you sure you want to delete the item?</div>
         <div className={styles.modalActions}>
           <div className={styles.actionsContainer}>
-            <Button icons="delete" callback={() => deleteItem()} />
+            <Button icons="delete" callback={() => deleteItem(project)} />
             <Button text="cancel" callback={() => setModalCloseOpen(false)} />
           </div>
         </div>
       </Modal>
       <Button icons="add" callback={() => setModalAddItemOpen(true)} />
       <Table
-        data={getData()}
+        data={getData(projects)}
         objProp={['name', 'description', 'client', 'startDate', 'endDate', 'edit', 'delete']}
         headers={['Name', 'Description', 'Client', 'Start Date', 'End Date', 'Edit', 'Delete']}
       />
