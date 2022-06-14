@@ -6,6 +6,7 @@ import {
   deleteTaskFullfilled,
   editTaskFullfilled
 } from '../../redux/tasks/actions';
+import { getTasks } from '../../redux/tasks/thunks';
 
 // Shared components
 import TasksList from './ListTasks/TasksList';
@@ -39,15 +40,21 @@ const Tasks = () => {
 
   useEffect(() => {
     try {
-      fetch(`${process.env.REACT_APP_API_URL}/tasks`)
-        .then((response) => response.json())
-        .then((response) => {
-          dispatch(getTasksFulfilled(response.data));
-          setIsLoading(false);
-        });
+      dispatch(getTasks());
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
     }
+    // try {
+    //   fetch(`${process.env.REACT_APP_API_URL}/tasks`)
+    //     .then((response) => response.json())
+    //     .then((response) => {
+    //       dispatch(getTasksFulfilled(response.data));
+    //       setIsLoading(false);
+    //     });
+    // } catch (error) {
+    //   console.error(error);
+    // }
   }, []);
 
   const openModal = (id) => {

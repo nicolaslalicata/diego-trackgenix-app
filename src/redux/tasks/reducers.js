@@ -8,7 +8,7 @@ import {
 const initialState = {
   tasksList: []
 };
-
+let updatedTask = [];
 export const tasksReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_TASKS_FULFILLED:
@@ -27,12 +27,18 @@ export const tasksReducer = (state = initialState, action) => {
         tasksList: state.tasksList.filter((task) => task._id !== action.payload)
       };
     case EDIT_TASK_FULFILLED:
+      updatedTask = state.list.map((task) => {
+        if (task._id === action.payload._id) {
+          return;
+        } else {
+          return task;
+        }
+      });
       return {
         ...state,
-        tasksList: state.tasksList.map((task) => {
-          task._id !== action.payload ? task : action.payload;
-        })
+        taskList: updatedTask
       };
+
     default:
       return state;
   }
