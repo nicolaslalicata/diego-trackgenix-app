@@ -10,7 +10,9 @@ const EmployeeForm = ({
   isAddModalOpen,
   setIsAddModalOpen,
   isEditModalOpen,
-  setIsEditModalOpen
+  setIsEditModalOpen,
+  setIsAdding,
+  isAdding
 }) => {
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -56,7 +58,7 @@ const EmployeeForm = ({
     >
       <div className={styles.container}>
         <div className={styles.title}>
-          <h2>Add new Employee</h2>
+          {isAdding ? <h2>Add new Employee</h2> : <h2>Edit employee</h2>}
         </div>
         <form className={styles.containerForm} onSubmit={onSubmit}>
           <div className={styles.formItem}>
@@ -96,13 +98,25 @@ const EmployeeForm = ({
             />
           </div>
           <div className={styles.formItemSend}>
-            <Button type="submit" value="Submit" icons={'submit'} />
+            <Button
+              type="submit"
+              value="Submit"
+              icons={'submit'}
+              callback={() => {
+                setIsAdding(false);
+              }}
+            />
           </div>
           <div className={styles.formItemSend}>
             <Button
               text="Cancel"
               callback={() => {
                 setIsEditModalOpen(false) || setIsAddModalOpen(false);
+                setIsAdding(false);
+                setFirstName('');
+                setLastName('');
+                setEmail('');
+                setPassword('');
               }}
             />
           </div>

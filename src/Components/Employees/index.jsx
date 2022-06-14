@@ -9,6 +9,7 @@ const Employees = () => {
   const [ismodalOpen, setIsmodalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
 
   const url = `${process.env.REACT_APP_API_URL}/employees`;
   useEffect(() => {
@@ -57,6 +58,7 @@ const Employees = () => {
           setIsAddModalOpen(false);
         });
     } catch (error) {
+      setIsAddModalOpen(false);
       alert(`There was an error`);
     }
   };
@@ -81,6 +83,7 @@ const Employees = () => {
           if (!firstName || !lastName || !email || !password) {
             alert('Incomplete data');
             setEditItem(null);
+            setIsEditModalOpen(false);
           } else {
             const employeesUpdated = employees.map((emp) => {
               if (emp._id === data.data._id) {
@@ -97,6 +100,7 @@ const Employees = () => {
       alert('There was an error with an input');
       setEditItem(null);
       console.error(error);
+      setIsEditModalOpen(false);
     }
   };
 
@@ -106,6 +110,8 @@ const Employees = () => {
       <button
         onClick={() => {
           setIsAddModalOpen(true);
+          setEditItem(null);
+          setIsAdding(true);
         }}
       >
         Agregar
@@ -121,6 +127,8 @@ const Employees = () => {
           initialValue={editItem}
           ismodalOpen={ismodalOpen}
           setIsmodalOpen={setIsmodalOpen}
+          isAdding={isAdding}
+          setIsAdding={setIsAdding}
         />
         <ListEmployee
           isEditModalOpen={isEditModalOpen}
