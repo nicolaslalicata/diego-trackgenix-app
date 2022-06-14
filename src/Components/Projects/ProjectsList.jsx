@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProjects } from '../../redux/projects/thunks';
+import { addProject, getProjects, editProject, deleteProject } from '../../redux/projects/thunks';
 import Button from '../Shared/Buttons/buttons';
 import Modal from '../Shared/Modal/index';
 import Table from '../Shared/Table/Table';
@@ -21,55 +21,22 @@ function ProjectsList() {
     dispatch(getProjects());
   }, []);
 
-  const addItem = (userInput) => {
-    try {
-      fetch(`${process.env.REACT_APP_API_URL}/projects`, {
-        method: 'POST',
-        body: JSON.stringify(userInput),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then((response) => response.json())
-        .then(() => {
-          setModalAddItemOpen(false);
-        });
-    } catch (error) {
-      console.error(error);
-    }
+  const addItem = async (userInput) => {
+    await dispatch(addProject(userInput));
+    setModalAddItemOpen(false);
+    await dispatch(getProjects());
   };
 
-  const editItem = (userInput) => {
-    // eslint-disable-next-line no-unused-vars
-    const { _id, __v, ...other } = userInput;
-    try {
-      fetch(`${process.env.REACT_APP_API_URL}/projects/${_id}`, {
-        method: 'PUT',
-        body: JSON.stringify(other),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then((response) => response.json())
-        .then(() => {
-          setModalEditItemOpen(false);
-        });
-    } catch (error) {
-      console.error(error);
-    }
+  const editItem = async (userInput) => {
+    await dispatch(editProject(userInput));
+    setModalEditItemOpen(false);
+    await dispatch(getProjects());
   };
 
-  const deleteItem = () => {
-    const params = { method: 'delete' };
-    const id = project._id;
-
-    try {
-      fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, params).then(() => {
-        setModalCloseOpen(false);
-      });
-    } catch (error) {
-      console.error(error);
-    }
+  const deleteItem = async (userInput) => {
+    await dispatch(deleteProject(userInput));
+    setModalCloseOpen(false);
+    await dispatch(getProjects());
   };
 
   const onEdit = (project) => {

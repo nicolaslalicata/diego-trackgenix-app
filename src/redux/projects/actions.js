@@ -56,7 +56,7 @@ export const editProjectsSuccess = (projects) => ({
 export const editProjectsPending = () => ({
   type: EDIT_PROJECTS_PENDING
 });
-export const editProjectsError = (projects) => ({
+export const editProjectsError = (error) => ({
   type: EDIT_PROJECTS_ERROR,
-  payload: projects
+  payload: error
 });
