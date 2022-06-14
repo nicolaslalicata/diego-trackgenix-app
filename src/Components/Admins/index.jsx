@@ -67,8 +67,7 @@ function Admins() {
         <h2>Admins</h2>
         <div className={styles.addAdminButton}>
           <Button
-            btnStyle={{ width: '150px', height: '150px' }}
-            text={'add'}
+            icons={'add'}
             callback={() => {
               setShowAddModal(true);
             }}

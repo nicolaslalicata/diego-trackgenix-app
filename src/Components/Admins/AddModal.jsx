@@ -76,12 +76,13 @@ const ModalAddAdmin = ({ setShowAddModal, showAddModal, fetchAdmins }) => {
           />
         </div>
         <div>
-          <Input
-            labelText={'Gender'}
-            type="text"
-            placeholder="Gender"
+          <Dropdown
+            label="Gender"
+            options={['male', 'female', 'polygender']}
+            value={gender}
+            initialOption="Select a gender"
             onChange={(e) => {
-              setGender(e.target.value);
+              setStatus(e.target.value);
             }}
           />
           <Dropdown
