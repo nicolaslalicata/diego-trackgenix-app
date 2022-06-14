@@ -4,45 +4,23 @@ import styles from './time-sheets.module.css';
 import Button from '../Shared/Buttons/buttons';
 import Input from '../Shared/Input';
 import Modal from '../Shared/Modal/index';
-const ModalTimeSheetEdit = ({ isModalEdit, timeSheet, fetchTimeSheets, setIsModalEdit }) => {
+import { editTimeSheet } from '../../redux/timesheets/thunks';
+import { useDispatch, useSelector } from 'react-redux/es/exports';
+const ModalTimeSheetEdit = ({ isModalEdit, timeSheet, setIsModalEdit }) => {
   const [description, setDescription] = useState(timeSheet.description);
   const [hours, setHours] = useState(timeSheet.hours);
-  const [startDate, setStartDate] = useState(timeSheet.startDate);
+  const [startDate, setStartDate] = useState('2018-01-01');
   const [endDate, setEndDate] = useState(timeSheet.endDate);
   const [isModalConfirm, setIsModalConfirm] = useState(false);
+  const [isModalErrorEdit, setIsModalErrorEdit] = useState(false);
+  const error = useSelector((state) => state.timeSheets.error);
+  const dispatch = useDispatch();
   useEffect(() => {
     setDescription(timeSheet.description);
     setHours(timeSheet.hours);
     setStartDate(timeSheet.startDate);
     setEndDate(timeSheet.endDate);
   }, [timeSheet]);
-
-  const handleEdit = () => {
-    fetch(`${process.env.REACT_APP_API_URL}/timesheets/${timeSheet._id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        description: description,
-        taskId: timeSheet.taskId,
-        validated: timeSheet.validated,
-        employeeId: timeSheet.employeeId,
-        projectId: timeSheet.projectId,
-        startDate: startDate,
-        endDate: endDate,
-        hours: hours
-      })
-    })
-      .then((response) => {
-        response.json(),
-          response.status === 201
-            ? alert('Edited successfully')
-            : alert('There was an error during edition');
-      })
-      .then(fetchTimeSheets)
-      .then(() => setIsModalEdit(false));
-  };
   return (
     <section>
       <Modal isOpen={isModalEdit} setIsOpen={setIsModalEdit}>
@@ -81,7 +59,8 @@ const ModalTimeSheetEdit = ({ isModalEdit, timeSheet, fetchTimeSheets, setIsModa
           />
           <Button
             callback={() => {
-              setIsModalEdit(false), setIsModalConfirm(true);
+              setIsModalEdit(false);
+              setIsModalConfirm(true);
             }}
             text={'Edit'}
           ></Button>
@@ -100,11 +79,22 @@ const ModalTimeSheetEdit = ({ isModalEdit, timeSheet, fetchTimeSheets, setIsModa
         <Button
           className={styles.deleteBtn}
           callback={() => {
-            handleEdit(), setIsModalConfirm(false);
+            editTimeSheet(
+              timeSheet,
+              description,
+              startDate,
+              endDate,
+              hours,
+              setIsModalErrorEdit
+            )(dispatch).then(() => setIsModalEdit(false));
+            setIsModalConfirm(false);
           }}
           text={'Confirm'}
         />
         <Button callback={() => setIsModalConfirm(false)} text={'Cancel'} />
+      </Modal>
+      <Modal isOpen={isModalErrorEdit} setIsOpen={setIsModalErrorEdit}>
+        <div>Error: {error}</div>
       </Modal>
     </section>
   );
