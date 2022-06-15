@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  getTasksFulfilled,
-  addTaskFullfilled,
-  deleteTaskFullfilled,
-  editTaskFullfilled
-} from '../../redux/tasks/actions';
-import { getTasks } from '../../redux/tasks/thunks';
+  getTasks,
+  addTaskThunks,
+  editTaskThunks,
+  deleteTaskThunks
+} from '../../redux/tasks/thunks';
 
 // Shared components
 import TasksList from './ListTasks/TasksList';
@@ -45,16 +44,6 @@ const Tasks = () => {
     } catch (error) {
       console.error(error);
     }
-    // try {
-    //   fetch(`${process.env.REACT_APP_API_URL}/tasks`)
-    //     .then((response) => response.json())
-    //     .then((response) => {
-    //       dispatch(getTasksFulfilled(response.data));
-    //       setIsLoading(false);
-    //     });
-    // } catch (error) {
-    //   console.error(error);
-    // }
   }, []);
 
   const openModal = (id) => {
@@ -64,61 +53,24 @@ const Tasks = () => {
     });
   };
 
-  const deleteItem = () => {
-    if (showModal.id) {
-      fetch(`${process.env.REACT_APP_API_URL}/tasks/${showModal.id}`, { method: 'DELETE' }).then(
-        () => {
-          dispatch(deleteTaskFullfilled(showModal.id));
-        }
-      );
-      setShowModal(!setShowModal);
-      setShowModalMessage({
-        showModalMessage: true,
-        title: 'Task deleted'
-      });
-    }
-  };
-
   const addTask = ({ description, workedHours, date }) => {
     const newTask = {
       description,
       workedHours,
       date
     };
-    const url = `${process.env.REACT_APP_API_URL}/tasks/`;
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        description: newTask.description,
-        workedHours: newTask.workedHours,
-        date: newTask.date
-      })
-    };
-    try {
-      fetch(url, options)
-        .then((response) => {
-          if (response.ok) {
-            setShowModalMessage({
-              showModalMessage: true,
-              title: 'Task Added'
-            });
-            return response.json();
-          }
-          throw setShowModalMessage({
-            showModalMessage: true,
-            title: 'Error'
-          });
-        })
-        .then((response) => {
-          dispatch(addTaskFullfilled(response.data));
-          setIsLoading(false);
-        });
-    } catch (error) {
-      console.error(error);
+    dispatch(addTaskThunks(newTask));
+  };
+
+  const deleteItem = () => {
+    if (showModal.id) {
+      dispatch(deleteTaskThunks(showModal.id));
     }
+    setShowModal(!setShowModal);
+    setShowModalMessage({
+      showModalMessage: true,
+      title: 'Task deleted'
+    });
   };
 
   const openEditModal = (id, description, workedHours, date) => {
@@ -132,53 +84,19 @@ const Tasks = () => {
   };
 
   const editTask = async ({ id, description, workedHours, date }) => {
-    if (id && description && workedHours && date) {
-      const taskEdited = {
-        id,
-        description,
-        workedHours,
-        date
-      };
-      const url = `${process.env.REACT_APP_API_URL}/tasks/${taskEdited.id}`;
-      const options = {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          description: taskEdited.description,
-          workedHours: taskEdited.workedHours,
-          date: taskEdited.date
-        })
-      };
-      try {
-        fetch(url, options)
-          .then((response) => {
-            if (response.ok) {
-              setShowModalMessage({
-                showModalMessage: true,
-                title: 'Task edited'
-              });
-              return response.json();
-            }
-            throw setShowModalMessage({
-              showModalMessage: true,
-              title: 'Error'
-            });
-          })
-          .then((response) => {
-            dispatch(editTaskFullfilled(response.data));
-            setIsLoading(false);
-          });
-      } catch (error) {
-        console.error(error);
-      }
-    }
+    const taskEdited = {
+      id,
+      description,
+      workedHours,
+      date
+    };
+    dispatch(editTaskThunks(taskEdited));
   };
 
   const onChange = (e) => {
     setTaskInput({ ...taskInput, [e.target.name]: e.target.value });
   };
+
   const addItem = (e) => {
     e.preventDefault();
     addTask(taskInput);

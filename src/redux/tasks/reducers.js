@@ -1,42 +1,67 @@
 import {
-  GET_TASKS_FULFILLED,
-  ADD_TASK_FULFILLED,
-  DELETE_TASK_FULFILLED,
-  EDIT_TASK_FULFILLED
+  GET_TASKS_PENDING,
+  GET_TASKS_SUCCESS,
+  GET_TASKS_ERROR,
+  ADD_TASK_PENDING,
+  ADD_TASK_SUCCESS,
+  ADD_TASK_ERROR,
+  //DELETE_TASK_PENDING,
+  DELETE_TASK_SUCCESS,
+  //DELETE_TASK_ERROR,
+  //EDIT_TASK_PENDING,
+  EDIT_TASK_SUCCESS
+  //EDIT_TASK_ERROR
 } from './constants';
-
 const initialState = {
   tasksList: []
 };
-let updatedTask = [];
 export const tasksReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_TASKS_FULFILLED:
+    case GET_TASKS_PENDING:
       return {
         ...state,
-        tasksList: action.payload
+        isLoading: true
       };
-    case ADD_TASK_FULFILLED:
+    case GET_TASKS_SUCCESS:
+      return {
+        ...state,
+        tasksList: action.payload,
+        isLoading: false
+      };
+    case GET_TASKS_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+        isLoading: false
+      };
+    case ADD_TASK_PENDING:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case ADD_TASK_SUCCESS:
       return {
         ...state,
         tasksList: [...state.tasksList, action.payload]
       };
-    case DELETE_TASK_FULFILLED:
+    case ADD_TASK_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+        isLoading: false
+      };
+    case DELETE_TASK_SUCCESS:
       return {
         ...state,
         tasksList: state.tasksList.filter((task) => task._id !== action.payload)
       };
-    case EDIT_TASK_FULFILLED:
-      updatedTask = state.list.map((task) => {
-        if (task._id === action.payload._id) {
-          return;
-        } else {
-          return task;
-        }
-      });
+    case EDIT_TASK_SUCCESS:
       return {
         ...state,
-        taskList: updatedTask
+        tasksList: state.tasksList.map((task) =>
+          task._id === action.payload._id ? action.payload : task
+        ),
+        isLoading: false
       };
 
     default:

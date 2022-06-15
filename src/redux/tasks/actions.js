@@ -1,26 +1,76 @@
 import {
-  GET_TASKS_FULFILLED,
-  ADD_TASK_FULFILLED,
-  DELETE_TASK_FULFILLED,
-  EDIT_TASK_FULFILLED
+  GET_TASKS_PENDING,
+  GET_TASKS_SUCCESS,
+  GET_TASKS_ERROR,
+  ADD_TASK_PENDING,
+  ADD_TASK_SUCCESS,
+  ADD_TASK_ERROR,
+  DELETE_TASK_PENDING,
+  DELETE_TASK_SUCCESS,
+  DELETE_TASK_ERROR,
+  EDIT_TASK_PENDING,
+  EDIT_TASK_SUCCESS,
+  EDIT_TASK_ERROR
 } from './constants';
 
-export const getTasksFulfilled = (tasks) => ({
-  type: GET_TASKS_FULFILLED,
+export const getTasksPending = () => {
+  return {
+    type: GET_TASKS_PENDING
+  };
+};
+
+export const getTasksSuccess = (tasks) => ({
+  type: GET_TASKS_SUCCESS,
   payload: tasks
 });
 
-export const addTaskFullfilled = (task) => ({
-  type: ADD_TASK_FULFILLED,
+export const getTasksError = (error) => ({
+  type: GET_TASKS_ERROR,
+  payload: error
+});
+
+export const addTaskPending = () => {
+  return {
+    type: ADD_TASK_PENDING
+  };
+};
+
+export const addTaskSuccess = (task) => ({
+  type: ADD_TASK_SUCCESS,
   payload: task
 });
 
-export const deleteTaskFullfilled = (taskId) => ({
-  type: DELETE_TASK_FULFILLED,
-  payload: taskId
+export const addTaskError = (error) => ({
+  type: ADD_TASK_ERROR,
+  payload: error
 });
 
-export const editTaskFullfilled = (taskId) => ({
-  type: EDIT_TASK_FULFILLED,
-  payload: taskId
+export const deleteTasksPending = () => {
+  return {
+    type: DELETE_TASK_PENDING
+  };
+};
+
+export const deleteTasksSuccess = (tasks) => ({
+  type: DELETE_TASK_SUCCESS,
+  payload: tasks
+});
+
+export const deleteTasksError = (error) => ({
+  type: DELETE_TASK_ERROR,
+  payload: error
+});
+
+export const editTasksPending = () => ({
+  type: EDIT_TASK_PENDING
+});
+
+export const editTasksSuccess = (tasks) => ({
+  type: EDIT_TASK_SUCCESS,
+  payload: tasks
+});
+
+export const editTasksError = (error) => ({
+  type: EDIT_TASK_ERROR,
+  payload: error
 });
