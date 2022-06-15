@@ -8,12 +8,14 @@ import ModalEditAdmin from './EditModalAdmin';
 import Loader from '../Shared/Loading';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdmins } from '../../redux/admins/thunks';
+import ModalSuc from './ModalSuccess';
 
 function Admins() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [admins, setAdmins] = useState([]);
+  const [sucModalIsOpen, setSucModalIsOpen] = useState(false);
+  const [admins] = useState([]);
   const [admin, setAdmin] = useState({});
 
   const dispatch = useDispatch();
@@ -78,10 +80,15 @@ function Admins() {
             showDeleteModal={showDeleteModal}
           ></ModalDelete>
           <ModalAddAdmin
+            setSucModalIsOpen={setSucModalIsOpen}
             setShowAddModal={setShowAddModal}
             showAddModal={showAddModal}
             admins={admins}
           ></ModalAddAdmin>
+          <ModalSuc
+            setSucModalIsOpen={setSucModalIsOpen}
+            SucModalIsOpen={sucModalIsOpen}
+          ></ModalSuc>
           <ModalEditAdmin
             setShowEditModal={setShowEditModal}
             showEditModal={showEditModal}

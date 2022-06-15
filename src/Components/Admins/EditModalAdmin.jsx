@@ -9,7 +9,6 @@ import { editAdmin } from '../../redux/admins/thunks';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 
 const ModalEditAdmin = ({ admin, setShowEditModal, showEditModal }) => {
-  const [EditModalIsOpen, setEditModalIsOpen] = useState(false);
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -91,16 +90,15 @@ const ModalEditAdmin = ({ admin, setShowEditModal, showEditModal }) => {
         value="Submit"
         icons={'submit'}
         callback={() => {
-          console.log(admin);
           editAdmin(
-            admin,
             name,
             lastName,
             email,
             gender,
             status,
             password,
-            setShowEditModal
+            setShowEditModal,
+            admin
           )(dispatch).then(() => setShowEditModal(false));
         }}
       />

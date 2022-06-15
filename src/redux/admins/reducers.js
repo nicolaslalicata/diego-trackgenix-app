@@ -62,7 +62,9 @@ export const adminsReducer = (state = initialState, action) => {
     case EDIT_ADMIN_SUCCESS:
       return {
         ...state,
-        list: [...state.list, action.payload],
+        list: state.list.map((element) =>
+          element._id === action.payload._id ? action.payload : element
+        ),
         isLoading: false,
         error: ''
       };
@@ -81,7 +83,7 @@ export const adminsReducer = (state = initialState, action) => {
     case DELETE_ADMIN_SUCCESS:
       return {
         ...state,
-        list: [...state.list, action.payload],
+        list: state.list.filter((e) => e._id !== action.payload._id),
         isLoading: false,
         error: ''
       };

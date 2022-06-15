@@ -8,7 +8,7 @@ import styles from './admins.module.css';
 import { createAdmin } from '../../redux/admins/thunks';
 import { useDispatch } from 'react-redux';
 
-const ModalAddAdmin = ({ setShowAddModal, showAddModal, fetchAdmins }) => {
+const ModalAddAdmin = ({ setShowAddModal, showAddModal, setSucModalIsOpen }) => {
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -17,9 +17,6 @@ const ModalAddAdmin = ({ setShowAddModal, showAddModal, fetchAdmins }) => {
   const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
-  // const handleCreateAdmin = () => {
-  //   createAdmin({ name, lastName, email, gender, status, password }, setShowAddModal)(dispatch);
-  // };
 
   return (
     <Modal isOpen={showAddModal} setIsOpen={setShowAddModal}>
@@ -83,7 +80,16 @@ const ModalAddAdmin = ({ setShowAddModal, showAddModal, fetchAdmins }) => {
         value="Submit"
         icons={'submit'}
         callback={() => {
-          createAdmin(name, lastName, email, gender, status, password, setShowAddModal)(dispatch);
+          createAdmin(
+            name,
+            lastName,
+            email,
+            gender,
+            status,
+            password,
+            setShowAddModal,
+            setSucModalIsOpen
+          )(dispatch);
         }}
       />
     </Modal>

@@ -28,7 +28,16 @@ export const getAdmins = () => {
   };
 };
 
-export const createAdmin = (name, lastName, email, gender, status, password, setShowAddModal) => {
+export const createAdmin = (
+  name,
+  lastName,
+  email,
+  gender,
+  status,
+  password,
+  setShowAddModal,
+  setSucModalIsOpen
+) => {
   return (dispatch) => {
     dispatch(addAdminPending());
     fetch(`${process.env.REACT_APP_API_URL}/admins/`, {
@@ -49,7 +58,7 @@ export const createAdmin = (name, lastName, email, gender, status, password, set
       .then((response) => {
         if (!response.error) {
           dispatch(addAdminSuccess(response.data));
-          alert('added successfully');
+          setSucModalIsOpen(true);
         } else {
           dispatch(addAdminError(response.error));
         }
@@ -71,6 +80,7 @@ export const deleteAdmin = (admin) => {
         return response.data;
       })
       .catch((error) => {
+        console.log(error);
         dispatch(deleteAdminError(error.toString()));
       });
   };
@@ -108,7 +118,6 @@ export const editAdmin = (
           dispatch(editAdminSuccess(response.data));
           alert('Edited successfully');
         } else {
-          console.log(response.message);
           dispatch(editAdminError(response.message));
           setShowEditModal(true);
         }

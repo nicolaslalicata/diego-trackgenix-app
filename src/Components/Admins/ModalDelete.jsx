@@ -14,8 +14,9 @@ const ModalDelete = ({ setShowDeleteModal, showDeleteModal, admin }) => {
         <Button
           text={'Delete'}
           callback={() => {
-            console.log(admin);
-            deleteAdmin(admin)(dispatch);
+            deleteAdmin(admin)(dispatch).then(() => {
+              setShowDeleteModal(false);
+            });
           }}
         >
           Delete

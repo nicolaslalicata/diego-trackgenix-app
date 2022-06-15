@@ -1,25 +1,15 @@
 import styles from './admins.module.css';
+import Modal from '../Shared/Modal';
+import Button from '../Shared/Buttons/buttons';
 
-const ModalSuc = ({ setSucModalIsOpen, SucModalIsOpen }) => {
-  if (SucModalIsOpen) {
+const ModalSuc = ({ setSucModalIsOpen, sucModalIsOpen }) => {
+  if (sucModalIsOpen) {
     return (
       <>
-        <div className={styles.darkBG} onClick={() => setSucModalIsOpen(false)} />
-        <div className={styles.centered}>
-          <div className={styles.modal}>
-            <div className={styles.modalHeader}>
-              <h5 className={styles.heading}>Success</h5>
-            </div>
-            <div className={styles.modalContent}>Operation carried out successfully</div>
-            <div className={styles.modalActions}>
-              <div className={styles.actionsContainer}>
-                <button className={styles.deleteBtn} onClick={() => setSucModalIsOpen(false)}>
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Modal>
+          <h3 className={styles.heading}>Success</h3>
+          <div className={styles.modalContent}>Operation carried out successfully</div>
+        </Modal>
       </>
     );
   } else return false;
