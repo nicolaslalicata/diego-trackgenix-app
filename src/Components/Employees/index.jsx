@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import styles from './index.module.css';
 import ListEmployee from './List';
 import EmployeeForm from './EmployeeForm';
+import Button from '../Shared/Buttons/buttons';
 
 const Employees = () => {
   const [employees, saveEmployees] = useState([]);
   const [editItem, setEditItem] = useState(null);
-  const [ismodalOpen, setIsmodalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
@@ -107,15 +108,14 @@ const Employees = () => {
   return (
     <section className={styles.container}>
       <h2>Employees</h2>
-      <button
-        onClick={() => {
+      <Button
+        callback={() => {
           setIsAddModalOpen(true);
           setEditItem(null);
           setIsAdding(true);
         }}
-      >
-        Agregar
-      </button>
+        icons={'add'}
+      ></Button>
       <div>
         <EmployeeForm
           isEditModalOpen={isEditModalOpen}
@@ -125,8 +125,8 @@ const Employees = () => {
           addEmployee={addEmployee}
           editEmployee={editEmployee}
           initialValue={editItem}
-          ismodalOpen={ismodalOpen}
-          setIsmodalOpen={setIsmodalOpen}
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
           isAdding={isAdding}
           setIsAdding={setIsAdding}
         />
@@ -137,8 +137,8 @@ const Employees = () => {
           editEmployee={editEmployee}
           saveEmployees={saveEmployees}
           setEditItem={setEditItem}
-          ismodalOpen={ismodalOpen}
-          setIsModalOpen={setIsmodalOpen}
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
           deleteItem={deleteItem}
         />
       </div>

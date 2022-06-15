@@ -25,7 +25,7 @@ const ListEmployee = ({ Employees, deleteItem, setIsEditModalOpen, setEditItem }
   const handleEdit = (employee) => {
     setEditItem(employee);
     console.log(employee);
-    alert(`Employee ${employee.firstName} ready for edit`);
+    // alert(`Employee ${employee.firstName} ready for edit`);
   };
 
   const onDelete = (employee) => {
