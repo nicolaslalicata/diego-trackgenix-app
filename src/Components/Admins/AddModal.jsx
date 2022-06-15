@@ -5,6 +5,8 @@ import Input from '../Shared/Input';
 import Button from '../Shared/Buttons/buttons';
 import Dropdown from '../Shared/Dropdown/Dropdown';
 import styles from './admins.module.css';
+import { createAdmin } from '../../redux/admins/thunks';
+import { useDispatch } from 'react-redux';
 
 const ModalAddAdmin = ({ setShowAddModal, showAddModal, fetchAdmins }) => {
   const [name, setName] = useState('');
@@ -14,38 +16,11 @@ const ModalAddAdmin = ({ setShowAddModal, showAddModal, fetchAdmins }) => {
   const [status, setStatus] = useState('');
   const [password, setPassword] = useState('');
 
-  const handlePost = () => {
-    fetch(`${process.env.REACT_APP_API_URL}/admins/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName: name,
-        lastName: lastName,
-        email: email,
-        gender: gender,
-        active: status,
-        password: password
-      })
-    })
-      .then((response) => {
-        response.json(),
-          response.status === 201
-            ? alert('Added successfully')
-            : alert('There was an error during creation');
-      })
-      .then(fetchAdmins)
-      .then(() => {
-        setShowAddModal(false),
-          setName(''),
-          setLastName(''),
-          setEmail(''),
-          setGender(''),
-          setStatus(''),
-          setPassword('');
-      });
-  };
+  const dispatch = useDispatch();
+  // const handleCreateAdmin = () => {
+  //   createAdmin({ name, lastName, email, gender, status, password }, setShowAddModal)(dispatch);
+  // };
+
   return (
     <Modal isOpen={showAddModal} setIsOpen={setShowAddModal}>
       <div className={styles.addModalContainer}>
@@ -82,7 +57,7 @@ const ModalAddAdmin = ({ setShowAddModal, showAddModal, fetchAdmins }) => {
             value={gender}
             initialOption="Select a gender"
             onChange={(e) => {
-              setStatus(e.target.value);
+              setGender(e.target.value);
             }}
           />
           <Dropdown
@@ -104,7 +79,13 @@ const ModalAddAdmin = ({ setShowAddModal, showAddModal, fetchAdmins }) => {
           />
         </div>
       </div>
-      <Button value="Submit" icons={'submit'} callback={handlePost} />
+      <Button
+        value="Submit"
+        icons={'submit'}
+        callback={() => {
+          createAdmin(name, lastName, email, gender, status, password, setShowAddModal)(dispatch);
+        }}
+      />
     </Modal>
   );
 };

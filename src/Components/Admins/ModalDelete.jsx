@@ -1,15 +1,23 @@
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Buttons/buttons';
-import styles from './admins.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteAdmin } from '../../redux/admins/thunks';
 
-const ModalDelete = ({ setShowDeleteModal, showDeleteModal, deleteAdmin }) => {
+const ModalDelete = ({ setShowDeleteModal, showDeleteModal, admin }) => {
+  const dispatch = useDispatch();
   return (
     <Modal isOpen={showDeleteModal} setIsOpen={setShowDeleteModal}>
       <div>
         <h4>Are you sure you want to remove this administrator?</h4>
       </div>
       <div>
-        <Button text={'Delete'} callback={deleteAdmin}>
+        <Button
+          text={'Delete'}
+          callback={() => {
+            console.log(admin);
+            deleteAdmin(admin)(dispatch);
+          }}
+        >
           Delete
         </Button>
       </div>

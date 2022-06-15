@@ -5,6 +5,9 @@ import Button from '../Shared/Buttons/buttons';
 import ModalDelete from './ModalDelete';
 import ModalAddAdmin from './AddModal';
 import ModalEditAdmin from './EditModalAdmin';
+import Loader from '../Shared/Loading';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAdmins } from '../../redux/admins/thunks';
 
 function Admins() {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -13,34 +16,26 @@ function Admins() {
   const [admins, setAdmins] = useState([]);
   const [admin, setAdmin] = useState({});
 
-  const fetchAdmins = () => {
-    fetch(`${process.env.REACT_APP_API_URL}/admins/`)
-      .then((response) => response.json())
-      .then((response) => setAdmins(response.data));
-  };
-  function deleteAdmin() {
-    fetch(`${process.env.REACT_APP_API_URL}/admins/${admin._id}`, { method: 'DELETE' })
-      .then((response) => response.json())
-      .then(fetchAdmins)
-      .then(() => setShowDeleteModal(false));
-  }
+  const dispatch = useDispatch();
+  const adminsRedux = useSelector((state) => state.admins.list);
+  const isLoading = useSelector((state) => state.admins.isLoading);
+
   useEffect(async () => {
-    try {
-      await fetchAdmins();
-    } catch (error) {
-      console.error(error);
-    }
+    getAdmins()(dispatch);
   }, []);
+
   const onEdit = (admin) => {
     setAdmin(admin);
     setShowEditModal(true);
   };
+
   const onDelete = (admin) => {
     setAdmin(admin);
     setShowDeleteModal(true);
   };
+
   const getData = () => {
-    return admins.map((admin) => ({
+    return adminsRedux.map((admin) => ({
       ...admin,
       edit: (
         <Button
@@ -60,48 +55,47 @@ function Admins() {
       )
     }));
   };
-
-  return (
-    <section className={styles.container}>
-      <div className={styles.header}>
-        <h2>Admins</h2>
-        <div className={styles.addAdminButton}>
-          <Button
-            icons={'add'}
-            callback={() => {
-              setShowAddModal(true);
-            }}
+  if (isLoading) {
+    return <Loader isLoading={isLoading}></Loader>;
+  } else {
+    return (
+      <section className={styles.container}>
+        <div className={styles.header}>
+          <h2>Admins</h2>
+          <div className={styles.addAdminButton}>
+            <Button
+              icons={'add'}
+              callback={() => {
+                setShowAddModal(true);
+              }}
+            />
+          </div>
+        </div>
+        <div>
+          <ModalDelete
+            admin={admin}
+            setShowDeleteModal={setShowDeleteModal}
+            showDeleteModal={showDeleteModal}
+          ></ModalDelete>
+          <ModalAddAdmin
+            setShowAddModal={setShowAddModal}
+            showAddModal={showAddModal}
+            admins={admins}
+          ></ModalAddAdmin>
+          <ModalEditAdmin
+            setShowEditModal={setShowEditModal}
+            showEditModal={showEditModal}
+            admin={admin}
+          ></ModalEditAdmin>
+          <Table
+            data={getData()}
+            headers={['First Name', 'Last name', 'Email', 'Edit', 'Delete']}
+            objProp={['firstName', 'lastName', 'email', 'edit', 'delete']}
           />
         </div>
-      </div>
-      <div>
-        <ModalDelete
-          deleteAdmin={deleteAdmin}
-          admin={admin}
-          fetchAdmins={fetchAdmins}
-          setShowDeleteModal={setShowDeleteModal}
-          showDeleteModal={showDeleteModal}
-        ></ModalDelete>
-        <ModalAddAdmin
-          setShowAddModal={setShowAddModal}
-          showAddModal={showAddModal}
-          fetchAdmins={fetchAdmins}
-          admins={admins}
-        ></ModalAddAdmin>
-        <ModalEditAdmin
-          setShowEditModal={setShowEditModal}
-          showEditModal={showEditModal}
-          fetchAdmins={fetchAdmins}
-          admin={admin}
-        ></ModalEditAdmin>
-        <Table
-          data={getData()}
-          headers={['First Name', 'Last name', 'Email', 'Edit', 'Delete']}
-          objProp={['firstName', 'lastName', 'email', 'edit', 'delete']}
-        />
-      </div>
-    </section>
-  );
+      </section>
+    );
+  }
 }
 
 export default Admins;

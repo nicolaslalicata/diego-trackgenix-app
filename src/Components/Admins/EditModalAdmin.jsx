@@ -5,15 +5,18 @@ import Input from '../Shared/Input';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Buttons/buttons';
 import Dropdown from '../Shared/Dropdown/Dropdown';
+import { editAdmin } from '../../redux/admins/thunks';
+import { useDispatch, useSelector } from 'react-redux/es/exports';
 
-const ModalEditAdmin = ({ admin, fetchAdmins, setShowEditModal, showEditModal }) => {
+const ModalEditAdmin = ({ admin, setShowEditModal, showEditModal }) => {
   const [EditModalIsOpen, setEditModalIsOpen] = useState(false);
-  const [name, setName] = useState(admin.firstName);
-  const [lastName, setLastName] = useState(admin.lastName);
-  const [email, setEmail] = useState(admin.email);
-  const [gender, setGender] = useState(admin.gender);
-  const [status, setStatus] = useState(admin.active);
-  const [password, setPassword] = useState(admin.password);
+  const [name, setName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [gender, setGender] = useState('');
+  const [status, setStatus] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
   useEffect(() => {
     setName(admin.firstName);
     setLastName(admin.lastName);
@@ -22,31 +25,6 @@ const ModalEditAdmin = ({ admin, fetchAdmins, setShowEditModal, showEditModal })
     setStatus(admin.status);
     setPassword(admin.password);
   }, [admin]);
-  const editAdmin = () => {
-    fetch(`${process.env.REACT_APP_API_URL}/admins/${admin._id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName: name,
-        lastName: lastName,
-        email: email,
-        gender: gender,
-        active: status,
-        password: password
-      })
-    })
-      .then((response) => {
-        response.json(),
-          response.status == 201
-            ? alert(`Admin edited successfully`)
-            : alert(`there was a problem editing the admin`);
-      })
-      .then(fetchAdmins)
-      .then(() => setShowEditModal(false))
-      .then(() => setEditModalIsOpen(false));
-  };
   return (
     <Modal isOpen={showEditModal} setIsOpen={setShowEditModal}>
       <div className={styles.addModalContainer}>
@@ -80,11 +58,11 @@ const ModalEditAdmin = ({ admin, fetchAdmins, setShowEditModal, showEditModal })
           />
         </div>
         <div>
-          <Input
-            labelText={'Gender'}
-            type="text"
-            placeholder="Gender"
+          <Dropdown
+            label="Gender"
+            options={['male', 'female', 'polygender']}
             value={gender}
+            initialOption="Select a gender"
             onChange={(e) => {
               setGender(e.target.value);
             }}
@@ -109,7 +87,23 @@ const ModalEditAdmin = ({ admin, fetchAdmins, setShowEditModal, showEditModal })
           />
         </div>
       </div>
-      <Button value="Submit" icons={'submit'} callback={editAdmin} />
+      <Button
+        value="Submit"
+        icons={'submit'}
+        callback={() => {
+          console.log(admin);
+          editAdmin(
+            admin,
+            name,
+            lastName,
+            email,
+            gender,
+            status,
+            password,
+            setShowEditModal
+          )(dispatch).then(() => setShowEditModal(false));
+        }}
+      />
     </Modal>
   );
 };
