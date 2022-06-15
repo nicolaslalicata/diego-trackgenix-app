@@ -29,10 +29,13 @@ export const addProject = (userInput) => {
     })
       .then((response) => response.json())
       .then((response) => {
-        dispatch(addProjectsSuccess(response.data));
-      })
-      .catch((error) => {
-        dispatch(addProjectsError(error.toString()));
+        if (!response.error) {
+          dispatch(addProjectsSuccess(response.data));
+          alert('Add Project Successfully');
+        } else {
+          dispatch(addProjectsError(response.error.toString()));
+          alert('Error Adding a Project');
+        }
       });
   };
 };
@@ -67,10 +70,13 @@ export const deleteProject = (userInput) => {
     return fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, params)
       .then((response) => response.json())
       .then((response) => {
-        dispatch(deleteProjectsSuccess(response.data));
-      })
-      .catch((error) => {
-        dispatch(deleteProjectsError(error.toString()));
+        if (!response.error) {
+          dispatch(deleteProjectsSuccess(response.data));
+          alert('Delete Project Successfully');
+        } else {
+          dispatch(deleteProjectsError(response.error.toString()));
+          alert('Error Deleting the Project');
+        }
       });
   };
 };
