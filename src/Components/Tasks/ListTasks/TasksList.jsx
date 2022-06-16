@@ -13,7 +13,7 @@ const TasksList = ({ tasklist, deleteItem, editItem }) => {
   const getData = () => {
     return tasklist.map((task) => ({
       ...task,
-      date: new Date(task.date).toISOString().substr(0, 10),
+      // date: new Date(task.date).toISOString().substr(0, 10),
       edit: (
         <Button
           icons="edit"

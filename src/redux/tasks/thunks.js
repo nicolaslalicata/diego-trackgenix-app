@@ -50,11 +50,10 @@ export const addTaskThunks = (newTask) => {
         return response.data;
       })
       .catch((error) => {
-        dispatch(addTaskError(error.toString()));
+        dispatch(addTaskError(error));
       });
   };
 };
-
 export const editTaskThunks = (taskEdited) => {
   const url = `${process.env.REACT_APP_API_URL}/tasks/${taskEdited.id}`;
   const options = {
@@ -77,7 +76,7 @@ export const editTaskThunks = (taskEdited) => {
         return response.data;
       })
       .catch((error) => {
-        dispatch(editTasksError(error.toString()));
+        dispatch(editTasksError(error));
       });
   };
 };

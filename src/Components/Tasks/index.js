@@ -19,9 +19,9 @@ import { IoIosAddCircleOutline } from 'react-icons/io';
 const Tasks = () => {
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.tasks.tasksList);
+  const loader = useSelector((state) => state.tasks.isLoading);
+  const error = useSelector((state) => state.tasks.error);
 
-  // Modals
-  const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false, { id: null });
   const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
   const [showEditModal, setShowEditModal] = useState(false, {
@@ -40,7 +40,6 @@ const Tasks = () => {
   useEffect(() => {
     try {
       dispatch(getTasks());
-      setIsLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -54,12 +53,18 @@ const Tasks = () => {
   };
 
   const addTask = ({ description, workedHours, date }) => {
-    const newTask = {
-      description,
-      workedHours,
-      date
-    };
-    dispatch(addTaskThunks(newTask));
+    if (description && workedHours && date) {
+      const newTask = {
+        description,
+        workedHours,
+        date
+      };
+      dispatch(addTaskThunks(newTask));
+    }
+    setShowModalMessage({
+      showModalMessage: true,
+      title: 'Data missing'
+    });
   };
 
   const deleteItem = () => {
@@ -84,13 +89,19 @@ const Tasks = () => {
   };
 
   const editTask = async ({ id, description, workedHours, date }) => {
-    const taskEdited = {
-      id,
-      description,
-      workedHours,
-      date
-    };
-    dispatch(editTaskThunks(taskEdited));
+    if (description && workedHours && date) {
+      const taskEdited = {
+        id,
+        description,
+        workedHours,
+        date
+      };
+      dispatch(editTaskThunks(taskEdited));
+    }
+    setShowModalMessage({
+      showModalMessage: true,
+      title: 'Data missing'
+    });
   };
 
   const onChange = (e) => {
@@ -123,8 +134,11 @@ const Tasks = () => {
     setShowEditModal(false);
   };
 
-  if (isLoading) {
-    return <Loader isLoading={isLoading} />;
+  if (error) {
+    return <Loader isLoading={loader} />;
+  }
+  if (loader) {
+    return <Loader isLoading={loader} />;
   }
   return (
     <div className={styles.container}>
