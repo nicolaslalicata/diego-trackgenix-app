@@ -60,11 +60,12 @@ const Tasks = () => {
         date
       };
       dispatch(addTaskThunks(newTask));
+    } else {
+      setShowModalMessage({
+        showModalMessage: true,
+        title: 'Data missing'
+      });
     }
-    setShowModalMessage({
-      showModalMessage: true,
-      title: 'Data missing'
-    });
   };
 
   const deleteItem = () => {
@@ -97,11 +98,12 @@ const Tasks = () => {
         date
       };
       dispatch(editTaskThunks(taskEdited));
+    } else {
+      setShowModalMessage({
+        showModalMessage: true,
+        title: 'Data missing'
+      });
     }
-    setShowModalMessage({
-      showModalMessage: true,
-      title: 'Data missing'
-    });
   };
 
   const onChange = (e) => {
