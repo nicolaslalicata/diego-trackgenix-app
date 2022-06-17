@@ -25,6 +25,7 @@ function SuperAdmins() {
   const dispatch = useDispatch();
   const superAdmins = useSelector((state) => state.superAdmins.List);
   const isLoading = useSelector((state) => state.superAdmins.isLoading);
+  const error = useSelector((state) => state.superAdmins.error);
 
   const [id, setId] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -33,6 +34,7 @@ function SuperAdmins() {
   const [isOpenCreated, setIsOpenCreated] = useState(false);
   const [isOpenDeleted, setIsOpenDeleted] = useState(false);
   const [isOpenEdited, setIsOpenEdited] = useState(false);
+  const [modalError, setModalError] = useState(false, { message: '' });
 
   const [firstName, setFirstName] = useState(initialValues.firstName);
   const [lastName, setLastName] = useState(initialValues.lastName);
@@ -93,17 +95,34 @@ function SuperAdmins() {
   };
 
   const handleCreateSuperAdmin = () => {
-    dispatch(
-      newSuperAdmin({ firstName, lastName, email, password }, setIsOpenAdd, setIsOpenCreated)
-    );
+    if (firstName && lastName && email && password) {
+      dispatch(
+        newSuperAdmin({ firstName, lastName, email, password }, setIsOpenAdd, setIsOpenCreated)
+      );
+    } else {
+      setModalError({
+        modalError: true,
+        message: 'Please complete all the fields'
+      });
+    }
   };
 
   const handleEditSuperAdmin = (superAdmin) => {
-    dispatch(editSuperAdmin(superAdmin, id, setIsOpenEdit, setIsOpenEdited));
+    if (firstName && lastName && email && password) {
+      dispatch(editSuperAdmin(superAdmin, id, setIsOpenEdit, setIsOpenEdited));
+    } else {
+      setModalError({
+        modalError: true,
+        message: 'Please complete all the fields'
+      });
+    }
   };
 
   const headers = ['Name', 'Last Name', 'Email', 'Password', 'Edit', 'Delete'];
   const objProp = ['firstName', 'lastName', 'email', 'password', 'edit', 'delete'];
+  if (error) {
+    return <Loader isLoading={isLoading} />;
+  }
   if (isLoading) {
     return <Loader isLoading={isLoading} />;
   } else {
@@ -220,6 +239,8 @@ function SuperAdmins() {
           setIsOpen={setIsOpenEdited}
           message={'Super admin edited successfully'}
         ></Modal>
+        {/* MODAL ERROR */}
+        <Modal isOpen={modalError} setIsOpen={setModalError} message={modalError.message}></Modal>
         <Table data={getData()} objProp={objProp} headers={headers} />
       </section>
     );
