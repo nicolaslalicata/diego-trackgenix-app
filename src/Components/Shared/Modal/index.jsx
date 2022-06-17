@@ -10,12 +10,12 @@ const Modal = ({ children, isOpen, setIsOpen, message }) => {
     <div className={styles.overlay}>
       <div className={styles.contenedorModal}>
         <h3>{message}</h3>
-        {children}
         <Button
           className={styles.buttonCloseModal}
           callback={() => setIsOpen(false)}
           text={'Close'}
         ></Button>
+        {children}
       </div>
     </div>
   );

@@ -50,17 +50,19 @@ function SuperAdmins() {
     dispatch(getSuperAdmins());
   }, []);
 
-  const getById = (ids) => {
+  const getById = (id) => {
     setIsOpenEdit(true);
-    fetch(`${process.env.REACT_APP_API_URL}/super-admins/${ids}`)
-      .then((response) => response.json())
-      .then((response) => {
-        setFirstName(response.data.firstName);
-        setLastName(response.data.lastName);
-        setEmail(response.data.email);
-        setPassword(response.data.password);
-      });
+    formFiller(id);
   };
+
+  const formFiller = (id) => {
+    const valuesForm = superAdmins.filter((superadmin) => superadmin._id === id);
+    setFirstName(valuesForm[0].firstName);
+    setLastName(valuesForm[0].lastName);
+    setEmail(valuesForm[0].email);
+    setPassword(valuesForm[0].password);
+  };
+
   const getData = () => {
     return superAdmins.map((superAdmin) => ({
       ...superAdmin,
@@ -100,7 +102,7 @@ function SuperAdmins() {
     dispatch(editSuperAdmin(superAdmin, id, setIsOpenEdit, setIsOpenEdited));
   };
 
-  const headers = ['First Name', 'Last Name', 'Email', 'Password', 'Edit', 'Delete'];
+  const headers = ['Name', 'Last Name', 'Email', 'Password', 'Edit', 'Delete'];
   const objProp = ['firstName', 'lastName', 'email', 'password', 'edit', 'delete'];
   if (isLoading) {
     return <Loader isLoading={isLoading} />;
