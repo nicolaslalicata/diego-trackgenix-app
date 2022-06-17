@@ -5,6 +5,7 @@ import Button from '../Shared/Buttons/buttons';
 import Modal from '../Shared/Modal/index';
 import ModalAddTimeSheet from './AddAndModal';
 import ModalTimeSheetEdit from './EditAndModal';
+import ModalDeleteConfirmation from './ModalDeleteConfirmation';
 import Loader from '../Shared/Loading';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTimeSheets, deleteTimeSheet } from '../../redux/timesheets/thunks';
@@ -21,7 +22,6 @@ const TimeSheets = () => {
   const dispatch = useDispatch();
   const list = useSelector((state) => state.timeSheets.timeSheetsList);
   const isLoading = useSelector((state) => state.timeSheets.isLoading);
-  console.log(isLoading);
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/projects/`)
       .then((response) => response.json())
@@ -76,8 +76,7 @@ const TimeSheets = () => {
         <h2>Timesheets</h2>
         <div>
           <Button
-            btnStyle={{ width: '150px', height: '150px' }}
-            text={'Create Timesheet'}
+            icons={'add'}
             callback={() => {
               setIsModalAdd(true);
             }}
@@ -96,28 +95,13 @@ const TimeSheets = () => {
           objProp={['description', 'startDate', 'endDate', 'hours', 'edit', 'delete']}
           headers={['Description', 'Start Date', 'End Date', 'Hours', 'Edit', 'Delete']}
         ></Table>
-        <Modal isOpen={isModalDelete} setIsOpen={setIsModalDelete}>
-          <div className={styles.modalHeader}>
-            <h5 className={styles.heading}>Confirmation</h5>
-          </div>
-          <div>Are you sure you want to delete the item?</div>
-          <div className={styles.modalActions}>
-            <div className={styles.actionsContainer}>
-              <Button
-                callback={() => {
-                  deleteTimeSheet(timeSheet)(dispatch).then(() => setIsModalDelete(false));
-                }}
-                text={'Delete'}
-              />
-              <Button
-                callback={() => {
-                  setIsModalDelete(false);
-                }}
-                text={'Cancel'}
-              />
-            </div>
-          </div>
-        </Modal>
+        <ModalDeleteConfirmation
+          deleteTimeSheet={deleteTimeSheet}
+          timeSheet={timeSheet}
+          dispatch={dispatch}
+          setIsModalDelete={setIsModalDelete}
+          isModalDelete={isModalDelete}
+        ></ModalDeleteConfirmation>
         <ModalTimeSheetEdit
           isModalEdit={isModalEdit}
           setIsModalEdit={setIsModalEdit}

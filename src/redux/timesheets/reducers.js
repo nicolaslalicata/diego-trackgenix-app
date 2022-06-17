@@ -35,14 +35,16 @@ export const timeSheetReducer = (state = initialState, action) => {
       return {
         ...state,
         timeSheetsList: [...state.timeSheetsList, action.payload],
-        isLoading: false
+        isLoading: false,
+        error: false
       };
 
     case DELETE_TIMESHEETS_SUCCESS:
       return {
         ...state,
         timeSheetsList: state.timeSheetsList.filter((e) => e._id !== action.payload._id),
-        isLoading: false
+        isLoading: false,
+        error: false
       };
 
     case EDIT_TIMESHEETS_SUCCESS:
@@ -51,7 +53,8 @@ export const timeSheetReducer = (state = initialState, action) => {
         timeSheetsList: state.timeSheetsList.map((element) =>
           element._id === action.payload._id ? action.payload : element
         ),
-        isLoading: false
+        isLoading: false,
+        error: false
       };
 
     default:

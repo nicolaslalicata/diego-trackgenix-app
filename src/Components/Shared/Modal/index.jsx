@@ -11,9 +11,14 @@ const Modal = ({ children, isOpen, setIsOpen, message }) => {
       <div className={styles.contenedorModal}>
         <h3>{message}</h3>
         <Button
-          className={styles.buttonCloseModal}
+          buttonStyle={{
+            position: 'absolute',
+            right: '10px',
+            top: '10px',
+            width: '30px'
+          }}
           callback={() => setIsOpen(false)}
-          text={'Close'}
+          text={'X'}
         ></Button>
         {children}
       </div>

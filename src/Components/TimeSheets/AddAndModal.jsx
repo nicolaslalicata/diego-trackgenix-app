@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './time-sheets.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Modal from '../Shared/Modal/index';
 import Input from '../Shared/Input';
 import Button from '../Shared/Buttons/buttons';
@@ -30,9 +30,12 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
       setEmployeeId(''),
       setProjectId('');
   };
+  useEffect(() => {
+    setIsModalErrorAdd(error);
+  }, [error]);
 
   return (
-    <section>
+    <>
       <Modal isOpen={isModalAdd} setIsOpen={setIsModalAdd}>
         <div className={styles.inputContainer}>
           <div className={styles.inputColumnOne}>
@@ -120,13 +123,10 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
                 startDate,
                 endDate,
                 hours,
-                reset,
-                setIsModalErrorAdd
+                reset
               )(dispatch).then(() => setIsModalAdd(false));
             }}
-          >
-            Add
-          </Button>
+          />
           <Button
             text={'Cancel'}
             callback={() => {
@@ -138,7 +138,7 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
       <Modal isOpen={isModalErrorAdd} setIsOpen={setIsModalErrorAdd}>
         <div>Error: {error}</div>
       </Modal>
-    </section>
+    </>
   );
 };
 

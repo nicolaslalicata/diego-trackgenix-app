@@ -88,12 +88,11 @@ export const addTimesheet = (
   startDate,
   endDate,
   hours,
-  reset,
-  setModalErrorAdd
+  reset
 ) => {
   return (dispatch) => {
     dispatch(timeSheetsPending());
-    fetch(`${process.env.REACT_APP_API_URL}/timesheets/`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/timesheets/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -113,13 +112,11 @@ export const addTimesheet = (
       .then((response) => {
         if (!response.error) {
           dispatch(addTimeSheetsSuccess(response.data));
-          alert('Edited successfully');
         } else {
           dispatch(timeSheetsError(response.error));
-          setModalErrorAdd(true);
         }
       })
-      .then(() => getTimeSheets()(dispatch))
-      .then(() => reset());
+      .then(() => reset())
+      .then(() => getTimeSheets()(dispatch));
   };
 };
