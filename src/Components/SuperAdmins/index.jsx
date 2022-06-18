@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   getSuperAdmins,
   deleteSuperAdmin,
-  newSuperAdmin,
+  addSuperAdmin,
   editSuperAdmin
 } from '../../redux/superAdmins/thunks';
 
@@ -31,10 +31,7 @@ function SuperAdmins() {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
-  const [isOpenCreated, setIsOpenCreated] = useState(false);
-  const [isOpenDeleted, setIsOpenDeleted] = useState(false);
-  const [isOpenEdited, setIsOpenEdited] = useState(false);
-  const [modalError, setModalError] = useState(false, { message: '' });
+  const [modalNotification, setModalNotification] = useState(false, { message: '' });
 
   const [firstName, setFirstName] = useState(initialValues.firstName);
   const [lastName, setLastName] = useState(initialValues.lastName);
@@ -91,17 +88,17 @@ function SuperAdmins() {
 
   // HANDLERS REDUX
   const handleDeleteSuperAdmin = (superAdmID) => {
-    dispatch(deleteSuperAdmin(superAdmID, setIsOpen, setIsOpenDeleted));
+    dispatch(deleteSuperAdmin(superAdmID, setIsOpen, setModalNotification));
   };
 
   const handleCreateSuperAdmin = () => {
     if (firstName && lastName && email && password) {
       dispatch(
-        newSuperAdmin({ firstName, lastName, email, password }, setIsOpenAdd, setIsOpenCreated)
+        addSuperAdmin({ firstName, lastName, email, password }, setIsOpenAdd, setModalNotification)
       );
     } else {
-      setModalError({
-        modalError: true,
+      setModalNotification({
+        modalNotification: true,
         message: 'Please complete all the fields'
       });
     }
@@ -109,10 +106,10 @@ function SuperAdmins() {
 
   const handleEditSuperAdmin = (superAdmin) => {
     if (firstName && lastName && email && password) {
-      dispatch(editSuperAdmin(superAdmin, id, setIsOpenEdit, setIsOpenEdited));
+      dispatch(editSuperAdmin(superAdmin, id, setIsOpenEdit, setModalNotification));
     } else {
-      setModalError({
-        modalError: true,
+      setModalNotification({
+        modalNotification: true,
         message: 'Please complete all the fields'
       });
     }
@@ -221,26 +218,14 @@ function SuperAdmins() {
             />
           </form>
         </Modal>
-        {/* MODAL CREATED */}
+        {/* MODAL NOTIFICATION */}
         <Modal
-          isOpen={isOpenCreated}
-          setIsOpen={setIsOpenCreated}
-          message={'Super admin created successfully'}
-        ></Modal>
-        {/* MODAL DELETED */}
-        <Modal
-          isOpen={isOpenDeleted}
-          setIsOpen={setIsOpenDeleted}
-          message={'Super admin deleted successfully'}
-        ></Modal>
-        {/* MODAL EDITED */}
-        <Modal
-          isOpen={isOpenEdited}
-          setIsOpen={setIsOpenEdited}
-          message={'Super admin edited successfully'}
-        ></Modal>
-        {/* MODAL ERROR */}
-        <Modal isOpen={modalError} setIsOpen={setModalError} message={modalError.message}></Modal>
+          isOpen={modalNotification}
+          setIsOpen={setModalNotification}
+          message={modalNotification.message}
+        >
+          <Button callback={() => setModalNotification(false)} text={'OK'} />
+        </Modal>
         <Table data={getData()} objProp={objProp} headers={headers} />
       </section>
     );
