@@ -69,8 +69,6 @@ export const addSuperAdmin = (superAdmin, setIsOpenAdd, setModalNotification) =>
       if (response.status === 201) {
         const data = await response.json();
         dispatch(addSuperAdminsSuccess(data.data));
-        console.log(data);
-        console.log(response);
         setIsOpenAdd(false);
         setModalNotification({
           modalNotification: true,
