@@ -13,7 +13,16 @@ const TimeSheets = () => {
   const [employees, setEmployees] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [projects, setProjects] = useState([]);
-  const [timeSheet, setTimesheet] = useState({});
+  const [timeSheet, setTimesheet] = useState({
+    description: '',
+    taskId: '',
+    validated: '',
+    employeeId: [],
+    projectId: '',
+    startDate: '2022-06-08T00:00:00.000Z',
+    endDate: '2022-06-08T00:00:00.000Z',
+    hours: ''
+  });
   const [isModalDelete, setIsModalDelete] = useState(false);
   const [isModalAdd, setIsModalAdd] = useState(false);
   const [isModalEdit, setIsModalEdit] = useState(false);

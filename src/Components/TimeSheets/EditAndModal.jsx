@@ -44,7 +44,7 @@ const ModalTimeSheetEdit = ({ isModalEdit, timeSheet, setIsModalEdit }) => {
           />
           <Input
             type="date"
-            value={startDate.substr(0, 10)}
+            value={startDate.substring(0, 10)}
             onChange={(e) => {
               setStartDate(e.target.value);
             }}
@@ -52,25 +52,27 @@ const ModalTimeSheetEdit = ({ isModalEdit, timeSheet, setIsModalEdit }) => {
           />
           <Input
             type="date"
-            value={endDate.substr(0, 10)}
+            value={endDate.substring(0, 10)}
             onChange={(e) => {
               setEndDate(e.target.value);
             }}
             labelText={'End Date'}
           />
-          <Button
-            callback={() => {
-              setIsModalEdit(false);
-              setIsModalConfirm(true);
-            }}
-            text={'Edit'}
-          ></Button>
-          <Button
-            callback={() => {
-              setIsModalEdit(false);
-            }}
-            text={'Cancel'}
-          ></Button>
+          <div className={styles.btnModalContainer}>
+            <Button
+              callback={() => {
+                setIsModalEdit(false);
+                setIsModalConfirm(true);
+              }}
+              text={'Edit'}
+            ></Button>
+            <Button
+              callback={() => {
+                setIsModalEdit(false);
+              }}
+              text={'Cancel'}
+            ></Button>
+          </div>
         </div>
       </Modal>
       <Modal isOpen={isModalConfirm} setIsOpen={setIsModalConfirm}>

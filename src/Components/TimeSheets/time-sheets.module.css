@@ -33,6 +33,6 @@ justify-items: center;
 .btnModalContainer{
   display: flex;
   justify-content: space-between;
-  width: 100px;
+  width: 100%;
   height: 50px;
 }
