@@ -6,11 +6,12 @@ import Input from '../Shared/Input';
 import Modal from '../Shared/Modal/index';
 import { editTimeSheet } from '../../redux/timesheets/thunks';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
+
 const ModalTimeSheetEdit = ({ isModalEdit, timeSheet, setIsModalEdit }) => {
   const [description, setDescription] = useState(timeSheet.description);
   const [hours, setHours] = useState(timeSheet.hours);
-  const [startDate, setStartDate] = useState('2018-01-01');
-  const [endDate, setEndDate] = useState(timeSheet.endDate);
+  const [startDate, setStartDate] = useState('2022-06-08T00:00:00.000Z');
+  const [endDate, setEndDate] = useState('2022-06-08T00:00:00.000Z');
   const [isModalConfirm, setIsModalConfirm] = useState(false);
   const [isModalErrorEdit, setIsModalErrorEdit] = useState(false);
   const error = useSelector((state) => state.timeSheets.error);
@@ -43,7 +44,7 @@ const ModalTimeSheetEdit = ({ isModalEdit, timeSheet, setIsModalEdit }) => {
           />
           <Input
             type="date"
-            value={startDate}
+            value={startDate.substr(0, 10)}
             onChange={(e) => {
               setStartDate(e.target.value);
             }}
@@ -51,7 +52,7 @@ const ModalTimeSheetEdit = ({ isModalEdit, timeSheet, setIsModalEdit }) => {
           />
           <Input
             type="date"
-            value={endDate}
+            value={endDate.substr(0, 10)}
             onChange={(e) => {
               setEndDate(e.target.value);
             }}
@@ -76,22 +77,23 @@ const ModalTimeSheetEdit = ({ isModalEdit, timeSheet, setIsModalEdit }) => {
         <div>
           <h5>Are you sure you want to edit the item?</h5>
         </div>
-        <Button
-          className={styles.deleteBtn}
-          callback={() => {
-            editTimeSheet(
-              timeSheet,
-              description,
-              startDate,
-              endDate,
-              hours,
-              setIsModalErrorEdit
-            )(dispatch).then(() => setIsModalEdit(false));
-            setIsModalConfirm(false);
-          }}
-          text={'Confirm'}
-        />
-        <Button callback={() => setIsModalConfirm(false)} text={'Cancel'} />
+        <div className={styles.btnModalContainer}>
+          <Button
+            callback={() => {
+              editTimeSheet(
+                timeSheet,
+                description,
+                startDate,
+                endDate,
+                hours,
+                setIsModalErrorEdit
+              )(dispatch).then(() => setIsModalEdit(false));
+              setIsModalConfirm(false);
+            }}
+            text={'Confirm'}
+          />
+          <Button callback={() => setIsModalConfirm(false)} text={'Cancel'} />
+        </div>
       </Modal>
       <Modal isOpen={isModalErrorEdit} setIsOpen={setIsModalErrorEdit}>
         <div>Error: {error}</div>

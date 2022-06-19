@@ -69,7 +69,6 @@ export const editTimeSheet = (
       .then((response) => {
         if (!response.error) {
           dispatch(editTimeSheetsSuccess(response.data));
-          alert('Edited successfully');
         } else {
           dispatch(timeSheetsError(response.message));
           setModalErrorEdit(true);
