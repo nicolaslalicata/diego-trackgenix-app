@@ -2,22 +2,28 @@ import React from 'react';
 import styles from './modal.module.css';
 import Button from '../Buttons/buttons';
 
-const Modal = ({ children, isOpen, setIsOpen, title }) => {
+const Modal = ({ children, isOpen, setIsOpen, message }) => {
   if (!isOpen) {
     return null;
   }
   return (
     <div className={styles.overlay}>
       <div className={styles.contenedorModal}>
-        <h3>{title}</h3>
+        <h3>{message}</h3>
         <Button
-          className={styles.buttonCloseModal}
+          buttonStyle={{
+            position: 'absolute',
+            right: '10px',
+            top: '10px',
+            width: '30px'
+          }}
           callback={() => setIsOpen(false)}
-          text={'Close'}
+          text={'X'}
         ></Button>
         {children}
       </div>
     </div>
   );
 };
+
 export default Modal;
