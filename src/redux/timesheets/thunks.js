@@ -38,15 +38,7 @@ export const deleteTimeSheet = (timeSheet) => {
       });
   };
 };
-
-export const editTimeSheet = (
-  timeSheet,
-  description,
-  startDate,
-  endDate,
-  hours,
-  setModalErrorEdit
-) => {
+export const editTimeSheet = (timeSheet, description, startDate, endDate, hours) => {
   return (dispatch) => {
     dispatch(timeSheetsPending());
     return fetch(`${process.env.REACT_APP_API_URL}/timesheets/${timeSheet._id}`, {
@@ -71,7 +63,6 @@ export const editTimeSheet = (
           dispatch(editTimeSheetsSuccess(response.data));
         } else {
           dispatch(timeSheetsError(response.message));
-          setModalErrorEdit(true);
         }
       })
       .then(() => getTimeSheets()(dispatch));

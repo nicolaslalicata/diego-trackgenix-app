@@ -10,7 +10,8 @@ import {
 const initialState = {
   timeSheetsList: [],
   isLoading: false,
-  error: ''
+  error: '',
+  successMessage: ''
 };
 export const timeSheetReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -29,14 +30,16 @@ export const timeSheetReducer = (state = initialState, action) => {
       return {
         ...state,
         error: action.payload,
-        isLoading: false
+        isLoading: false,
+        successMessage: ''
       };
     case ADD_TIMESHEETS_SUCCESS:
       return {
         ...state,
         timeSheetsList: [...state.timeSheetsList, action.payload],
         isLoading: false,
-        error: false
+        error: false,
+        successMessage: 'Timesheet added successfully'
       };
 
     case DELETE_TIMESHEETS_SUCCESS:
@@ -44,7 +47,8 @@ export const timeSheetReducer = (state = initialState, action) => {
         ...state,
         timeSheetsList: state.timeSheetsList.filter((e) => e._id !== action.payload._id),
         isLoading: false,
-        error: false
+        error: false,
+        successMessage: 'Timesheet deleted successfully'
       };
 
     case EDIT_TIMESHEETS_SUCCESS:
@@ -54,7 +58,8 @@ export const timeSheetReducer = (state = initialState, action) => {
           element._id === action.payload._id ? action.payload : element
         ),
         isLoading: false,
-        error: false
+        error: false,
+        successMessage: 'Timesheet edited successfully'
       };
 
     default:

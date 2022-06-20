@@ -17,7 +17,10 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
   const [employeeId, setEmployeeId] = useState('');
   const [projectId, setProjectId] = useState('');
   const [isModalErrorAdd, setIsModalErrorAdd] = useState(false);
+  const [isModalSuccess, setIsModalSuccess] = useState(false);
   const error = useSelector((state) => state.timeSheets.error);
+  const successMessage = useSelector((state) => state.timeSheets.successMessage);
+
   const dispatch = useDispatch();
   const reset = () => {
     setIsModalAdd(false),
@@ -31,8 +34,12 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
       setProjectId('');
   };
   useEffect(() => {
-    setIsModalErrorAdd(error);
-  }, [error]);
+    if (error && successMessage === '') {
+      return setIsModalErrorAdd(error);
+    } else if (error === false && successMessage) {
+      return setIsModalSuccess(true);
+    }
+  }, []);
 
   return (
     <>
@@ -137,6 +144,9 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
       </Modal>
       <Modal isOpen={isModalErrorAdd} setIsOpen={setIsModalErrorAdd}>
         <div>Error: {error}</div>
+      </Modal>
+      <Modal isOpen={isModalSuccess} setIsOpen={setIsModalSuccess}>
+        <div>{successMessage}</div>
       </Modal>
     </>
   );
