@@ -16,6 +16,7 @@ const Modal = ({ children, isOpen, setIsOpen, message }) => {
             icons={'close'}
           ></Button>
         </div>
+        <h3>{message}</h3>
         {children}
       </div>
     </div>
