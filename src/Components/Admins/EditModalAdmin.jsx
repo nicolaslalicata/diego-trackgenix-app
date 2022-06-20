@@ -8,7 +8,7 @@ import Dropdown from '../Shared/Dropdown/Dropdown';
 import { editAdmin } from '../../redux/admins/thunks';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 
-const ModalEditAdmin = ({ admin, setShowEditModal, showEditModal }) => {
+const ModalEditAdmin = ({ admin, setShowEditModal, showEditModal, setSucModalIsOpen }) => {
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -98,7 +98,8 @@ const ModalEditAdmin = ({ admin, setShowEditModal, showEditModal }) => {
             status,
             password,
             setShowEditModal,
-            admin
+            admin,
+            setSucModalIsOpen
           )(dispatch).then(() => setShowEditModal(false));
         }}
       />

@@ -87,9 +87,11 @@ function Admins() {
           ></ModalAddAdmin>
           <ModalSuc
             setSucModalIsOpen={setSucModalIsOpen}
-            SucModalIsOpen={sucModalIsOpen}
+            sucModalIsOpen={sucModalIsOpen}
           ></ModalSuc>
           <ModalEditAdmin
+            setSucModalIsOpen={setSucModalIsOpen}
+            setShowAddModal={setShowAddModal}
             setShowEditModal={setShowEditModal}
             showEditModal={showEditModal}
             admin={admin}

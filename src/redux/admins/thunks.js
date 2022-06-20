@@ -94,7 +94,8 @@ export const editAdmin = (
   status,
   password,
   setShowEditModal,
-  admin
+  admin,
+  setSucModalIsOpen
 ) => {
   return (dispatch) => {
     dispatch(editAdminPending());
@@ -116,7 +117,7 @@ export const editAdmin = (
       .then((response) => {
         if (!response.error) {
           dispatch(editAdminSuccess(response.data));
-          alert('Edited successfully');
+          setSucModalIsOpen(true);
         } else {
           dispatch(editAdminError(response.message));
           setShowEditModal(true);
