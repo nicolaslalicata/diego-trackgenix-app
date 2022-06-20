@@ -71,7 +71,6 @@ const ModalTimeSheetEdit = ({ isModalEdit, timeSheet, setIsModalEdit }) => {
               }}
               text={'Edit'}
             ></Button>
-            <button onClick={handleEdit}>asdasdasd</button>
             <Button
               callback={() => {
                 setIsModalEdit(false);
