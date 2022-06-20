@@ -40,7 +40,8 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
       return setIsModalSuccess(true);
     }
   }, []);
-
+  // console.log('error', error, 'successMessage', successMessage);
+  // console.log('isModalErrorAdd', isModalErrorAdd, 'isModalSuccess', isModalSuccess);
   return (
     <>
       <Modal isOpen={isModalAdd} setIsOpen={setIsModalAdd}>

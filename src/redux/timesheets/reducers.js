@@ -11,7 +11,7 @@ const initialState = {
   timeSheetsList: [],
   isLoading: false,
   error: '',
-  successMessage: ''
+  successMessage: false
 };
 export const timeSheetReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -19,7 +19,8 @@ export const timeSheetReducer = (state = initialState, action) => {
       return {
         ...state,
         timeSheetsList: action.payload,
-        isLoading: false
+        isLoading: false,
+        successMessage: false
       };
     case TIMESHEETS_PENDING:
       return {
