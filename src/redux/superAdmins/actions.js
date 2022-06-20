@@ -49,14 +49,14 @@ export const deleteSuperAdminsError = (error) => ({
   payload: error
 });
 
-export const editSuperAdminsSuccess = (superAdmin) => ({
+export const editSuperAdminsSuccess = (superAdmin, _id) => ({
   type: EDIT_SUPERADMINS_SUCCESS,
-  payload: superAdmin
+  payload: { superAdmin, _id }
 });
 export const editSuperAdminsPending = () => ({
   type: EDIT_SUPERADMINS_PENDING
 });
-export const editSuperAdminsError = (superAdmins) => ({
+export const editSuperAdminsError = (error) => ({
   type: EDIT_SUPERADMINS_ERROR,
-  payload: superAdmins
+  payload: error
 });

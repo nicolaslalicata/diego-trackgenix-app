@@ -9,15 +9,27 @@ import Input from '../Shared/Input';
 const Tasks = () => {
   const [taskList, setTasksList] = useState([]);
   const [showModal, setShowModal] = useState(false, { id: null });
-  const [showModalTaskAdded, setShowModalTaskAdded] = useState(false);
-  const [showModalDelete, setShowModalDelete] = useState(false, { id: null });
-  const [showModalError, setShowModalError] = useState(false);
+  const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
+  const [showEditModal, setShowEditModal] = useState(false, {
+    id: '',
+    description: '',
+    workedHours: '',
+    date: ''
+  });
   const [isAdding, setIsAdding] = useState(false);
   const [taskInput, setTaskInput] = useState({
     description: '',
     workedHours: '',
     date: ''
   });
+
+  const fetchTasks = () => {
+    fetch(`${process.env.REACT_APP_API_URL}/tasks`)
+      .then((response) => response.json())
+      .then((response) => {
+        setTasksList(response.data);
+      });
+  };
 
   useEffect(() => {
     try {
@@ -44,7 +56,10 @@ const Tasks = () => {
         setTasksList([...taskList.filter((listItem) => listItem._id !== showModal.id)])
       );
       setShowModal(!setShowModal);
-      setShowModalDelete(!showModalDelete);
+      setShowModalMessage({
+        showModalMessage: true,
+        message: 'Task deleted'
+      });
     }
   };
 
@@ -70,11 +85,15 @@ const Tasks = () => {
       fetch(url, options)
         .then((response) => {
           if (response.ok) {
-            setShowModalTaskAdded(!showModalTaskAdded);
+            setShowModalMessage({
+              showModalMessage: true,
+              message: 'Task Added'
+            });
             return response.json();
           }
-          throw setShowModalError({
-            showModal: true
+          throw setShowModalMessage({
+            showModalMessage: true,
+            message: 'Error'
           });
         })
         .then((data) => {
@@ -85,11 +104,64 @@ const Tasks = () => {
     }
   };
 
+  const openEditModal = (id, description, workedHours, date) => {
+    setShowEditModal({
+      showEditModal: true,
+      id,
+      description,
+      workedHours,
+      date
+    });
+  };
+
+  const editTask = async ({ id, description, workedHours, date }) => {
+    if (id && description && workedHours && date) {
+      const taskEdited = {
+        id,
+        description,
+        workedHours,
+        date
+      };
+      const url = `${process.env.REACT_APP_API_URL}/tasks/${taskEdited.id}`;
+      const options = {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          description: taskEdited.description,
+          workedHours: taskEdited.workedHours,
+          date: taskEdited.date
+        })
+      };
+      try {
+        fetch(url, options)
+          .then((response) => {
+            if (response.ok) {
+              setShowModalMessage({
+                showModalMessage: true,
+                message: 'Task edited'
+              });
+              return response.json();
+            }
+            throw setShowModalMessage({
+              showModalMessage: true,
+              message: 'Error'
+            });
+          })
+          .then(() => {
+            fetchTasks();
+          });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
   const onChange = (e) => {
-    console.log(e.target.value);
     setTaskInput({ ...taskInput, [e.target.name]: e.target.value });
   };
-  const onSubmit = (e) => {
+  const addItem = (e) => {
     e.preventDefault();
     addTask(taskInput);
     setTaskInput({
@@ -98,6 +170,21 @@ const Tasks = () => {
       date: ''
     });
     setIsAdding(false);
+  };
+
+  const onChangeEdit = (e) => {
+    setShowEditModal({ ...showEditModal, [e.target.name]: e.target.value });
+  };
+
+  const editItem = (e) => {
+    e.preventDefault();
+    editTask(showEditModal);
+    setShowEditModal({
+      description: '',
+      workedHours: '',
+      date: ''
+    });
+    setShowEditModal(false);
   };
 
   return (
@@ -113,7 +200,7 @@ const Tasks = () => {
       <Modal isOpen={isAdding} setIsOpen={setIsAdding}>
         <h3>Add a new Task</h3>
         <div className={styles.contenedorModal}>
-          <form onSubmit={onSubmit}>
+          <form onSubmit={addItem}>
             <div>
               <Input
                 labelText={'Description:'}
@@ -147,16 +234,49 @@ const Tasks = () => {
           </form>
         </div>
       </Modal>
-      <Modal isOpen={showModalTaskAdded} setIsOpen={setShowModalTaskAdded}>
-        <h3>Task Added</h3>
+      <Modal isOpen={showEditModal} setIsOpen={setShowEditModal}>
+        <h3>Edit Task</h3>
+        <div className={styles.contenedorModal}>
+          <form onSubmit={editItem}>
+            <div>
+              <Input
+                labelText={'Description:'}
+                type={'text'}
+                name={'description'}
+                value={showEditModal.description}
+                onChange={onChangeEdit}
+              />
+            </div>
+            <div>
+              <Input
+                labelText={'Worked Hours:'}
+                type={'text'}
+                name={'workedHours'}
+                value={showEditModal.workedHours}
+                onChange={onChangeEdit}
+              />
+            </div>
+            <div>
+              <Input
+                labelText={'Date:'}
+                type={'text'}
+                name={'date'}
+                value={showEditModal.date}
+                onChange={onChangeEdit}
+              />
+            </div>
+            <div>
+              <Input type="submit" value="submit" />
+            </div>
+          </form>
+        </div>
       </Modal>
-      <Modal isOpen={showModalDelete} setIsOpen={setShowModalDelete}>
-        <h3>Task Deleted</h3>
-      </Modal>
-      <Modal isOpen={showModalError} setIsOpen={setShowModalError}>
-        <h3>Error</h3>
-      </Modal>
-      <TasksList tasklist={taskList} deleteItem={openModal}></TasksList>
+      <Modal
+        isOpen={showModalMessage}
+        setIsOpen={setShowModalMessage}
+        message={showModalMessage.message}
+      ></Modal>
+      <TasksList tasklist={taskList} deleteItem={openModal} editItem={openEditModal}></TasksList>
     </div>
   );
 };

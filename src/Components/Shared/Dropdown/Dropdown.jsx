@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './dropdown.module.css';
-const Dropdown = ({ label, value, options, onChange, initialOption }) => {
+const Dropdown = ({ label, value, options, onChange, initialOption, dropStyle }) => {
   return (
-    <div className={styles.dropdownContainer}>
+    <div className={styles.dropdownContainer} style={dropStyle}>
       <label className={styles.labelDropdown}>{label}</label>
       <select className={styles.selectDropdown} value={value} onChange={onChange}>
         <option value="none" selected hidden>

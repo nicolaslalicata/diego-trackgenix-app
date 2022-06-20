@@ -2,22 +2,23 @@ import styles from '../tasks.module.css';
 import Table from '../../Shared/Table/Table';
 import Button from '../../Shared/Buttons/buttons';
 
-const TasksList = ({ tasklist, deleteItem }) => {
+const TasksList = ({ tasklist, deleteItem, editItem }) => {
   const handleDelete = (id) => {
     deleteItem(id);
   };
-  const handleEdit = (task) => {
-    console.log(task);
+  const handleEdit = (id, description, workedHours, date) => {
+    editItem(id, description, workedHours, date);
   };
 
   const getData = () => {
     return tasklist.map((task) => ({
       ...task,
+      date: new Date(task.date).toISOString().substr(0, 10),
       edit: (
         <Button
           icons="edit"
           callback={() => {
-            handleEdit(task);
+            handleEdit(task._id, task.description, task.workedHours, task.date);
           }}
         />
       ),
@@ -28,7 +29,7 @@ const TasksList = ({ tasklist, deleteItem }) => {
     <div className={styles.container}>
       <Table
         data={getData()}
-        headers={['_id', 'description', 'workedHours', 'date', 'delete', 'edit']}
+        headers={['description', 'workedHours', 'date', 'delete', 'edit']}
       ></Table>
     </div>
   );

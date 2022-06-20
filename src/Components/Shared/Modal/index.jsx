@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './modal.module.css';
 import Button from '../Buttons/buttons';
 
-const Modal = ({ children, isOpen, setIsOpen }) => {
+const Modal = ({ children, isOpen, setIsOpen, message }) => {
   if (!isOpen) {
     return null;
   }

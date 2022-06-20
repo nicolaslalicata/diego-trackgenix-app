@@ -1,3 +1,4 @@
+import List from './adminsList';
 import Table from '../Shared/Table/Table';
 import styles from './admins.module.css';
 import { useState, useEffect } from 'react';
