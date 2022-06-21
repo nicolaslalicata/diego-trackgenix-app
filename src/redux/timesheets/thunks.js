@@ -17,7 +17,6 @@ export const getTimeSheets = () => {
         return response.data;
       })
       .catch((error) => {
-        console.log(error);
         dispatch(timeSheetsError(error.toString()));
       });
   };
@@ -64,8 +63,8 @@ export const editTimeSheet = (timeSheet, description, startDate, endDate, hours)
         } else {
           dispatch(timeSheetsError(response.message));
         }
-      })
-      .then(() => getTimeSheets()(dispatch));
+      });
+    // .then(() => getTimeSheets()(dispatch));
   };
 };
 
@@ -106,7 +105,7 @@ export const addTimesheet = (
           dispatch(timeSheetsError(response.error));
         }
       })
-      .then(() => reset())
-      .then(() => getTimeSheets()(dispatch));
+      .then(() => reset());
+    // .then(() => getTimeSheets()(dispatch));
   };
 };
