@@ -4,8 +4,25 @@ import Table from '../../Shared/Table/Table';
 import Button from '../../Shared/Buttons/buttons';
 import { useState } from 'react';
 import ModalDeleteEmp from '../Modal/modalDelete';
+import EmployeeForm from '../EmployeeForm';
 
-const ListEmployee = ({ Employees, deleteItem, setIsEditModalOpen, setEditItem }) => {
+const ListEmployee = ({
+  Employees,
+  deleteItem,
+  setIsEditModalOpen,
+  setEditItem,
+  setIsAddModalOpen,
+  dispatch,
+  isEditModalOpen,
+  isAddModalOpen,
+  addEmployee,
+  editEmployee,
+  editItem,
+  isModalOpen,
+  setIsModalOpen,
+  isAdding,
+  setIsAdding
+}) => {
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [employeeItem, setemployeeItem] = useState({});
   const getData = () => {
@@ -22,11 +39,11 @@ const ListEmployee = ({ Employees, deleteItem, setIsEditModalOpen, setEditItem }
       delete: <Button icons={'delete'} callback={() => onDelete(employee)} />
     }));
   };
-  const handleEdit = (employee) => {
-    setEditItem(employee);
-    console.log(employee);
-    // alert(`Employee ${employee.firstName} ready for edit`);
-  };
+  // const handleEdit = (employee) => {
+  //   setEditItem(employee);
+  //   console.log(employee);
+  //   // alert(`Employee ${employee.firstName} ready for edit`);
+  // };
 
   const onDelete = (employee) => {
     setIsModalDeleteOpen(true);
@@ -34,15 +51,32 @@ const ListEmployee = ({ Employees, deleteItem, setIsEditModalOpen, setEditItem }
   };
   const onEdit = (employee) => {
     setIsEditModalOpen(true);
-    handleEdit(employee);
+    setEditItem(employee);
   };
   return (
     <div className={styles.container}>
+      <EmployeeForm
+        isEditModalOpen={isEditModalOpen}
+        setIsEditModalOpen={setIsEditModalOpen}
+        isAddModalOpen={isAddModalOpen}
+        setIsAddModalOpen={setIsAddModalOpen}
+        addEmployee={addEmployee}
+        editEmployee={editEmployee}
+        initialValue={editItem}
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        isAdding={isAdding}
+        setIsAdding={setIsAdding}
+        dispatch={dispatch}
+        employeeItem={employeeItem}
+        setEditItem={setEditItem}
+      />
       <ModalDeleteEmp
         setIsModalDeleteOpen={setIsModalDeleteOpen}
         isModalDeleteOpen={isModalDeleteOpen}
         employeeItem={employeeItem}
         deleteItem={deleteItem}
+        dispatch={dispatch}
       />
       <Table
         data={getData()}
