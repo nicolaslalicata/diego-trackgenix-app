@@ -234,7 +234,7 @@ const Tasks = () => {
               />
             </div>
             <div>
-              <Input type="submit" value="submit" />
+              <Button text="Edit task"></Button>
             </div>
           </form>
         </div>
