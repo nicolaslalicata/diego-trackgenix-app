@@ -13,7 +13,7 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [taskId, setTaskId] = useState('');
-  const [validated, setValidated] = useState('false');
+  const [validated, setValidated] = useState('');
   const [employeeId, setEmployeeId] = useState('');
   const [projectId, setProjectId] = useState('');
   const [isModalErrorAdd, setIsModalErrorAdd] = useState(false);
@@ -109,6 +109,7 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
               }}
             />
             <Dropdown
+              initialOption="Is Validated?"
               label="Validated"
               options={['true', 'false']}
               value={validated}
@@ -139,6 +140,7 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
             text={'Cancel'}
             callback={() => {
               setIsModalAdd(false);
+              reset();
             }}
           ></Button>
         </div>
