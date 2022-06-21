@@ -13,7 +13,7 @@ const TasksList = ({ tasklist, deleteItem, editItem }) => {
   const getData = () => {
     return tasklist.map((task) => ({
       ...task,
-      // date: new Date(task.date).toISOString().substr(0, 10),
+      date: new Date(task.date).toISOString().substr(0, 10),
       edit: (
         <Button
           icons="edit"
@@ -29,8 +29,8 @@ const TasksList = ({ tasklist, deleteItem, editItem }) => {
     <div className={styles.container}>
       <Table
         data={getData()}
-        objProp={['description', 'workedHours', 'date', 'delete', 'edit']}
-        headers={['description', 'workedHours', 'date', 'delete', 'edit']}
+        objProp={['description', 'workedHours', 'date', 'edit', 'delete']}
+        headers={['Description', 'Worked Hours', 'Date', 'Edit', 'Delete']}
       ></Table>
     </div>
   );

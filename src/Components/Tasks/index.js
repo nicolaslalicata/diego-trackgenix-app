@@ -53,18 +53,19 @@ const Tasks = () => {
   };
 
   const addTask = ({ description, workedHours, date }) => {
-    if (description && workedHours && date) {
-      const newTask = {
-        description,
-        workedHours,
-        date
-      };
-      dispatch(addTaskThunks(newTask));
-    } else {
+    const newTask = {
+      description,
+      workedHours,
+      date
+    };
+
+    if (description === '' && workedHours === '' && date === '') {
       setShowModalMessage({
         showModalMessage: true,
         title: 'Data missing'
       });
+    } else {
+      dispatch(addTaskThunks(newTask));
     }
   };
 
@@ -90,35 +91,36 @@ const Tasks = () => {
   };
 
   const editTask = async ({ id, description, workedHours, date }) => {
-    if (description && workedHours && date) {
-      const taskEdited = {
-        id,
-        description,
-        workedHours,
-        date
-      };
-      dispatch(editTaskThunks(taskEdited));
-    } else {
-      setShowModalMessage({
-        showModalMessage: true,
-        title: 'Data missing'
-      });
-    }
+    const taskEdited = {
+      id,
+      description,
+      workedHours,
+      date
+    };
+    dispatch(editTaskThunks(taskEdited));
   };
 
-  const onChange = (e) => {
+  const onChangeAdd = (e) => {
     setTaskInput({ ...taskInput, [e.target.name]: e.target.value });
   };
 
   const addItem = (e) => {
     e.preventDefault();
-    addTask(taskInput);
     setTaskInput({
       description: '',
       workedHours: '',
       date: ''
     });
-    setIsAdding(false);
+    if (taskInput.description === '' && taskInput.workedHours === '' && taskInput.date == '') {
+      e.preventDefault();
+      setShowModalMessage({
+        showModalMessage: true,
+        title: 'Data missing'
+      });
+    } else {
+      addTask(taskInput);
+      setIsAdding(false);
+    }
   };
 
   const onChangeEdit = (e) => {
@@ -162,7 +164,7 @@ const Tasks = () => {
                 type={'text'}
                 name={'description'}
                 value={taskInput.description}
-                onChange={onChange}
+                onChange={onChangeAdd}
               />
             </div>
             <div>
@@ -171,20 +173,20 @@ const Tasks = () => {
                 type={'text'}
                 name={'workedHours'}
                 value={taskInput.workedHours}
-                onChange={onChange}
+                onChange={onChangeAdd}
               />
             </div>
             <div>
               <Input
                 labelText={'Date:'}
-                type={'text'}
+                type={'date'}
                 name={'date'}
                 value={taskInput.date}
-                onChange={onChange}
+                onChange={onChangeAdd}
               />
             </div>
             <div>
-              <Input type="submit" value="submit" />
+              <Button text="Add task"></Button>
             </div>
           </form>
         </div>
@@ -214,7 +216,7 @@ const Tasks = () => {
             <div>
               <Input
                 labelText={'Date:'}
-                type={'text'}
+                type={'date'}
                 name={'date'}
                 value={showEditModal.date}
                 onChange={onChangeEdit}
