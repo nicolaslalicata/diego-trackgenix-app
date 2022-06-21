@@ -5,9 +5,7 @@ import Modal from '../../Shared/Modal';
 import { addNewEmployee } from '../../../redux/employees/thunks';
 
 const EmployeeForm = ({
-  addEmployee,
   editEmployee,
-  // setIsAddModalOpen,
   // isAddModalOpen,
   initialValue,
   isEditModalOpen,
@@ -20,7 +18,7 @@ const EmployeeForm = ({
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [isAddModalOpen, setIsAddModalOpen] = useState('');
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   // const dispatch = useDispatch();
 
@@ -126,11 +124,6 @@ const EmployeeForm = ({
                   text="Cancel"
                   callback={() => {
                     setIsAddModalOpen(false);
-                    // setIsAdding(false);
-                    // setFirstName('');
-                    // setLastName('');
-                    // setEmail('');
-                    // setPassword('');
                   }}
                 />
               </div>
@@ -202,11 +195,6 @@ const EmployeeForm = ({
                   text="Cancel"
                   callback={() => {
                     setIsEditModalOpen(false);
-                    setIsAdding(false);
-                    // setFirstName('');
-                    // setLastName('');
-                    // setEmail('');
-                    // setPassword('');
                   }}
                 />
               </div>

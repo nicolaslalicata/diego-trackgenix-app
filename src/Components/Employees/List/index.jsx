@@ -5,9 +5,10 @@ import Button from '../../Shared/Buttons/buttons';
 import { useState } from 'react';
 import ModalDeleteEmp from '../Modal/modalDelete';
 import EmployeeForm from '../EmployeeForm';
+import { useSelector } from 'react-redux';
 
 const ListEmployee = ({
-  Employees,
+  list,
   deleteItem,
   setIsEditModalOpen,
   setEditItem,
@@ -25,8 +26,10 @@ const ListEmployee = ({
 }) => {
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [employeeItem, setemployeeItem] = useState({});
+  const isLoading = useSelector((state) => state.employees.isLoading);
+  console.log(isLoading);
   const getData = () => {
-    return Employees.map((employee) => ({
+    return list.map((employee) => ({
       ...employee,
       edit: (
         <Button
@@ -39,6 +42,7 @@ const ListEmployee = ({
       delete: <Button icons={'delete'} callback={() => onDelete(employee)} />
     }));
   };
+  console.log(list);
   // const handleEdit = (employee) => {
   //   setEditItem(employee);
   //   console.log(employee);

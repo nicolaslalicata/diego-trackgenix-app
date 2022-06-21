@@ -14,7 +14,6 @@ export const getEmployees = () => {
       .then((response) => response.json())
       .then((response) => {
         dispatch(getEmployeesSuccess(response.data));
-        console.log('Hasta aca funciona');
         return response.data;
       })
       .catch((error) => {
@@ -36,7 +35,6 @@ export const deleteEmployees = (employees) => {
       })
       .catch((error) => {
         dispatch(employeesError(error.toString()));
-        console.log('A ver que onda');
       });
   };
 };
