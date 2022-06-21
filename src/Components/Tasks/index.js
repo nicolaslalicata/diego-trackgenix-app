@@ -129,13 +129,24 @@ const Tasks = () => {
 
   const editItem = (e) => {
     e.preventDefault();
-    editTask(showEditModal);
-    setShowEditModal({
-      description: '',
-      workedHours: '',
-      date: ''
-    });
-    setShowEditModal(false);
+    if (
+      showEditModal.description === '' ||
+      showEditModal.workedHours === '' ||
+      showEditModal.date === ''
+    ) {
+      setShowModalMessage({
+        showModalMessage: true,
+        title: 'Data missing'
+      });
+    } else {
+      editTask(showEditModal);
+      setShowEditModal({
+        description: '',
+        workedHours: '',
+        date: ''
+      });
+      setShowEditModal(false);
+    }
   };
 
   if (error) {
