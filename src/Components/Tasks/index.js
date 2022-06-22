@@ -6,15 +6,19 @@ import {
   editTaskThunks,
   deleteTaskThunks
 } from '../../redux/tasks/thunks';
+import { useForm } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
+import Joi from 'joi';
 
 // Shared components
 import TasksList from './ListTasks/TasksList';
 import styles from './tasks.module.css';
 import Modal from '../Shared/Modal/index.jsx';
 import Button from '../Shared/Buttons/buttons';
-import Input from '../Shared/Input';
+import InputControlled from '../Shared/InputControlled';
 import Loader from '../Shared/Loading';
 import { IoIosAddCircleOutline } from 'react-icons/io';
+import Input from '../Shared/Input';
 
 const Tasks = () => {
   const dispatch = useDispatch();
@@ -35,6 +39,23 @@ const Tasks = () => {
     description: '',
     workedHours: '',
     date: ''
+  });
+
+  const schema = Joi.object({
+    description: Joi.string().required().min(10),
+    workedHours: Joi.number().required().positive(),
+    date: Joi.date().default(() => {
+      return new Date();
+    })
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
+    mode: 'onSubmit',
+    resolver: joiResolver(schema)
   });
 
   useEffect(() => {
@@ -168,32 +189,35 @@ const Tasks = () => {
       <Modal isOpen={isAdding} setIsOpen={setIsAdding}>
         <h3>Add a new Task</h3>
         <div className={styles.contenedorModal}>
-          <form onSubmit={addItem}>
+          <form onSubmit={handleSubmit(addItem)}>
             <div>
-              <Input
-                labelText={'Description:'}
+              <InputControlled
                 type={'text'}
-                name={'description'}
-                value={taskInput.description}
-                onChange={onChangeAdd}
+                label={'Description'}
+                name="description"
+                register={register}
+                required
+                error={errors.description}
               />
             </div>
             <div>
-              <Input
-                labelText={'Worked Hours:'}
+              <InputControlled
                 type={'text'}
-                name={'workedHours'}
-                value={taskInput.workedHours}
-                onChange={onChangeAdd}
+                label={'Worked Hours'}
+                name="workedHours"
+                register={register}
+                required
+                error={errors.workedHours}
               />
             </div>
             <div>
-              <Input
-                labelText={'Date:'}
+              <InputControlled
                 type={'date'}
-                name={'date'}
-                value={taskInput.date}
-                onChange={onChangeAdd}
+                label={'Date'}
+                name="date"
+                register={register}
+                required
+                error={errors.date}
               />
             </div>
             <div>
