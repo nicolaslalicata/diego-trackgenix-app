@@ -6,11 +6,9 @@ import { addNewEmployee } from '../../../redux/employees/thunks';
 
 const EmployeeForm = ({
   editEmployee,
-  // isAddModalOpen,
   initialValue,
   isEditModalOpen,
   setIsEditModalOpen,
-  setIsAdding,
   setEditItem,
   dispatch
 }) => {
@@ -19,8 +17,6 @@ const EmployeeForm = ({
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-
-  // const dispatch = useDispatch();
 
   useEffect(() => {
     if (initialValue) {
