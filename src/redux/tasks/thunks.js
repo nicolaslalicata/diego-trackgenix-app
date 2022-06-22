@@ -55,6 +55,7 @@ export const addTaskThunks = (newTask) => {
   };
 };
 export const editTaskThunks = (taskEdited) => {
+  console.log(taskEdited);
   const url = `${process.env.REACT_APP_API_URL}/tasks/${taskEdited.id}`;
   const options = {
     method: 'PUT',

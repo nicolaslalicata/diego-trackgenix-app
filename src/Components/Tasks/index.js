@@ -44,25 +44,15 @@ const Tasks = () => {
   });
 
   const {
-    register,
-    handleSubmit,
     reset,
+    register,
     setValue,
+    handleSubmit,
     formState: { errors }
   } = useForm({
     mode: 'onSubmit',
     resolver: joiResolver(schema)
   });
-
-  useEffect(() => {
-    if (showEditModal) {
-      setValue([
-        { description: showEditModal.description },
-        { workedHours: showEditModal.workedHours },
-        { date: new Date(setShowEditModal.date).toISOString().substr(0, 10) }
-      ]);
-    }
-  }, []);
 
   useEffect(() => {
     reset();
@@ -95,46 +85,33 @@ const Tasks = () => {
   };
 
   const onChangeEdit = (e) => {
+    console.log(e.target.value);
     setShowEditModal({ ...showEditModal, [e.target.name]: e.target.value });
   };
 
   const editItem = (id, description, workedHours, date) => {
     const dateFormated = new Date(date).toISOString().substr(0, 10);
-
-    console.log(id, description, workedHours, dateFormated);
-    // e.preventDefault();
-    // editTask(showEditModal);
     setShowEditModal({
+      showEditModal: true,
       id,
       description,
       workedHours,
       date: dateFormated
     });
-    // setShowEditModal(false);
+    setValue('description', description);
+    setValue('workedHours', workedHours);
+    setValue('date', dateFormated);
   };
 
-  // const openEditModal = (id, description, workedHours, date) => {
-  //   setShowEditModal({
-  //     showEditModal: true,
-  //     id,
-  //     description,
-  //     workedHours,
-  //     date
-  //   });
-
-  //   console.log(toEdit);
-  // };
-
-  const editTask = async ({ id, description, workedHours, date }) => {
+  const editTask = async (data) => {
     const taskEdited = {
-      id,
-      description,
-      workedHours,
-      date
+      id: showEditModal.id,
+      description: data.description,
+      workedHours: data.workedHours,
+      date: data.date
     };
-    console.log(taskEdited);
-
-    // dispatch(editTaskThunks(taskEdited));
+    dispatch(editTaskThunks(taskEdited));
+    setShowEditModal(false);
   };
 
   const addTask = ({ description, workedHours, date }, e) => {
@@ -216,7 +193,8 @@ const Tasks = () => {
                 register={register}
                 required
                 error={errors.description}
-                value={showEditModal.description}
+                // value={showEditModal.description}
+                onChange={onChangeEdit}
               />
             </div>
             <div>
@@ -227,7 +205,8 @@ const Tasks = () => {
                 register={register}
                 required
                 error={errors.workedHours}
-                value={showEditModal.workedHours}
+                // value={showEditModal.workedHours}
+                onChange={onChangeEdit}
               />
             </div>
             <div>
@@ -238,7 +217,8 @@ const Tasks = () => {
                 register={register}
                 required
                 error={errors.date}
-                value={showEditModal.date}
+                // value={showEditModal.date}
+                onChange={onChangeEdit}
               />
             </div>
             <div>
