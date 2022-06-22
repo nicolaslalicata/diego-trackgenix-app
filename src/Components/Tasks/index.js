@@ -85,7 +85,6 @@ const Tasks = () => {
   };
 
   const onChangeEdit = (e) => {
-    console.log(e.target.value);
     setShowEditModal({ ...showEditModal, [e.target.name]: e.target.value });
   };
 
@@ -112,6 +111,7 @@ const Tasks = () => {
     };
     dispatch(editTaskThunks(taskEdited));
     setShowEditModal(false);
+    reset();
   };
 
   const addTask = ({ description, workedHours, date }, e) => {
