@@ -7,8 +7,8 @@ import {
   deleteTaskThunks
 } from '../../redux/tasks/thunks';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { joiResolver } from '@hookform/resolvers/joi';
+import Joi from 'joi';
 
 // Shared components
 import TasksList from './ListTasks/TasksList';
@@ -26,23 +26,6 @@ const Tasks = () => {
   const loader = useSelector((state) => state.tasks.isLoading);
   const error = useSelector((state) => state.tasks.error);
 
-  const schema = yup.object({
-    description: yup.string().required().min(10),
-    workedHours: yup.number().required().positive(),
-    date: yup.date().default(() => {
-      return new Date();
-    })
-  });
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm({
-    mode: 'onSubmit',
-    resolver: yupResolver(schema)
-  });
-
   const [showModal, setShowModal] = useState(false, { id: null });
   const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
   const [showEditModal, setShowEditModal] = useState(false, {
@@ -56,6 +39,23 @@ const Tasks = () => {
     description: '',
     workedHours: '',
     date: ''
+  });
+
+  const schema = Joi.object({
+    description: Joi.string().required().min(10),
+    workedHours: Joi.number().required().positive(),
+    date: Joi.date().default(() => {
+      return new Date();
+    })
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
+    mode: 'onSubmit',
+    resolver: joiResolver(schema)
   });
 
   useEffect(() => {
