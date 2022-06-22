@@ -1,31 +1,29 @@
-import styles from './admins.module.css';
+import Modal from '../Shared/Modal';
+import Button from '../Shared/Buttons/buttons';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteAdmin } from '../../redux/admins/thunks';
 
-const ModalDelete = ({ setIsOpen, isOpen, deleteAdmin }) => {
-  if (isOpen) {
-    return (
-      <>
-        <div className={styles.darkBG} onClick={() => setIsOpen(false)} />
-        <div className={styles.centered}>
-          <div className={styles.modal}>
-            <div className={styles.modalHeader}>
-              <h5 className={styles.heading}>Dialog</h5>
-            </div>
-            <div className={styles.modalContent}>Are you sure you want to delete the item?</div>
-            <div className={styles.modalActions}>
-              <div className={styles.actionsContainer}>
-                <button className={styles.deleteBtn} onClick={() => deleteAdmin()}>
-                  Delete
-                </button>
-                <button className={styles.cancelBtn} onClick={() => setIsOpen(false)}>
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </>
-    );
-  } else return false;
+const ModalDelete = ({ setShowDeleteModal, showDeleteModal, admin }) => {
+  const dispatch = useDispatch();
+  return (
+    <Modal isOpen={showDeleteModal} setIsOpen={setShowDeleteModal}>
+      <div>
+        <h4>Are you sure you want to remove this administrator?</h4>
+      </div>
+      <div>
+        <Button
+          text={'Delete'}
+          callback={() => {
+            deleteAdmin(admin)(dispatch).then(() => {
+              setShowDeleteModal(false);
+            });
+          }}
+        >
+          Delete
+        </Button>
+      </div>
+    </Modal>
+  );
 };
 
 export default ModalDelete;

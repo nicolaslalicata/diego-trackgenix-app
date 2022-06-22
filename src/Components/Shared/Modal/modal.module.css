@@ -11,6 +11,11 @@
     background: rgba(0, 0, 0, .8);
 }
 
+.buttonContainer {
+    position:relative;
+    left: 40%;
+}
+
 .contenedorModal {
     display: flex;
     flex-direction: column;

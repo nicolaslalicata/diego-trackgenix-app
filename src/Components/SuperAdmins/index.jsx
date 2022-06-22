@@ -6,7 +6,12 @@ import Modal from '../Shared/Modal/index';
 import Input from '../Shared/Input';
 import Loader from '../Shared/Loading';
 import { useDispatch, useSelector } from 'react-redux';
-import { addSuperAdminsFulfilled, getSuperAdminsFulfilled } from '../../redux/superAdmins/actions';
+import {
+  getSuperAdmins,
+  deleteSuperAdmin,
+  addSuperAdmin,
+  editSuperAdmin
+} from '../../redux/superAdmins/thunks';
 
 function SuperAdmins() {
   let initialValues = {
@@ -15,17 +20,18 @@ function SuperAdmins() {
     email: '',
     password: ''
   };
+
   // REDUX
   const dispatch = useDispatch();
-  const superAdmins = useSelector((state) => state.superAdmins.superAdminsList);
+  const superAdmins = useSelector((state) => state.superAdmins.List);
+  const isLoading = useSelector((state) => state.superAdmins.isLoading);
+  const error = useSelector((state) => state.superAdmins.error);
 
-  // const [superAdmins, setSuperAdmins] = useState([]);
   const [id, setId] = useState('');
-
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [modalNotification, setModalNotification] = useState(false, { message: '' });
 
   const [firstName, setFirstName] = useState(initialValues.firstName);
   const [lastName, setLastName] = useState(initialValues.lastName);
@@ -40,18 +46,21 @@ function SuperAdmins() {
   };
 
   useEffect(() => {
-    try {
-      fetch(`${process.env.REACT_APP_API_URL}/super-admins`)
-        .then((response) => response.json())
-        .then((response) => {
-          dispatch(getSuperAdminsFulfilled(response.data));
-          setIsLoading(false);
-          // setSuperAdmins(response.data);
-        });
-    } catch (error) {
-      console.error(error);
-    }
+    dispatch(getSuperAdmins());
   }, []);
+
+  const getById = (id) => {
+    setIsOpenEdit(true);
+    formFiller(id);
+  };
+
+  const formFiller = (id) => {
+    const valuesForm = superAdmins.filter((superadmin) => superadmin._id === id);
+    setFirstName(valuesForm[0].firstName);
+    setLastName(valuesForm[0].lastName);
+    setEmail(valuesForm[0].email);
+    setPassword(valuesForm[0].password);
+  };
 
   const getData = () => {
     return superAdmins.map((superAdmin) => ({
@@ -77,73 +86,40 @@ function SuperAdmins() {
     }));
   };
 
-  const getById = (ids) => {
-    setIsOpenEdit(true);
-    fetch(`${process.env.REACT_APP_API_URL}/super-admins/${ids}`)
-      .then((response) => response.json())
-      .then((response) => {
-        setFirstName(response.data.firstName);
-        setLastName(response.data.lastName);
-        setEmail(response.data.email);
-        setPassword(response.data.password);
+  // HANDLERS REDUX
+  const handleDeleteSuperAdmin = (superAdmID) => {
+    dispatch(deleteSuperAdmin(superAdmID, setIsOpen, setModalNotification));
+  };
+
+  const handleCreateSuperAdmin = () => {
+    if (firstName && lastName && email && password) {
+      dispatch(
+        addSuperAdmin({ firstName, lastName, email, password }, setIsOpenAdd, setModalNotification)
+      );
+    } else {
+      setModalNotification({
+        modalNotification: true,
+        message: 'Please complete all the fields'
       });
-  };
-
-  const deleteRow = async (_id) => {
-    const resp = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${_id}`, {
-      method: 'DELETE'
-    });
-    const data = resp.json;
-    console.log(data);
-    console.log(resp);
-    if (resp.status === 200) {
-      // setSuperAdmins(superAdmins.filter((row) => row._id !== _id));
-      setIsOpen(false);
-      alert('Super admin deleted successfully');
-    } else {
-      alert('There has been an error');
     }
   };
 
-  const newSuperAdmin = async (superAdmin) => {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins`, {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify(superAdmin)
-    });
-    const data = await response.json();
-    if (response.status === 200 || response.status === 201) {
-      // setSuperAdmins([...superAdmins, data]);
-      dispatch(addSuperAdminsFulfilled(newSuperAdmin));
-      setIsOpenAdd(false);
-      alert('Super admin created successfully');
+  const handleEditSuperAdmin = (superAdmin) => {
+    if (firstName && lastName && email && password) {
+      dispatch(editSuperAdmin(superAdmin, id, setIsOpenEdit, setModalNotification));
     } else {
-      alert(data.message);
+      setModalNotification({
+        modalNotification: true,
+        message: 'Please complete all the fields'
+      });
     }
   };
 
-  const editSuperAdmin = async (superAdmin) => {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify(superAdmin)
-    });
-    const data = await response.json();
-    if (response.status === 200 || response.status === 201) {
-      // setSuperAdmins([...superAdmins, data]);
-      setIsOpenEdit(false);
-      alert('Super admin edited successfully');
-    } else {
-      alert(data.message);
-    }
-  };
-
-  const headers = ['First Name', 'Last Name', 'Email', 'Password', 'Edit', 'Delete'];
+  const headers = ['Name', 'Last Name', 'Email', 'Password', 'Edit', 'Delete'];
   const objProp = ['firstName', 'lastName', 'email', 'password', 'edit', 'delete'];
+  if (error) {
+    return <Loader isLoading={isLoading} />;
+  }
   if (isLoading) {
     return <Loader isLoading={isLoading} />;
   } else {
@@ -160,7 +136,7 @@ function SuperAdmins() {
         {/* MODAL DELETE */}
         <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
           <h3>Are you sure you want to delete this Super Admin?</h3>
-          <Button callback={() => deleteRow(id)} text={'Delete'} />
+          <Button callback={() => handleDeleteSuperAdmin(id)} text={'Delete'} />
         </Modal>
         {/* MODAL ADD */}
         <Modal isOpen={isOpenAdd} setIsOpen={setIsOpenAdd}>
@@ -199,7 +175,7 @@ function SuperAdmins() {
               icons={'submit'}
               callback={(noRefresh) => {
                 noRefresh.preventDefault();
-                newSuperAdmin({ firstName, lastName, email, password });
+                handleCreateSuperAdmin({ firstName, lastName, email, password });
               }}
             />
           </form>
@@ -237,10 +213,18 @@ function SuperAdmins() {
               icons={'submit'}
               callback={(noRefresh) => {
                 noRefresh.preventDefault();
-                editSuperAdmin({ firstName, lastName, email, password });
+                handleEditSuperAdmin({ firstName, lastName, email, password });
               }}
             />
           </form>
+        </Modal>
+        {/* MODAL NOTIFICATION */}
+        <Modal
+          isOpen={modalNotification}
+          setIsOpen={setModalNotification}
+          message={modalNotification.message}
+        >
+          <Button callback={() => setModalNotification(false)} text={'OK'} />
         </Modal>
         <Table data={getData()} objProp={objProp} headers={headers} />
       </section>

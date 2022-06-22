@@ -1,38 +1,31 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
-import styles from './admins.module.css';
+import { useState } from 'react';
+import Modal from '../Shared/Modal/index';
 import Input from '../Shared/Input';
-import Modal from '../Shared/Modal';
 import Button from '../Shared/Buttons/buttons';
 import Dropdown from '../Shared/Dropdown/Dropdown';
-import { editAdmin } from '../../redux/admins/thunks';
-import { useDispatch, useSelector } from 'react-redux/es/exports';
+import styles from './admins.module.css';
+import { createAdmin } from '../../redux/admins/thunks';
+import { useDispatch } from 'react-redux';
 
-const ModalEditAdmin = ({ admin, setShowEditModal, showEditModal, setSucModalIsOpen }) => {
+const ModalAddAdmin = ({ setShowAddModal, showAddModal, setSucModalIsOpen }) => {
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [gender, setGender] = useState('');
   const [status, setStatus] = useState('');
   const [password, setPassword] = useState('');
+
   const dispatch = useDispatch();
-  useEffect(() => {
-    setName(admin.firstName);
-    setLastName(admin.lastName);
-    setEmail(admin.email);
-    setGender(admin.gender);
-    setStatus(admin.status);
-    setPassword(admin.password);
-  }, [admin]);
+
   return (
-    <Modal isOpen={showEditModal} setIsOpen={setShowEditModal}>
+    <Modal isOpen={showAddModal} setIsOpen={setShowAddModal}>
       <div className={styles.addModalContainer}>
         <div>
           <Input
             labelText={'Name'}
             type="text"
             placeholder="Name"
-            value={name}
             onChange={(e) => {
               setName(e.target.value);
             }}
@@ -41,7 +34,6 @@ const ModalEditAdmin = ({ admin, setShowEditModal, showEditModal, setSucModalIsO
             labelText={'Last Name'}
             type="text"
             placeholder="Last Name"
-            value={lastName}
             onChange={(e) => {
               setLastName(e.target.value);
             }}
@@ -50,7 +42,6 @@ const ModalEditAdmin = ({ admin, setShowEditModal, showEditModal, setSucModalIsO
             labelText={'Email'}
             type={'text'}
             placeholder={'Email'}
-            value={email}
             onChange={(e) => {
               setEmail(e.target.value);
             }}
@@ -79,7 +70,6 @@ const ModalEditAdmin = ({ admin, setShowEditModal, showEditModal, setSucModalIsO
             labelText={'Password'}
             type="password"
             placeholder="password"
-            value={password}
             onChange={(e) => {
               setPassword(e.target.value);
             }}
@@ -90,21 +80,20 @@ const ModalEditAdmin = ({ admin, setShowEditModal, showEditModal, setSucModalIsO
         value="Submit"
         icons={'submit'}
         callback={() => {
-          editAdmin(
+          createAdmin(
             name,
             lastName,
             email,
             gender,
             status,
             password,
-            setShowEditModal,
-            admin,
+            setShowAddModal,
             setSucModalIsOpen
-          )(dispatch).then(() => setShowEditModal(false));
+          )(dispatch);
         }}
       />
     </Modal>
   );
 };
 
-export default ModalEditAdmin;
+export default ModalAddAdmin;
