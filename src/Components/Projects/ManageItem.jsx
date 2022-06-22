@@ -43,8 +43,8 @@ const ManageItem = function ({ handler, project }) {
 
   return (
     <form id="projectForm" className={styles.form} onSubmit={onSubmit}>
-      <tr>
-        <th>
+      <div className={styles.inputConteiner}>
+        <div>
           <Input
             className={styles.input}
             labelText="Name"
@@ -66,8 +66,8 @@ const ManageItem = function ({ handler, project }) {
             inputStyle={{ width: '74%' }}
             onChange={(event) => onChange(event, 'client')}
           />
-        </th>
-        <th>
+        </div>
+        <div>
           <Input
             className={styles.input}
             type="date"
@@ -84,8 +84,8 @@ const ManageItem = function ({ handler, project }) {
             inputStyle={{ width: '90%', height: '14px' }}
             onChange={(event) => onChange(event, 'endDate')}
           />
-        </th>
-      </tr>
+        </div>
+      </div>
       <Button icons="submit" />
     </form>
   );

@@ -17,24 +17,26 @@ function ProjectsList() {
   const [modalAddItemOpen, setModalAddItemOpen] = useState(false);
   const [modalEditItemOpen, setModalEditItemOpen] = useState(false);
 
+  const [modalNotification, setModalNotification] = useState(false, { message: '' });
+
   useEffect(() => {
     dispatch(getProjects());
   }, []);
 
   const addItem = async (userInput) => {
-    await dispatch(addProject(userInput));
+    await dispatch(addProject(userInput, setModalNotification));
     setModalAddItemOpen(false);
     await dispatch(getProjects());
   };
 
   const editItem = async (userInput) => {
-    await dispatch(editProject(userInput));
+    await dispatch(editProject(userInput, setModalNotification));
     setModalEditItemOpen(false);
     await dispatch(getProjects());
   };
 
   const deleteItem = async (userInput) => {
-    await dispatch(deleteProject(userInput));
+    await dispatch(deleteProject(userInput, setModalNotification));
     setModalCloseOpen(false);
     await dispatch(getProjects());
   };
@@ -93,6 +95,14 @@ function ProjectsList() {
             <Button text="cancel" callback={() => setModalCloseOpen(false)} />
           </div>
         </div>
+      </Modal>
+      {/* MODAL NOTIFICATION */}
+      <Modal
+        isOpen={modalNotification}
+        setIsOpen={setModalNotification}
+        message={modalNotification.message}
+      >
+        <Button callback={() => setModalNotification(false)} text={'OK'} />
       </Modal>
       <Button icons="add" callback={() => setModalAddItemOpen(true)} />
       <Table

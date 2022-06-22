@@ -12,3 +12,8 @@
 	right: 30px;
 	width: 40%;
 }
+
+.inputConteiner{
+	display: flex;
+	justify-content: space-around;
+}
