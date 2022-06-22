@@ -1,13 +1,27 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  getTasks,
+  addTaskThunks,
+  editTaskThunks,
+  deleteTaskThunks
+} from '../../redux/tasks/thunks';
+
+// Shared components
 import TasksList from './ListTasks/TasksList';
 import styles from './tasks.module.css';
 import Modal from '../Shared/Modal/index.jsx';
 import Button from '../Shared/Buttons/buttons';
-import { IoIosAddCircleOutline } from 'react-icons/io';
 import Input from '../Shared/Input';
+import Loader from '../Shared/Loading';
+import { IoIosAddCircleOutline } from 'react-icons/io';
 
 const Tasks = () => {
-  const [taskList, setTasksList] = useState([]);
+  const dispatch = useDispatch();
+  const tasks = useSelector((state) => state.tasks.tasksList);
+  const loader = useSelector((state) => state.tasks.isLoading);
+  const error = useSelector((state) => state.tasks.error);
+
   const [showModal, setShowModal] = useState(false, { id: null });
   const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
   const [showEditModal, setShowEditModal] = useState(false, {
@@ -23,21 +37,9 @@ const Tasks = () => {
     date: ''
   });
 
-  const fetchTasks = () => {
-    fetch(`${process.env.REACT_APP_API_URL}/tasks`)
-      .then((response) => response.json())
-      .then((response) => {
-        setTasksList(response.data);
-      });
-  };
-
   useEffect(() => {
     try {
-      fetch(`${process.env.REACT_APP_API_URL}/tasks`)
-        .then((response) => response.json())
-        .then((response) => {
-          setTasksList(response.data);
-        });
+      dispatch(getTasks());
     } catch (error) {
       console.error(error);
     }
@@ -50,58 +52,32 @@ const Tasks = () => {
     });
   };
 
-  const deleteItem = () => {
-    if (showModal.id) {
-      fetch(`${process.env.REACT_APP_API_URL}/tasks/${showModal.id}`, { method: 'DELETE' }).then(
-        setTasksList([...taskList.filter((listItem) => listItem._id !== showModal.id)])
-      );
-      setShowModal(!setShowModal);
-      setShowModalMessage({
-        showModalMessage: true,
-        message: 'Task deleted'
-      });
-    }
-  };
-
   const addTask = ({ description, workedHours, date }) => {
     const newTask = {
       description,
       workedHours,
       date
     };
-    const url = `${process.env.REACT_APP_API_URL}/tasks/`;
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        description: newTask.description,
-        workedHours: newTask.workedHours,
-        date: newTask.date
-      })
-    };
-    try {
-      fetch(url, options)
-        .then((response) => {
-          if (response.ok) {
-            setShowModalMessage({
-              showModalMessage: true,
-              message: 'Task Added'
-            });
-            return response.json();
-          }
-          throw setShowModalMessage({
-            showModalMessage: true,
-            message: 'Error'
-          });
-        })
-        .then((data) => {
-          setTasksList([...taskList, data.data]);
-        });
-    } catch (error) {
-      console.error(error);
+
+    if (description === '' && workedHours === '' && date === '') {
+      setShowModalMessage({
+        showModalMessage: true,
+        title: 'Data missing'
+      });
+    } else {
+      dispatch(addTaskThunks(newTask));
     }
+  };
+
+  const deleteItem = () => {
+    if (showModal.id) {
+      dispatch(deleteTaskThunks(showModal.id));
+    }
+    setShowModal(!setShowModal);
+    setShowModalMessage({
+      showModalMessage: true,
+      title: 'Task deleted'
+    });
   };
 
   const openEditModal = (id, description, workedHours, date) => {
@@ -115,61 +91,36 @@ const Tasks = () => {
   };
 
   const editTask = async ({ id, description, workedHours, date }) => {
-    if (id && description && workedHours && date) {
-      const taskEdited = {
-        id,
-        description,
-        workedHours,
-        date
-      };
-      const url = `${process.env.REACT_APP_API_URL}/tasks/${taskEdited.id}`;
-      const options = {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          description: taskEdited.description,
-          workedHours: taskEdited.workedHours,
-          date: taskEdited.date
-        })
-      };
-      try {
-        fetch(url, options)
-          .then((response) => {
-            if (response.ok) {
-              setShowModalMessage({
-                showModalMessage: true,
-                message: 'Task edited'
-              });
-              return response.json();
-            }
-            throw setShowModalMessage({
-              showModalMessage: true,
-              message: 'Error'
-            });
-          })
-          .then(() => {
-            fetchTasks();
-          });
-      } catch (error) {
-        console.error(error);
-      }
-    }
+    const taskEdited = {
+      id,
+      description,
+      workedHours,
+      date
+    };
+    dispatch(editTaskThunks(taskEdited));
   };
 
-  const onChange = (e) => {
+  const onChangeAdd = (e) => {
     setTaskInput({ ...taskInput, [e.target.name]: e.target.value });
   };
+
   const addItem = (e) => {
     e.preventDefault();
-    addTask(taskInput);
     setTaskInput({
       description: '',
       workedHours: '',
       date: ''
     });
-    setIsAdding(false);
+    if (taskInput.description === '' && taskInput.workedHours === '' && taskInput.date == '') {
+      e.preventDefault();
+      setShowModalMessage({
+        showModalMessage: true,
+        title: 'Data missing'
+      });
+    } else {
+      addTask(taskInput);
+      setIsAdding(false);
+    }
   };
 
   const onChangeEdit = (e) => {
@@ -178,15 +129,32 @@ const Tasks = () => {
 
   const editItem = (e) => {
     e.preventDefault();
-    editTask(showEditModal);
-    setShowEditModal({
-      description: '',
-      workedHours: '',
-      date: ''
-    });
-    setShowEditModal(false);
+    if (
+      showEditModal.description === '' ||
+      showEditModal.workedHours === '' ||
+      showEditModal.date === ''
+    ) {
+      setShowModalMessage({
+        showModalMessage: true,
+        title: 'Data missing'
+      });
+    } else {
+      editTask(showEditModal);
+      setShowEditModal({
+        description: '',
+        workedHours: '',
+        date: ''
+      });
+      setShowEditModal(false);
+    }
   };
 
+  if (error) {
+    return <Loader isLoading={loader} />;
+  }
+  if (loader) {
+    return <Loader isLoading={loader} />;
+  }
   return (
     <div className={styles.container}>
       <Button callback={() => setIsAdding(true)} icons={'add'}>
@@ -207,7 +175,7 @@ const Tasks = () => {
                 type={'text'}
                 name={'description'}
                 value={taskInput.description}
-                onChange={onChange}
+                onChange={onChangeAdd}
               />
             </div>
             <div>
@@ -216,20 +184,20 @@ const Tasks = () => {
                 type={'text'}
                 name={'workedHours'}
                 value={taskInput.workedHours}
-                onChange={onChange}
+                onChange={onChangeAdd}
               />
             </div>
             <div>
               <Input
                 labelText={'Date:'}
-                type={'text'}
+                type={'date'}
                 name={'date'}
                 value={taskInput.date}
-                onChange={onChange}
+                onChange={onChangeAdd}
               />
             </div>
             <div>
-              <Input type="submit" value="submit" />
+              <Button text="Add task"></Button>
             </div>
           </form>
         </div>
@@ -259,14 +227,14 @@ const Tasks = () => {
             <div>
               <Input
                 labelText={'Date:'}
-                type={'text'}
+                type={'date'}
                 name={'date'}
                 value={showEditModal.date}
                 onChange={onChangeEdit}
               />
             </div>
             <div>
-              <Input type="submit" value="submit" />
+              <Button text="Edit task"></Button>
             </div>
           </form>
         </div>
@@ -274,9 +242,9 @@ const Tasks = () => {
       <Modal
         isOpen={showModalMessage}
         setIsOpen={setShowModalMessage}
-        message={showModalMessage.message}
+        title={showModalMessage.title}
       ></Modal>
-      <TasksList tasklist={taskList} deleteItem={openModal} editItem={openEditModal}></TasksList>
+      <TasksList tasklist={tasks} deleteItem={openModal} editItem={openEditModal}></TasksList>
     </div>
   );
 };
