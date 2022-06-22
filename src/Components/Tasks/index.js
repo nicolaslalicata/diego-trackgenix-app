@@ -18,7 +18,6 @@ import Button from '../Shared/Buttons/buttons';
 import InputControlled from '../Shared/InputControlled';
 import Loader from '../Shared/Loading';
 import { IoIosAddCircleOutline } from 'react-icons/io';
-import Input from '../Shared/Input';
 
 const Tasks = () => {
   const dispatch = useDispatch();
@@ -35,11 +34,6 @@ const Tasks = () => {
     date: ''
   });
   const [isAdding, setIsAdding] = useState(false);
-  const [taskInput, setTaskInput] = useState({
-    description: '',
-    workedHours: '',
-    date: ''
-  });
 
   const schema = Joi.object({
     description: Joi.string().required().min(10),
@@ -52,11 +46,27 @@ const Tasks = () => {
   const {
     register,
     handleSubmit,
+    reset,
+    setValue,
     formState: { errors }
   } = useForm({
     mode: 'onSubmit',
     resolver: joiResolver(schema)
   });
+
+  useEffect(() => {
+    if (showEditModal) {
+      setValue([
+        { description: showEditModal.description },
+        { workedHours: showEditModal.workedHours },
+        { date: new Date(setShowEditModal.date).toISOString().substr(0, 10) }
+      ]);
+    }
+  }, []);
+
+  useEffect(() => {
+    reset();
+  }, []);
 
   useEffect(() => {
     try {
@@ -66,28 +76,11 @@ const Tasks = () => {
     }
   }, []);
 
-  const openModal = (id) => {
+  const openDeleteModal = (id) => {
     setShowModal({
       showModal: true,
       id
     });
-  };
-
-  const addTask = ({ description, workedHours, date }) => {
-    const newTask = {
-      description,
-      workedHours,
-      date
-    };
-
-    if (description === '' && workedHours === '' && date === '') {
-      setShowModalMessage({
-        showModalMessage: true,
-        title: 'Data missing'
-      });
-    } else {
-      dispatch(addTaskThunks(newTask));
-    }
   };
 
   const deleteItem = () => {
@@ -101,15 +94,36 @@ const Tasks = () => {
     });
   };
 
-  const openEditModal = (id, description, workedHours, date) => {
+  const onChangeEdit = (e) => {
+    setShowEditModal({ ...showEditModal, [e.target.name]: e.target.value });
+  };
+
+  const editItem = (id, description, workedHours, date) => {
+    const dateFormated = new Date(date).toISOString().substr(0, 10);
+
+    console.log(id, description, workedHours, dateFormated);
+    // e.preventDefault();
+    // editTask(showEditModal);
     setShowEditModal({
-      showEditModal: true,
       id,
       description,
       workedHours,
-      date
+      date: dateFormated
     });
+    // setShowEditModal(false);
   };
+
+  // const openEditModal = (id, description, workedHours, date) => {
+  //   setShowEditModal({
+  //     showEditModal: true,
+  //     id,
+  //     description,
+  //     workedHours,
+  //     date
+  //   });
+
+  //   console.log(toEdit);
+  // };
 
   const editTask = async ({ id, description, workedHours, date }) => {
     const taskEdited = {
@@ -118,56 +132,18 @@ const Tasks = () => {
       workedHours,
       date
     };
-    dispatch(editTaskThunks(taskEdited));
+    console.log(taskEdited);
+
+    // dispatch(editTaskThunks(taskEdited));
   };
 
-  const onChangeAdd = (e) => {
-    setTaskInput({ ...taskInput, [e.target.name]: e.target.value });
-  };
-
-  const addItem = (e) => {
+  const addTask = ({ description, workedHours, date }, e) => {
+    reset();
     e.preventDefault();
-    setTaskInput({
-      description: '',
-      workedHours: '',
-      date: ''
-    });
-    if (taskInput.description === '' && taskInput.workedHours === '' && taskInput.date == '') {
-      e.preventDefault();
-      setShowModalMessage({
-        showModalMessage: true,
-        title: 'Data missing'
-      });
-    } else {
-      addTask(taskInput);
-      setIsAdding(false);
-    }
-  };
-
-  const onChangeEdit = (e) => {
-    setShowEditModal({ ...showEditModal, [e.target.name]: e.target.value });
-  };
-
-  const editItem = (e) => {
-    e.preventDefault();
-    if (
-      showEditModal.description === '' ||
-      showEditModal.workedHours === '' ||
-      showEditModal.date === ''
-    ) {
-      setShowModalMessage({
-        showModalMessage: true,
-        title: 'Data missing'
-      });
-    } else {
-      editTask(showEditModal);
-      setShowEditModal({
-        description: '',
-        workedHours: '',
-        date: ''
-      });
-      setShowEditModal(false);
-    }
+    const newTask = { description, workedHours, date };
+    dispatch(addTaskThunks(newTask));
+    setIsAdding(false);
+    reset();
   };
 
   if (error) {
@@ -183,13 +159,15 @@ const Tasks = () => {
       </Button>
       <Modal isOpen={showModal} setIsOpen={setShowModal}>
         <h3>Are you sure?</h3>
-        <Button callback={deleteItem} text={'YES'}></Button>
-        <Button callback={() => setShowModal(false)} text={'NO'}></Button>
+        <div>
+          <Button callback={deleteItem} text={'YES'}></Button>
+          <Button callback={() => setShowModal(false)} text={'NO'}></Button>
+        </div>
       </Modal>
       <Modal isOpen={isAdding} setIsOpen={setIsAdding}>
         <h3>Add a new Task</h3>
         <div className={styles.contenedorModal}>
-          <form onSubmit={handleSubmit(addItem)}>
+          <form onSubmit={handleSubmit(addTask)}>
             <div>
               <InputControlled
                 type={'text'}
@@ -229,32 +207,38 @@ const Tasks = () => {
       <Modal isOpen={showEditModal} setIsOpen={setShowEditModal}>
         <h3>Edit Task</h3>
         <div className={styles.contenedorModal}>
-          <form onSubmit={editItem}>
+          <form onSubmit={handleSubmit(editTask)}>
             <div>
-              <Input
-                labelText={'Description:'}
+              <InputControlled
                 type={'text'}
-                name={'description'}
+                label={'Description'}
+                name="description"
+                register={register}
+                required
+                error={errors.description}
                 value={showEditModal.description}
-                onChange={onChangeEdit}
               />
             </div>
             <div>
-              <Input
-                labelText={'Worked Hours:'}
+              <InputControlled
                 type={'text'}
-                name={'workedHours'}
+                label={'Worked Hours'}
+                name="workedHours"
+                register={register}
+                required
+                error={errors.workedHours}
                 value={showEditModal.workedHours}
-                onChange={onChangeEdit}
               />
             </div>
             <div>
-              <Input
-                labelText={'Date:'}
+              <InputControlled
                 type={'date'}
-                name={'date'}
+                label={'Date'}
+                name="date"
+                register={register}
+                required
+                error={errors.date}
                 value={showEditModal.date}
-                onChange={onChangeEdit}
               />
             </div>
             <div>
@@ -268,7 +252,7 @@ const Tasks = () => {
         setIsOpen={setShowModalMessage}
         title={showModalMessage.title}
       ></Modal>
-      <TasksList tasklist={tasks} deleteItem={openModal} editItem={openEditModal}></TasksList>
+      <TasksList tasklist={tasks} deleteItem={openDeleteModal} editItem={editItem}></TasksList>
     </div>
   );
 };
