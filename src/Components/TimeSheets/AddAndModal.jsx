@@ -36,7 +36,7 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
     projects: Joi.string().required().min(10),
     tasks: Joi.string().required().min(10),
     employees: Joi.string().required().min(10),
-    validated: Joi.string().required().min(3)
+    validated: Joi.string().valid('true', 'false')
   });
   const {
     register,
