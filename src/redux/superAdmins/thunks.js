@@ -40,7 +40,7 @@ export const deleteSuperAdmin = (_id, setIsOpen, setModalNotification) => {
       setIsOpen(false);
       setModalNotification({
         modalNotification: true,
-        message: 'Super admin deleted successfully'
+        title: 'Super admin deleted successfully'
       });
     } catch (error) {
       dispatch(deleteSuperAdminsError(error.message));
@@ -63,7 +63,7 @@ export const addSuperAdmin = (superAdmin, setIsOpenAdd, setModalNotification) =>
         dispatch(addSuperAdminsError());
         setModalNotification({
           modalNotification: true,
-          message: 'There is a validation error, please check the information'
+          title: 'There is a validation error, please check the information'
         });
       }
       if (response.status === 201) {
@@ -72,7 +72,7 @@ export const addSuperAdmin = (superAdmin, setIsOpenAdd, setModalNotification) =>
         setIsOpenAdd(false);
         setModalNotification({
           modalNotification: true,
-          message: 'Super admin created successfully'
+          title: 'Super admin created successfully'
         });
       }
     } catch (error) {
@@ -106,7 +106,7 @@ export const editSuperAdmin = (
         dispatch(editSuperAdminsError());
         setModalNotification({
           modalNotification: true,
-          message: 'There is a validation error, please check the information'
+          title: 'There is a validation error, please check the information'
         });
       }
       if (response.status === 201) {
@@ -129,7 +129,7 @@ export const editSuperAdmin = (
         setIsOpenEdit(false);
         setModalNotification({
           modalNotification: true,
-          message: 'Super admin edited successfully'
+          title: 'Super admin edited successfully'
         });
         reset({
           firstName: '',

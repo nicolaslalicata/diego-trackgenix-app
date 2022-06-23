@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './modal.module.css';
 import Button from '../Buttons/buttons';
 
-const Modal = ({ children, isOpen, setIsOpen, message, reset }) => {
+const Modal = ({ children, isOpen, setIsOpen, title, reset }) => {
   if (!isOpen) {
     return null;
   }
@@ -19,7 +19,7 @@ const Modal = ({ children, isOpen, setIsOpen, message, reset }) => {
             icons={'close'}
           ></Button>
         </div>
-        <h3>{message}</h3>
+        <h3>{title}</h3>
         {children}
       </div>
     </div>

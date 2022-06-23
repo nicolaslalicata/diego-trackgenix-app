@@ -71,7 +71,7 @@ function SuperAdmins() {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
-  const [modalNotification, setModalNotification] = useState(false, { message: '' });
+  const [modalNotification, setModalNotification] = useState(false, { title: '' });
 
   useEffect(() => {
     dispatch(getSuperAdmins());
@@ -159,7 +159,7 @@ function SuperAdmins() {
         <Modal
           isOpen={isOpen}
           setIsOpen={setIsOpen}
-          message={'Are you sure you want to delete this Super Admin?'}
+          title={'Are you sure you want to delete this Super Admin?'}
         >
           <Button callback={() => handleDeleteSuperAdmin(id)} text={'Delete'} />
         </Modal>
@@ -249,7 +249,7 @@ function SuperAdmins() {
         <Modal
           isOpen={modalNotification}
           setIsOpen={setModalNotification}
-          message={modalNotification.message}
+          title={modalNotification.title}
         >
           <Button callback={() => setModalNotification(false)} text={'OK'} />
         </Modal>
