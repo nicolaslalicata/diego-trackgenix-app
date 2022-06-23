@@ -81,13 +81,19 @@ export const addSuperAdmin = (superAdmin, setIsOpenAdd, setModalNotification) =>
   };
 };
 
-export const editSuperAdmin = (superAdmin, superadminId, setIsOpenEdit, setModalNotification) => {
-  const { firstName, lastName, email, password } = superAdmin;
+export const editSuperAdmin = (
+  editSadmin,
+  superAdmin,
+  setIsOpenEdit,
+  setModalNotification,
+  reset
+) => {
+  const { firstName, lastName, email, password } = editSadmin;
   return async (dispatch) => {
     dispatch(editSuperAdminsPending());
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/super-admins/${superadminId}`,
+        `${process.env.REACT_APP_API_URL}/super-admins/${superAdmin._id}`,
         {
           method: 'PUT',
           headers: {
@@ -117,13 +123,19 @@ export const editSuperAdmin = (superAdmin, superadminId, setIsOpenEdit, setModal
               email,
               password
             },
-            superadminId
+            superAdmin._id
           )
         );
         setIsOpenEdit(false);
         setModalNotification({
           modalNotification: true,
           message: 'Super admin edited successfully'
+        });
+        reset({
+          firstName: '',
+          lastName: '',
+          email: '',
+          password: ''
         });
       }
     } catch (error) {
