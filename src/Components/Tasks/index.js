@@ -112,15 +112,22 @@ const Tasks = () => {
     dispatch(editTaskThunks(taskEdited));
     setShowEditModal(false);
     reset();
+    setShowModalMessage({
+      showModalMessage: true,
+      title: 'Task edited'
+    });
   };
 
   const addTask = ({ description, workedHours, date }, e) => {
-    reset();
     e.preventDefault();
     const newTask = { description, workedHours, date };
     dispatch(addTaskThunks(newTask));
     setIsAdding(false);
     reset();
+    setShowModalMessage({
+      showModalMessage: true,
+      title: 'Task added'
+    });
   };
 
   if (error) {
@@ -141,7 +148,7 @@ const Tasks = () => {
           <Button callback={() => setShowModal(false)} text={'NO'}></Button>
         </div>
       </Modal>
-      <Modal isOpen={isAdding} setIsOpen={setIsAdding}>
+      <Modal isOpen={isAdding} setIsOpen={setIsAdding} reset={reset}>
         <h3>Add a new Task</h3>
         <div className={styles.contenedorModal}>
           <form onSubmit={handleSubmit(addTask)}>
@@ -181,7 +188,7 @@ const Tasks = () => {
           </form>
         </div>
       </Modal>
-      <Modal isOpen={showEditModal} setIsOpen={setShowEditModal}>
+      <Modal isOpen={showEditModal} setIsOpen={setShowEditModal} reset={reset}>
         <h3>Edit Task</h3>
         <div className={styles.contenedorModal}>
           <form onSubmit={handleSubmit(editTask)}>
