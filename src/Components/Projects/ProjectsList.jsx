@@ -72,9 +72,6 @@ function ProjectsList() {
 
   return (
     <div className={styles.container}>
-      <section>
-        <Sidebar />
-      </section>
       <Modal isOpen={modalAddItemOpen} setIsOpen={setModalAddItemOpen}>
         <div className={styles.modalHeader}>
           <h5 className={styles.heading}>Create project</h5>
