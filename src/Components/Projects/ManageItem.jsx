@@ -1,92 +1,120 @@
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
 import styles from './manageItem.module.css';
-import Input from '../Shared/Input';
+
+import InputControlled from '../Shared/InputControlled';
 import Button from '../Shared/Buttons/buttons';
+import { useEffect } from 'react';
 
 const ManageItem = function ({ handler, project }) {
   const defaultValue = {
     client: '',
     description: '',
     endDate: '',
-    isActive: false,
-    members: [],
     name: '',
     startDate: ''
   };
-  const [userInput, setUserInput] = useState(project ? project : defaultValue);
 
-  const onChange = (event, key) => {
-    let newValue = '';
-
-    if (key === 'isActive') {
-      newValue = event.target.checked;
-    } else {
-      newValue = event.target.value;
+  useEffect(() => {
+    if (project) {
+      setValue('name', project.name);
+      setValue('description', project.description);
+      setValue('client', project.client);
+      setValue('startDate', project.startDate);
+      setValue('endDate', project.endDate);
     }
+  }, []);
 
-    setUserInput({ ...userInput, [key]: newValue });
-  };
+  const schema = yup.object({
+    name: yup.string().min(3).required(),
+    description: yup
+      .string()
+      .min(5)
+      .matches(/^([ \u00c0-\u01ffa-zA-Z'-])+$/, 'Is not in correct format')
+      .required(),
+    client: yup.string().min(3).required(),
+    startDate: yup.date().required(),
+    endDate: yup
+      .date()
+      .min(yup.ref('startDate'), 'The End Date must be greater than the Start Date')
+      .required()
+  });
 
-  const onSubmit = (event) => {
-    event.preventDefault();
-    handler(userInput);
-    setUserInput({
-      client: '',
-      description: '',
-      endDate: '',
-      isActive: true,
-      members: [],
-      name: '',
-      startDate: ''
-    });
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
+    resolver: yupResolver(schema)
+  });
+
+  const onSubmit = (data) => {
+    if (project) {
+      handler({ ...data, isActive: true, members: [], _id: project._id });
+    } else {
+      handler({ ...data, isActive: true, members: [] });
+    }
   };
 
   return (
-    <form id="projectForm" className={styles.form} onSubmit={onSubmit}>
+    <form id="projectForm" className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.inputConteiner}>
         <div>
-          <Input
+          <InputControlled
+            type="text"
             className={styles.input}
-            labelText="Name"
-            value={userInput.name}
-            inputStyle={{ width: '74%' }}
-            onChange={(event) => onChange(event, 'name')}
+            label="Name"
+            register={register}
+            name="name"
+            required
+            error={errors.name}
           />
-          <Input
+          <InputControlled
+            type="text"
             className={styles.input}
-            labelText="Description"
-            value={userInput.description}
-            inputStyle={{ width: '74%' }}
-            onChange={(event) => onChange(event, 'description')}
+            label="Description"
+            register={register}
+            name="description"
+            required
+            error={errors.description}
           />
-          <Input
+          <InputControlled
+            type="text"
             className={styles.input}
-            labelText="Client"
-            value={userInput.client}
-            inputStyle={{ width: '74%' }}
-            onChange={(event) => onChange(event, 'client')}
+            label="Client"
+            register={register}
+            name="client"
+            required
+            error={errors.client}
           />
         </div>
         <div>
-          <Input
+          <InputControlled
             className={styles.input}
             type="date"
-            labelText="Start Date"
-            value={userInput.startDate}
-            inputStyle={{ width: '90%', height: '14px' }}
-            onChange={(event) => onChange(event, 'startDate')}
+            label="Start Date"
+            register={register}
+            name="startDate"
+            required
+            error={errors.startDate}
           />
-          <Input
+          <InputControlled
             className={styles.input}
             type="date"
-            labelText="End Date"
-            value={userInput.endDate}
-            inputStyle={{ width: '90%', height: '14px' }}
-            onChange={(event) => onChange(event, 'endDate')}
+            label="End Date"
+            register={register}
+            name="endDate"
+            required
+            error={errors.endDate}
           />
         </div>
       </div>
-      <Button icons="submit" />
+      <div className={styles.buttonConteiner}>
+        <Button icons="submit" />
+      </div>
     </form>
   );
 };
