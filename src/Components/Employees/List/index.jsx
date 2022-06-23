@@ -42,13 +42,6 @@ const ListEmployee = ({
       delete: <Button icons={'delete'} callback={() => onDelete(employee)} />
     }));
   };
-  console.log(list);
-  // const handleEdit = (employee) => {
-  //   setEditItem(employee);
-  //   console.log(employee);
-  //   // alert(`Employee ${employee.firstName} ready for edit`);
-  // };
-
   const onDelete = (employee) => {
     setIsModalDeleteOpen(true);
     setemployeeItem(employee);

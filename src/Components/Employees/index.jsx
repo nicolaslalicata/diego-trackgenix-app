@@ -14,18 +14,6 @@ const Employees = () => {
   console.log(isLoading);
   const list = useSelector((state) => state.employees.employeesList);
 
-  // const url = `${process.env.REACT_APP_API_URL}/employees`;
-  // useEffect(() => {
-  //   try {
-  //     fetch(url)
-  //       .then((response) => response.json())
-  //       .then((response) => {
-  //         saveEmployees(response.data);
-  //       });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }, []);
   useEffect(async () => {
     try {
       await getEmployees()(dispatch);

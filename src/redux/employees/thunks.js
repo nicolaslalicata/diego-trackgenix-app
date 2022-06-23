@@ -44,7 +44,6 @@ export const editEmployee = (
   lastName,
   email,
   password,
-  // saveEmployees,
   setEditItem,
   setIsEditModalOpen
 ) => {

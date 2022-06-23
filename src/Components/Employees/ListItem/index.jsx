@@ -5,9 +5,8 @@ import { useDispatch } from 'react-redux';
 import { deleteEmployees } from '../../../redux/employees/thunks';
 
 const dispatch = useDispatch();
-const ListItem = ({ listItem, setEditItem, employees, deleteItem }) => {
+const ListItem = ({ listItem, setEditItem, employees }) => {
   const handleDelete = () => {
-    // deleteItem(listItem._id, listItem.firstName);
     dispatch(deleteEmployees(employees.id));
   };
   const handleEdit = () => {

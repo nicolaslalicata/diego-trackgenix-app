@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import styles from './index.module.css';
 import Button from '../../Shared/Buttons/buttons';
 import Modal from '../../Shared/Modal';
+import InputControlled from '../../Shared/InputControlled';
 import { addNewEmployee } from '../../../redux/employees/thunks';
+import Joi from 'joi';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { useForm } from 'react-hook-form';
+import { MdAirlineSeatIndividualSuite } from 'react-icons/md';
 
 const EmployeeForm = ({
   editEmployee,
@@ -18,38 +23,64 @@ const EmployeeForm = ({
   const [email, setEmail] = useState('');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
+  const employeeSchema = Joi.object({
+    firstName: Joi.string().required().min(3),
+    lastName: Joi.string().required().min(3),
+    email: Joi.string().required(),
+    password: Joi.string().required().min(8)
+  });
+
+  const defaultValue = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: ''
+  };
+
   useEffect(() => {
     if (initialValue) {
-      setPassword(initialValue.password);
-      setFirstName(initialValue.firstName);
-      setLastName(initialValue.lastName);
-      setEmail(initialValue.email);
+      setValue('firstName', initialValue.firstName);
+      setValue('lastName', initialValue.lastName);
+      setValue('email', initialValue.email);
+      setValue('password', initialValue.password);
     }
-  }, [initialValue]);
+  }, []);
 
-  const onSubmit = (e) => {
+  const {
+    handleSubmit,
+    register,
+    setValue,
+    formState: { errors }
+  } = useForm({
+    resolver: joiResolver(employeeSchema)
+  });
+
+  console.log(initialValue);
+
+  const editEmployeeHandler = ({ firstName, lastName, email, password }, e) => {
     e.preventDefault();
-    if (initialValue) {
-      editEmployee({
+    setValue('firstName', initialValue.firstName);
+    setValue('lastName', initialValue.lastName);
+    setValue('email', initialValue.email);
+    setValue('password', initialValue.password);
+    dispatch(
+      editEmployee(
+        initialValue,
         firstName,
         lastName,
         email,
-        password
-      });
-    } else {
-      addNewEmployee({
-        firstName,
-        lastName,
-        email,
-        password
-      });
-    }
-    setFirstName('');
-    setLastName('');
-    setEmail('');
-    setPassword('');
+        password,
+        setEditItem,
+        setIsEditModalOpen
+      )
+    );
   };
-  console.log(`${isAddModalOpen}`);
+
+  const addEmployeeHandler = ({ firstName, lastName, email, password }, e) => {
+    e.preventDefault();
+    dispatch(addNewEmployee(firstName, lastName, email, password));
+  };
+
   return (
     <section>
       <div className={styles.employeeForm}>
@@ -59,6 +90,10 @@ const EmployeeForm = ({
             callback={() => {
               setIsAddModalOpen(true);
               setEditItem(null);
+              // setFirstName('');
+              // setLastName('');
+              // setEmail('');
+              // setPassword('');
             }}
             icons={'add'}
           ></Button>
@@ -68,52 +103,53 @@ const EmployeeForm = ({
             <div className={styles.title}>
               <h2>Add new Employee</h2>
             </div>
-            <form className={styles.containerForm} onSubmit={onSubmit}>
+            <form className={styles.containerForm} onSubmit={handleSubmit(addEmployeeHandler)}>
               <div className={styles.formItem}>
-                <label>First Name</label>
-                <input
-                  type="text"
-                  name="firstName"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                <InputControlled
+                  label={'Name'}
+                  type={'text'}
+                  name={'firstName'}
+                  placeholder="First name"
+                  register={register}
+                  required
+                  error={errors.firstName}
                 />
               </div>
               <div className={styles.formItem}>
-                <label>Last Name</label>
-                <input
-                  type="text"
-                  name="lastName"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                <InputControlled
+                  label={'Name'}
+                  type={'text'}
+                  name={'lastName'}
+                  placeholder="Last name"
+                  register={register}
+                  required
+                  error={errors.lastName}
                 />
               </div>
               <div className={styles.formItem}>
-                <label>Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                <InputControlled
+                  label={'Email'}
+                  type={'email'}
+                  name={'email'}
+                  placeholder="Email"
+                  register={register}
+                  required
+                  error={errors.email}
                 />
               </div>
               <div className={styles.formItem}>
-                <label>password</label>
-                <input
-                  type="password"
-                  name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                <InputControlled
+                  label={'Password'}
+                  type={'password'}
+                  name={'password'}
+                  placeholder="Password"
+                  register={register}
+                  required
+                  error={errors.password}
                 />
               </div>
               <div className={styles.formItemSend}>
-                <Button
-                  type="submit"
-                  value="Submit"
-                  icons={'submit'}
-                  callback={() => {
-                    addNewEmployee(firstName, lastName, email, password)(dispatch);
-                  }}
-                />
+                <Button type="submit" value="Submit" icons={'submit'} />
               </div>
               <div className={styles.formItemSend}>
                 <Button
@@ -131,60 +167,53 @@ const EmployeeForm = ({
             <div className={styles.title}>
               <h2>Edit employee</h2>
             </div>
-            <form className={styles.containerForm} onSubmit={onSubmit}>
+            <form className={styles.containerForm} onSubmit={handleSubmit(editEmployeeHandler)}>
               <div className={styles.formItem}>
-                <label>First Name</label>
-                <input
-                  type="text"
-                  name="firstName"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                <InputControlled
+                  label={'Name'}
+                  type={'text'}
+                  name={'firstName'}
+                  placeholder="First name"
+                  register={register}
+                  required
+                  error={errors.firstName}
                 />
               </div>
               <div className={styles.formItem}>
-                <label>Last Name</label>
-                <input
-                  type="text"
-                  name="lastName"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                <InputControlled
+                  label={'Name'}
+                  type={'text'}
+                  name={'lastName'}
+                  placeholder="Last name"
+                  register={register}
+                  required
+                  error={errors.lastName}
                 />
               </div>
               <div className={styles.formItem}>
-                <label>Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                <InputControlled
+                  label={'Email'}
+                  type={'email'}
+                  name={'email'}
+                  placeholder="Email"
+                  register={register}
+                  required
+                  error={errors.email}
                 />
               </div>
               <div className={styles.formItem}>
-                <label>password</label>
-                <input
-                  type="password"
-                  name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                <InputControlled
+                  label={'Password'}
+                  type={'password'}
+                  name={'password'}
+                  placeholder="Password"
+                  register={register}
+                  required
+                  error={errors.password}
                 />
               </div>
               <div className={styles.formItemSend}>
-                <Button
-                  type="submit"
-                  value="Submit"
-                  icons={'submit'}
-                  callback={() => {
-                    editEmployee(
-                      initialValue,
-                      firstName,
-                      lastName,
-                      email,
-                      password,
-                      setEditItem,
-                      setIsEditModalOpen
-                    )(dispatch);
-                  }}
-                />
+                <Button type="submit" value="Submit" icons={'submit'} />
               </div>
               <div className={styles.formItemSend}>
                 <Button
