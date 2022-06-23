@@ -115,6 +115,9 @@ const TimeSheets = () => {
           setIsModalEdit={setIsModalEdit}
           fetchTimeSheets={getTimeSheets}
           timeSheet={timeSheet}
+          employees={employees}
+          tasks={tasks}
+          projects={projects}
         ></ModalTimeSheetEdit>
       </section>
     );

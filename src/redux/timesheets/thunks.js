@@ -37,7 +37,17 @@ export const deleteTimeSheet = (timeSheet) => {
       });
   };
 };
-export const editTimeSheet = (timeSheet, description, startDate, endDate, hours) => {
+export const editTimeSheet = (
+  timeSheet,
+  description,
+  startDate,
+  endDate,
+  hours,
+  tasks,
+  validated,
+  employeeId,
+  projectId
+) => {
   return (dispatch) => {
     dispatch(timeSheetsPending());
     return fetch(`${process.env.REACT_APP_API_URL}/timesheets/${timeSheet._id}`, {
@@ -47,10 +57,10 @@ export const editTimeSheet = (timeSheet, description, startDate, endDate, hours)
       },
       body: JSON.stringify({
         description: description,
-        taskId: timeSheet.taskId,
-        validated: timeSheet.validated,
-        employeeId: timeSheet.employeeId,
-        projectId: timeSheet.projectId,
+        taskId: tasks,
+        validated: validated,
+        employeeId: employeeId,
+        projectId: projectId,
         startDate: startDate,
         endDate: endDate,
         hours: hours
