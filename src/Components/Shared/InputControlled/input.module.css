@@ -1,3 +1,7 @@
+h3 {
+  margin: 0;
+
+}
 .inputContainer {
   flex: 1;
   display: flex;
@@ -6,11 +10,22 @@
   align-items: center;
 }
 
+input[type=date] {
+  margin: 1rem;
+  width: 100%;
+  max-width: 10rem;
+  border-radius: 5px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  color: #393939;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 5px;
+}
 .input {
   background-color: #F0F4F9;
   border: 1px solid #393939;
   margin: 1rem;
-  width: 100%;
+  max-width: 10rem;
   border-radius: 5px;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
   color: #393939;
@@ -35,3 +50,20 @@
 input:last-of-type {
   margin-bottom: 1rem;
 }
+
+p {
+  margin: 0;
+  color: #ff0000;
+}
+.alert {
+  padding: 5px;
+  margin: 1rem;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  color: #393939;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 5px;
+  background-color: #f6bfd2;
+  border: 2px solid red;
+}
+

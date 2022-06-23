@@ -1,10 +1,14 @@
 import React from 'react';
 import styles from './index.module.css';
 import Button from '../../Shared/Buttons/buttons';
+import { useDispatch } from 'react-redux';
+import { deleteEmployees } from '../../../redux/employees/thunks';
 
-const ListItem = ({ listItem, setEditItem, deleteItem }) => {
+const dispatch = useDispatch();
+const ListItem = ({ listItem, setEditItem, employees, deleteItem }) => {
   const handleDelete = () => {
-    deleteItem(listItem._id, listItem.firstName);
+    // deleteItem(listItem._id, listItem.firstName);
+    dispatch(deleteEmployees(employees.id));
   };
   const handleEdit = () => {
     setEditItem(listItem);
@@ -21,7 +25,7 @@ const ListItem = ({ listItem, setEditItem, deleteItem }) => {
       <td>
         <Button
           callback={() => {
-            handleDelete(listItem._id, listItem.firstName);
+            handleDelete(listItem.id, listItem.firstName);
           }}
           icons={'delete'}
         />
