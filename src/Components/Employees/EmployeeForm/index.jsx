@@ -25,22 +25,6 @@ const EmployeeForm = ({
     password: Joi.string().required().min(8)
   });
 
-  const defaultValue = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: ''
-  };
-
-  // useEffect(() => {
-  //   if (initialValue) {
-  //     setValue('firstName', initialValue.firstName);
-  //     setValue('lastName', initialValue.lastName);
-  //     setValue('email', initialValue.email);
-  //     setValue('password', initialValue.password);
-  //   }
-  // }, []);
-
   const {
     handleSubmit,
     register,
