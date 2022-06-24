@@ -7,7 +7,6 @@ import { addNewEmployee } from '../../../redux/employees/thunks';
 import Joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';
-import { MdAirlineSeatIndividualSuite } from 'react-icons/md';
 
 const EmployeeForm = ({
   editEmployee,
@@ -17,10 +16,6 @@ const EmployeeForm = ({
   setEditItem,
   dispatch
 }) => {
-  const [password, setPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const employeeSchema = Joi.object({
@@ -37,14 +32,14 @@ const EmployeeForm = ({
     password: ''
   };
 
-  useEffect(() => {
-    if (initialValue) {
-      setValue('firstName', initialValue.firstName);
-      setValue('lastName', initialValue.lastName);
-      setValue('email', initialValue.email);
-      setValue('password', initialValue.password);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (initialValue) {
+  //     setValue('firstName', initialValue.firstName);
+  //     setValue('lastName', initialValue.lastName);
+  //     setValue('email', initialValue.email);
+  //     setValue('password', initialValue.password);
+  //   }
+  // }, []);
 
   const {
     handleSubmit,
@@ -52,17 +47,20 @@ const EmployeeForm = ({
     setValue,
     formState: { errors }
   } = useForm({
+    mode: 'onSubmit',
     resolver: joiResolver(employeeSchema)
   });
 
   console.log(initialValue);
-
-  const editEmployeeHandler = ({ firstName, lastName, email, password }, e) => {
-    e.preventDefault();
+  if (initialValue) {
     setValue('firstName', initialValue.firstName);
     setValue('lastName', initialValue.lastName);
     setValue('email', initialValue.email);
     setValue('password', initialValue.password);
+  }
+
+  const editEmployeeHandler = ({ firstName, lastName, email, password }, e) => {
+    e.preventDefault();
     dispatch(
       editEmployee(
         initialValue,
@@ -90,10 +88,10 @@ const EmployeeForm = ({
             callback={() => {
               setIsAddModalOpen(true);
               setEditItem(null);
-              // setFirstName('');
-              // setLastName('');
-              // setEmail('');
-              // setPassword('');
+              setValue('firstName', '');
+              setValue('lastName', '');
+              setValue('email', '');
+              setValue('password', '');
             }}
             icons={'add'}
           ></Button>
