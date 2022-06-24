@@ -66,7 +66,7 @@ function ProjectsList() {
     return projects.map((project) => ({
       ...project,
       startDate: new Date(project.startDate).toISOString().substr(0, 10),
-      endDate: new Date(project.startDate).toISOString().substr(0, 10),
+      endDate: new Date(project.endDate).toISOString().substr(0, 10),
       edit: <Button icons="edit" callback={() => onEdit(project)} />,
       delete: <Button icons="delete" callback={() => onDelete(project)} />
     }));

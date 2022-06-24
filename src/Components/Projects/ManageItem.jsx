@@ -9,13 +9,13 @@ import Button from '../Shared/Buttons/buttons';
 import { useEffect } from 'react';
 
 const ManageItem = function ({ handler, project }) {
-  // const defaultValue = {
-  //   client: '',
-  //   description: '',
-  //   endDate: '',
-  //   name: '',
-  //   startDate: ''
-  // };
+  const defaultValue = {
+    client: '',
+    description: '',
+    endDate: '',
+    name: '',
+    startDate: ''
+  };
 
   useEffect(() => {
     if (project) {
@@ -28,13 +28,24 @@ const ManageItem = function ({ handler, project }) {
   }, []);
 
   const schema = joi.object({
-    name: joi.string().min(3).required(),
+    name: joi
+      .string()
+      .min(3)
+      .trim()
+      .regex(/^([ \u00c0-\u01ffa-zA-Z'-])+$/, 'Is not in correct format')
+      .required(),
     description: joi
       .string()
       .min(5)
+      .trim()
+      .regex(/^([a-zA-Z0-9!@#$%&*])+$/, 'Is not in correct format')
+      .required(),
+    client: joi
+      .string()
+      .min(3)
+      .trim()
       .regex(/^([ \u00c0-\u01ffa-zA-Z'-])+$/, 'Is not in correct format')
       .required(),
-    client: joi.string().min(3).required(),
     startDate: joi.date().required(),
     endDate: joi
       .date()
