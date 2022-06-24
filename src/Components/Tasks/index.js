@@ -146,7 +146,7 @@ const Tasks = () => {
       <Modal isOpen={showModal} setIsOpen={setShowModal} title={'Delete task'}>
         <h3>Are you sure?</h3>
         <div className={styles.modalbuttons}>
-          <ButtonOption option={'yes'} text={'Confirm'}></ButtonOption>
+          <ButtonOption option={'yes'} text={'Confirm'} callback={deleteItem}></ButtonOption>
           <ButtonOption
             option={'no'}
             callback={() => setShowModal(false)}
@@ -191,7 +191,7 @@ const Tasks = () => {
               <ButtonOption option={'yes'} text={'Confirm'}></ButtonOption>
               <ButtonOption
                 option={'no'}
-                callback={() => setShowModal(false)}
+                callback={() => setIsAdding(false)}
                 text={'Cancel'}
               ></ButtonOption>
             </div>
@@ -209,7 +209,6 @@ const Tasks = () => {
                 register={register}
                 required
                 error={errors.description}
-                // value={showEditModal.description}
                 onChange={onChangeEdit}
               />
             </div>
@@ -221,7 +220,6 @@ const Tasks = () => {
                 register={register}
                 required
                 error={errors.workedHours}
-                // value={showEditModal.workedHours}
                 onChange={onChangeEdit}
               />
             </div>
@@ -233,7 +231,6 @@ const Tasks = () => {
                 register={register}
                 required
                 error={errors.date}
-                // value={showEditModal.date}
                 onChange={onChangeEdit}
               />
             </div>
@@ -241,18 +238,16 @@ const Tasks = () => {
               <ButtonOption option={'yes'} text={'Confirm'}></ButtonOption>
               <ButtonOption
                 option={'no'}
-                callback={() => setShowModal(false)}
+                callback={() => setShowEditModal(false)}
                 text={'Cancel'}
               ></ButtonOption>
             </div>
           </form>
         </div>
       </Modal>
-      <Modal
-        isOpen={showModalMessage}
-        setIsOpen={setShowModalMessage}
-        title={showModalMessage.title}
-      ></Modal>
+      <Modal isOpen={showModalMessage} setIsOpen={setShowModalMessage} title={'Message'}>
+        <h3>{showModalMessage.title}</h3>
+      </Modal>
       <TasksList tasklist={tasks} deleteItem={openDeleteModal} editItem={editItem}></TasksList>
     </div>
   );
