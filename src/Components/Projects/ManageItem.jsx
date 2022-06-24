@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { joiResolver } from '@hookform/resolvers/joi';
+import joi from 'joi';
 
 import styles from './manageItem.module.css';
 
@@ -27,18 +27,32 @@ const ManageItem = function ({ handler, project }) {
     }
   }, []);
 
-  const schema = yup.object({
-    name: yup.string().min(3).required(),
-    description: yup
+  // const {
+  //   reset,
+  //   register,
+  //   setValue,
+  //   handleSubmit,
+  //   formState: { errors }
+  // } = useForm({
+  //   mode: 'onSubmit',
+  //   resolver: joiResolver(schema)
+  // });
+  // useEffect(() => {
+  //   reset();
+  // }, []);
+
+  const schema = joi.object({
+    name: joi.string().min(3).required(),
+    description: joi
       .string()
       .min(5)
-      .matches(/^([ \u00c0-\u01ffa-zA-Z'-])+$/, 'Is not in correct format')
+      .regex(/^([ \u00c0-\u01ffa-zA-Z'-])+$/, 'Is not in correct format')
       .required(),
-    client: yup.string().min(3).required(),
-    startDate: yup.date().required(),
-    endDate: yup
+    client: joi.string().min(3).required(),
+    startDate: joi.date().required(),
+    endDate: joi
       .date()
-      .min(yup.ref('startDate'), 'The End Date must be greater than the Start Date')
+      .min(joi.ref('startDate'), 'The End Date must be greater than the Start Date')
       .required()
   });
 
@@ -48,7 +62,7 @@ const ManageItem = function ({ handler, project }) {
     handleSubmit,
     formState: { errors }
   } = useForm({
-    resolver: yupResolver(schema)
+    resolver: joiResolver(schema)
   });
 
   const onSubmit = (data) => {
