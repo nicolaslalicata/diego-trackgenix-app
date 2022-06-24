@@ -24,6 +24,7 @@ const ModalTimeSheetEdit = ({
     description: Joi.string()
       .min(5)
       .max(30)
+      .trim()
       .regex(/^([ \u00c0-\u01ffa-zA-Z'-])+$/)
       .messages({
         'string.min': 'Description must contain 5 or more characters',
@@ -32,12 +33,20 @@ const ModalTimeSheetEdit = ({
         'string.empty': 'This field is required'
       })
       .required(),
-    startDate: Joi.date().default(() => {
-      return new Date();
-    }),
-    endDate: Joi.date().default(() => {
-      return new Date();
-    }),
+    startDate: Joi.date()
+      .messages({
+        'date.base': 'Date is not valid',
+        'date.empty': 'This field is required'
+      })
+      .required(),
+    endDate: Joi.date()
+      .greater(Joi.ref('startDate'))
+      .messages({
+        'date.base': 'Date is not valid',
+        'date.greater': 'End date must be after the start date',
+        'any.ref': 'Start date is required'
+      })
+      .optional(),
     hours: Joi.number().required().positive(),
     projects: Joi.string().required(),
     tasks: Joi.string().required(),
@@ -86,7 +95,6 @@ const ModalTimeSheetEdit = ({
       )
     );
     setIsModalEdit(false);
-    reset();
   };
 
   return (

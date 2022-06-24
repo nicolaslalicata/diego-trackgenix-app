@@ -19,6 +19,7 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
       .min(5)
       .max(30)
       .regex(/^([ \u00c0-\u01ffa-zA-Z'-])+$/)
+      .trim()
       .messages({
         'string.min': 'Description must contain 5 or more characters',
         'string.max': 'Description must contain 30 or less characters',
@@ -26,12 +27,20 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
         'string.empty': 'This field is required'
       })
       .required(),
-    startDate: Joi.date().default(() => {
-      return new Date();
-    }),
-    endDate: Joi.date().default(() => {
-      return new Date();
-    }),
+    startDate: Joi.date()
+      .messages({
+        'date.base': 'Date is not valid',
+        'date.empty': 'This field is required'
+      })
+      .required(),
+    endDate: Joi.date()
+      .greater(Joi.ref('startDate'))
+      .messages({
+        'date.base': 'Date is not valid',
+        'date.greater': 'End date must be after the start date',
+        'any.ref': 'Start date is required'
+      })
+      .optional(),
     hours: Joi.number().required().positive(),
     projects: Joi.string().required().min(10),
     tasks: Joi.string().required().min(10),
@@ -48,9 +57,6 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
     mode: 'onSubmit',
     resolver: joiResolver(schema)
   });
-  useEffect(() => {
-    reset();
-  }, []);
   const dispatch = useDispatch();
   useEffect(() => {
     if (error === false && successMessage) {
@@ -63,20 +69,9 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
   ) => {
     e.preventDefault();
     dispatch(
-      addTimesheet(
-        description,
-        tasks,
-        validated,
-        projects,
-        employees,
-        startDate,
-        endDate,
-        hours,
-        reset
-      )
+      addTimesheet(description, tasks, validated, projects, employees, startDate, endDate, hours)
     );
     setIsModalAdd(false);
-    reset();
   };
   // console.log('error', error, 'successMessage', successMessage);
   // console.log('isModalErrorAdd', isModalErrorAdd, 'isModalSuccess', isModalSuccess);

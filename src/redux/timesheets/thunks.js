@@ -86,8 +86,7 @@ export const addTimesheet = (
   projectId,
   startDate,
   endDate,
-  hours,
-  reset
+  hours
 ) => {
   return (dispatch) => {
     dispatch(timeSheetsPending());
@@ -114,8 +113,6 @@ export const addTimesheet = (
         } else {
           dispatch(timeSheetsError(response.error));
         }
-      })
-      .then(() => reset());
-    // .then(() => getTimeSheets()(dispatch));
+      });
   };
 };
