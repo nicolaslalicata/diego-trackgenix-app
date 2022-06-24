@@ -20,6 +20,7 @@ function SuperAdmins() {
   const schema = Joi.object({
     firstName: Joi.string()
       .required()
+      .trim()
       .min(3)
       .regex(/^([ \u00c0-\u01ffa-zA-Z'-])+$/)
       .messages({
@@ -29,6 +30,7 @@ function SuperAdmins() {
       }),
     lastName: Joi.string()
       .required()
+      .trim()
       .min(3)
       .regex(/^([ \u00c0-\u01ffa-zA-Z'-])+$/)
       .messages({
@@ -45,10 +47,14 @@ function SuperAdmins() {
         'string.min': 'Password should have at least 8 characters',
         'string.pattern.base': 'Should be alphanumeric'
       }),
-    email: Joi.string().required().lowercase().messages({
-      'string.empty': 'Email is required',
-      'string.pattern.base': 'Email format it is not valid'
-    })
+    email: Joi.string()
+      .required()
+      .lowercase()
+      .regex(/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i)
+      .messages({
+        'string.empty': 'Email is required',
+        'string.pattern.base': 'Email format it is not valid'
+      })
   });
   const superAdmins = useSelector((state) => state.superAdmins.List);
   const [id, setId] = useState('');
@@ -148,7 +154,7 @@ function SuperAdmins() {
   } else {
     return (
       <section className={styles.container}>
-        <h2>SuperAdmins</h2>
+        <h2>Super Admins</h2>
         <Button
           icons={'add'}
           callback={() => {
@@ -159,7 +165,7 @@ function SuperAdmins() {
         <Modal
           isOpen={isOpen}
           setIsOpen={setIsOpen}
-          title={'Are you sure you want to delete this Super Admin?'}
+          title={'Are you sure you want to delete this user?'}
         >
           <Button callback={() => handleDeleteSuperAdmin(id)} text={'Delete'} />
         </Modal>
@@ -184,7 +190,6 @@ function SuperAdmins() {
               placeholder={'Last name'}
             />
             <InputControlled
-              type={'email'}
               label={'Email:'}
               name="email"
               register={register}
@@ -225,7 +230,6 @@ function SuperAdmins() {
               placeholder={'Last name'}
             />
             <InputControlled
-              type={'email'}
               label={'Email:'}
               name="email"
               register={register}
