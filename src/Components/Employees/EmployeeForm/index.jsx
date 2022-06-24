@@ -67,7 +67,7 @@ const EmployeeForm = ({
             icons={'add'}
           ></Button>
         </div>
-        <Modal isOpen={isAddModalOpen} setIsOpen={setIsAddModalOpen}>
+        <Modal isOpen={isAddModalOpen} setIsOpen={setIsAddModalOpen} title={'Add'}>
           <div className={styles.container}>
             <div className={styles.title}>
               <h2>Add new Employee</h2>
@@ -130,7 +130,7 @@ const EmployeeForm = ({
             </form>
           </div>
         </Modal>
-        <Modal isOpen={isEditModalOpen} setIsOpen={setIsEditModalOpen}>
+        <Modal isOpen={isEditModalOpen} setIsOpen={setIsEditModalOpen} title={'Edit'}>
           <div className={styles.container}>
             <div className={styles.title}>
               <h2>Edit employee</h2>

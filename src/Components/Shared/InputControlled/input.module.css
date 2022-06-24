@@ -1,7 +1,7 @@
-h3 {
+/* h3 {
   margin: 0;
 
-}
+} */
 .inputContainer {
   flex: 1;
   display: flex;
@@ -11,27 +11,23 @@ h3 {
 }
 
 input[type=date] {
-  margin: 1rem;
-  width: 100%;
-  max-width: 10rem;
-  border-radius: 5px;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-  color: #393939;
-  cursor: pointer;
-  font-size: 12px;
-  padding: 5px;
+  width: 10rem;
+  height: 1rem;
+  border-radius: 3px;
+  border-color: #37386770;
+  border: solid 2px #37386770;
 }
-.input {
-  background-color: #F0F4F9;
-  border: 1px solid #393939;
-  margin: 1rem;
-  max-width: 10rem;
-  border-radius: 5px;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-  color: #393939;
-  cursor: pointer;
-  font-size: 12px;
-  padding: 5px;
+
+input {
+  width: 10rem;
+  height: 1rem;
+  border-radius: 3px;
+  border-color: #37386770;
+  border: solid 2px #37386770;
+}
+label {
+  font-size: 10px;
+  margin-bottom: 5px;
 }
 
 .input:focus {

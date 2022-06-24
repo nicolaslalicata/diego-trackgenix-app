@@ -134,12 +134,12 @@ function SuperAdmins() {
           }}
         />
         {/* MODAL DELETE */}
-        <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+        <Modal isOpen={isOpen} setIsOpen={setIsOpen} title={'Delete'}>
           <h3>Are you sure you want to delete this Super Admin?</h3>
           <Button callback={() => handleDeleteSuperAdmin(id)} text={'Delete'} />
         </Modal>
         {/* MODAL ADD */}
-        <Modal isOpen={isOpenAdd} setIsOpen={setIsOpenAdd}>
+        <Modal isOpen={isOpenAdd} setIsOpen={setIsOpenAdd} title={'Add'}>
           <h3>Add new super admin</h3>
           <form className={styles.containerForm}>
             <Input
@@ -181,7 +181,7 @@ function SuperAdmins() {
           </form>
         </Modal>
         {/* MODAL EDIT */}
-        <Modal isOpen={isOpenEdit} setIsOpen={setIsOpenEdit}>
+        <Modal isOpen={isOpenEdit} setIsOpen={setIsOpenEdit} title={'Edit'}>
           <h3>Edit super admin</h3>
           <form className={styles.containerForm}>
             <Input
@@ -223,6 +223,7 @@ function SuperAdmins() {
           isOpen={modalNotification}
           setIsOpen={setModalNotification}
           message={modalNotification.message}
+          title={'Notification'}
         >
           <Button callback={() => setModalNotification(false)} text={'OK'} />
         </Modal>

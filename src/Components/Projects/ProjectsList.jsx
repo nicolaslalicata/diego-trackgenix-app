@@ -70,19 +70,19 @@ function ProjectsList() {
 
   return (
     <div className={styles.container}>
-      <Modal isOpen={modalAddItemOpen} setIsOpen={setModalAddItemOpen}>
+      <Modal isOpen={modalAddItemOpen} setIsOpen={setModalAddItemOpen} title={'Add'}>
         <div className={styles.modalHeader}>
           <h5 className={styles.heading}>Create project</h5>
         </div>
         <ManageItem handler={addItem} />
       </Modal>
-      <Modal isOpen={modalEditItemOpen} setIsOpen={setModalEditItemOpen}>
+      <Modal isOpen={modalEditItemOpen} setIsOpen={setModalEditItemOpen} title={'Edit'}>
         <div className={styles.modalHeader}>
           <h5 className={styles.heading}>Change information</h5>
         </div>
         <ManageItem project={project} handler={editItem} />
       </Modal>
-      <Modal isOpen={modalCloseOpen} setIsOpen={setModalCloseOpen}>
+      <Modal isOpen={modalCloseOpen} setIsOpen={setModalCloseOpen} title={'Confirm'}>
         <div className={styles.modalHeader}>
           <h5 className={styles.heading}>Confirmation</h5>
         </div>

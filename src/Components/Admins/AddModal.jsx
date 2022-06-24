@@ -19,7 +19,7 @@ const ModalAddAdmin = ({ setShowAddModal, showAddModal, setSucModalIsOpen }) => 
   const dispatch = useDispatch();
 
   return (
-    <Modal isOpen={showAddModal} setIsOpen={setShowAddModal}>
+    <Modal isOpen={showAddModal} setIsOpen={setShowAddModal} title={'Add Admin'}>
       <div className={styles.addModalContainer}>
         <div>
           <Input

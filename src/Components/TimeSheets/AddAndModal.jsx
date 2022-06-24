@@ -44,7 +44,7 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
   // console.log('isModalErrorAdd', isModalErrorAdd, 'isModalSuccess', isModalSuccess);
   return (
     <>
-      <Modal isOpen={isModalAdd} setIsOpen={setIsModalAdd}>
+      <Modal isOpen={isModalAdd} setIsOpen={setIsModalAdd} title={'Add'}>
         <div className={styles.inputContainer}>
           <div className={styles.inputColumnOne}>
             <Input
@@ -145,10 +145,10 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
           ></Button>
         </div>
       </Modal>
-      <Modal isOpen={isModalErrorAdd} setIsOpen={setIsModalErrorAdd}>
+      <Modal isOpen={isModalErrorAdd} setIsOpen={setIsModalErrorAdd} title={'Error'}>
         <div>Error: {error}</div>
       </Modal>
-      <Modal isOpen={isModalSuccess} setIsOpen={setIsModalSuccess}>
+      <Modal isOpen={isModalSuccess} setIsOpen={setIsModalSuccess} title={'Success'}>
         <div>{successMessage}</div>
       </Modal>
     </>

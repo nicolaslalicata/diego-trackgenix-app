@@ -25,7 +25,7 @@ const ModalEditAdmin = ({ admin, setShowEditModal, showEditModal, setSucModalIsO
     setPassword(admin.password);
   }, [admin]);
   return (
-    <Modal isOpen={showEditModal} setIsOpen={setShowEditModal}>
+    <Modal isOpen={showEditModal} setIsOpen={setShowEditModal} title={'Edit Admin'}>
       <div className={styles.addModalContainer}>
         <div>
           <Input

@@ -6,7 +6,7 @@ import { deleteAdmin } from '../../redux/admins/thunks';
 const ModalDelete = ({ setShowDeleteModal, showDeleteModal, admin }) => {
   const dispatch = useDispatch();
   return (
-    <Modal isOpen={showDeleteModal} setIsOpen={setShowDeleteModal}>
+    <Modal isOpen={showDeleteModal} setIsOpen={setShowDeleteModal} title={'Delete Admin'}>
       <div>
         <h4>Are you sure you want to remove this administrator?</h4>
       </div>

@@ -29,7 +29,7 @@ const ModalTimeSheetEdit = ({ isModalEdit, timeSheet, setIsModalEdit }) => {
   };
   return (
     <section>
-      <Modal isOpen={isModalEdit} setIsOpen={setIsModalEdit}>
+      <Modal isOpen={isModalEdit} setIsOpen={setIsModalEdit} title={'Edit'}>
         <div className={styles.modalEditContainer}>
           <Input
             type="text"
@@ -80,10 +80,10 @@ const ModalTimeSheetEdit = ({ isModalEdit, timeSheet, setIsModalEdit }) => {
           </div>
         </div>
       </Modal>
-      <Modal isOpen={isModalSuccess} setIsOpen={setIsModalSuccess}>
+      <Modal isOpen={isModalSuccess} setIsOpen={setIsModalSuccess} title={'Success'}>
         <div>Timesheet edited successfully</div>
       </Modal>
-      <Modal isOpen={isModalConfirm} setIsOpen={setIsModalConfirm}>
+      <Modal isOpen={isModalConfirm} setIsOpen={setIsModalConfirm} title={'Confirm'}>
         <div>
           <h5>Are you sure you want to edit the item?</h5>
         </div>

@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #000000;
+  background-color: #373867;
 }
 
 .main {
@@ -10,8 +10,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 5%;
-  width: 90%;
-  height: 250px;
+  /* width: 20%; */
+  /* height: 250px; */
 }
 
 .appName {
@@ -40,26 +40,28 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 50px;
+  /* height: 50px; */
   width: 90%;
   padding: 0 20px;
-  background-color: #EA3354;
+  background-color: #373867;
 }
 
 .copyright {
   font-size: 0.7rem;
   font-style: italic;
+  color: #FFF;
 }
 
 .socialIcon {
   margin-left: 5px;
+  color: #FFF;
 }
 
 @media screen and (min-width: 750px) {
-  .main {
+  /* .main {
     padding: 0 20%;
     width: unset;
-  }
+  } */
 
   .license {
     padding: 0 20px;

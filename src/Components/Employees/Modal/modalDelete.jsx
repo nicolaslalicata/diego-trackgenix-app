@@ -11,7 +11,7 @@ const ModalDeleteEmp = ({
   dispatch
 }) => {
   return (
-    <Modal isOpen={isModalDeleteOpen} setIsOpen={setIsModalDeleteOpen}>
+    <Modal isOpen={isModalDeleteOpen} setIsOpen={setIsModalDeleteOpen} title={'Delete Employee'}>
       <div>Do you want to delete this employee?</div>
       <Button
         text={'YES'}

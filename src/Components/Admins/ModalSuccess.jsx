@@ -3,9 +3,10 @@ import styles from './admins.module.css';
 
 const ModalSuc = ({ setSucModalIsOpen, sucModalIsOpen }) => {
   return (
-    <Modal isOpen={sucModalIsOpen} setIsOpen={setSucModalIsOpen}>
-      <h3 className={styles.heading}>Success</h3>
+    <Modal isOpen={sucModalIsOpen} setIsOpen={setSucModalIsOpen} title={'Success'}>
+      <h3 className={styles.heading}></h3>
       <div className={styles.modalContent}>Operation carried out successfully</div>
+      <h3 className={styles.heading}></h3>
     </Modal>
   );
 };
