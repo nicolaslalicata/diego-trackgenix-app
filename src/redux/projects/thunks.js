@@ -33,13 +33,13 @@ export const addProject = (userInput, setModalNotification) => {
           dispatch(addProjectsSuccess(response.data));
           setModalNotification({
             modalNotification: true,
-            message: 'Add Project Successfully'
+            title: 'Add Project Successfully'
           });
         } else {
           dispatch(addProjectsError(response.error.toString()));
           setModalNotification({
             modalNotification: true,
-            message: 'Error in Add Project'
+            title: 'Error in Add Project'
           });
         }
       });
@@ -64,13 +64,13 @@ export const editProject = (userInput, setModalNotification) => {
           dispatch(editProjectsSuccess(response.data));
           setModalNotification({
             modalNotification: true,
-            message: 'Edit Project Successfully'
+            title: 'Edit Project Successfully'
           });
         } else {
           dispatch(editProjectsError(response.error.toString()));
           setModalNotification({
             modalNotification: true,
-            message: 'Error in Edit Project'
+            title: 'Error in Edit Project'
           });
         }
       });
@@ -89,13 +89,13 @@ export const deleteProject = (userInput, setModalNotification) => {
           dispatch(deleteProjectsSuccess(response.data));
           setModalNotification({
             modalNotification: true,
-            message: 'Delete Project Successfully'
+            title: 'Delete Project Successfully'
           });
         } else {
           dispatch(deleteProjectsError(response.error.toString()));
           setModalNotification({
             modalNotification: true,
-            message: 'Error in Delete Project'
+            title: 'Error in Delete Project'
           });
         }
       });

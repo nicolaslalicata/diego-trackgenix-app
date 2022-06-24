@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProject, getProjects, editProject, deleteProject } from '../../redux/projects/thunks';
+import { useForm } from 'react-hook-form';
 import Button from '../Shared/Buttons/buttons';
 import Modal from '../Shared/Modal/index';
 import Table from '../Shared/Table/Table';
@@ -17,10 +18,15 @@ function ProjectsList() {
   const [modalAddItemOpen, setModalAddItemOpen] = useState(false);
   const [modalEditItemOpen, setModalEditItemOpen] = useState(false);
 
-  const [modalNotification, setModalNotification] = useState(false, { message: '' });
+  const [modalNotification, setModalNotification] = useState(false, { title: '' });
 
   useEffect(() => {
     dispatch(getProjects());
+  }, []);
+
+  const { reset } = useForm({});
+  useEffect(() => {
+    reset();
   }, []);
 
   const addItem = async (userInput) => {
@@ -72,13 +78,13 @@ function ProjectsList() {
 
   return (
     <div className={styles.container}>
-      <Modal isOpen={modalAddItemOpen} setIsOpen={setModalAddItemOpen}>
+      <Modal isOpen={modalAddItemOpen} setIsOpen={setModalAddItemOpen} reset={reset}>
         <div className={styles.modalHeader}>
           <h5 className={styles.heading}>Create project</h5>
         </div>
         <ManageItem handler={addItem} />
       </Modal>
-      <Modal isOpen={modalEditItemOpen} setIsOpen={setModalEditItemOpen}>
+      <Modal isOpen={modalEditItemOpen} setIsOpen={setModalEditItemOpen} reset={reset}>
         <div className={styles.modalHeader}>
           <h5 className={styles.heading}>Change information</h5>
         </div>
@@ -100,7 +106,7 @@ function ProjectsList() {
       <Modal
         isOpen={modalNotification}
         setIsOpen={setModalNotification}
-        message={modalNotification.message}
+        title={modalNotification.title}
       >
         <Button callback={() => setModalNotification(false)} text={'OK'} />
       </Modal>

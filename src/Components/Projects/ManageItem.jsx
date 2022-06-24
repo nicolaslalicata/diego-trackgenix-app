@@ -9,13 +9,13 @@ import Button from '../Shared/Buttons/buttons';
 import { useEffect } from 'react';
 
 const ManageItem = function ({ handler, project }) {
-  const defaultValue = {
-    client: '',
-    description: '',
-    endDate: '',
-    name: '',
-    startDate: ''
-  };
+  // const defaultValue = {
+  //   client: '',
+  //   description: '',
+  //   endDate: '',
+  //   name: '',
+  //   startDate: ''
+  // };
 
   useEffect(() => {
     if (project) {
@@ -26,20 +26,6 @@ const ManageItem = function ({ handler, project }) {
       setValue('endDate', project.endDate);
     }
   }, []);
-
-  // const {
-  //   reset,
-  //   register,
-  //   setValue,
-  //   handleSubmit,
-  //   formState: { errors }
-  // } = useForm({
-  //   mode: 'onSubmit',
-  //   resolver: joiResolver(schema)
-  // });
-  // useEffect(() => {
-  //   reset();
-  // }, []);
 
   const schema = joi.object({
     name: joi.string().min(3).required(),
@@ -62,6 +48,7 @@ const ManageItem = function ({ handler, project }) {
     handleSubmit,
     formState: { errors }
   } = useForm({
+    mode: 'onSubmit',
     resolver: joiResolver(schema)
   });
 
