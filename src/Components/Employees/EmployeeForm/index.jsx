@@ -19,10 +19,41 @@ const EmployeeForm = ({
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const employeeSchema = Joi.object({
-    firstName: Joi.string().required().min(3),
-    lastName: Joi.string().required().min(3),
-    email: Joi.string().required(),
-    password: Joi.string().required().min(8)
+    firstName: Joi.string()
+      .required()
+      .min(3)
+      .regex(/^([ \u00c0-\u01ffa-zA-Z'-])+$/)
+      .messages({
+        'string.empty': 'First name is required',
+        'string.min': 'First name should have at least 3 characters',
+        'string.pattern.base': 'There are invalid characters'
+      }),
+    lastName: Joi.string()
+      .required()
+      .min(3)
+      .regex(/^([ \u00c0-\u01ffa-zA-Z'-])+$/)
+      .messages({
+        'string.empty': 'Last name is required',
+        'string.min': 'Last name should have at least 3 characters',
+        'string.pattern.base': 'There are invalid characters'
+      }),
+    email: Joi.string()
+      .required()
+      .lowercase()
+      .email({ tlds: { allow: false } })
+      .messages({
+        'string.empty': 'Email is required',
+        'string.pattern.base': 'Email format it is not valid'
+      }),
+    password: Joi.string()
+      .required()
+      .min(8)
+      .regex(/(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{8,25})$/)
+      .messages({
+        'string.empty': 'Password is required',
+        'string.min': 'Password should have at least 8 characters',
+        'string.pattern.base': 'Should be alphanumeric'
+      })
   });
 
   const {
