@@ -36,7 +36,7 @@ const Tasks = () => {
   const [isAdding, setIsAdding] = useState(false);
 
   const schema = Joi.object({
-    description: Joi.string().required().min(10),
+    description: Joi.string().required().min(10).trim(),
     workedHours: Joi.number().required().positive(),
     date: Joi.date().default(() => {
       return new Date();
