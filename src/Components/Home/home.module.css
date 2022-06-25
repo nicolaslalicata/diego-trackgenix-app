@@ -1,6 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,100;1,400&display=swap');
+
 .container {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+}
+
+.tittle {
+  font-family: 'Roboto', sans-serif;
+  font-size: 70px;
+  color: #373867;
+}
+
+.homeContent{
+  display: flex;
+}
+.homeh3 {
+  margin: 68px 0 0 50px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 50px;
+  font-weight: 100;
+  color: #373867;
+
+
+}
+
+.homeP {
+  margin: 0 0 15px 38px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 45px;
+  font-weight: 100;
+  color: #37386763;
+}
+
+@media (max-width: 700px) {
+  .tittle {
+    text-align: center;
+  }
 }
