@@ -126,3 +126,13 @@ body {
     font-size: 2rem;
   }
 }
+@media (max-width: 700px) {
+  .navbar {
+    height: 260px;
+  }
+  .menuItems {
+    display: flex;
+    flex-direction: column;
+  }
+
+}
