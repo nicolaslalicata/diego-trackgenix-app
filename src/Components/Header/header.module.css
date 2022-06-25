@@ -1,10 +1,10 @@
 .container {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  padding: 0 5%;
+  /* padding: 0 5%; */
   height: 70px;
-  background-color: #AACE9B;
+  background-color: #707070;
 }
 
 .brand {
@@ -20,14 +20,20 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 5%;
+  /* padding: 0 5%; */
   min-height: 100px;
   background-color: #F0F4F9;
 }
 
 .appName {
+  padding-left: 13px;
+  padding-top: 13px;
   font-size: 2rem;
-  font-weight: bold;
+  font-weight: 200;
+  width: 195px;
+  height: 70px;
+  color: aliceblue;
+  background-color: #232F3E;
 }
 
 .rutes {
@@ -47,11 +53,14 @@
 }
 
 @media screen and (min-width: 750px) {
-  /* .container {
-    padding: 0 20%;
-  } */
-
   .navbar {
     padding: 0 20%;
   }
+}
+
+.tittle {
+  margin-left: 10px;
+  margin-bottom: 5px;
+  font-size: xxx-large;
+  font-weight: 100;
 }

@@ -139,7 +139,6 @@ const Tasks = () => {
   }
   return (
     <div className={styles.container}>
-      <h2>Tasks</h2>
       <Button callback={() => setIsAdding(true)} icons={'add'}>
         <IoIosAddCircleOutline />
       </Button>
@@ -246,7 +245,7 @@ const Tasks = () => {
         </div>
       </Modal>
       <Modal isOpen={showModalMessage} setIsOpen={setShowModalMessage} title={'Message'}>
-        <h3>{showModalMessage.title}</h3>
+        <h4>{showModalMessage.title}</h4>
       </Modal>
       <TasksList tasklist={tasks} deleteItem={openDeleteModal} editItem={editItem}></TasksList>
     </div>

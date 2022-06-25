@@ -4,3 +4,13 @@
   justify-content: space-between;
   min-height: 100vh;
 }
+
+.body {
+  margin-left: 200px;
+}
+
+@media (max-width: 992px) {
+  .body {
+    margin-left: 0;
+  }
+}

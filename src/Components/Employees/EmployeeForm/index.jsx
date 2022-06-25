@@ -58,7 +58,6 @@ const EmployeeForm = ({
     <section>
       <div className={styles.employeeForm}>
         <div className={styles.employeeTitle}>
-          <h2>Employees</h2>
           <Button
             callback={() => {
               setIsAddModalOpen(true);

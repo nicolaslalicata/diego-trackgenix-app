@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from '../Loading/loading.module.css';
-import logo from './Assets/loading.gif';
+import logo from './Assets/loading-gif.gif';
 
 function Loader({ isLoading }) {
   if (isLoading) {

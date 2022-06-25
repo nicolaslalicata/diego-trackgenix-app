@@ -1,45 +1,59 @@
+import React from 'react';
 import styles from './sidebar.module.css';
-import { Link, withRouter } from 'react-router-dom';
+import { AiFillHome, AiOutlineTeam, AiOutlineTable, AiOutlineOrderedList } from 'react-icons/ai';
 
-function SideBar() {
+const Sidebar = () => {
   return (
-    <div>
-      <nav className={styles.sidebar}>
-        <ul className={styles.rutes}>
+    <nav className={styles.navbar}>
+      <div>
+        <ul className={styles.menuItems}>
+          <div className={styles.centerItems}>
+            <li>
+              <a href="/">
+                <AiFillHome /> Home
+              </a>
+            </li>
+          </div>
           <li>
-            <Link className={styles.navLink} to="/admins">
+            <a href="/admins">
+              <AiOutlineTeam />
               Admins
-            </Link>
+            </a>
           </li>
           <li>
-            <Link className={styles.navLink} to="/super-admins">
-              Super-Admins
-            </Link>
+            <a href="/super-admins">
+              <AiOutlineTeam />
+              Super Admins
+            </a>
           </li>
           <li>
-            <Link className={styles.navLink} to="/employees">
+            <a href="/employees">
+              <AiOutlineTeam />
               Employees
-            </Link>
+            </a>
           </li>
           <li>
-            <Link className={styles.navLink} to="/projects">
+            <a href="/projects">
+              <AiOutlineTeam />
               Projects
-            </Link>
+            </a>
           </li>
           <li>
-            <Link className={styles.navLink} to="/time-sheets">
+            <a href="/time-sheets">
+              <AiOutlineTable />
               Timesheets
-            </Link>
+            </a>
           </li>
           <li>
-            <Link className={styles.navLink} to="/tasks">
+            <a href="/tasks">
+              <AiOutlineOrderedList />
               Tasks
-            </Link>
+            </a>
           </li>
         </ul>
-      </nav>
-    </div>
+      </div>
+    </nav>
   );
-}
+};
 
-export default withRouter(SideBar);
+export default Sidebar;

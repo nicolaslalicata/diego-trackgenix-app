@@ -125,7 +125,6 @@ function SuperAdmins() {
   } else {
     return (
       <section className={styles.container}>
-        <h2>SuperAdmins</h2>
         <Button
           icons={'add'}
           callback={() => {
@@ -182,7 +181,6 @@ function SuperAdmins() {
         </Modal>
         {/* MODAL EDIT */}
         <Modal isOpen={isOpenEdit} setIsOpen={setIsOpenEdit} title={'Edit'}>
-          <h3>Edit super admin</h3>
           <form className={styles.containerForm}>
             <Input
               labelText={'First Name:'}
