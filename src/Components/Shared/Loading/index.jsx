@@ -6,7 +6,6 @@ function Loader({ isLoading }) {
   if (isLoading) {
     return (
       <div className={styles.container}>
-        <h1>Loading...</h1>
         <img src={logo} alt="loading..." />
       </div>
     );

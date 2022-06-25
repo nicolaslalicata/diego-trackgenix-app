@@ -1,6 +1,5 @@
 import styles from './header.module.css';
 import { withRouter } from 'react-router-dom';
-import Sidebar from '../Sidebar';
 
 function Header() {
   const path = window.location.pathname;
@@ -33,14 +32,13 @@ function Header() {
   }
 
   return (
-    <header>
+    <header className={styles.header}>
       <div className={styles.container}>
         <div className={styles.appName}>
           Track<span>GENIX</span>
         </div>
         <div className={styles.tittle}>{pathName}</div>
       </div>
-      <Sidebar />
     </header>
   );
 }

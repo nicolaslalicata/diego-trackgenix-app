@@ -5,53 +5,51 @@ import { AiFillHome, AiOutlineTeam, AiOutlineTable, AiOutlineOrderedList } from 
 const Sidebar = () => {
   return (
     <nav className={styles.navbar}>
-      <div>
-        <ul className={styles.menuItems}>
-          <div className={styles.centerItems}>
-            <li>
-              <a href="/">
-                <AiFillHome /> Home
-              </a>
-            </li>
-          </div>
+      <ul className={styles.menuItems}>
+        <div className={styles.centerItems}>
           <li>
-            <a href="/admins">
-              <AiOutlineTeam />
-              Admins
+            <a href="/">
+              <AiFillHome /> Home
             </a>
           </li>
-          <li>
-            <a href="/super-admins">
-              <AiOutlineTeam />
-              Super Admins
-            </a>
-          </li>
-          <li>
-            <a href="/employees">
-              <AiOutlineTeam />
-              Employees
-            </a>
-          </li>
-          <li>
-            <a href="/projects">
-              <AiOutlineTeam />
-              Projects
-            </a>
-          </li>
-          <li>
-            <a href="/time-sheets">
-              <AiOutlineTable />
-              Timesheets
-            </a>
-          </li>
-          <li>
-            <a href="/tasks">
-              <AiOutlineOrderedList />
-              Tasks
-            </a>
-          </li>
-        </ul>
-      </div>
+        </div>
+        <li>
+          <a href="/admins">
+            <AiOutlineTeam />
+            Admins
+          </a>
+        </li>
+        <li>
+          <a href="/super-admins">
+            <AiOutlineTeam />
+            Super Admins
+          </a>
+        </li>
+        <li>
+          <a href="/employees">
+            <AiOutlineTeam />
+            Employees
+          </a>
+        </li>
+        <li>
+          <a href="/projects">
+            <AiOutlineTeam />
+            Projects
+          </a>
+        </li>
+        <li>
+          <a href="/time-sheets">
+            <AiOutlineTable />
+            Timesheets
+          </a>
+        </li>
+        <li>
+          <a href="/tasks">
+            <AiOutlineOrderedList />
+            Tasks
+          </a>
+        </li>
+      </ul>
     </nav>
   );
 };

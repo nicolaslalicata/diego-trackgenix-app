@@ -50,14 +50,14 @@ body {
 
 .navbar {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
+  margin-top: 47px;
   width: 100%;
   background-color: #373867;
   color: #000;
   opacity: 0.85;
-  height: 50px;
-  z-index: 12;
+  height: 80px;
 }
 
 .menuItems {
@@ -93,24 +93,25 @@ body {
 
 @media (min-width: 992px) {
     .navbar {
+    align-items: flex-end;
     justify-content: flex-start;
     background-color: transparent;
     opacity: 0.95;
+    height: 100%;
   }
 
   .navbar .menuItems {
     position: fixed;
-    padding-top: 100px;
-    margin-top: -25px;
-    background: #373867;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     height: 100%;
     width: 245px;
     max-width: 330px;
-    display: flex;
-    flex-direction: column;
     margin-left: -50px;
     padding-left: 50px;
-    transition: transform 0.5s ease-in-out;
+    background: #373867;
   }
 
   .navbar .menuItems li {
