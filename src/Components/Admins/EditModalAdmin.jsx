@@ -16,10 +16,35 @@ const ModalEditAdmin = ({ admin, setShowEditModal, showEditModal, setSucModalIsO
   const dispatch = useDispatch();
 
   const adminSchema = Joi.object({
-    name: Joi.string().required().min(3),
-    lastName: Joi.string().required().min(3),
-    email: Joi.string().required(),
-    password: Joi.string().required().min(8),
+    name: Joi.string()
+      .required()
+      .trim()
+      .min(3)
+      .regex(/^([ \u00c0-\u01ffa-zA-Z'-])+$/)
+      .messages({
+        'string.pattern.base': 'There are invalid characters'
+      }),
+    lastName: Joi.string()
+      .required()
+      .trim()
+      .min(3)
+      .regex(/^([ \u00c0-\u01ffa-zA-Z'-])+$/)
+      .messages({
+        'string.pattern.base': 'There are invalid characters'
+      }),
+    email: Joi.string()
+      .required()
+      .regex(/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i)
+      .messages({
+        'string.pattern.base': 'There are invalid characters'
+      }),
+    password: Joi.string()
+      .required()
+      .min(8)
+      .regex(/(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{8,25})$/)
+      .messages({
+        'string.pattern.base': 'There are invalid characters'
+      }),
     gender: Joi.string().required(),
     status: Joi.string().required()
   });
