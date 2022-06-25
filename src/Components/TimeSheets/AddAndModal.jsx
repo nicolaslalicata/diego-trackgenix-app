@@ -4,12 +4,13 @@ import { useState, useEffect } from 'react';
 import Modal from '../Shared/Modal/index';
 import Button from '../Shared/Buttons/buttons';
 import DropdownForm from '../Shared/dropdownForm.jsx/dropdownForm';
-import { addTimesheet } from '../../redux/timesheets/thunks';
+import * as timesheetThunks from '../../redux/timesheets/thunks';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
+
 import Joi from 'joi';
-import InputControlled from '../Shared/inputControlled/inputControlled';
+import InputControlled from '../Shared/inputControlled';
 const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projects }) => {
   const [isModalSuccess, setIsModalSuccess] = useState(false);
   const error = useSelector((state) => state.timeSheets.error);
@@ -69,14 +70,19 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
   ) => {
     e.preventDefault();
     dispatch(
-      addTimesheet(description, tasks, validated, projects, employees, startDate, endDate, hours)
+      timesheetThunks.addTimesheet(
+        description,
+        tasks,
+        validated,
+        projects,
+        employees,
+        startDate,
+        endDate,
+        hours
+      )
     );
     setIsModalAdd(false);
   };
-  // console.log('error', error, 'successMessage', successMessage);
-  // console.log('isModalErrorAdd', isModalErrorAdd, 'isModalSuccess', isModalSuccess);
-  // console.log(errors);
-  // console.log(description);
   return (
     <>
       <Modal isOpen={isModalAdd} setIsOpen={setIsModalAdd}>

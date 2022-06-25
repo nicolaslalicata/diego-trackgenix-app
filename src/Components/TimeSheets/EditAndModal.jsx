@@ -4,8 +4,8 @@ import styles from './time-sheets.module.css';
 import Button from '../Shared/Buttons/buttons';
 import Modal from '../Shared/Modal/index';
 import DropdownForm from '../Shared/dropdownForm.jsx/dropdownForm';
-import InputControlled from '../Shared/inputControlled/inputControlled';
-import { editTimeSheet } from '../../redux/timesheets/thunks';
+import InputControlled from '../Shared/inputControlled';
+import * as timesheetThunks from '../../redux/timesheets/thunks';
 import { useDispatch } from 'react-redux/es/exports';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -82,7 +82,7 @@ const ModalTimeSheetEdit = ({
   ) => {
     e.preventDefault();
     dispatch(
-      editTimeSheet(
+      timesheetThunks.editTimeSheet(
         timeSheet,
         description,
         startDate,
