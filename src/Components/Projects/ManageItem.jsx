@@ -9,14 +9,6 @@ import Button from '../Shared/Buttons/buttons';
 import { useEffect } from 'react';
 
 const ManageItem = function ({ handler, project }) {
-  const defaultValue = {
-    client: '',
-    description: '',
-    endDate: '',
-    name: '',
-    startDate: ''
-  };
-
   useEffect(() => {
     if (project) {
       setValue('name', project.name);
@@ -49,7 +41,7 @@ const ManageItem = function ({ handler, project }) {
     startDate: joi.date().required(),
     endDate: joi
       .date()
-      .min(joi.ref('startDate'), 'The End Date must be greater than the Start Date')
+      .greater(joi.ref('startDate'), 'The End Date must be greater than the Start Date')
       .required()
   });
 
