@@ -15,7 +15,7 @@ import TasksList from './ListTasks/TasksList';
 import styles from './tasks.module.css';
 import Modal from '../Shared/Modal/index.jsx';
 import Button from '../Shared/Buttons/buttons';
-import InputControlled from '../Shared/inputControlled';
+import InputControlled from '../Shared/InputControlled';
 import Loader from '../Shared/Loading';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import Input from '../Shared/Input';
