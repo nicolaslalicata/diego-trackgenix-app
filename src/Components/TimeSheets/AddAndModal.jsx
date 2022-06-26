@@ -18,12 +18,12 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
   const schema = Joi.object({
     description: Joi.string()
       .min(5)
-      .max(30)
-      .regex(/^([ \u00c0-\u01ffa-zA-Z'-])+$/)
+      .max(40)
+      .regex(/^([ \u00c0-\u01ffa-zA-Z0-9'-])+$/)
       .trim()
       .messages({
         'string.min': 'Description must contain 5 or more characters',
-        'string.max': 'Description must contain 30 or less characters',
+        'string.max': 'Description must contain 40 or less characters',
         'string.pattern.base': 'Description is not valid',
         'string.empty': 'This field is required'
       })
@@ -74,8 +74,8 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
         description,
         tasks,
         validated,
-        projects,
         employees,
+        projects,
         startDate,
         endDate,
         hours
