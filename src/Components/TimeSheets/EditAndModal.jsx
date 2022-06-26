@@ -57,7 +57,6 @@ const ModalTimeSheetEdit = ({
     register,
     handleSubmit,
     reset,
-    setValue,
     formState: { errors }
   } = useForm({
     mode: 'onSubmit',
@@ -74,7 +73,6 @@ const ModalTimeSheetEdit = ({
       employees: timeSheet.employeeId,
       validated: timeSheet.validated
     });
-    console.log('timeSheet.projectId', timeSheet.projectId, 'projects', projects);
   }, [timeSheet]);
   const editTimeSheetHandler = (
     { description, hours, startDate, endDate, tasks, validated, employees, projects },
