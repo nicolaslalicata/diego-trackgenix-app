@@ -141,7 +141,9 @@ const ModalEditAdmin = ({ admin, setShowEditModal, showEditModal, setSucModalIsO
             />
           </div>
         </div>
-        <Button value="Submit" icons={'submit'} />
+        <div className={styles.modalButtons}>
+          <Button value="Submit" icons={'submit'} />
+        </div>
       </form>
     </Modal>
   );
