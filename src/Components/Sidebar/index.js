@@ -1,18 +1,21 @@
 import React from 'react';
 import styles from './sidebar.module.css';
 import { AiFillHome, AiOutlineTeam, AiOutlineTable, AiOutlineOrderedList } from 'react-icons/ai';
+import { useState } from 'react';
 
 const Sidebar = () => {
   return (
     <nav className={styles.navbar}>
+      <input className={styles.menuToggle} id="menu-toggle" type="checkbox" />
+      <label className={styles.menuButtonContainer} htmlFor="menu-toggle">
+        <div className={styles.menuButton}></div>
+      </label>
       <ul className={styles.menuItems}>
-        <div className={styles.centerItems}>
-          <li>
-            <a href="/">
-              <AiFillHome /> Home
-            </a>
-          </li>
-        </div>
+        <li>
+          <a href="/">
+            <AiFillHome /> Home
+          </a>
+        </li>
         <li>
           <a href="/admins">
             <AiOutlineTeam />

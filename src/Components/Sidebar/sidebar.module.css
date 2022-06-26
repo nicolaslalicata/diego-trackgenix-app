@@ -21,48 +21,28 @@ body {
   margin: auto;
 }
 
-.btn {
-  display: inline-block;
-  padding: 0.5em 1.5em;
-  text-decoration: none;
-  border-radius: 50px;
-  cursor: pointer;
-  outline: none;
-  margin-top: 1em;
-  text-transform: uppercase;
-  font-weight: small;
-}
-
-.btn-primary {
-  color: #fff;
-  background: #16a083;
-}
-
-.btn-primary:hover {
-  background: #117964;
-  transition: background 0.3s ease-in-out;
-}
-
 .navbar input[type="checkbox"],
 .navbar .hamburgerLines {
   display: none;
 }
 
 .navbar {
+  top: 23px;
+  position: fixed;
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
+  align-items: center;
+  justify-content: flex-start;
   margin-top: 47px;
   width: 100%;
   background-color: #373867;
   color: #000;
-  opacity: 0.85;
   height: 80px;
 }
 
 .menuItems {
   order: 2;
   display: flex;
+  background: #373867;
 }
 
 .menuItems li {
@@ -85,19 +65,113 @@ body {
   transition: color 0.3s ease-in-out;
 }
 
-.logo {
-  order: 1;
-  font-size: 2.3rem;
-  margin-bottom: 0.5rem;
+.menu {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
+.menu > li {
+  margin: 0 1rem;
+  overflow: hidden;
+}
+
+.menuButtonContainer {
+  display: none;
+  height: 100%;
+  width: 30px;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#menuToggle {
+  display: none;
+}
+
+ /* comprotamiento del botón */
+.menuButton,
+.menuButton::before,
+.menuButton::after {
+  display: flex;
+  background-color: rgb(232, 232, 232);
+  position: absolute;
+  height: 4px;
+  width: 30px;
+  transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
+  border-radius: 2px;
+}
+
+.menuButton::before {
+  content: '';
+  margin-top: -8px;
+}
+
+.menuButton::after {
+  content: '';
+  margin-top: 8px;
+}
+
+.menuToggle:checked + .menuButtonContainer .menuButton::before {
+  margin-top: 0px;
+  transform: rotate(405deg);
+}
+
+.menuToggle:checked + .menuButtonContainer .menuButton {
+  background: rgba(255, 255, 255, 0);
+}
+
+.menuToggle:checked + .menuButtonContainer .menuButton::after {
+  margin-top: 0px;
+  transform: rotate(-405deg);
+}
+
+.menuToggle:checked + .menuButtonContainer .menuButton::before {
+  margin-top: 0px;
+  transform: rotate(405deg);
+}
+
+.menuToggle:checked + .menuButtonContainer .menuButton {
+  background: rgba(255, 255, 255, 0);
+}
+
+.menuToggle:checked + .menuButtonContainer .menuButton::after {
+  margin-top: 0px;
+  transform: rotate(-405deg);
+}
+
+.menuToggle:checked + .menuButtonContainer .menuButton::after {
+  margin-top: 0px;
+  transform: rotate(-405deg);
+}
+
+.topav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #00BAF0;
+  background: linear-gradient(to left, #f46b45, #eea849);
+  color: #FFF;
+  height: 50px;
+  padding: 1em;
+}
+
+
+.menuItems > li {
+  display: flex;
+}
+
+ /* desde 992px */
 @media (min-width: 992px) {
-    .navbar {
+  .navbar {
     align-items: flex-end;
     justify-content: flex-start;
     background-color: transparent;
     opacity: 0.95;
-    height: 100%;
   }
 
   .navbar .menuItems {
@@ -111,7 +185,6 @@ body {
     max-width: 330px;
     margin-left: -50px;
     padding-left: 50px;
-    background: #373867;
   }
 
   .navbar .menuItems li {
@@ -119,21 +192,51 @@ body {
     font-size: 1.3rem;
     font-weight: 500;
   }
-
-  .logo {
-    position: absolute;
-    top: 5px;
-    right: 15px;
-    font-size: 2rem;
-  }
 }
+
+ /* hasta 700px */
 @media (max-width: 700px) {
   .navbar {
-    height: 260px;
+    position: fixed;
+    top: 23px;
   }
   .menuItems {
+    display: none;
+    justify-content: flex-start;
+    top: 23px;
+  }
+  .menuButtonContainer {
+    display: flex;
+    margin: 20px;
+  }
+  .menu {
+    position: absolute;
+    top: 0;
+    margin-top: 50px;
+    left: 0;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+  .menu > li {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0.5em 0;
+    width: 100%;
+    color: white;
+  }
+  .menu > li:not(:last-child) {
+    border-bottom: 1px solid #444;
+  }
+  .menuToggle:checked ~ .menuItems {
     display: flex;
     flex-direction: column;
+    padding: 0.5em;
+    margin-top: 301px;
+    background:#373867;
+    font-size: 80px;
   }
 
 }
