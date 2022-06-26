@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 
 import Joi from 'joi';
-import InputControlled from '../Shared/inputControlled';
+import InputControlled from '../Shared/InputControlled';
 const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projects }) => {
   const [isModalSuccess, setIsModalSuccess] = useState(false);
   const error = useSelector((state) => state.timeSheets.error);
