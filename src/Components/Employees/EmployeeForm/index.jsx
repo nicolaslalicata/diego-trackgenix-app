@@ -10,7 +10,7 @@ const EmployeeForm = ({
   initialValue,
   isEditModalOpen,
   setIsEditModalOpen,
-  setIsAdding,
+  // setIsAdding,
   setEditItem,
   dispatch
 }) => {
