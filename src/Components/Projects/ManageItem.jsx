@@ -38,10 +38,14 @@ const ManageItem = function ({ handler, project }) {
       .trim()
       .regex(/^([ \u00c0-\u01ffa-zA-Z'-])+$/, 'Is not in correct format')
       .required(),
-    startDate: joi.date().required(),
+    startDate: joi
+      .date()
+      .greater('1-1-1974')
+      .message('The Start Date must be greater than the 2000/01/01')
+      .required(),
     endDate: joi
       .date()
-      .greater(joi.ref('startDate'), 'The End Date must be greater than the Start Date')
+      .min(joi.ref('startDate'), 'The End Date must be greater than the Start Date')
       .required()
   });
 
