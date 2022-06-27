@@ -177,8 +177,7 @@
   }
   .modalButtons {
 	display: flex;
-	justify-content: space-around;
-	width: 50%;
+	justify-content: center;
   }
   .addAdminButton {
 	position: absolute;

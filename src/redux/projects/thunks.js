@@ -17,7 +17,7 @@ export const getProjects = () => {
   };
 };
 
-export const addProject = (userInput) => {
+export const addProject = (userInput, setModalNotification) => {
   return async (dispatch) => {
     dispatch(addProjectsPending());
     return fetch(`${process.env.REACT_APP_API_URL}/projects`, {
@@ -31,16 +31,22 @@ export const addProject = (userInput) => {
       .then((response) => {
         if (!response.error) {
           dispatch(addProjectsSuccess(response.data));
-          alert('Add Project Successfully');
+          setModalNotification({
+            modalNotification: true,
+            title: 'Add Project Successfully'
+          });
         } else {
           dispatch(addProjectsError(response.error.toString()));
-          alert('Error Adding a Project');
+          setModalNotification({
+            modalNotification: true,
+            title: 'Error in Add Project'
+          });
         }
       });
   };
 };
 
-export const editProject = (userInput) => {
+export const editProject = (userInput, setModalNotification) => {
   // eslint-disable-next-line no-unused-vars
   const { _id, __v, ...other } = userInput;
   return async (dispatch) => {
@@ -54,15 +60,24 @@ export const editProject = (userInput) => {
     })
       .then((response) => response.json())
       .then((response) => {
-        dispatch(editProjectsSuccess(response.data));
-      })
-      .catch((error) => {
-        dispatch(editProjectsError(error.toString()));
+        if (!response.error) {
+          dispatch(editProjectsSuccess(response.data));
+          setModalNotification({
+            modalNotification: true,
+            title: 'Edit Project Successfully'
+          });
+        } else {
+          dispatch(editProjectsError(response.error.toString()));
+          setModalNotification({
+            modalNotification: true,
+            title: 'Error in Edit Project'
+          });
+        }
       });
   };
 };
 
-export const deleteProject = (userInput) => {
+export const deleteProject = (userInput, setModalNotification) => {
   const params = { method: 'delete' };
   const id = userInput._id;
   return async (dispatch) => {
@@ -72,10 +87,16 @@ export const deleteProject = (userInput) => {
       .then((response) => {
         if (!response.error) {
           dispatch(deleteProjectsSuccess(response.data));
-          alert('Delete Project Successfully');
+          setModalNotification({
+            modalNotification: true,
+            title: 'Delete Project Successfully'
+          });
         } else {
           dispatch(deleteProjectsError(response.error.toString()));
-          alert('Error Deleting the Project');
+          setModalNotification({
+            modalNotification: true,
+            title: 'Error in Delete Project'
+          });
         }
       });
   };

@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './modal.module.css';
 import Button from '../Buttons/buttons';
 
-const Modal = ({ children, isOpen, setIsOpen, title }) => {
+const Modal = ({ children, isOpen, setIsOpen, title, reset }) => {
   if (!isOpen) {
     return null;
   }
@@ -12,7 +12,10 @@ const Modal = ({ children, isOpen, setIsOpen, title }) => {
         <div className={styles.buttonContainer}>
           <Button
             className={styles.buttonCloseModal}
-            callback={() => setIsOpen(false)}
+            callback={() => {
+              setIsOpen(false);
+              reset();
+            }}
             icons={'close'}
           ></Button>
         </div>
