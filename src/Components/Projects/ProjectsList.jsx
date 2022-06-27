@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProject, getProjects, editProject, deleteProject } from '../../redux/projects/thunks';
+import { useForm } from 'react-hook-form';
 import Button from '../Shared/Buttons/buttons';
 import Modal from '../Shared/Modal/index';
 import Table from '../Shared/Table/Table';
@@ -17,24 +18,31 @@ function ProjectsList() {
   const [modalAddItemOpen, setModalAddItemOpen] = useState(false);
   const [modalEditItemOpen, setModalEditItemOpen] = useState(false);
 
+  const [modalNotification, setModalNotification] = useState(false, { title: '' });
+
   useEffect(() => {
     dispatch(getProjects());
   }, []);
 
+  const { reset } = useForm({});
+  useEffect(() => {
+    reset();
+  }, []);
+
   const addItem = async (userInput) => {
-    await dispatch(addProject(userInput));
+    await dispatch(addProject(userInput, setModalNotification));
     setModalAddItemOpen(false);
     await dispatch(getProjects());
   };
 
   const editItem = async (userInput) => {
-    await dispatch(editProject(userInput));
+    await dispatch(editProject(userInput, setModalNotification));
     setModalEditItemOpen(false);
     await dispatch(getProjects());
   };
 
   const deleteItem = async (userInput) => {
-    await dispatch(deleteProject(userInput));
+    await dispatch(deleteProject(userInput, setModalNotification));
     setModalCloseOpen(false);
     await dispatch(getProjects());
   };
@@ -58,7 +66,7 @@ function ProjectsList() {
     return projects.map((project) => ({
       ...project,
       startDate: new Date(project.startDate).toISOString().substr(0, 10),
-      endDate: new Date(project.startDate).toISOString().substr(0, 10),
+      endDate: new Date(project.endDate).toISOString().substr(0, 10),
       edit: <Button icons="edit" callback={() => onEdit(project)} />,
       delete: <Button icons="delete" callback={() => onDelete(project)} />
     }));
@@ -70,13 +78,13 @@ function ProjectsList() {
 
   return (
     <div className={styles.container}>
-      <Modal isOpen={modalAddItemOpen} setIsOpen={setModalAddItemOpen}>
+      <Modal isOpen={modalAddItemOpen} setIsOpen={setModalAddItemOpen} reset={reset}>
         <div className={styles.modalHeader}>
           <h5 className={styles.heading}>Create project</h5>
         </div>
         <ManageItem handler={addItem} />
       </Modal>
-      <Modal isOpen={modalEditItemOpen} setIsOpen={setModalEditItemOpen}>
+      <Modal isOpen={modalEditItemOpen} setIsOpen={setModalEditItemOpen} reset={reset}>
         <div className={styles.modalHeader}>
           <h5 className={styles.heading}>Change information</h5>
         </div>
@@ -93,6 +101,14 @@ function ProjectsList() {
             <Button text="cancel" callback={() => setModalCloseOpen(false)} />
           </div>
         </div>
+      </Modal>
+      {/* MODAL NOTIFICATION */}
+      <Modal
+        isOpen={modalNotification}
+        setIsOpen={setModalNotification}
+        title={modalNotification.title}
+      >
+        <Button callback={() => setModalNotification(false)} text={'OK'} />
       </Modal>
       <Button icons="add" callback={() => setModalAddItemOpen(true)} />
       <Table
