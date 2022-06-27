@@ -1,108 +1,150 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import styles from './admins.module.css';
-import Input from '../Shared/Input';
 import Modal from '../Shared/Modal';
 import Button from '../Shared/Buttons/buttons';
-import Dropdown from '../Shared/Dropdown/Dropdown';
+import DropdownForm from '../Shared/dropdownForm/dropdownForm';
+import InputControlled from '../Shared/InputControlled';
+import Joi, { required } from 'joi';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { createAdmin } from '../../redux/admins/thunks';
+import { useForm } from 'react-hook-form';
 import { editAdmin } from '../../redux/admins/thunks';
-import { useDispatch, useSelector } from 'react-redux/es/exports';
+import { useDispatch } from 'react-redux/es/exports';
 
 const ModalEditAdmin = ({ admin, setShowEditModal, showEditModal, setSucModalIsOpen }) => {
-  const [name, setName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [gender, setGender] = useState('');
-  const [status, setStatus] = useState('');
-  const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+
+  const adminSchema = Joi.object({
+    name: Joi.string()
+      .required()
+      .trim()
+      .min(3)
+      .regex(/^([ \u00c0-\u01ffa-zA-Z'-])+$/)
+      .messages({
+        'string.pattern.base': 'There are invalid characters'
+      }),
+    lastName: Joi.string()
+      .required()
+      .trim()
+      .min(3)
+      .regex(/^([ \u00c0-\u01ffa-zA-Z'-])+$/)
+      .messages({
+        'string.pattern.base': 'There are invalid characters'
+      }),
+    email: Joi.string()
+      .required()
+      .regex(/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i)
+      .messages({
+        'string.pattern.base': 'There are invalid characters'
+      }),
+    password: Joi.string()
+      .required()
+      .min(8)
+      .regex(/(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{8,25})$/)
+      .messages({
+        'string.pattern.base': 'There are invalid characters'
+      }),
+    gender: Joi.string().required(),
+    status: Joi.string().required()
+  });
+
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors }
+  } = useForm({
+    mode: 'onSubmit',
+    resolver: joiResolver(adminSchema)
+  });
+
+  const editAdminHandler = ({ name, lastName, email, gender, status, password }, e) => {
+    e.preventDefault();
+    dispatch(editAdmin(name, lastName, email, gender, status, password, admin));
+    setShowEditModal(false);
+    setSucModalIsOpen(true);
+    reset();
+  };
+
   useEffect(() => {
-    setName(admin.firstName);
-    setLastName(admin.lastName);
-    setEmail(admin.email);
-    setGender(admin.gender);
-    setStatus(admin.status);
-    setPassword(admin.password);
+    reset({
+      name: admin.firstName,
+      lastName: admin.lastName,
+      email: admin.email,
+      gender: admin.gender,
+      status: admin.status,
+      password: admin.password
+    });
   }, [admin]);
+
   return (
     <Modal isOpen={showEditModal} setIsOpen={setShowEditModal}>
-      <div className={styles.addModalContainer}>
-        <div>
-          <Input
-            labelText={'Name'}
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-          />
-          <Input
-            labelText={'Last Name'}
-            type="text"
-            placeholder="Last Name"
-            value={lastName}
-            onChange={(e) => {
-              setLastName(e.target.value);
-            }}
-          />
-          <Input
-            labelText={'Email'}
-            type={'text'}
-            placeholder={'Email'}
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          />
+      <form onSubmit={handleSubmit(editAdminHandler)}>
+        <div className={styles.addModalContainer}>
+          <div>
+            <InputControlled
+              label={'Name'}
+              type={'text'}
+              name={'name'}
+              placeholder="Name"
+              register={register}
+              required
+              error={errors.name}
+            />
+            <InputControlled
+              label={'Last Name'}
+              type={'text'}
+              name={'lastName'}
+              placeholder="Last Name"
+              register={register}
+              required
+              error={errors.lastName}
+            />
+            <InputControlled
+              label={'Email'}
+              type={'text'}
+              name={'email'}
+              placeholder="Email"
+              register={register}
+              required
+              error={errors.email}
+            />
+          </div>
+          <div>
+            <DropdownForm
+              label="Gender"
+              options={['male', 'female', 'polygender']}
+              name="gender"
+              initialOption="Select a gender"
+              required
+              register={register}
+              error={errors.gender}
+            />
+            <DropdownForm
+              label="Status"
+              options={['true', 'false']}
+              name={'status'}
+              required
+              initialOption="Select a status"
+              register={register}
+              error={errors.status}
+            />
+            <InputControlled
+              label={'Password'}
+              type={'password'}
+              name={'password'}
+              placeholder="Password"
+              register={register}
+              required
+              error={errors.password}
+            />
+          </div>
         </div>
-        <div>
-          <Dropdown
-            label="Gender"
-            options={['male', 'female', 'polygender']}
-            value={gender}
-            initialOption="Select a gender"
-            onChange={(e) => {
-              setGender(e.target.value);
-            }}
-          />
-          <Dropdown
-            label="Status"
-            options={['true', 'false']}
-            value={status}
-            initialOption="Select a status"
-            onChange={(e) => {
-              setStatus(e.target.value);
-            }}
-          />
-          <Input
-            labelText={'Password'}
-            type="password"
-            placeholder="password"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          />
+        <div className={styles.modalButtons}>
+          <Button value="Submit" icons={'submit'} />
         </div>
-      </div>
-      <Button
-        value="Submit"
-        icons={'submit'}
-        callback={() => {
-          editAdmin(
-            name,
-            lastName,
-            email,
-            gender,
-            status,
-            password,
-            setShowEditModal,
-            admin,
-            setSucModalIsOpen
-          )(dispatch).then(() => setShowEditModal(false));
-        }}
-      />
+      </form>
     </Modal>
   );
 };
