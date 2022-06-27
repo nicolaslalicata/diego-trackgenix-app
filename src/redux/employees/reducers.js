@@ -10,7 +10,8 @@ import {
 const initialState = {
   employeesList: [],
   isLoading: false,
-  error: ''
+  error: '',
+  successMessage: false
 };
 export const employeesReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -18,7 +19,8 @@ export const employeesReducer = (state = initialState, action) => {
       return {
         ...state,
         employeesList: action.payload,
-        isLoading: false
+        isLoading: false,
+        successMessage: false
       };
     case EMPLOYEES_PENDING:
       return {
@@ -29,20 +31,25 @@ export const employeesReducer = (state = initialState, action) => {
       return {
         ...state,
         error: action.payload,
-        isLoading: false
+        isLoading: false,
+        successMessage: ''
       };
     case ADD_EMPLOYEES_SUCCESS:
       return {
         ...state,
         employeesList: [...state.employeesList, action.payload],
-        isLoading: false
+        isLoading: false,
+        error: false,
+        successMessage: 'Employee added successfully'
       };
 
     case DELETE_EMPLOYEES_SUCCESS:
       return {
         ...state,
         employeesList: state.employeesList.filter((e) => e._id !== action.payload._id),
-        isLoading: false
+        isLoading: false,
+        error: false,
+        successMessage: 'Employee deleted successfully'
       };
 
     case EDIT_EMPLOYEES_SUCCESS:
@@ -51,7 +58,9 @@ export const employeesReducer = (state = initialState, action) => {
         employeesList: state.employeesList.map((element) =>
           element._id === action.payload._id ? action.payload : element
         ),
-        isLoading: false
+        isLoading: false,
+        error: false,
+        successMessage: 'Employee edited successfully'
       };
 
     default:

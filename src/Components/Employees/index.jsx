@@ -6,7 +6,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteEmployees, getEmployees, editEmployee } from '../../redux/employees/thunks';
 
 const Employees = () => {
-  const [editItem, setEditItem] = useState(null);
+  const [editItem, setEditItem] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    password: '',
+    active: ''
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const dispatch = useDispatch();

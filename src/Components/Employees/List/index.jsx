@@ -49,7 +49,6 @@ const ListEmployee = ({
   const onEdit = (employee) => {
     setIsEditModalOpen(true);
     setEditItem(employee);
-    console.log('User: ', employee);
   };
   return (
     <div className={styles.container}>

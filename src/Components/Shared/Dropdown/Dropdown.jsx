@@ -15,7 +15,7 @@ const DropdownForm = ({
     <div className={styles.dropdownContainer} style={dropStyle}>
       <label className={styles.labelDropdown}>{label}</label>
       <select className={styles.selectDropdown} value={value} {...register(name, { required })}>
-        <option value="none" selected hidden>
+        <option value="true" selected hidden>
           {initialOption}
         </option>
         {options.map((option, index) => (

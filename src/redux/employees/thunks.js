@@ -46,7 +46,6 @@ export const editEmployee = (
   phone,
   password,
   active,
-  setEditItem,
   setIsEditModalOpen
 ) => {
   return (dispatch) => {
@@ -70,16 +69,13 @@ export const editEmployee = (
       .then((data) => {
         if ((!firstName || !lastName || !email || !password) && data.error) {
           dispatch(employeesError(data.message));
-          setEditItem(null);
-          setIsEditModalOpen(false);
+          // setIsEditModalOpen(false);
         } else {
-          setEditItem(null);
           dispatch(editEmployeesSuccess(data.data));
-          alert(`The employee ${firstName} was edited`);
-          setIsEditModalOpen(false);
+          // setIsEditModalOpen(false);
         }
-      })
-      .then(() => getEmployees()(dispatch));
+      });
+    // .then(() => getEmployees()(dispatch));
   };
 };
 export const addNewEmployee = (firstName, lastName, email, phone, password, active) => {
@@ -102,12 +98,11 @@ export const addNewEmployee = (firstName, lastName, email, phone, password, acti
       .then((response) => response.json())
       .then((response) => {
         if (!response.error) {
-          alert(`Employee ${firstName} added successfully`);
           dispatch(addEmployeesSuccess(response.data));
         } else {
           dispatch(employeesError(response.error));
         }
-      })
-      .then(() => getEmployees()(dispatch));
+      });
+    // .then(() => getEmployees()(dispatch));
   };
 };
