@@ -36,7 +36,7 @@ body {
   width: 100%;
   background-color: #373867;
   color: #000;
-  height: 80px;
+  height: 50px;
 }
 
 .menuItems {
@@ -48,7 +48,6 @@ body {
 .menuItems li {
   list-style: none;
   margin-left: 1.5rem;
-  margin-bottom: 0.5rem;
   font-size: 1.2rem;
 }
 
@@ -61,7 +60,9 @@ body {
 }
 
 .menuItems a:hover {
-  color: #117964;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
   transition: color 0.3s ease-in-out;
 }
 
@@ -163,10 +164,11 @@ body {
 
 .menuItems > li {
   display: flex;
+  align-items: center;
 }
 
  /* desde 992px */
-@media (min-width: 992px) {
+@media (min-width: 1024px) {
   .navbar {
     align-items: flex-end;
     justify-content: flex-start;
@@ -176,15 +178,16 @@ body {
 
   .navbar .menuItems {
     position: fixed;
+    padding: 0;
     top: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     height: 100%;
-    width: 245px;
+    width: 195px;
     max-width: 330px;
-    margin-left: -50px;
-    padding-left: 50px;
+    /* margin-left: -50px; */
+    /* padding-left: 50px; */
   }
 
   .navbar .menuItems li {
@@ -219,7 +222,12 @@ body {
     justify-content: center;
     align-items: center;
   }
+  .menuItems a {
+    margin: 15px;
+    width: 200px;
+  }
   .menu > li {
+    margin: 15px;
     display: flex;
     justify-content: center;
     margin: 0;
@@ -233,10 +241,8 @@ body {
   .menuToggle:checked ~ .menuItems {
     display: flex;
     flex-direction: column;
-    padding: 0.5em;
     margin-top: 301px;
     background:#373867;
-    font-size: 80px;
   }
 
 }

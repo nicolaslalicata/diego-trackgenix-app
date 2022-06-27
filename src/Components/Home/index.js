@@ -7,7 +7,7 @@ function Home() {
       <h2 className={styles.tittle}>Welcome to Trackgenix!</h2>
       <div className={styles.homeContent}>
         <h3 className={styles.homeh3}>A free website for everyone at Trackgenix!</h3>
-        <img src={clock} alt="clock img" />
+        <img src={clock} className={styles.homeIco} alt="clock img" />
       </div>
       <p className={styles.homeP}>
         Here, you can register the hours worked in any project for all employees, generate reports

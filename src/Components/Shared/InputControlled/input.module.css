@@ -40,7 +40,8 @@ input:last-of-type {
 p {
   margin-left: initial;
   font-size: small;
-  color: #ff0000;
+  font-weight: 500;
+  color: #E60000;
 }
 
 .labelContainer {
