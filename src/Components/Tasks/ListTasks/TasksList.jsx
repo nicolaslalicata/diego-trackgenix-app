@@ -29,7 +29,8 @@ const TasksList = ({ tasklist, deleteItem, editItem }) => {
     <div className={styles.container}>
       <Table
         data={getData()}
-        headers={['description', 'workedHours', 'date', 'delete', 'edit']}
+        objProp={['description', 'workedHours', 'date', 'edit', 'delete']}
+        headers={['Description', 'Worked Hours', 'Date', 'Edit', 'Delete']}
       ></Table>
     </div>
   );

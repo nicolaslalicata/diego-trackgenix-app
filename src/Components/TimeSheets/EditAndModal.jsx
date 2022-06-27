@@ -4,12 +4,18 @@ import styles from './time-sheets.module.css';
 import Button from '../Shared/Buttons/buttons';
 import Input from '../Shared/Input';
 import Modal from '../Shared/Modal/index';
-const ModalTimeSheetEdit = ({ isModalEdit, timeSheet, fetchTimeSheets, setIsModalEdit }) => {
+import { editTimeSheet } from '../../redux/timesheets/thunks';
+import { useDispatch } from 'react-redux/es/exports';
+
+const ModalTimeSheetEdit = ({ isModalEdit, timeSheet, setIsModalEdit }) => {
   const [description, setDescription] = useState(timeSheet.description);
   const [hours, setHours] = useState(timeSheet.hours);
-  const [startDate, setStartDate] = useState(timeSheet.startDate);
-  const [endDate, setEndDate] = useState(timeSheet.endDate);
+  const [startDate, setStartDate] = useState('2022-06-08T00:00:00.000Z');
+  const [endDate, setEndDate] = useState('2022-06-08T00:00:00.000Z');
   const [isModalConfirm, setIsModalConfirm] = useState(false);
+  const [isModalSuccess, setIsModalSuccess] = useState(false);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     setDescription(timeSheet.description);
     setHours(timeSheet.hours);
@@ -18,30 +24,8 @@ const ModalTimeSheetEdit = ({ isModalEdit, timeSheet, fetchTimeSheets, setIsModa
   }, [timeSheet]);
 
   const handleEdit = () => {
-    fetch(`${process.env.REACT_APP_API_URL}/timesheets/${timeSheet._id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        description: description,
-        taskId: timeSheet.taskId,
-        validated: timeSheet.validated,
-        employeeId: timeSheet.employeeId,
-        projectId: timeSheet.projectId,
-        startDate: startDate,
-        endDate: endDate,
-        hours: hours
-      })
-    })
-      .then((response) => {
-        response.json(),
-          response.status === 201
-            ? alert('Edited successfully')
-            : alert('There was an error during edition');
-      })
-      .then(fetchTimeSheets)
-      .then(() => setIsModalEdit(false));
+    dispatch(editTimeSheet(timeSheet, description, startDate, endDate, hours, setIsModalSuccess));
+    setIsModalSuccess(true);
   };
   return (
     <section>
@@ -65,7 +49,7 @@ const ModalTimeSheetEdit = ({ isModalEdit, timeSheet, fetchTimeSheets, setIsModa
           />
           <Input
             type="date"
-            value={startDate}
+            value={startDate.substring(0, 10)}
             onChange={(e) => {
               setStartDate(e.target.value);
             }}
@@ -73,38 +57,52 @@ const ModalTimeSheetEdit = ({ isModalEdit, timeSheet, fetchTimeSheets, setIsModa
           />
           <Input
             type="date"
-            value={endDate}
+            value={endDate.substring(0, 10)}
             onChange={(e) => {
               setEndDate(e.target.value);
             }}
             labelText={'End Date'}
           />
-          <Button
-            callback={() => {
-              setIsModalEdit(false), setIsModalConfirm(true);
-            }}
-            text={'Edit'}
-          ></Button>
-          <Button
-            callback={() => {
-              setIsModalEdit(false);
-            }}
-            text={'Cancel'}
-          ></Button>
+          <div className={styles.btnModalContainer}>
+            <Button
+              callback={() => {
+                setIsModalEdit(false);
+                setIsModalConfirm(true);
+              }}
+              text={'Edit'}
+            ></Button>
+            <Button
+              callback={() => {
+                setIsModalEdit(false);
+              }}
+              text={'Cancel'}
+            ></Button>
+          </div>
         </div>
+      </Modal>
+      <Modal isOpen={isModalSuccess} setIsOpen={setIsModalSuccess}>
+        <div>Timesheet edited successfully</div>
       </Modal>
       <Modal isOpen={isModalConfirm} setIsOpen={setIsModalConfirm}>
         <div>
           <h5>Are you sure you want to edit the item?</h5>
         </div>
-        <Button
-          className={styles.deleteBtn}
-          callback={() => {
-            handleEdit(), setIsModalConfirm(false);
-          }}
-          text={'Confirm'}
-        />
-        <Button callback={() => setIsModalConfirm(false)} text={'Cancel'} />
+        <div className={styles.btnModalContainer}>
+          <Button
+            callback={(e) => {
+              e.preventDefault();
+              handleEdit();
+              dispatch(
+                editTimeSheet(timeSheet, description, startDate, endDate, hours, setIsModalSuccess)
+              ),
+                setIsModalSuccess(true);
+              setIsModalConfirm(false);
+            }}
+            text={'Confirm'}
+          />
+
+          <Button callback={() => setIsModalConfirm(false)} text={'Cancel'} />
+        </div>
       </Modal>
     </section>
   );

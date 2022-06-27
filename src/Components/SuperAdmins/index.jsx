@@ -3,55 +3,103 @@ import styles from './super-admins.module.css';
 import Button from '../Shared/Buttons/buttons';
 import Table from '../Shared/Table/Table';
 import Modal from '../Shared/Modal/index';
-import Input from '../Shared/Input';
 import Loader from '../Shared/Loading';
 import { useDispatch, useSelector } from 'react-redux';
-import { addSuperAdminsFulfilled, getSuperAdminsFulfilled } from '../../redux/superAdmins/actions';
+import {
+  getSuperAdmins,
+  deleteSuperAdmin,
+  addSuperAdmin,
+  editSuperAdmin
+} from '../../redux/superAdmins/thunks';
+import InputControlled from '../Shared/InputControlled';
+import { useForm } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
+import Joi from 'joi';
 
 function SuperAdmins() {
-  let initialValues = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: ''
-  };
-  // REDUX
-  const dispatch = useDispatch();
-  const superAdmins = useSelector((state) => state.superAdmins.superAdminsList);
-
-  // const [superAdmins, setSuperAdmins] = useState([]);
+  const schema = Joi.object({
+    firstName: Joi.string()
+      .required()
+      .trim()
+      .min(3)
+      .regex(/^([ \u00c0-\u01ffa-zA-Z'-])+$/)
+      .messages({
+        'string.empty': 'First name is required',
+        'string.min': 'First name should have at least 3 characters',
+        'string.pattern.base': 'There are invalid characters'
+      }),
+    lastName: Joi.string()
+      .required()
+      .trim()
+      .min(3)
+      .regex(/^([ \u00c0-\u01ffa-zA-Z'-])+$/)
+      .messages({
+        'string.empty': 'Last name is required',
+        'string.min': 'Last name should have at least 3 characters',
+        'string.pattern.base': 'There are invalid characters'
+      }),
+    password: Joi.string()
+      .required()
+      .min(8)
+      .regex(/(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{8,25})$/)
+      .messages({
+        'string.empty': 'Password is required',
+        'string.min': 'Password should have at least 8 characters',
+        'string.pattern.base': 'Should be alphanumeric'
+      }),
+    email: Joi.string()
+      .required()
+      .lowercase()
+      .regex(/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i)
+      .messages({
+        'string.empty': 'Email is required',
+        'string.pattern.base': 'Email format it is not valid'
+      })
+  });
+  const superAdmins = useSelector((state) => state.superAdmins.List);
   const [id, setId] = useState('');
+  const [superAdmin, setSuperAdmin] = useState('');
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm({
+    mode: 'onSubmit',
+    resolver: joiResolver(schema)
+  });
+
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.superAdmins.isLoading);
+  const error = useSelector((state) => state.superAdmins.error);
 
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const [firstName, setFirstName] = useState(initialValues.firstName);
-  const [lastName, setLastName] = useState(initialValues.lastName);
-  const [email, setEmail] = useState(initialValues.email);
-  const [password, setPassword] = useState(initialValues.password);
-
-  const resetInputs = () => {
-    setFirstName('');
-    setLastName('');
-    setEmail('');
-    setPassword('');
-  };
+  const [modalNotification, setModalNotification] = useState(false, { title: '' });
 
   useEffect(() => {
-    try {
-      fetch(`${process.env.REACT_APP_API_URL}/super-admins`)
-        .then((response) => response.json())
-        .then((response) => {
-          dispatch(getSuperAdminsFulfilled(response.data));
-          setIsLoading(false);
-          // setSuperAdmins(response.data);
-        });
-    } catch (error) {
-      console.error(error);
-    }
+    dispatch(getSuperAdmins());
   }, []);
+
+  useEffect(() => {
+    reset({
+      firstName: superAdmin.firstName,
+      lastName: superAdmin.lastName,
+      email: superAdmin.email,
+      password: superAdmin.password
+    });
+  }, [superAdmin]);
+
+  useEffect(() => {
+    reset({
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: ''
+    });
+  }, [isOpenAdd === true]);
 
   const getData = () => {
     return superAdmins.map((superAdmin) => ({
@@ -60,8 +108,8 @@ function SuperAdmins() {
         <Button
           icons="edit"
           callback={() => {
-            setId(superAdmin._id);
-            getById(superAdmin._id);
+            setSuperAdmin(superAdmin);
+            setIsOpenEdit(true);
           }}
         />
       ),
@@ -77,171 +125,139 @@ function SuperAdmins() {
     }));
   };
 
-  const getById = (ids) => {
-    setIsOpenEdit(true);
-    fetch(`${process.env.REACT_APP_API_URL}/super-admins/${ids}`)
-      .then((response) => response.json())
-      .then((response) => {
-        setFirstName(response.data.firstName);
-        setLastName(response.data.lastName);
-        setEmail(response.data.email);
-        setPassword(response.data.password);
-      });
+  // HANDLERS
+  const handleDeleteSuperAdmin = (superAdmID) => {
+    dispatch(deleteSuperAdmin(superAdmID, setIsOpen, setModalNotification));
   };
 
-  const deleteRow = async (_id) => {
-    const resp = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${_id}`, {
-      method: 'DELETE'
-    });
-    const data = resp.json;
-    console.log(data);
-    console.log(resp);
-    if (resp.status === 200) {
-      // setSuperAdmins(superAdmins.filter((row) => row._id !== _id));
-      setIsOpen(false);
-      alert('Super admin deleted successfully');
-    } else {
-      alert('There has been an error');
-    }
+  const handleCreateSuperAdmin = ({ firstName, lastName, email, password }, e) => {
+    e.preventDefault();
+    const newSadmin = { firstName, lastName, email, password };
+    dispatch(addSuperAdmin(newSadmin, setIsOpenAdd, setModalNotification));
+    reset();
   };
 
-  const newSuperAdmin = async (superAdmin) => {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins`, {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify(superAdmin)
-    });
-    const data = await response.json();
-    if (response.status === 200 || response.status === 201) {
-      // setSuperAdmins([...superAdmins, data]);
-      dispatch(addSuperAdminsFulfilled(newSuperAdmin));
-      setIsOpenAdd(false);
-      alert('Super admin created successfully');
-    } else {
-      alert(data.message);
-    }
+  const handleEditSuperAdmin = ({ firstName, lastName, email, password }, e) => {
+    e.preventDefault();
+    const editSadmin = { firstName, lastName, email, password };
+    dispatch(editSuperAdmin(editSadmin, superAdmin, setIsOpenEdit, setModalNotification, reset));
+    reset();
   };
 
-  const editSuperAdmin = async (superAdmin) => {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/super-admins/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify(superAdmin)
-    });
-    const data = await response.json();
-    if (response.status === 200 || response.status === 201) {
-      // setSuperAdmins([...superAdmins, data]);
-      setIsOpenEdit(false);
-      alert('Super admin edited successfully');
-    } else {
-      alert(data.message);
-    }
-  };
-
-  const headers = ['First Name', 'Last Name', 'Email', 'Password', 'Edit', 'Delete'];
+  const headers = ['Name', 'Last Name', 'Email', 'Password', 'Edit', 'Delete'];
   const objProp = ['firstName', 'lastName', 'email', 'password', 'edit', 'delete'];
+  if (error) {
+    return <Loader isLoading={isLoading} />;
+  }
   if (isLoading) {
     return <Loader isLoading={isLoading} />;
   } else {
     return (
       <section className={styles.container}>
-        <h2>SuperAdmins</h2>
+        <h2>Super Admins</h2>
         <Button
           icons={'add'}
           callback={() => {
-            resetInputs();
             setIsOpenAdd(true);
           }}
         />
         {/* MODAL DELETE */}
-        <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-          <h3>Are you sure you want to delete this Super Admin?</h3>
-          <Button callback={() => deleteRow(id)} text={'Delete'} />
+        <Modal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          title={'Are you sure you want to delete this user?'}
+        >
+          <Button callback={() => handleDeleteSuperAdmin(id)} text={'Delete'} />
         </Modal>
         {/* MODAL ADD */}
-        <Modal isOpen={isOpenAdd} setIsOpen={setIsOpenAdd}>
+        <Modal isOpen={isOpenAdd} setIsOpen={setIsOpenAdd} reset={reset}>
           <h3>Add new super admin</h3>
-          <form className={styles.containerForm}>
-            <Input
-              labelText={'First Name:'}
-              type={'text'}
-              value={firstName}
+          <form className={styles.containerForm} onSubmit={handleSubmit(handleCreateSuperAdmin)}>
+            <InputControlled
+              label={'First Name:'}
+              name="firstName"
+              register={register}
+              required
+              error={errors.firstName}
               placeholder={'First name'}
-              onChange={(submitSuperAdmin) => setFirstName(submitSuperAdmin.target.value)}
             />
-            <Input
-              labelText={'Last Name:'}
-              type={'text'}
-              value={lastName}
+            <InputControlled
+              label={'Last Name:'}
+              name="lastName"
+              register={register}
+              required
+              error={errors.lastName}
               placeholder={'Last name'}
-              onChange={(submitSuperAdmin) => setLastName(submitSuperAdmin.target.value)}
             />
-            <Input
-              labelText={'Email:'}
-              type={'email'}
-              value={email}
+            <InputControlled
+              label={'Email:'}
+              name="email"
+              register={register}
+              required
+              error={errors.email}
               placeholder={'Email'}
-              onChange={(submitSuperAdmin) => setEmail(submitSuperAdmin.target.value)}
             />
-            <Input
-              labelText={'Password:'}
+            <InputControlled
               type={'password'}
-              value={password}
+              label={'Password:'}
+              name="password"
+              register={register}
+              required
+              error={errors.password}
               placeholder={'Password'}
-              onChange={(submitSuperAdmin) => setPassword(submitSuperAdmin.target.value)}
             />
-            <Button
-              value="Submit"
-              icons={'submit'}
-              callback={(noRefresh) => {
-                noRefresh.preventDefault();
-                newSuperAdmin({ firstName, lastName, email, password });
-              }}
-            />
+            <Button icons={'submit'} />
           </form>
         </Modal>
         {/* MODAL EDIT */}
-        <Modal isOpen={isOpenEdit} setIsOpen={setIsOpenEdit}>
+        <Modal isOpen={isOpenEdit} setIsOpen={setIsOpenEdit} reset={reset}>
           <h3>Edit super admin</h3>
-          <form className={styles.containerForm}>
-            <Input
-              labelText={'First Name:'}
-              type={'text'}
-              value={firstName}
-              onChange={(submitSuperAdmin) => setFirstName(submitSuperAdmin.target.value)}
+          <form className={styles.containerForm} onSubmit={handleSubmit(handleEditSuperAdmin)}>
+            <InputControlled
+              label={'First Name:'}
+              name="firstName"
+              register={register}
+              required
+              error={errors.firstName}
+              placeholder={'First name'}
             />
-            <Input
-              labelText={'Last Name:'}
-              type={'text'}
-              value={lastName}
-              onChange={(submitSuperAdmin) => setLastName(submitSuperAdmin.target.value)}
+            <InputControlled
+              label={'Last Name:'}
+              name="lastName"
+              register={register}
+              required
+              error={errors.lastName}
+              placeholder={'Last name'}
             />
-            <Input
-              labelText={'Email:'}
-              type={'email'}
-              value={email}
-              onChange={(submitSuperAdmin) => setEmail(submitSuperAdmin.target.value)}
+            <InputControlled
+              label={'Email:'}
+              name="email"
+              register={register}
+              required
+              error={errors.email}
+              placeholder={'Email'}
             />
-            <Input
-              labelText={'Password:'}
+            <InputControlled
               type={'password'}
-              value={password}
-              onChange={(submitSuperAdmin) => setPassword(submitSuperAdmin.target.value)}
+              label={'Password:'}
+              name="password"
+              register={register}
+              required
+              error={errors.password}
+              placeholder={'Password'}
             />
-            <Button
-              value="Submit"
-              icons={'submit'}
-              callback={(noRefresh) => {
-                noRefresh.preventDefault();
-                editSuperAdmin({ firstName, lastName, email, password });
-              }}
-            />
+            <Button icons={'submit'} />
           </form>
         </Modal>
+        {/* MODAL NOTIFICATION */}
+        <Modal
+          isOpen={modalNotification}
+          setIsOpen={setModalNotification}
+          title={modalNotification.title}
+        >
+          <Button callback={() => setModalNotification(false)} text={'OK'} />
+        </Modal>
+        {/* TABLE */}
         <Table data={getData()} objProp={objProp} headers={headers} />
       </section>
     );
