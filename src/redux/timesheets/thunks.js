@@ -74,7 +74,6 @@ export const editTimeSheet = (
           dispatch(timeSheetsError(response.message));
         }
       });
-    // .then(() => getTimeSheets()(dispatch));
   };
 };
 

@@ -35,7 +35,7 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
       })
       .required(),
     endDate: Joi.date()
-      .greater(Joi.ref('startDate'))
+      .min(Joi.ref('startDate'))
       .messages({
         'date.base': 'Date is not valid',
         'date.greater': 'End date must be after the start date',
@@ -52,7 +52,6 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
     register,
     handleSubmit,
     reset,
-    setValue,
     formState: { errors }
   } = useForm({
     mode: 'onSubmit',

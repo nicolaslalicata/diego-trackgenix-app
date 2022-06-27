@@ -40,7 +40,7 @@ const ModalTimeSheetEdit = ({
       })
       .required(),
     endDate: Joi.date()
-      .greater(Joi.ref('startDate'))
+      .min(Joi.ref('startDate'))
       .messages({
         'date.base': 'Date is not valid',
         'date.greater': 'End date must be after the start date',
