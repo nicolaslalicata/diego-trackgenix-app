@@ -43,3 +43,8 @@
     background-color: #000;
     color: #fff;
 }
+
+.employeeTitle Button {
+    margin-left: 25%;
+    width: 50%;
+}

@@ -22,6 +22,8 @@ const Employees = () => {
     }
   }, []);
 
+  console.log(list);
+
   if (isLoading) {
     return <Loader isLoading={isLoading} />;
   } else {

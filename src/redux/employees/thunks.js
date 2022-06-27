@@ -43,22 +43,27 @@ export const editEmployee = (
   firstName,
   lastName,
   email,
+  phone,
   password,
+  active,
   setEditItem,
   setIsEditModalOpen
 ) => {
   return (dispatch) => {
     dispatch(employeesPending());
+    console.log(firstName);
     return fetch(`${process.env.REACT_APP_API_URL}/employees/${employees._id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        firstName,
-        lastName,
-        email,
-        password
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phone: phone,
+        password: password,
+        active: active
       })
     })
       .then((response) => response.json())
@@ -77,7 +82,7 @@ export const editEmployee = (
       .then(() => getEmployees()(dispatch));
   };
 };
-export const addNewEmployee = (firstName, lastName, email, password) => {
+export const addNewEmployee = (firstName, lastName, email, phone, password, active) => {
   return (dispatch) => {
     dispatch(employeesPending());
     fetch(`${process.env.REACT_APP_API_URL}/employees/`, {
@@ -89,7 +94,9 @@ export const addNewEmployee = (firstName, lastName, email, password) => {
         firstName: firstName,
         lastName: lastName,
         email: email,
-        password: password
+        phone: phone,
+        password: password,
+        active: active
       })
     })
       .then((response) => response.json())

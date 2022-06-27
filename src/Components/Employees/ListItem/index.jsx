@@ -20,6 +20,7 @@ const ListItem = ({ listItem, setEditItem, employees }) => {
       <td>{listItem.firstName}</td>
       <td>{listItem.lastName}</td>
       <td>{listItem.email}</td>
+      <td>{listItem.phone}</td>
       <td>{listItem.password}</td>
       <td>
         <Button

@@ -3,6 +3,7 @@ import styles from './index.module.css';
 import Button from '../../Shared/Buttons/buttons';
 import Modal from '../../Shared/Modal';
 import InputControlled from '../../Shared/InputControlled';
+import DropdownForm from '../../Shared/Dropdown/Dropdown';
 import { addNewEmployee } from '../../../redux/employees/thunks';
 import Joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -14,46 +15,44 @@ const EmployeeForm = ({
   isEditModalOpen,
   setIsEditModalOpen,
   setEditItem,
+  employee,
   dispatch
 }) => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const employeeSchema = Joi.object({
     firstName: Joi.string()
       .required()
+      .trim()
       .min(3)
       .regex(/^([ \u00c0-\u01ffa-zA-Z'-])+$/)
       .messages({
-        'string.empty': 'First name is required',
-        'string.min': 'First name should have at least 3 characters',
         'string.pattern.base': 'There are invalid characters'
       }),
     lastName: Joi.string()
       .required()
+      .trim()
       .min(3)
       .regex(/^([ \u00c0-\u01ffa-zA-Z'-])+$/)
       .messages({
-        'string.empty': 'Last name is required',
-        'string.min': 'Last name should have at least 3 characters',
         'string.pattern.base': 'There are invalid characters'
       }),
     email: Joi.string()
       .required()
-      .lowercase()
-      .email({ tlds: { allow: false } })
+      .regex(/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i)
       .messages({
-        'string.empty': 'Email is required',
-        'string.pattern.base': 'Email format it is not valid'
+        'string.pattern.base': 'There are invalid characters'
       }),
+    phone: Joi.number().min(10).required(),
     password: Joi.string()
       .required()
       .min(8)
       .regex(/(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{8,25})$/)
       .messages({
-        'string.empty': 'Password is required',
-        'string.min': 'Password should have at least 8 characters',
-        'string.pattern.base': 'Should be alphanumeric'
-      })
+        'string.pattern.base': 'The password must have letters and numbers'
+      }),
+    active: Joi.string().valid('true', 'false')
   });
 
   const {
@@ -66,15 +65,18 @@ const EmployeeForm = ({
     resolver: joiResolver(employeeSchema)
   });
 
-  console.log(initialValue);
-  if (initialValue) {
+  console.log(employee);
+
+  if (initialValue && !isEditing) {
     setValue('firstName', initialValue.firstName);
     setValue('lastName', initialValue.lastName);
     setValue('email', initialValue.email);
+    setValue('phone', initialValue.phone);
     setValue('password', initialValue.password);
+    setIsEditing(true);
   }
 
-  const editEmployeeHandler = ({ firstName, lastName, email, password }, e) => {
+  const editEmployeeHandler = ({ firstName, lastName, email, phone, password, active }, e) => {
     e.preventDefault();
     dispatch(
       editEmployee(
@@ -82,16 +84,20 @@ const EmployeeForm = ({
         firstName,
         lastName,
         email,
+        phone,
         password,
+        active,
         setEditItem,
         setIsEditModalOpen
       )
     );
+    setIsEditing(false);
   };
+  console.log(initialValue);
 
-  const addEmployeeHandler = ({ firstName, lastName, email, password }, e) => {
+  const addEmployeeHandler = ({ firstName, lastName, email, phone, password, active }, e) => {
     e.preventDefault();
-    dispatch(addNewEmployee(firstName, lastName, email, password));
+    dispatch(addNewEmployee(firstName, lastName, email, phone, password, active));
   };
 
   return (
@@ -106,6 +112,7 @@ const EmployeeForm = ({
               setValue('firstName', '');
               setValue('lastName', '');
               setValue('email', '');
+              setValue('phone', '');
               setValue('password', '');
             }}
             icons={'add'}
@@ -142,12 +149,22 @@ const EmployeeForm = ({
               <div className={styles.formItem}>
                 <InputControlled
                   label={'Email'}
-                  type={'email'}
                   name={'email'}
                   placeholder="Email"
                   register={register}
                   required
                   error={errors.email}
+                />
+              </div>
+              <div className={styles.formItem}>
+                <InputControlled
+                  label={'Phone'}
+                  type={'phone'}
+                  name={'phone'}
+                  placeholder="Phone"
+                  register={register}
+                  required
+                  error={errors.phone}
                 />
               </div>
               <div className={styles.formItem}>
@@ -161,6 +178,15 @@ const EmployeeForm = ({
                   error={errors.password}
                 />
               </div>
+              <DropdownForm
+                initialOption="Is Active?"
+                label="Active"
+                options={['true', 'false']}
+                name="active"
+                register={register}
+                required
+                error={errors.active}
+              />
               <div className={styles.formItemSend}>
                 <Button type="submit" value="Submit" icons={'submit'} />
               </div>
@@ -206,12 +232,22 @@ const EmployeeForm = ({
               <div className={styles.formItem}>
                 <InputControlled
                   label={'Email'}
-                  type={'email'}
                   name={'email'}
                   placeholder="Email"
                   register={register}
                   required
                   error={errors.email}
+                />
+              </div>
+              <div className={styles.formItem}>
+                <InputControlled
+                  label={'Phone'}
+                  type={'phone'}
+                  name={'phone'}
+                  placeholder="Phone"
+                  register={register}
+                  required
+                  error={errors.phone}
                 />
               </div>
               <div className={styles.formItem}>
@@ -225,6 +261,15 @@ const EmployeeForm = ({
                   error={errors.password}
                 />
               </div>
+              <DropdownForm
+                initialOption="Is Active?"
+                label="Active"
+                options={['true', 'false']}
+                name="active"
+                register={register}
+                required
+                error={errors.active}
+              />
               <div className={styles.formItemSend}>
                 <Button type="submit" value="Submit" icons={'submit'} />
               </div>

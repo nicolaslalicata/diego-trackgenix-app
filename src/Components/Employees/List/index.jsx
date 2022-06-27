@@ -49,6 +49,7 @@ const ListEmployee = ({
   const onEdit = (employee) => {
     setIsEditModalOpen(true);
     setEditItem(employee);
+    console.log('User: ', employee);
   };
   return (
     <div className={styles.container}>
@@ -77,8 +78,8 @@ const ListEmployee = ({
       />
       <Table
         data={getData()}
-        objProp={['firstName', 'lastName', 'email', 'edit', 'delete']}
-        headers={['First Name', 'Last name', 'email', 'Edit', 'Delete']}
+        objProp={['firstName', 'lastName', 'email', 'phone', 'edit', 'delete']}
+        headers={['First Name', 'Last name', 'email', 'Phone', 'Edit', 'Delete']}
       />
     </div>
   );
