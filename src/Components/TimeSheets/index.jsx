@@ -7,12 +7,11 @@ import ModalTimeSheetEdit from './EditAndModal';
 import ModalDeleteConfirmation from './ModalDeleteConfirmation';
 import Loader from '../Shared/Loading';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTimeSheets, deleteTimeSheet } from '../../redux/timesheets/thunks';
-
+import * as timesheetThunks from '../../redux/timesheets/thunks';
+import * as projectsThunks from '../../redux/projects/thunks';
+import * as employeesThunks from '../../redux/employees/thunks';
+import * as tasksThunks from '../../redux/tasks/thunks';
 const TimeSheets = () => {
-  const [employees, setEmployees] = useState([]);
-  const [tasks, setTasks] = useState([]);
-  const [projects, setProjects] = useState([]);
   const [timeSheet, setTimesheet] = useState({
     description: '',
     taskId: '',
@@ -29,19 +28,13 @@ const TimeSheets = () => {
 
   const dispatch = useDispatch();
   const list = useSelector((state) => state.timeSheets.timeSheetsList);
-  const isLoading = useSelector((state) => state.timeSheets.isLoading);
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/projects/`)
-      .then((response) => response.json())
-      .then((response) => setProjects(response.data));
-    fetch(`${process.env.REACT_APP_API_URL}/employees/`)
-      .then((response) => response.json())
-      .then((response) => setEmployees(response.data));
-    fetch(`${process.env.REACT_APP_API_URL}/tasks/`)
-      .then((response) => response.json())
-      .then((response) => setTasks(response.data));
-  }, []);
-
+  const projects = useSelector((state) => state.projects.projectsList);
+  const employees = useSelector((state) => state.employees.employeesList);
+  const tasks = useSelector((state) => state.tasks.tasksList);
+  const isFetchingTimesheets = useSelector((state) => state.timeSheets.isLoading);
+  const isFetchingProjects = useSelector((state) => state.projects.loading);
+  const isFetchingEmployees = useSelector((state) => state.employees.isLoading);
+  const isFetchingTasks = useSelector((state) => state.tasks.isLoading);
   const onDelete = (timesheet) => {
     setIsModalDelete(true);
     setTimesheet(timesheet);
@@ -50,13 +43,15 @@ const TimeSheets = () => {
     setIsModalEdit(true);
     setTimesheet(timesheet);
   };
-
+  console.log(list);
   const getData = () => {
     return list.map((timesheet) => {
       return {
         ...timesheet,
+        createdAt: new Date(timesheet.createdAt).toISOString().substr(0, 10),
         startDate: new Date(timesheet.startDate).toISOString().substr(0, 10),
         endDate: new Date(timesheet.endDate).toISOString().substr(0, 10),
+        validated: timesheet.validated.toString() === 'true' ? 'Yes' : 'No',
         edit: (
           <Button
             icons="edit"
@@ -71,13 +66,16 @@ const TimeSheets = () => {
   };
   useEffect(async () => {
     try {
-      await getTimeSheets()(dispatch);
+      await timesheetThunks.getTimeSheets()(dispatch);
+      projectsThunks.getProjects()(dispatch);
+      employeesThunks.getEmployees()(dispatch);
+      tasksThunks.getTasks()(dispatch);
     } catch (error) {
       console.error(error);
     }
   }, []);
-  if (isLoading) {
-    return <Loader isLoading={isLoading} />;
+  if (isFetchingTimesheets) {
+    return <Loader isLoading={isFetchingProjects || isFetchingEmployees || isFetchingTasks} />;
   } else {
     return (
       <section className={styles.listSection}>
@@ -93,18 +91,36 @@ const TimeSheets = () => {
         <ModalAddTimeSheet
           isModalAdd={isModalAdd}
           setIsModalAdd={setIsModalAdd}
-          fetchTimeSheets={() => getTimeSheets()(dispatch)}
+          fetchTimeSheets={() => timesheetThunks.getTimeSheets()(dispatch)}
           employees={employees}
           tasks={tasks}
           projects={projects}
         ></ModalAddTimeSheet>
         <Table
           data={getData()}
-          objProp={['description', 'startDate', 'endDate', 'hours', 'edit', 'delete']}
-          headers={['Description', 'Start Date', 'End Date', 'Hours', 'Edit', 'Delete']}
+          objProp={[
+            'description',
+            'createdAt',
+            'startDate',
+            'endDate',
+            'hours',
+            'validated',
+            'edit',
+            'delete'
+          ]}
+          headers={[
+            'Description',
+            'Created At',
+            'Start Date',
+            'End Date',
+            'Hours',
+            'Validated',
+            'Edit',
+            'Delete'
+          ]}
         ></Table>
         <ModalDeleteConfirmation
-          deleteTimeSheet={deleteTimeSheet}
+          deleteTimeSheet={timesheetThunks.deleteTimeSheet}
           timeSheet={timeSheet}
           dispatch={dispatch}
           setIsModalDelete={setIsModalDelete}
@@ -113,8 +129,11 @@ const TimeSheets = () => {
         <ModalTimeSheetEdit
           isModalEdit={isModalEdit}
           setIsModalEdit={setIsModalEdit}
-          fetchTimeSheets={getTimeSheets}
+          fetchTimeSheets={timesheetThunks.getTimeSheets}
           timeSheet={timeSheet}
+          employees={employees}
+          tasks={tasks}
+          projects={projects}
         ></ModalTimeSheetEdit>
       </section>
     );

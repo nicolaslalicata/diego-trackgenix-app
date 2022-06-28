@@ -18,7 +18,7 @@ const initialState = {
   error: '',
   loading: false
 };
-let updatedSA = [];
+let updatedP = [];
 export const projectsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_PROJECTS_SUCCESS:
@@ -82,7 +82,7 @@ export const projectsReducer = (state = initialState, action) => {
         loading: true
       };
     case EDIT_PROJECTS_SUCCESS:
-      updatedSA = state.list.map((item) => {
+      updatedP = state.projectsList.map((item) => {
         if (item._id === action.payload._id) {
           return;
         } else {
@@ -91,7 +91,7 @@ export const projectsReducer = (state = initialState, action) => {
       });
       return {
         ...state,
-        projectsList: updatedSA
+        projectsList: updatedP
       };
     default:
       return state;

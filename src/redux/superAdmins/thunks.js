@@ -40,7 +40,7 @@ export const deleteSuperAdmin = (_id, setIsOpen, setModalNotification) => {
       setIsOpen(false);
       setModalNotification({
         modalNotification: true,
-        message: 'Super admin deleted successfully'
+        title: 'Super admin deleted successfully'
       });
     } catch (error) {
       dispatch(deleteSuperAdminsError(error.message));
@@ -63,7 +63,7 @@ export const addSuperAdmin = (superAdmin, setIsOpenAdd, setModalNotification) =>
         dispatch(addSuperAdminsError());
         setModalNotification({
           modalNotification: true,
-          message: 'There is a validation error, please check the information'
+          title: 'There is a validation error, please check the information'
         });
       }
       if (response.status === 201) {
@@ -72,7 +72,7 @@ export const addSuperAdmin = (superAdmin, setIsOpenAdd, setModalNotification) =>
         setIsOpenAdd(false);
         setModalNotification({
           modalNotification: true,
-          message: 'Super admin created successfully'
+          title: 'Super admin created successfully'
         });
       }
     } catch (error) {
@@ -81,13 +81,19 @@ export const addSuperAdmin = (superAdmin, setIsOpenAdd, setModalNotification) =>
   };
 };
 
-export const editSuperAdmin = (superAdmin, superadminId, setIsOpenEdit, setModalNotification) => {
-  const { firstName, lastName, email, password } = superAdmin;
+export const editSuperAdmin = (
+  editSadmin,
+  superAdmin,
+  setIsOpenEdit,
+  setModalNotification,
+  reset
+) => {
+  const { firstName, lastName, email, password } = editSadmin;
   return async (dispatch) => {
     dispatch(editSuperAdminsPending());
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/super-admins/${superadminId}`,
+        `${process.env.REACT_APP_API_URL}/super-admins/${superAdmin._id}`,
         {
           method: 'PUT',
           headers: {
@@ -100,7 +106,7 @@ export const editSuperAdmin = (superAdmin, superadminId, setIsOpenEdit, setModal
         dispatch(editSuperAdminsError());
         setModalNotification({
           modalNotification: true,
-          message: 'There is a validation error, please check the information'
+          title: 'There is a validation error, please check the information'
         });
       }
       if (response.status === 201) {
@@ -117,13 +123,19 @@ export const editSuperAdmin = (superAdmin, superadminId, setIsOpenEdit, setModal
               email,
               password
             },
-            superadminId
+            superAdmin._id
           )
         );
         setIsOpenEdit(false);
         setModalNotification({
           modalNotification: true,
-          message: 'Super admin edited successfully'
+          title: 'Super admin edited successfully'
+        });
+        reset({
+          firstName: '',
+          lastName: '',
+          email: '',
+          password: ''
         });
       }
     } catch (error) {
