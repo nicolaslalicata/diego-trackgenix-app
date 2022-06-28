@@ -43,42 +43,42 @@ export const editEmployee = (
   firstName,
   lastName,
   email,
+  phone,
   password,
-  // saveEmployees,
-  setEditItem,
+  active,
   setIsEditModalOpen
 ) => {
   return (dispatch) => {
     dispatch(employeesPending());
+    console.log(firstName);
     return fetch(`${process.env.REACT_APP_API_URL}/employees/${employees._id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        firstName,
-        lastName,
-        email,
-        password
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phone: phone,
+        password: password,
+        active: active
       })
     })
       .then((response) => response.json())
       .then((data) => {
         if ((!firstName || !lastName || !email || !password) && data.error) {
           dispatch(employeesError(data.message));
-          setEditItem(null);
-          setIsEditModalOpen(false);
+          // setIsEditModalOpen(false);
         } else {
-          setEditItem(null);
           dispatch(editEmployeesSuccess(data.data));
-          alert(`The employee ${firstName} was edited`);
-          setIsEditModalOpen(false);
+          // setIsEditModalOpen(false);
         }
-      })
-      .then(() => getEmployees()(dispatch));
+      });
+    // .then(() => getEmployees()(dispatch));
   };
 };
-export const addNewEmployee = (firstName, lastName, email, password) => {
+export const addNewEmployee = (firstName, lastName, email, phone, password, active) => {
   return (dispatch) => {
     dispatch(employeesPending());
     fetch(`${process.env.REACT_APP_API_URL}/employees/`, {
@@ -90,18 +90,19 @@ export const addNewEmployee = (firstName, lastName, email, password) => {
         firstName: firstName,
         lastName: lastName,
         email: email,
-        password: password
+        phone: phone,
+        password: password,
+        active: active
       })
     })
       .then((response) => response.json())
       .then((response) => {
         if (!response.error) {
-          alert(`Employee ${firstName} added successfully`);
           dispatch(addEmployeesSuccess(response.data));
         } else {
           dispatch(employeesError(response.error));
         }
-      })
-      .then(() => getEmployees()(dispatch));
+      });
+    // .then(() => getEmployees()(dispatch));
   };
 };

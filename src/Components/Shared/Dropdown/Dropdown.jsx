@@ -1,11 +1,21 @@
 import React from 'react';
 import styles from './dropdown.module.css';
-const Dropdown = ({ label, value, options, onChange, initialOption, dropStyle }) => {
+const DropdownForm = ({
+  label,
+  value,
+  options,
+  initialOption,
+  dropStyle,
+  register,
+  name,
+  required,
+  error
+}) => {
   return (
     <div className={styles.dropdownContainer} style={dropStyle}>
       <label className={styles.labelDropdown}>{label}</label>
-      <select className={styles.selectDropdown} value={value} onChange={onChange}>
-        <option value="none" selected hidden>
+      <select className={styles.selectDropdown} value={value} {...register(name, { required })}>
+        <option value="true" selected hidden>
           {initialOption}
         </option>
         {options.map((option, index) => (
@@ -14,7 +24,8 @@ const Dropdown = ({ label, value, options, onChange, initialOption, dropStyle })
           </option>
         ))}
       </select>
+      <p> {error?.message && error?.message}</p>
     </div>
   );
 };
-export default Dropdown;
+export default DropdownForm;

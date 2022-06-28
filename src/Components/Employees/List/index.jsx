@@ -42,13 +42,6 @@ const ListEmployee = ({
       delete: <Button icons={'delete'} callback={() => onDelete(employee)} />
     }));
   };
-  console.log(list);
-  // const handleEdit = (employee) => {
-  //   setEditItem(employee);
-  //   console.log(employee);
-  //   // alert(`Employee ${employee.firstName} ready for edit`);
-  // };
-
   const onDelete = (employee) => {
     setIsModalDeleteOpen(true);
     setemployeeItem(employee);
@@ -84,8 +77,8 @@ const ListEmployee = ({
       />
       <Table
         data={getData()}
-        objProp={['firstName', 'lastName', 'email', 'edit', 'delete']}
-        headers={['First Name', 'Last name', 'email', 'Edit', 'Delete']}
+        objProp={['firstName', 'lastName', 'email', 'phone', 'edit', 'delete']}
+        headers={['First Name', 'Last name', 'email', 'Phone', 'Edit', 'Delete']}
       />
     </div>
   );
