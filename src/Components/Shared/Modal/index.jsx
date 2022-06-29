@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './modal.module.css';
+import Button from '../Buttons/buttons';
 
 const Modal = ({ children, isOpen, setIsOpen, title, reset }) => {
   if (!isOpen) {
@@ -8,19 +9,17 @@ const Modal = ({ children, isOpen, setIsOpen, title, reset }) => {
   return (
     <div className={styles.overlay}>
       <div className={styles.contenedorModal}>
-        <div className={styles.modalHeader}>
-          <h3>{title}</h3>
-          <button
+        <div className={styles.buttonContainer}>
+          <Button
             className={styles.buttonCloseModal}
             callback={() => {
               setIsOpen(false);
               reset();
             }}
             icons={'close'}
-          >
-            X
-          </button>
+          ></Button>
         </div>
+        <h3>{title}</h3>
         {children}
       </div>
     </div>
