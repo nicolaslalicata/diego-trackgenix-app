@@ -52,7 +52,6 @@ const ModalAddAdmin = ({ setShowAddModal, showAddModal, setSucModalIsOpen }) => 
     handleSubmit,
     register,
     reset,
-    setValue,
     formState: { errors }
   } = useForm({
     mode: 'onSubmit',

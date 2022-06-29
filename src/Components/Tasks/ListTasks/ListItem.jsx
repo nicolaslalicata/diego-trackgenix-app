@@ -2,7 +2,6 @@ import React from 'react';
 import Button from '../../Shared/Buttons/buttons';
 
 const ListItem = ({ tasksItem }) => {
-  console.log('aca', tasksItem.workedHours);
   return (
     <tr>
       <td>{tasksItem.description}</td>

@@ -63,7 +63,6 @@ function Admins() {
     return (
       <section className={styles.container}>
         <div className={styles.header}>
-          <h2>Admins</h2>
           <div className={styles.addAdminButton}>
             <Button
               icons={'add'}

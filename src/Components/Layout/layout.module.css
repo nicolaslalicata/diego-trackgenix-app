@@ -4,3 +4,29 @@
   justify-content: space-between;
   min-height: 100vh;
 }
+
+.body {
+  margin-left: 200px;
+  margin-top: 150px;
+}
+
+@media (max-width: 768px) {
+  .body {
+    margin-left: 0;
+    margin-top: 150px;
+  }
+}
+
+@media (max-width: 1025px) {
+  .body {
+    margin-left: 0;
+    margin-top: 150px;
+  }
+}
+
+/* @media (min-width: 769px) {
+  .body {
+    margin-left: 200px;
+    margin-top: 70px;
+  }
+} */

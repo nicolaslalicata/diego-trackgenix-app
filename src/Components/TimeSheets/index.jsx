@@ -79,7 +79,6 @@ const TimeSheets = () => {
   } else {
     return (
       <section className={styles.listSection}>
-        <h2>Timesheets</h2>
         <div>
           <Button
             icons={'add'}

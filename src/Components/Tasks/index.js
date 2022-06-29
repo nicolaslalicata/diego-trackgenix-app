@@ -15,6 +15,7 @@ import TasksList from './ListTasks/TasksList';
 import styles from './tasks.module.css';
 import Modal from '../Shared/Modal/index.jsx';
 import Button from '../Shared/Buttons/buttons';
+import { ButtonOption } from '../Shared/ButtonsOption/button';
 import InputControlled from '../Shared/InputControlled';
 import Loader from '../Shared/Loading';
 import { IoIosAddCircleOutline } from 'react-icons/io';
@@ -141,7 +142,7 @@ const Tasks = () => {
       <Button callback={() => setIsAdding(true)} icons={'add'}>
         <IoIosAddCircleOutline />
       </Button>
-      <Modal isOpen={showModal} setIsOpen={setShowModal}>
+      <Modal isOpen={showModal} setIsOpen={setShowModal} title={'Delete task'}>
         <h3>Are you sure?</h3>
         <div>
           <Button callback={deleteItem} text={'YES'}></Button>
@@ -182,8 +183,13 @@ const Tasks = () => {
                 error={errors.date}
               />
             </div>
-            <div>
-              <Button text="Add task"></Button>
+            <div className={styles.modalbuttons}>
+              <ButtonOption option={'yes'} text={'Confirm'}></ButtonOption>
+              <ButtonOption
+                option={'no'}
+                callback={() => setIsAdding(false)}
+                text={'Cancel'}
+              ></ButtonOption>
             </div>
           </form>
         </div>
@@ -228,8 +234,13 @@ const Tasks = () => {
                 onChange={onChangeEdit}
               />
             </div>
-            <div>
-              <Button text="Edit task"></Button>
+            <div className={styles.modalbuttons}>
+              <ButtonOption option={'yes'} text={'Confirm'}></ButtonOption>
+              <ButtonOption
+                option={'no'}
+                callback={() => setShowEditModal(false)}
+                text={'Cancel'}
+              ></ButtonOption>
             </div>
           </form>
         </div>

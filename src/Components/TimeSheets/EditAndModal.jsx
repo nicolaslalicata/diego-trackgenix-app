@@ -51,7 +51,7 @@ const ModalTimeSheetEdit = ({
     projects: Joi.string().required(),
     tasks: Joi.string().required(),
     employees: Joi.string().required(),
-    validated: Joi.string().valid('true', 'false')
+    validated: Joi.boolean().required()
   });
   const {
     register,

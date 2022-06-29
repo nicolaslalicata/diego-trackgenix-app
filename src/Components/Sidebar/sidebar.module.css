@@ -1,0 +1,248 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+.container {
+  max-width: 1200px;
+  width: 90%;
+  margin: auto;
+}
+
+.navbar input[type="checkbox"],
+.navbar .hamburgerLines {
+  display: none;
+}
+
+.navbar {
+  top: 23px;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 47px;
+  width: 100%;
+  background-color: #373867;
+  color: #000;
+  height: 50px;
+}
+
+.menuItems {
+  order: 2;
+  display: flex;
+  background: #373867;
+}
+
+.menuItems li {
+  list-style: none;
+  margin-left: 1.5rem;
+  font-size: 1.2rem;
+}
+
+.menuItems a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 300;
+  font-size: medium;
+  transition: color 0.3s ease-in-out;
+}
+
+.menuItems a:hover {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  transition: color 0.3s ease-in-out;
+}
+
+.menu {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu > li {
+  margin: 0 1rem;
+  overflow: hidden;
+}
+
+.menuButtonContainer {
+  display: none;
+  height: 100%;
+  width: 30px;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#menuToggle {
+  display: none;
+}
+
+ /* comprotamiento del botón */
+.menuButton,
+.menuButton::before,
+.menuButton::after {
+  display: flex;
+  background-color: rgb(232, 232, 232);
+  position: absolute;
+  height: 4px;
+  width: 30px;
+  transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
+  border-radius: 2px;
+}
+
+.menuButton::before {
+  content: '';
+  margin-top: -8px;
+}
+
+.menuButton::after {
+  content: '';
+  margin-top: 8px;
+}
+
+.menuToggle:checked + .menuButtonContainer .menuButton::before {
+  margin-top: 0px;
+  transform: rotate(405deg);
+}
+
+.menuToggle:checked + .menuButtonContainer .menuButton {
+  background: rgba(255, 255, 255, 0);
+}
+
+.menuToggle:checked + .menuButtonContainer .menuButton::after {
+  margin-top: 0px;
+  transform: rotate(-405deg);
+}
+
+.menuToggle:checked + .menuButtonContainer .menuButton::before {
+  margin-top: 0px;
+  transform: rotate(405deg);
+}
+
+.menuToggle:checked + .menuButtonContainer .menuButton {
+  background: rgba(255, 255, 255, 0);
+}
+
+.menuToggle:checked + .menuButtonContainer .menuButton::after {
+  margin-top: 0px;
+  transform: rotate(-405deg);
+}
+
+.menuToggle:checked + .menuButtonContainer .menuButton::after {
+  margin-top: 0px;
+  transform: rotate(-405deg);
+}
+
+.topav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #00BAF0;
+  background: linear-gradient(to left, #f46b45, #eea849);
+  color: #FFF;
+  height: 50px;
+  padding: 1em;
+}
+
+
+.menuItems > li {
+  display: flex;
+  align-items: center;
+}
+
+ /* desde 992px */
+@media (min-width: 1024px) {
+  .navbar {
+    align-items: flex-end;
+    justify-content: flex-start;
+    background-color: transparent;
+    opacity: 0.95;
+  }
+
+  .navbar .menuItems {
+    position: fixed;
+    padding: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    width: 195px;
+    max-width: 330px;
+    /* margin-left: -50px; */
+    /* padding-left: 50px; */
+  }
+
+  .navbar .menuItems li {
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+    font-weight: 500;
+  }
+}
+
+ /* hasta 700px */
+@media (max-width: 700px) {
+  .navbar {
+    position: fixed;
+    top: 23px;
+  }
+  .menuItems {
+    display: none;
+    justify-content: flex-start;
+    top: 23px;
+  }
+  .menuButtonContainer {
+    display: flex;
+    margin: 20px;
+  }
+  .menu {
+    position: absolute;
+    top: 0;
+    margin-top: 50px;
+    left: 0;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+  .menuItems a {
+    margin: 15px;
+    width: 200px;
+  }
+  .menu > li {
+    margin: 15px;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0.5em 0;
+    width: 100%;
+    color: white;
+  }
+  .menu > li:not(:last-child) {
+    border-bottom: 1px solid #444;
+  }
+  .menuToggle:checked ~ .menuItems {
+    display: flex;
+    flex-direction: column;
+    margin-top: 301px;
+    background:#373867;
+  }
+
+}

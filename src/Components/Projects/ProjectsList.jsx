@@ -90,7 +90,7 @@ function ProjectsList() {
         </div>
         <ManageItem project={project} handler={editItem} />
       </Modal>
-      <Modal isOpen={modalCloseOpen} setIsOpen={setModalCloseOpen}>
+      <Modal isOpen={modalCloseOpen} setIsOpen={setModalCloseOpen} title={'Confirm'}>
         <div className={styles.modalHeader}>
           <h5 className={styles.heading}>Confirmation</h5>
         </div>

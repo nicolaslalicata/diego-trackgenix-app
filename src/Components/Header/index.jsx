@@ -1,57 +1,44 @@
 import styles from './header.module.css';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 function Header() {
+  const path = window.location.pathname;
+  let pathName = '';
+  switch (path) {
+    case '/':
+      pathName = 'Home';
+      break;
+    case '/admins':
+      pathName = 'Admins';
+      break;
+    case '/super-admins':
+      pathName = 'Super Admins';
+      break;
+    case '/employees':
+      pathName = 'Employees';
+      break;
+    case '/projects':
+      pathName = 'Projects';
+      break;
+    case '/time-sheets':
+      pathName = 'Timesheets';
+      break;
+    case '/tasks':
+      pathName = 'Tasks';
+      break;
+    default:
+      pathName = '';
+      break;
+  }
+
   return (
-    <header>
+    <header className={styles.header}>
       <div className={styles.container}>
-        <div className={styles.brand}>Radium Rocket</div>
-        <div>
-          <a href={'https://www.facebook.com/radiumrocket'} target={'_blank'} rel="noreferrer">
-            <img
-              className={styles.socialIcon}
-              src={`${process.env.PUBLIC_URL}/assets/images/facebook.svg`}
-            />
-          </a>
-          <a href={'https://twitter.com/radiumrocket'} target={'_blank'} rel="noreferrer">
-            <img
-              className={styles.socialIcon}
-              src={`${process.env.PUBLIC_URL}/assets/images/twitter.svg`}
-            />
-          </a>
-          <a href={'https://www.instagram.com/radium.rocket/'} target={'_blank'} rel="noreferrer">
-            <img
-              className={styles.socialIcon}
-              src={`${process.env.PUBLIC_URL}/assets/images/instagram.svg`}
-            />
-          </a>
-        </div>
-      </div>
-      <nav className={styles.navbar}>
         <div className={styles.appName}>
           Track<span>GENIX</span>
         </div>
-        <ul className={styles.rutes}>
-          <li>
-            <Link to="/admins">admins</Link>
-          </li>
-          <li>
-            <Link to="/super-admins">super admins</Link>
-          </li>
-          <li>
-            <Link to="/employees">employees</Link>
-          </li>
-          <li>
-            <Link to="/projects">projects</Link>
-          </li>
-          <li>
-            <Link to="/time-sheets">timesheets</Link>
-          </li>
-          <li>
-            <Link to="/tasks">tasks</Link>
-          </li>
-        </ul>
-      </nav>
+        <div className={styles.tittle}>{pathName}</div>
+      </div>
     </header>
   );
 }

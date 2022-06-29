@@ -46,7 +46,7 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
     projects: Joi.string().required().min(10),
     tasks: Joi.string().required().min(10),
     employees: Joi.string().required().min(10),
-    validated: Joi.string().valid('true', 'false')
+    validated: Joi.boolean().required()
   });
   const {
     register,
@@ -172,7 +172,7 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
           </div>
         </form>
       </Modal>
-      <Modal isOpen={isModalSuccess} setIsOpen={setIsModalSuccess}>
+      <Modal isOpen={isModalSuccess} setIsOpen={setIsModalSuccess} title={'Success'}>
         <div>{successMessage}</div>
       </Modal>
     </>

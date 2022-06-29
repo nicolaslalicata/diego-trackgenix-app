@@ -5,18 +5,37 @@
 
 button:hover {
     cursor: pointer;
-    color: #EA3354;
-    background-color: #fff;
-    border-color: #EA3354;
-    border: 2px solid #EA3354;
+    color: #373867;
+    background-color: #3738672e;
+    /* border-color: #373867;
+    border: 1px solid #373867; */
 }
 
 .button {
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
     height: 35px;
     border-radius: 5px;
+    border: 1px;
     font-size: small;
-    color: #ddd;
-    border-color: #EA3354;
-    background-color: #EA3354;
-  }
+    color: #373867;
+    border-color: #373867;
+    background-color: #aace9b00;
+}
+.delete {
+    color: red;
+}
+
+.buttonYes {
+    background-color: #43d903;
+}
+
+.buttonNo {
+    /* margin-top: 1rem; */
+    height: 35px;
+    border-radius: 5px;
+    border: 1px;
+    font-size: small;
+    color: #373867;
+    border-color: #373867;
+    background-color: #d90303;
+}

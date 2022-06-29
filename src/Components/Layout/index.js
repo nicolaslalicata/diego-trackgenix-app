@@ -1,12 +1,14 @@
 import Footer from '../Footer/index';
 import styles from './layout.module.css';
 import Header from '../Header';
-// import SideBar from '../Shared/SideBar/SideBar';
+import Sidebar from '../Sidebar';
+
 function Layout({ children }) {
   return (
     <div className={styles.container}>
       <Header />
-      {children}
+      <Sidebar />
+      <div className={styles.body}>{children}</div>
       <Footer />
     </div>
   );

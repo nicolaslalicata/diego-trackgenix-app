@@ -40,13 +40,19 @@ const ManageItem = function ({ handler, project }) {
       .required(),
     startDate: joi
       .date()
-      .greater('1-1-1974')
-      .message('The Start Date must be greater than the 2000/01/01')
+      .messages({
+        'date.base': 'Date is not valid',
+        'date.empty': 'This field is required'
+      })
       .required(),
     endDate: joi
       .date()
-      .min(joi.ref('startDate'), 'The End Date must be greater than the Start Date')
-      .required()
+      .min(joi.ref('startDate'))
+      .messages({
+        'date.base': 'Date is not valid',
+        'any.ref': 'Start date is required'
+      })
+      .optional()
   });
 
   const {
