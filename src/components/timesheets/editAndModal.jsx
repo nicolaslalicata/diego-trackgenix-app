@@ -1,11 +1,11 @@
 import React from 'react';
 import { useEffect } from 'react';
 import styles from './time-sheets.module.css';
-import Button from '../Shared/Buttons/buttons';
-import Modal from '../Shared/Modal/index';
-import DropdownForm from '../Shared/dropdownForm.jsx/dropdownForm';
-import InputControlled from '../Shared/InputControlled';
-import * as timesheetThunks from '../../redux/timesheets/thunks';
+import Button from 'components/shared/buttons';
+import Modal from 'components/shared/modal';
+import DropdownForm from 'components/shared/dropdownForm';
+import InputControlled from 'components/shared/inputControlled';
+import * as timesheetThunks from 'redux/timesheets/thunks';
 import { useDispatch } from 'react-redux/es/exports';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';

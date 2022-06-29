@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import styles from './super-admins.module.css';
-import Button from '../Shared/Buttons/buttons';
-import Table from '../Shared/Table/Table';
-import Modal from '../Shared/Modal/index';
-import Loader from '../Shared/Loading';
+import Button from 'components/shared/buttons';
+import Table from 'components/shared/table';
+import Modal from 'components/shared/modal';
+import Loader from 'components/shared/loading';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getSuperAdmins,
   deleteSuperAdmin,
   addSuperAdmin,
   editSuperAdmin
-} from '../../redux/superAdmins/thunks';
-import InputControlled from '../Shared/InputControlled';
+} from 'redux/superAdmins/thunks';
+import InputControlled from 'components/shared/inputControlled';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';

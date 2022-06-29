@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import styles from './index.module.css';
-import ListEmployee from './List';
-import Loader from '../Shared/Loading';
+import ListEmployee from 'components/employees/list';
+import Loader from 'components/shared/loading';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteEmployees, getEmployees, editEmployee } from '../../redux/employees/thunks';
+import { deleteEmployees, getEmployees, editEmployee } from 'redux/employees/thunks';
 
 const Employees = () => {
   const [editItem, setEditItem] = useState({

@@ -4,8 +4,8 @@ import joi from 'joi';
 
 import styles from './manageItem.module.css';
 
-import InputControlled from '../Shared/InputControlled';
-import Button from '../Shared/Buttons/buttons';
+import InputControlled from 'components/shared/inputControlled';
+import Button from 'components/shared/buttons';
 import { useEffect } from 'react';
 
 const ManageItem = function ({ handler, project }) {

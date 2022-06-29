@@ -1,14 +1,14 @@
-import Table from '../Shared/Table/Table';
+import Table from 'components/shared/table';
 import styles from './admins.module.css';
 import { useState, useEffect } from 'react';
-import Button from '../Shared/Buttons/buttons';
-import ModalDelete from './ModalDelete';
-import ModalAddAdmin from './AddModal';
-import ModalEditAdmin from './EditModalAdmin';
-import Loader from '../Shared/Loading';
+import Button from 'components/shared/buttons';
+import ModalDelete from 'components/admins/modalDelete';
+import ModalAddAdmin from 'components/admins/addModal';
+import ModalEditAdmin from 'components/admins/editModalAdmin';
+import Loader from 'components/shared/loading';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAdmins } from '../../redux/admins/thunks';
-import ModalSuc from './ModalSuccess';
+import { getAdmins } from 'redux/admins/thunks';
+import ModalSuc from 'components/admins/modalSuccess';
 
 function Admins() {
   const [showAddModal, setShowAddModal] = useState(false);

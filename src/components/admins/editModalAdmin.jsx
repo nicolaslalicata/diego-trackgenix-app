@@ -1,15 +1,15 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import styles from './admins.module.css';
-import Modal from '../Shared/Modal';
-import Button from '../Shared/Buttons/buttons';
-import DropdownForm from '../Shared/dropdownForm/dropdownForm';
-import InputControlled from '../Shared/InputControlled';
+import Modal from 'components/shared/modal';
+import Button from 'components/shared/buttons';
+import DropdownForm from 'components/shared/dropdownForm';
+import InputControlled from 'components/shared/inputControlled';
 import Joi, { required } from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
-import { createAdmin } from '../../redux/admins/thunks';
+import { createAdmin } from 'redux/admins/thunks';
 import { useForm } from 'react-hook-form';
-import { editAdmin } from '../../redux/admins/thunks';
+import { editAdmin } from 'redux/admins/thunks';
 import { useDispatch } from 'react-redux/es/exports';
 
 const ModalEditAdmin = ({ admin, setShowEditModal, showEditModal, setSucModalIsOpen }) => {

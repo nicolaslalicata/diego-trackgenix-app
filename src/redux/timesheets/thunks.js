@@ -5,7 +5,7 @@ import {
   timeSheetsPending,
   timeSheetsError,
   addTimeSheetsSuccess
-} from './actions';
+} from 'redux/timesheets/actions';
 
 export const getTimeSheets = () => {
   return (dispatch) => {

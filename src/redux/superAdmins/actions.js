@@ -11,7 +11,7 @@ import {
   EDIT_SUPERADMINS_SUCCESS,
   EDIT_SUPERADMINS_PENDING,
   EDIT_SUPERADMINS_ERROR
-} from './constants';
+} from 'redux/superAdmins/constants';
 
 export const getSuperAdminsSuccess = (superAdmins) => ({
   type: GET_SUPERADMINS_SUCCESS,

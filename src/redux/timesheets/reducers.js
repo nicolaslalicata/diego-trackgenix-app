@@ -5,7 +5,7 @@ import {
   ADD_TIMESHEETS_SUCCESS,
   DELETE_TIMESHEETS_SUCCESS,
   EDIT_TIMESHEETS_SUCCESS
-} from './constants';
+} from 'redux/timesheets/constants';
 
 const initialState = {
   timeSheetsList: [],

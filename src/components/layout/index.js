@@ -1,7 +1,7 @@
-import Footer from '../Footer/index';
+import Footer from 'components/footer';
 import styles from './layout.module.css';
-import Header from '../Header';
-import Sidebar from '../Sidebar';
+import Header from 'components/header';
+import Sidebar from 'components/sidebar';
 
 function Layout({ children }) {
   return (

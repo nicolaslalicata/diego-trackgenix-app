@@ -5,7 +5,7 @@ import {
   ADD_EMPLOYEES_SUCCESS,
   DELETE_EMPLOYEES_SUCCESS,
   EDIT_EMPLOYEES_SUCCESS
-} from './constants';
+} from 'redux/employees/constants';
 
 const initialState = {
   employeesList: [],

@@ -1,23 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getTasks,
-  addTaskThunks,
-  editTaskThunks,
-  deleteTaskThunks
-} from '../../redux/tasks/thunks';
+import { getTasks, addTaskThunks, editTaskThunks, deleteTaskThunks } from 'redux/tasks/thunks';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 
 // Shared components
-import TasksList from './ListTasks/TasksList';
+import TasksList from 'components/tasks/listTasks/tasksList';
 import styles from './tasks.module.css';
-import Modal from '../Shared/Modal/index.jsx';
-import Button from '../Shared/Buttons/buttons';
-import { ButtonOption } from '../Shared/ButtonsOption/button';
-import InputControlled from '../Shared/InputControlled';
-import Loader from '../Shared/Loading';
+import Modal from 'components/shared/modal';
+import Button from 'components/shared/buttons';
+import { ButtonOption } from 'components/shared/buttonsOption';
+import InputControlled from 'components/shared/inputControlled';
+import Loader from 'components/shared/loading';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 
 const Tasks = () => {

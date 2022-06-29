@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styles from './index.module.css';
-import Button from '../../Shared/Buttons/buttons';
-import Modal from '../../Shared/Modal';
-import InputControlled from '../../Shared/InputControlled';
-import DropdownForm from '../../Shared/Dropdown/Dropdown';
-import { addNewEmployee } from '../../../redux/employees/thunks';
+import Button from 'components/shared/buttons';
+import Modal from 'components/shared/modal';
+import InputControlled from 'components/shared/inputControlled';
+import DropdownForm from 'components/shared/dropdown';
+import { addNewEmployee } from 'redux/employees/thunks';
 import Joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { useForm } from 'react-hook-form';

@@ -1,7 +1,7 @@
 import React from 'react';
-import Modal from '../Shared/Modal';
+import Modal from 'components/shared/modal';
 import styles from './time-sheets.module.css';
-import Button from '../Shared/Buttons/buttons';
+import Button from 'components/shared/buttons';
 const ModalDeleteConfirmation = ({
   deleteTimeSheet,
   timeSheet,

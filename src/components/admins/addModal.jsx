@@ -1,10 +1,10 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import Modal from '../Shared/Modal/index';
-import Button from '../Shared/Buttons/buttons';
-import DropdownForm from '../Shared/dropdownForm/dropdownForm';
+import Modal from 'components/shared/modal';
+import Button from 'components/shared/buttons';
+import DropdownForm from 'components/shared/dropdownForm';
 import styles from './admins.module.css';
-import InputControlled from '../Shared/InputControlled';
+import InputControlled from 'components/shared/inputControlled';
 import Joi, { required } from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { createAdmin } from '../../redux/admins/thunks';

@@ -1,16 +1,16 @@
 import React from 'react';
 import styles from './time-sheets.module.css';
 import { useState, useEffect } from 'react';
-import Modal from '../Shared/Modal/index';
-import Button from '../Shared/Buttons/buttons';
-import DropdownForm from '../Shared/dropdownForm.jsx/dropdownForm';
-import * as timesheetThunks from '../../redux/timesheets/thunks';
+import Modal from 'components/shared/modal';
+import Button from 'components/shared/buttons';
+import DropdownForm from 'components/shared/dropdownForm';
+import * as timesheetThunks from 'redux/timesheets/thunks';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 
 import Joi from 'joi';
-import InputControlled from '../Shared/InputControlled';
+import InputControlled from 'components/shared/inputControlled';
 const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projects }) => {
   const [isModalSuccess, setIsModalSuccess] = useState(false);
   const error = useSelector((state) => state.timeSheets.error);

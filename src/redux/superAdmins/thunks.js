@@ -11,7 +11,7 @@ import {
   editSuperAdminsSuccess,
   editSuperAdminsPending,
   editSuperAdminsError
-} from './actions';
+} from 'redux/superAdmins/actions';
 
 export const getSuperAdmins = () => {
   return (dispatch) => {

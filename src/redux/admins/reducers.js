@@ -11,7 +11,7 @@ import {
   DELETE_ADMIN_SUCCESS,
   DELETE_ADMIN_PENDING,
   DELETE_ADMIN_ERROR
-} from './constants';
+} from 'redux/admins/constants';
 const initialState = {
   action: [],
   isLoading: false,

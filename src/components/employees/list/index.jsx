@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from './index.module.css';
-import Table from '../../Shared/Table/Table';
-import Button from '../../Shared/Buttons/buttons';
+import Table from 'components/shared/table';
+import Button from 'components/shared/buttons';
 import { useState } from 'react';
-import ModalDeleteEmp from '../Modal/modalDelete';
-import EmployeeForm from '../EmployeeForm';
+import ModalDeleteEmp from 'components/employees/modal/modalDelete';
+import EmployeeForm from 'components/employees/employeeForm';
 import { useSelector } from 'react-redux';
 
 const ListEmployee = ({

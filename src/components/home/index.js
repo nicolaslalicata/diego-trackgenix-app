@@ -1,5 +1,5 @@
 import styles from './home.module.css';
-import clock from './Assets/clock.jpg';
+import clock from 'components/home/Assets/clock.jpg';
 
 function Home() {
   return (

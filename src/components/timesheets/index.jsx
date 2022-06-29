@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import styles from './time-sheets.module.css';
-import Table from '../Shared/Table/Table';
-import Button from '../Shared/Buttons/buttons';
-import ModalAddTimeSheet from './AddAndModal';
-import ModalTimeSheetEdit from './EditAndModal';
-import ModalDeleteConfirmation from './ModalDeleteConfirmation';
-import Loader from '../Shared/Loading';
+import Table from 'components/shared/table';
+import Button from 'components/shared/buttons';
+import ModalAddTimeSheet from 'components/timesheets/addAndModal';
+import ModalTimeSheetEdit from 'components/timesheets/editAndModal';
+import ModalDeleteConfirmation from 'components/timesheets/modalDeleteConfirmation';
+import Loader from 'components/shared/loading';
 import { useDispatch, useSelector } from 'react-redux';
-import * as timesheetThunks from '../../redux/timesheets/thunks';
-import * as projectsThunks from '../../redux/projects/thunks';
-import * as employeesThunks from '../../redux/employees/thunks';
-import * as tasksThunks from '../../redux/tasks/thunks';
+import * as timesheetThunks from 'redux/timesheets/thunks';
+import * as projectsThunks from 'redux/projects/thunks';
+import * as employeesThunks from 'redux/employees/thunks';
+import * as tasksThunks from 'redux/tasks/thunks';
 const TimeSheets = () => {
   const [timeSheet, setTimesheet] = useState({
     description: '',

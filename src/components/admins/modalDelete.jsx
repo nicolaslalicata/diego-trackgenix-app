@@ -1,7 +1,7 @@
-import Modal from '../Shared/Modal';
-import Button from '../Shared/Buttons/buttons';
+import Modal from 'components/shared/modal';
+import Button from 'components/shared/buttons';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteAdmin } from '../../redux/admins/thunks';
+import { deleteAdmin } from 'redux/admins/thunks';
 
 const ModalDelete = ({ setShowDeleteModal, showDeleteModal, admin }) => {
   const dispatch = useDispatch();

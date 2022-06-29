@@ -11,7 +11,7 @@ import {
   EDIT_PROJECTS_SUCCESS,
   EDIT_PROJECTS_PENDING,
   EDIT_PROJECTS_ERROR
-} from './constants';
+} from 'redux/projects/constants';
 
 const initialState = {
   projectsList: [],

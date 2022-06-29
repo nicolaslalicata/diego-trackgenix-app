@@ -1,4 +1,4 @@
-import Modal from '../Shared/Modal';
+import Modal from 'components/shared/modal';
 import styles from './admins.module.css';
 
 const ModalSuc = ({ setSucModalIsOpen, sucModalIsOpen }) => {
