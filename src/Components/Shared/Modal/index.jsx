@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './modal.module.css';
 
-const Modal = ({ children, isOpen, setIsOpen, title }) => {
+const Modal = ({ children, isOpen, setIsOpen, title, reset }) => {
   if (!isOpen) {
     return null;
   }
@@ -12,7 +12,10 @@ const Modal = ({ children, isOpen, setIsOpen, title }) => {
           <h3>{title}</h3>
           <button
             className={styles.buttonCloseModal}
-            onClick={() => setIsOpen(false)}
+            callback={() => {
+              setIsOpen(false);
+              reset();
+            }}
             icons={'close'}
           >
             X

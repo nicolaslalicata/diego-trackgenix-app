@@ -37,7 +37,7 @@ const Tasks = () => {
   const [isAdding, setIsAdding] = useState(false);
 
   const schema = Joi.object({
-    description: Joi.string().required().min(10),
+    description: Joi.string().required().min(10).trim(),
     workedHours: Joi.number().required().positive(),
     date: Joi.date().default(() => {
       return new Date();
@@ -144,16 +144,13 @@ const Tasks = () => {
       </Button>
       <Modal isOpen={showModal} setIsOpen={setShowModal} title={'Delete task'}>
         <h3>Are you sure?</h3>
-        <div className={styles.modalbuttons}>
-          <ButtonOption option={'yes'} text={'Confirm'} callback={deleteItem}></ButtonOption>
-          <ButtonOption
-            option={'no'}
-            callback={() => setShowModal(false)}
-            text={'Cancel'}
-          ></ButtonOption>
+        <div>
+          <Button callback={deleteItem} text={'YES'}></Button>
+          <Button callback={() => setShowModal(false)} text={'NO'}></Button>
         </div>
       </Modal>
-      <Modal isOpen={isAdding} setIsOpen={setIsAdding} reset={reset} title={'Add task'}>
+      <Modal isOpen={isAdding} setIsOpen={setIsAdding} reset={reset}>
+        <h3>Add a new Task</h3>
         <div className={styles.contenedorModal}>
           <form onSubmit={handleSubmit(addTask)}>
             <div>
@@ -197,7 +194,8 @@ const Tasks = () => {
           </form>
         </div>
       </Modal>
-      <Modal isOpen={showEditModal} setIsOpen={setShowEditModal} reset={reset} title={'Edit task'}>
+      <Modal isOpen={showEditModal} setIsOpen={setShowEditModal} reset={reset}>
+        <h3>Edit Task</h3>
         <div className={styles.contenedorModal}>
           <form onSubmit={handleSubmit(editTask)}>
             <div>
@@ -208,6 +206,7 @@ const Tasks = () => {
                 register={register}
                 required
                 error={errors.description}
+                // value={showEditModal.description}
                 onChange={onChangeEdit}
               />
             </div>
@@ -219,6 +218,7 @@ const Tasks = () => {
                 register={register}
                 required
                 error={errors.workedHours}
+                // value={showEditModal.workedHours}
                 onChange={onChangeEdit}
               />
             </div>
@@ -230,6 +230,7 @@ const Tasks = () => {
                 register={register}
                 required
                 error={errors.date}
+                // value={showEditModal.date}
                 onChange={onChangeEdit}
               />
             </div>
@@ -244,9 +245,11 @@ const Tasks = () => {
           </form>
         </div>
       </Modal>
-      <Modal isOpen={showModalMessage} setIsOpen={setShowModalMessage} title={'Message'}>
-        <h4>{showModalMessage.title}</h4>
-      </Modal>
+      <Modal
+        isOpen={showModalMessage}
+        setIsOpen={setShowModalMessage}
+        title={showModalMessage.title}
+      ></Modal>
       <TasksList tasklist={tasks} deleteItem={openDeleteModal} editItem={editItem}></TasksList>
     </div>
   );

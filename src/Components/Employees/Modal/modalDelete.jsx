@@ -1,8 +1,6 @@
 import React from 'react';
 import Modal from '../../Shared/Modal';
 import Button from '../../Shared/Buttons/buttons';
-// import { useDispatch } from 'react-redux';
-// const dispatch = useDispatch();
 const ModalDeleteEmp = ({
   setIsModalDeleteOpen,
   isModalDeleteOpen,

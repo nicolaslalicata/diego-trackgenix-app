@@ -28,16 +28,7 @@ export const getAdmins = () => {
   };
 };
 
-export const createAdmin = (
-  name,
-  lastName,
-  email,
-  gender,
-  status,
-  password,
-  setShowAddModal,
-  setSucModalIsOpen
-) => {
+export const createAdmin = (name, lastName, email, gender, status, password) => {
   return (dispatch) => {
     dispatch(addAdminPending());
     fetch(`${process.env.REACT_APP_API_URL}/admins/`, {
@@ -58,13 +49,12 @@ export const createAdmin = (
       .then((response) => {
         if (!response.error) {
           dispatch(addAdminSuccess(response.data));
-          setSucModalIsOpen(true);
+          // setSucModalIsOpen(true);
         } else {
           dispatch(addAdminError(response.error));
         }
       })
-      .then(() => getAdmins()(dispatch))
-      .then(() => setShowAddModal(false));
+      .then(() => getAdmins()(dispatch));
   };
 };
 
@@ -86,17 +76,7 @@ export const deleteAdmin = (admin) => {
   };
 };
 
-export const editAdmin = (
-  name,
-  lastName,
-  email,
-  gender,
-  status,
-  password,
-  setShowEditModal,
-  admin,
-  setSucModalIsOpen
-) => {
+export const editAdmin = (name, lastName, email, gender, status, password, admin) => {
   return (dispatch) => {
     dispatch(editAdminPending());
     return fetch(`${process.env.REACT_APP_API_URL}/admins/${admin._id}`, {
@@ -117,10 +97,8 @@ export const editAdmin = (
       .then((response) => {
         if (!response.error) {
           dispatch(editAdminSuccess(response.data));
-          setSucModalIsOpen(true);
         } else {
           dispatch(editAdminError(response.message));
-          setShowEditModal(true);
         }
       })
       .then(() => getAdmins()(dispatch));

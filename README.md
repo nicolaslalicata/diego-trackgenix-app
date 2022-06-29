@@ -44,6 +44,7 @@ You will also see any lint errors in the console.
 <img src="https://avatars.githubusercontent.com/u/88092713?v=4" height="50" width="50">| Matías Cellamare | cellamarematias@gmail.com | [@cellamarematias](https://github.com/cellamarematias)
 <img src="https://avatars.githubusercontent.com/u/89216050?v=4" height="50" width="50"> | Nicolas Lalicata | nicolaughing@gmail.com | [@nicolaslalicata](https://github.com/nicolaslalicata)
 <img src="https://avatars.githubusercontent.com/u/91097658?v=4" height="50" width="50">  | Sofia Baute | baute17@gmail.com | [@SoofiBaute](https://github.com/SoofiBaute) 
+<img src="https://avatars.githubusercontent.com/u/101243203?v=4" height="50" width="50">  | Axel Bacoñsky | axelbaconsky@gmail.com | [@axelbaconsky](https://github.com/axelbaconsky)
 
 <br>
 
