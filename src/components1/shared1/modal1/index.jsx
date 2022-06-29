@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './modal.module.css';
-import Button from '../Buttons/buttons';
+import Button from '../buttons1';
 
 const Modal = ({ children, isOpen, setIsOpen, title, reset }) => {
   if (!isOpen) {

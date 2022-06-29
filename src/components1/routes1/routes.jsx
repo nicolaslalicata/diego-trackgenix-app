@@ -1,11 +1,11 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Admins from '../Admins/index';
-import SuperAdmins from '../SuperAdmins';
+import SuperAdmins from '../superAdmins1';
 import Employees from '../Employees/index';
 import Projects from '../Projects';
-import TimeSheets from '../TimeSheets/index';
-import Tasks from '../Tasks/index';
+import TimeSheets from '../timesheets1/index';
+import Tasks from '../tasks1/index';
 import Home from '../Home';
 
 const Routes = () => {
