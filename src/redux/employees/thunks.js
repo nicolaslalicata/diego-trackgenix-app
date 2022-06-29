@@ -5,7 +5,7 @@ import {
   employeesPending,
   employeesError,
   addEmployeesSuccess
-} from './actions';
+} from 'redux/employees/actions';
 
 export const getEmployees = () => {
   return (dispatch) => {

@@ -5,7 +5,7 @@ import {
   EDIT_TIMESHEETS_SUCCESS,
   TIMESHEETS_PENDING,
   TIMESHEETS_ERROR
-} from './constants';
+} from 'redux/timesheets/constants';
 
 export const getTimeSheetsSuccess = (timeSheets) => ({
   type: GET_TIMESHEETS_SUCCESS,
