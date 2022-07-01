@@ -76,7 +76,8 @@ const Tasks = () => {
     setShowModal(!setShowModal);
     setShowModalMessage({
       showModalMessage: true,
-      title: 'Task deleted'
+      title: 'Message',
+      message: 'Task deleted'
     });
   };
 
@@ -122,13 +123,11 @@ const Tasks = () => {
     reset();
     setShowModalMessage({
       showModalMessage: true,
-      title: 'Task added'
+      title: 'Message',
+      message: 'Task created'
     });
   };
 
-  if (error) {
-    return <Loader isLoading={loader} />;
-  }
   if (loader) {
     return <Loader isLoading={loader} />;
   }
@@ -144,8 +143,7 @@ const Tasks = () => {
           <Button callback={() => setShowModal(false)} text={'NO'}></Button>
         </div>
       </Modal>
-      <Modal isOpen={isAdding} setIsOpen={setIsAdding} reset={reset}>
-        <h3>Add a new Task</h3>
+      <Modal isOpen={isAdding} setIsOpen={setIsAdding} reset={reset} title={'Add task'}>
         <div className={styles.contenedorModal}>
           <form onSubmit={handleSubmit(addTask)}>
             <div>
@@ -189,8 +187,7 @@ const Tasks = () => {
           </form>
         </div>
       </Modal>
-      <Modal isOpen={showEditModal} setIsOpen={setShowEditModal} reset={reset}>
-        <h3>Edit Task</h3>
+      <Modal isOpen={showEditModal} setIsOpen={setShowEditModal} reset={reset} title={'Edit task'}>
         <div className={styles.contenedorModal}>
           <form onSubmit={handleSubmit(editTask)}>
             <div>
@@ -244,7 +241,10 @@ const Tasks = () => {
         isOpen={showModalMessage}
         setIsOpen={setShowModalMessage}
         title={showModalMessage.title}
-      ></Modal>
+        reset={reset}
+      >
+        <div className={styles.modalMessage}>{showModalMessage.message}</div>
+      </Modal>
       <TasksList tasklist={tasks} deleteItem={openDeleteModal} editItem={editItem}></TasksList>
     </div>
   );

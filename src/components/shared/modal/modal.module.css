@@ -7,8 +7,6 @@ button {
     margin-top: 0;
 }
 
-
-
 .overlay {
     display: flex;
     align-items: center;
@@ -65,4 +63,8 @@ button {
     color: white;
     font-weight: 200;
     background-color: transparent;
+}
+
+.modalHeader svg {
+    color: white;
 }

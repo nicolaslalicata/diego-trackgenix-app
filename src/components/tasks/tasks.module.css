@@ -48,3 +48,7 @@
     flex-direction: column;
   }
 }
+
+.modalMessage {
+  margin: 1rem;
+}
