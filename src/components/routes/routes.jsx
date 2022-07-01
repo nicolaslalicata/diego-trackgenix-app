@@ -7,6 +7,7 @@ import Projects from 'components/projects';
 import TimeSheets from 'components/timesheets';
 import Tasks from 'components/tasks';
 import Home from 'components/home';
+import SignUp from 'components/signUp';
 
 const Routes = () => {
   return (
@@ -18,6 +19,7 @@ const Routes = () => {
       <Route path="/projects" exact component={Projects} />
       <Route path="/time-sheets" exact component={TimeSheets} />
       <Route path="/tasks" exact component={Tasks} />
+      <Route path="/sign-up" exact component={SignUp} />
     </Switch>
   );
 };

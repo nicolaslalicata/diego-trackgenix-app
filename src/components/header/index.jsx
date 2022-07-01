@@ -26,6 +26,9 @@ function Header() {
     case '/tasks':
       pathName = 'Tasks';
       break;
+    case '/sign-up':
+      pathName = 'Sign Up';
+      break;
     default:
       pathName = '';
       break;
