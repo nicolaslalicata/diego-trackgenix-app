@@ -79,6 +79,7 @@ export const editEmployee = (
   };
 };
 export const addNewEmployee = (firstName, lastName, email, phone, password, active) => {
+  console.log(password);
   return (dispatch) => {
     dispatch(employeesPending());
     fetch(`${process.env.REACT_APP_API_URL}/employees/`, {

@@ -69,6 +69,19 @@ const Tasks = () => {
     });
   };
 
+  const addTask = ({ description, workedHours, date }, e) => {
+    e.preventDefault();
+    const newTask = { description, workedHours, date };
+    dispatch(addTaskThunks(newTask));
+    setIsAdding(false);
+    reset();
+    setShowModalMessage({
+      showModalMessage: true,
+      title: 'Message',
+      message: 'Task created'
+    });
+  };
+
   const deleteItem = () => {
     if (showModal.id) {
       dispatch(deleteTaskThunks(showModal.id));
@@ -112,19 +125,6 @@ const Tasks = () => {
     setShowModalMessage({
       showModalMessage: true,
       title: 'Task edited'
-    });
-  };
-
-  const addTask = ({ description, workedHours, date }, e) => {
-    e.preventDefault();
-    const newTask = { description, workedHours, date };
-    dispatch(addTaskThunks(newTask));
-    setIsAdding(false);
-    reset();
-    setShowModalMessage({
-      showModalMessage: true,
-      title: 'Message',
-      message: 'Task created'
     });
   };
 

@@ -4,7 +4,7 @@ import Button from 'components/shared/buttons';
 import { ButtonOption } from 'components/shared/buttonsOption';
 import InputControlled from 'components/shared/inputControlled';
 import Loader from 'components/shared/loading';
-
+import { addNewEmployee } from 'redux/employees/thunks';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
@@ -15,6 +15,7 @@ function SignUp() {
   const schema = Joi.object({
     firstName: Joi.string().required().min(3).trim(),
     lastName: Joi.string().required().min(3).trim(),
+    phone: Joi.number().required().min(10),
     email: Joi.string().email({ tlds: { allow: false } }),
     password: Joi.string().required().min(8),
     confirmPassword: Joi.string()
@@ -22,6 +23,8 @@ function SignUp() {
       .valid(Joi.ref('password'))
       .label('Passwords do not match')
   });
+
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -32,10 +35,17 @@ function SignUp() {
     resolver: joiResolver(schema)
   });
 
+  const addUser = ({ firstName, lastName, email, phone, password, active }, e) => {
+    console.log(firstName, lastName, email, password);
+    active = false;
+    e.preventDefault();
+    dispatch(addNewEmployee(firstName, lastName, email, phone, password, active));
+  };
+
   return (
     <section className={styles.container}>
       <h2 className={styles.tittle}>Welcome to Trackgenix!</h2>
-      <form onSubmit={handleSubmit()}>
+      <form onSubmit={handleSubmit(addUser)}>
         <div>
           <InputControlled
             type={'text'}
@@ -64,6 +74,16 @@ function SignUp() {
             register={register}
             required
             error={errors.email}
+          />
+        </div>
+        <div>
+          <InputControlled
+            type={'text'}
+            label={'Phone'}
+            name="phone"
+            register={register}
+            required
+            error={errors.phone}
           />
         </div>
         <div>
