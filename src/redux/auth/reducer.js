@@ -1,0 +1,51 @@
+import {
+  LOGIN_PENDING,
+  LOGIN_SUCCESS,
+  LOGIN_ERROR,
+  CLEAN_ERROR,
+  SET_AUTHENTICATION
+} from 'redux/auth/constants';
+
+const initialState = {
+  isLoading: false,
+  authenticated: false,
+  error: ''
+};
+
+export const logReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case LOGIN_PENDING:
+      return {
+        ...state,
+        isLoading: true,
+        error: initialState.error
+      };
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        authenticated: true
+      };
+    case LOGIN_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload
+      };
+    case CLEAN_ERROR:
+      return {
+        ...state,
+        isLoading: true,
+        error: initialState.error
+      };
+    case SET_AUTHENTICATION:
+      return {
+        ...state,
+        isLoading: false,
+        authenticated: action.payload
+      };
+
+    default:
+      return state;
+  }
+};
