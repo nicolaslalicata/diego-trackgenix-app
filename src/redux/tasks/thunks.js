@@ -16,7 +16,8 @@ import {
 export const getTasks = () => {
   return (dispatch) => {
     dispatch(getTasksPending());
-    return fetch(`${process.env.REACT_APP_API_URL}/tasks`)
+    const token = sessionStorage.getItem('token');
+    return fetch(`${process.env.REACT_APP_API_URL}/tasks`, { headers: { token } })
       .then((response) => response.json())
       .then((response) => {
         dispatch(getTasksSuccess(response.data));
@@ -29,11 +30,13 @@ export const getTasks = () => {
 };
 
 export const addTaskThunks = (newTask) => {
+  const token = sessionStorage.getItem('token');
   const url = `${process.env.REACT_APP_API_URL}/tasks/`;
   const options = {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      token
     },
     body: JSON.stringify({
       description: newTask.description,
@@ -55,11 +58,13 @@ export const addTaskThunks = (newTask) => {
   };
 };
 export const editTaskThunks = (taskEdited) => {
+  const token = sessionStorage.getItem('token');
   const url = `${process.env.REACT_APP_API_URL}/tasks/${taskEdited.id}`;
   const options = {
     method: 'PUT',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      token
     },
     body: JSON.stringify({
       description: taskEdited.description,
@@ -82,9 +87,13 @@ export const editTaskThunks = (taskEdited) => {
 };
 
 export const deleteTaskThunks = (id) => {
+  const token = sessionStorage.getItem('token');
   return (dispatch) => {
     dispatch(deleteTasksPending());
-    return fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, { method: 'DELETE' })
+    return fetch(`${process.env.REACT_APP_API_URL}/tasks/${id}`, {
+      method: 'DELETE',
+      headers: { token }
+    })
       .then((response) => response.json())
       .then((response) => {
         dispatch(deleteTasksSuccess(response.data));

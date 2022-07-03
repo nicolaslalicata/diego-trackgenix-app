@@ -1,10 +1,7 @@
-import styles from './signup.module.css';
-// import Modal from 'components/shared/modal';
-// import Button from 'components/shared/buttons';
+import styles from 'components/login/logIn.module.css';
+import { login } from 'redux/employees/thunks';
 import { ButtonOption } from 'components/shared/buttonsOption';
 import InputControlled from 'components/shared/inputControlled';
-// import Loader from 'components/shared/loading';
-import { signup } from 'redux/employees/thunks';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -13,16 +10,13 @@ import Modal from 'components/shared/modal';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-function signupUser() {
+function loginUser() {
   const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
   const history = useHistory();
+
   const schema = Joi.object({
     email: Joi.string().email({ tlds: { allow: false } }),
-    password: Joi.string().required().min(8),
-    confirmPassword: Joi.string()
-      .required()
-      .valid(Joi.ref('password'))
-      .label('Passwords do not match')
+    password: Joi.string().required().min(8)
   });
 
   const dispatch = useDispatch();
@@ -37,13 +31,14 @@ function signupUser() {
     resolver: joiResolver(schema)
   });
 
-  const signupUser = ({ email, password }, e) => {
+  const loginUser = ({ email, password }, e) => {
     e.preventDefault();
-    dispatch(signup(email, password)).then((response) => {
+    dispatch(login(email, password)).then((response) => {
+      console.log(response);
       setShowModalMessage({
         showModalMessage: true,
         title: 'Message',
-        message: response.message
+        message: 'Invalid credentials'
       });
       if (response?._id) {
         history.push('/');
@@ -53,8 +48,8 @@ function signupUser() {
 
   return (
     <section className={styles.container}>
-      <h2 className={styles.tittle}>Welcome to Trackgenix!</h2>
-      <form onSubmit={handleSubmit(signupUser)}>
+      <h2 className={styles.tittle}>Log In!</h2>
+      <form onSubmit={handleSubmit(loginUser)}>
         <div>
           <InputControlled
             type={'text'}
@@ -75,21 +70,14 @@ function signupUser() {
             error={errors.password}
           />
         </div>
-        <div>
-          <InputControlled
-            type={'password'}
-            label={'Confirm Password'}
-            name="confirmPassword"
-            register={register}
-            required
-            error={errors.confirmPassword}
-          />
-        </div>
         <div className={styles.modalbuttons}>
           <ButtonOption option={'yes'} text={'Confirm'}></ButtonOption>
           <ButtonOption option={'no'} text={'Cancel'}></ButtonOption>
         </div>
       </form>
+      <h3>
+        Not a member? <a href="http:/sign-up">signup!</a>
+      </h3>
       <Modal
         isOpen={showModalMessage}
         setIsOpen={setShowModalMessage}
@@ -102,4 +90,4 @@ function signupUser() {
   );
 }
 
-export default signupUser;
+export default loginUser;

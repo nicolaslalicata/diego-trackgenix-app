@@ -4,7 +4,10 @@ import {
   EMPLOYEES_ERROR,
   ADD_EMPLOYEES_SUCCESS,
   DELETE_EMPLOYEES_SUCCESS,
-  EDIT_EMPLOYEES_SUCCESS
+  EDIT_EMPLOYEES_SUCCESS,
+  LOGIN_PENDING,
+  LOGIN_SUCCESS,
+  LOGIN_ERROR
 } from 'redux/employees/constants';
 
 const initialState = {
@@ -61,6 +64,24 @@ export const employeesReducer = (state = initialState, action) => {
         isLoading: false,
         error: false,
         successMessage: 'Employee edited successfully'
+      };
+    case LOGIN_PENDING:
+      return {
+        ...state,
+        isLoading: true,
+        error: initialState.error
+      };
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        authenticated: true
+      };
+    case LOGIN_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload
       };
 
     default:

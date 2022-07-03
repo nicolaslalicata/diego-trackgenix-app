@@ -19,7 +19,6 @@ const Tasks = () => {
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.tasks.tasksList);
   const loader = useSelector((state) => state.tasks.isLoading);
-  const error = useSelector((state) => state.tasks.error);
 
   const [showModal, setShowModal] = useState(false, { id: null });
   const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
@@ -69,19 +68,6 @@ const Tasks = () => {
     });
   };
 
-  const addTask = ({ description, workedHours, date }, e) => {
-    e.preventDefault();
-    const newTask = { description, workedHours, date };
-    dispatch(addTaskThunks(newTask));
-    setIsAdding(false);
-    reset();
-    setShowModalMessage({
-      showModalMessage: true,
-      title: 'Message',
-      message: 'Task created'
-    });
-  };
-
   const deleteItem = () => {
     if (showModal.id) {
       dispatch(deleteTaskThunks(showModal.id));
@@ -124,7 +110,21 @@ const Tasks = () => {
     reset();
     setShowModalMessage({
       showModalMessage: true,
-      title: 'Task edited'
+      title: 'Message',
+      message: 'Task edited'
+    });
+  };
+
+  const addTask = ({ description, workedHours, date }, e) => {
+    e.preventDefault();
+    const newTask = { description, workedHours, date };
+    dispatch(addTaskThunks(newTask));
+    setIsAdding(false);
+    reset();
+    setShowModalMessage({
+      showModalMessage: true,
+      title: 'Message',
+      message: 'Task created'
     });
   };
 

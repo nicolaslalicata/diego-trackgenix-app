@@ -4,13 +4,83 @@ import {
   deleteEmployeesSuccess,
   employeesPending,
   employeesError,
-  addEmployeesSuccess
+  addEmployeesSuccess,
+  loginPending,
+  loginSuccess,
+  loginError
 } from 'redux/employees/actions';
 
-export const getEmployees = () => {
+export const signup = (email, password) => {
   return (dispatch) => {
     dispatch(employeesPending());
-    return fetch(`${process.env.REACT_APP_API_URL}/employees`)
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email,
+        password
+      })
+    };
+    return fetch(`${process.env.REACT_APP_API_URL}/employees/register`, options)
+      .then((response) => {
+        if (response.status !== 201) {
+          console.log(response.message);
+        }
+        return response.json();
+      })
+      .then((response) => {
+        console.log(response);
+        sessionStorage.setItem('token', response.data.token);
+        dispatch(addEmployeesSuccess(response.data));
+        return response.data;
+      })
+      .catch((error) => {
+        return dispatch(employeesError(error.toString()));
+      });
+  };
+};
+
+export const login = (email, password) => {
+  return (dispatch) => {
+    dispatch(loginPending());
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email,
+        password
+      })
+    };
+    return fetch(`${process.env.REACT_APP_API_URL}/employees/login`, options)
+      .then((response) => {
+        if (response.status !== 200) {
+          return response.json().then(({ message }) => {
+            throw new Error(message);
+          });
+        }
+        return response.json();
+      })
+      .then((response) => {
+        console.log(response.data.token);
+        sessionStorage.setItem('token', response.data.token);
+        dispatch(loginSuccess(response.data));
+        return response.data;
+      })
+      .catch((error) => {
+        return dispatch(loginError(error.toString()));
+      });
+  };
+};
+
+export const getEmployees = () => {
+  const token = sessionStorage.getItem('token');
+  return (dispatch) => {
+    dispatch(employeesPending());
+    return fetch(`${process.env.REACT_APP_API_URL}/employees`, { headers: { token } })
       .then((response) => response.json())
       .then((response) => {
         dispatch(getEmployeesSuccess(response.data));

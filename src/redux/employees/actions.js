@@ -4,7 +4,10 @@ import {
   DELETE_EMPLOYEES_SUCCESS,
   EDIT_EMPLOYEES_SUCCESS,
   EMPLOYEES_PENDING,
-  EMPLOYEES_ERROR
+  EMPLOYEES_ERROR,
+  LOGIN_PENDING,
+  LOGIN_SUCCESS,
+  LOGIN_ERROR
 } from 'redux/employees/constants';
 
 export const getEmployeesSuccess = (employees) => ({
@@ -32,4 +35,20 @@ export const deleteEmployeesSuccess = (employees) => ({
 export const editEmployeesSuccess = (employees) => ({
   type: EDIT_EMPLOYEES_SUCCESS,
   payload: employees
+});
+
+export const loginPending = () => {
+  return {
+    type: LOGIN_PENDING
+  };
+};
+
+export const loginSuccess = (data) => ({
+  type: LOGIN_SUCCESS,
+  payload: data
+});
+
+export const loginError = (error) => ({
+  type: LOGIN_ERROR,
+  payload: error
 });

@@ -14,9 +14,10 @@ import {
 } from 'redux/admins/actions';
 
 export const getAdmins = () => {
+  const token = sessionStorage.getItem('token');
   return (dispatch) => {
     dispatch(getAdminsPending());
-    return fetch(`${process.env.REACT_APP_API_URL}/admins/`)
+    return fetch(`${process.env.REACT_APP_API_URL}/admins/`, { headers: { token } })
       .then((response) => response.json())
       .then((response) => {
         dispatch(getAdminsSuccess(response.data));
