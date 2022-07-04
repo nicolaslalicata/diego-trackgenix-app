@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 
 function Header() {
   const user = useSelector((state) => state.user.user);
-  console.log('el usuario es', user);
 
   const path = window.location.pathname;
   let pathName = '';

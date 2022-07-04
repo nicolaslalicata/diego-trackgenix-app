@@ -29,7 +29,7 @@ export const signup = (email, password) => {
     return fetch(`${process.env.REACT_APP_API_URL}/employees/register`, options)
       .then((response) => {
         if (response.status !== 201) {
-          console.log(response.message);
+          return response.json();
         }
         return response.json();
       })
@@ -124,7 +124,6 @@ export const getEmployees = () => {
         return response.data;
       })
       .catch((error) => {
-        console.log(error);
         dispatch(employeesError(error.toString()));
       });
   };
@@ -159,7 +158,6 @@ export const editEmployee = (
 ) => {
   return (dispatch) => {
     dispatch(employeesPending());
-    console.log(firstName);
     return fetch(`${process.env.REACT_APP_API_URL}/employees/${employees._id}`, {
       method: 'PUT',
       headers: {
@@ -189,7 +187,6 @@ export const editEmployee = (
 };
 
 export const addNewEmployee = (firstName, lastName, email, phone, password, active) => {
-  console.log(password);
   return (dispatch) => {
     dispatch(employeesPending());
     fetch(`${process.env.REACT_APP_API_URL}/employees/`, {

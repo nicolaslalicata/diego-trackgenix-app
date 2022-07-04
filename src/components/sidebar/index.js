@@ -117,7 +117,7 @@ const Sidebar = () => {
         </li>
 
         <li>
-          <a onClick={user ? logoutUser : null}>
+          <a onClick={user ? logoutUser : null} href={user ? '/logout' : '/login'}>
             <span>{user ? 'Logout' : 'Login'}</span>
             <span>
               <a href={user ? '/logout' : '/login'}>
