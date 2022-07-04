@@ -1,5 +1,6 @@
 import styles from 'components/login/logIn.module.css';
 import { login } from 'redux/employees/thunks';
+import { setUser } from 'redux/user/thunks';
 import { ButtonOption } from 'components/shared/buttonsOption';
 import InputControlled from 'components/shared/inputControlled';
 import { useDispatch } from 'react-redux';
@@ -9,6 +10,7 @@ import Joi from 'joi';
 import Modal from 'components/shared/modal';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+// actions
 
 function loginUser() {
   const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
@@ -41,6 +43,7 @@ function loginUser() {
         message: 'Invalid credentials'
       });
       if (response?._id) {
+        dispatch(setUser(response.email));
         history.push('/');
       }
     });

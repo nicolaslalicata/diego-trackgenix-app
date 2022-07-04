@@ -9,6 +9,7 @@ import {
   loginSuccess,
   loginError
 } from 'redux/employees/actions';
+import { setUser } from 'redux/user/thunks';
 
 export const signup = (email, password) => {
   return (dispatch) => {
@@ -65,8 +66,8 @@ export const login = (email, password) => {
         return response.json();
       })
       .then((response) => {
-        console.log(response.data.token);
         sessionStorage.setItem('token', response.data.token);
+        sessionStorage.setItem('userEmail', email);
         dispatch(loginSuccess(response.data));
         return response.data;
       })

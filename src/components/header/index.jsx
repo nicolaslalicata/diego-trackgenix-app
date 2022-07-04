@@ -1,7 +1,11 @@
 import styles from './header.module.css';
 import { withRouter } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function Header() {
+  const user = useSelector((state) => state.user.user);
+  console.log('el usuario es', user);
+
   const path = window.location.pathname;
   let pathName = '';
   switch (path) {
@@ -29,6 +33,9 @@ function Header() {
     case '/sign-up':
       pathName = 'Sign Up';
       break;
+    case '/login':
+      pathName = 'Login';
+      break;
     default:
       pathName = '';
       break;
@@ -41,6 +48,7 @@ function Header() {
           Track<span>GENIX</span>
         </div>
         <div className={styles.tittle}>{pathName}</div>
+        <div className={styles.userName}>Hi, {user ? user : 'Anonymous'}</div>
       </div>
     </header>
   );
