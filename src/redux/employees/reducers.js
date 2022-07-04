@@ -7,7 +7,10 @@ import {
   EDIT_EMPLOYEES_SUCCESS,
   LOGIN_PENDING,
   LOGIN_SUCCESS,
-  LOGIN_ERROR
+  LOGIN_ERROR,
+  LOGOUT_PENDING,
+  LOGOUT_SUCCESS,
+  LOGOUT_ERROR
 } from 'redux/employees/constants';
 
 const initialState = {
@@ -78,6 +81,24 @@ export const employeesReducer = (state = initialState, action) => {
         authenticated: true
       };
     case LOGIN_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload
+      };
+    case LOGOUT_PENDING:
+      return {
+        ...state,
+        isLoading: true,
+        error: initialState.error
+      };
+    case LOGOUT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        authenticated: true
+      };
+    case LOGOUT_ERROR:
       return {
         ...state,
         isLoading: false,

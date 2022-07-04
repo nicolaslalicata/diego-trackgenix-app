@@ -1,9 +1,6 @@
 import styles from './signup.module.css';
-// import Modal from 'components/shared/modal';
-// import Button from 'components/shared/buttons';
 import { ButtonOption } from 'components/shared/buttonsOption';
 import InputControlled from 'components/shared/inputControlled';
-// import Loader from 'components/shared/loading';
 import { signup } from 'redux/employees/thunks';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
@@ -46,7 +43,12 @@ function signupUser() {
         message: response.message
       });
       if (response?._id) {
-        history.push('/');
+        setShowModalMessage({
+          showModalMessage: true,
+          title: 'Message',
+          message: 'Please, login!'
+        });
+        history.push('/login');
       }
     });
   };

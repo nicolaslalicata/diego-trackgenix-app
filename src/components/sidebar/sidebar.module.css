@@ -31,7 +31,7 @@ body {
   position: fixed;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   margin-top: 47px;
   width: 100%;
   background-color: #373867;
@@ -39,19 +39,25 @@ body {
   height: 50px;
 }
 
-.menuItems {
+.menu {
   order: 2;
   display: flex;
+  flex-direction: row;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
   background: #373867;
 }
 
-.menuItems li {
+.menu li {
   list-style: none;
   margin-left: 1.5rem;
-  font-size: 1.2rem;
 }
 
-.menuItems a {
+.menu a {
+  display: block;
+  position: relative;
+  overflow: hidden;
   text-decoration: none;
   color: #fff;
   font-weight: 300;
@@ -59,19 +65,34 @@ body {
   transition: color 0.3s ease-in-out;
 }
 
-.menuItems a:hover {
-  display: flex;
-  align-items: center;
-  font-weight: bold;
-  transition: color 0.3s ease-in-out;
+/* efecto hover */
+.menu a span:first-child {
+  display: inline-block;
+  padding: 10px;
 }
 
-.menu {
+.menu a span:last-child {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: flex;
-  flex-direction: row;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-100%);
+}
+
+.menu a span {
+  transition: transform 0.2s ease-out;
+}
+
+.menu a:hover span:first-child {
+  transform: translateY(100%);
+}
+
+.menu a:hover span:last-child {
+  transform: none;
 }
 
 .menu > li {
@@ -93,7 +114,7 @@ body {
   display: none;
 }
 
- /* comprotamiento del botón */
+ /* comprotamiento del burger */
 .menuButton,
 .menuButton::before,
 .menuButton::after {
@@ -162,12 +183,13 @@ body {
 }
 
 
-.menuItems > li {
+.menu > li {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
 }
 
- /* desde 992px */
+ /* TABLET desde 992px */
 @media (min-width: 1024px) {
   .navbar {
     align-items: flex-end;
@@ -176,56 +198,48 @@ body {
     opacity: 0.95;
   }
 
-  .navbar .menuItems {
-    position: fixed;
-    padding: 0;
-    top: 0;
+  .navbar .menu {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    position: fixed;
+    padding: 0;
+    top: 0;
     height: 100%;
     width: 195px;
     max-width: 330px;
-    /* margin-left: -50px; */
-    /* padding-left: 50px; */
   }
 
-  .navbar .menuItems li {
+  .navbar .menu li {
     margin-bottom: 1.5rem;
     font-size: 1.3rem;
     font-weight: 500;
   }
 }
 
- /* hasta 700px */
-@media (max-width: 700px) {
+ /* MOBILE hasta 800px */
+@media (max-width: 800px) {
   .navbar {
     position: fixed;
     top: 23px;
-  }
-  .menuItems {
-    display: none;
     justify-content: flex-start;
-    top: 23px;
+    align-items: center;
+  }
+  .menu {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    margin-top: 50px;
+    width: 100%;
   }
   .menuButtonContainer {
     display: flex;
     margin: 20px;
   }
-  .menu {
-    position: absolute;
-    top: 0;
-    margin-top: 50px;
-    left: 0;
-    flex-direction: column;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-  }
-  .menuItems a {
-    margin: 15px;
-    width: 200px;
-  }
+
   .menu > li {
     margin: 15px;
     display: flex;
@@ -235,13 +249,12 @@ body {
     width: 100%;
     color: white;
   }
-  .menu > li:not(:last-child) {
+  /* .menu > li:not(:last-child) {
     border-bottom: 1px solid #444;
-  }
-  .menuToggle:checked ~ .menuItems {
+  } */
+  .menuToggle:checked ~ .menu {
     display: flex;
     flex-direction: column;
-    margin-top: 301px;
     background:#373867;
   }
 

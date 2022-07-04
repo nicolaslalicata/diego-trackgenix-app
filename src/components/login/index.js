@@ -36,7 +36,6 @@ function loginUser() {
   const loginUser = ({ email, password }, e) => {
     e.preventDefault();
     dispatch(login(email, password)).then((response) => {
-      console.log(response);
       setShowModalMessage({
         showModalMessage: true,
         title: 'Message',

@@ -7,9 +7,11 @@ import {
   addEmployeesSuccess,
   loginPending,
   loginSuccess,
-  loginError
+  loginError,
+  logoutPending,
+  logoutSuccess,
+  logoutError
 } from 'redux/employees/actions';
-import { setUser } from 'redux/user/thunks';
 
 export const signup = (email, password) => {
   return (dispatch) => {
@@ -32,8 +34,6 @@ export const signup = (email, password) => {
         return response.json();
       })
       .then((response) => {
-        console.log(response);
-        sessionStorage.setItem('token', response.data.token);
         dispatch(addEmployeesSuccess(response.data));
         return response.data;
       })
@@ -77,6 +77,42 @@ export const login = (email, password) => {
   };
 };
 
+export const logout = (email) => {
+  const token = sessionStorage.getItem('token');
+
+  return (dispatch) => {
+    dispatch(logoutPending());
+    const options = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        token
+      },
+      body: JSON.stringify({
+        email
+      })
+    };
+    return fetch(`${process.env.REACT_APP_API_URL}/employees/logout`, options)
+      .then((response) => {
+        if (response.status !== 200) {
+          return response.json().then(({ message }) => {
+            throw new Error(message);
+          });
+        }
+        return response.json();
+      })
+      .then((response) => {
+        sessionStorage.setItem('token', '');
+        sessionStorage.setItem('userEmail', '');
+        dispatch(logoutSuccess(response.data));
+        return response.data;
+      })
+      .catch((error) => {
+        return dispatch(logoutError(error.toString()));
+      });
+  };
+};
+
 export const getEmployees = () => {
   const token = sessionStorage.getItem('token');
   return (dispatch) => {
@@ -93,6 +129,7 @@ export const getEmployees = () => {
       });
   };
 };
+
 export const deleteEmployees = (employees) => {
   return (dispatch) => {
     dispatch(employeesPending());
@@ -109,6 +146,7 @@ export const deleteEmployees = (employees) => {
       });
   };
 };
+
 export const editEmployee = (
   employees,
   firstName,
@@ -149,6 +187,7 @@ export const editEmployee = (
     // .then(() => getEmployees()(dispatch));
   };
 };
+
 export const addNewEmployee = (firstName, lastName, email, phone, password, active) => {
   console.log(password);
   return (dispatch) => {

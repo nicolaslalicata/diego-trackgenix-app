@@ -7,7 +7,10 @@ import {
   EMPLOYEES_ERROR,
   LOGIN_PENDING,
   LOGIN_SUCCESS,
-  LOGIN_ERROR
+  LOGIN_ERROR,
+  LOGOUT_PENDING,
+  LOGOUT_SUCCESS,
+  LOGOUT_ERROR
 } from 'redux/employees/constants';
 
 export const getEmployeesSuccess = (employees) => ({
@@ -50,5 +53,21 @@ export const loginSuccess = (data) => ({
 
 export const loginError = (error) => ({
   type: LOGIN_ERROR,
+  payload: error
+});
+
+export const logoutPending = () => {
+  return {
+    type: LOGOUT_PENDING
+  };
+};
+
+export const logoutSuccess = (data) => ({
+  type: LOGOUT_SUCCESS,
+  payload: data
+});
+
+export const logoutError = (error) => ({
+  type: LOGOUT_ERROR,
   payload: error
 });
