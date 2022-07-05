@@ -9,7 +9,7 @@ import Joi from 'joi';
 import Modal from 'components/shared/modal';
 import { useState } from 'react';
 
-function signupUser() {
+function SignupUser() {
   const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
   const schema = Joi.object({
     email: Joi.string().email({ tlds: { allow: false } }),
@@ -101,4 +101,4 @@ function signupUser() {
   );
 }
 
-export default signupUser;
+export default SignupUser;

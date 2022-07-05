@@ -17,12 +17,12 @@ const Routes = () => {
   return (
     <Switch>
       <Route path="/" exact component={Home} />
-      <Route path="/super-admins" exact component={SuperAdmins} />
-      <Route path="/admins" exact component={Admins} />
-      <Route path="/employees" exact component={Employees} />
-      <Route path="/projects" exact component={Projects} />
-      <Route path="/time-sheets" exact component={TimeSheets} />
-      <Route path="/tasks" exact component={Tasks} />
+      <PrivateRoute path="/super-admins" exact component={SuperAdmins} />
+      <PrivateRoute path="/admins" exact component={Admins} />
+      <PrivateRoute path="/employees" exact component={Employees} />
+      <PrivateRoute path="/projects" exact component={Projects} />
+      <PrivateRoute path="/time-sheets" exact component={TimeSheets} />
+      <PrivateRoute path="/tasks" exact component={Tasks} />
       <Route path="/sign-up" exact component={signupUser} />
       <Route path="/login" exact component={loginUser} />
       <Redirect to={'/login'} component={loginUser} />

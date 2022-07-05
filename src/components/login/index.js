@@ -9,12 +9,11 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import Modal from 'components/shared/modal';
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+
 // actions
 
 function Loginuser() {
   const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
-  const history = useHistory();
 
   const schema = Joi.object({
     email: Joi.string().email({ tlds: { allow: false } }),
@@ -43,7 +42,6 @@ function Loginuser() {
       });
       if (response?._id) {
         dispatch(setUser(response.email));
-        history.push('/');
       }
     });
   };
