@@ -12,7 +12,7 @@ import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 // actions
 
-function loginUser() {
+function Loginuser() {
   const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
   const history = useHistory();
 
@@ -92,4 +92,4 @@ function loginUser() {
   );
 }
 
-export default loginUser;
+export default Loginuser;

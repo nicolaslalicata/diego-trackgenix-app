@@ -1,6 +1,5 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { logout } from 'redux/employees/thunks';
 import { setUser } from 'redux/user/thunks';
 import { useSelector } from 'react-redux';
@@ -19,7 +18,6 @@ import {
 
 const Sidebar = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const user = useSelector((state) => state.user.user);
 
   const logoutUser = (e) => {
@@ -28,7 +26,6 @@ const Sidebar = () => {
     dispatch(logout(email)).then(() => {
       sessionStorage.setItem('userEmail', '');
       dispatch(setUser(''));
-      history.push('/');
     });
   };
 

@@ -8,11 +8,9 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import Modal from 'components/shared/modal';
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 
 function signupUser() {
   const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
-  const history = useHistory();
   const schema = Joi.object({
     email: Joi.string().email({ tlds: { allow: false } }),
     password: Joi.string().required().min(8),
@@ -48,7 +46,6 @@ function signupUser() {
           title: 'Message',
           message: 'Please, login!'
         });
-        history.push('/login');
       }
     });
   };
