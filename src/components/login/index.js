@@ -1,14 +1,12 @@
 import styles from 'components/login/logIn.module.css';
-import { login } from 'redux/employees/thunks';
-import { setUser } from 'redux/user/thunks';
 import { ButtonOption } from 'components/shared/buttonsOption';
 import InputControlled from 'components/shared/inputControlled';
-import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import Modal from 'components/shared/modal';
 import { useState } from 'react';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 // actions
 
@@ -20,8 +18,6 @@ function Loginuser() {
     password: Joi.string().required().min(8)
   });
 
-  const dispatch = useDispatch();
-
   const {
     register,
     reset,
@@ -32,24 +28,33 @@ function Loginuser() {
     resolver: joiResolver(schema)
   });
 
-  const loginUser = ({ email, password }, e) => {
-    e.preventDefault();
-    dispatch(login(email, password)).then((response) => {
-      setShowModalMessage({
-        showModalMessage: true,
-        title: 'Message',
-        message: 'Invalid credentials'
+  const login = ({ email, password }, e) => {
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        if (user) {
+          setShowModalMessage({
+            showModalMessage: true,
+            title: 'Message',
+            message: 'Login Successful'
+          });
+        }
+      })
+      .catch((error) => {
+        setShowModalMessage({
+          showModalMessage: true,
+          title: error.code,
+          message: error.message
+        });
       });
-      if (response?._id) {
-        dispatch(setUser(response.email));
-      }
-    });
   };
 
   return (
     <section className={styles.container}>
       <h2 className={styles.tittle}>Log In!</h2>
-      <form onSubmit={handleSubmit(loginUser)}>
+      <form onSubmit={handleSubmit(login)}>
         <div>
           <InputControlled
             type={'text'}
@@ -76,7 +81,7 @@ function Loginuser() {
         </div>
       </form>
       <h3>
-        Not a member? <a href="http:/sign-up">signup!</a>
+        Not a member? <a href="http:/auth/register">signup!</a>
       </h3>
       <Modal
         isOpen={showModalMessage}

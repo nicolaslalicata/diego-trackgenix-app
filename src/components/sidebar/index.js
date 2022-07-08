@@ -1,7 +1,4 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { logout } from 'redux/employees/thunks';
-import { setUser } from 'redux/user/thunks';
 import { useSelector } from 'react-redux';
 
 import styles from './sidebar.module.css';
@@ -15,18 +12,13 @@ import {
   BsClipboardData,
   BsClipboardPlus
 } from 'react-icons/bs';
+import { getAuth } from 'firebase/auth';
 
 const Sidebar = () => {
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
-
-  const logoutUser = (e) => {
-    const email = sessionStorage.getItem('userEmail');
-    e.preventDefault();
-    dispatch(logout(email)).then(() => {
-      sessionStorage.setItem('userEmail', '');
-      dispatch(setUser(''));
-    });
+  const signOut = () => {
+    const auth = getAuth();
+    auth.signOut();
   };
 
   return (
@@ -114,10 +106,10 @@ const Sidebar = () => {
         </li>
 
         <li>
-          <a onClick={user ? logoutUser : null} href={user ? '/logout' : '/login'}>
+          <a onClick={signOut} href={user ? '/auth/logout' : '/auth/login'}>
             <span>{user ? 'Logout' : 'Login'}</span>
             <span>
-              <a href={user ? '/logout' : '/login'}>
+              <a href={user ? '/auth/logout' : '/auth/login'}>
                 <IoMdExit />
               </a>
             </span>

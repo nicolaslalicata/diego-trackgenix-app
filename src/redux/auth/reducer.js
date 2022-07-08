@@ -1,9 +1,11 @@
 import {
+  REGISTER_PENDING,
+  REGISTER_SUCCESS,
+  REGISTER_ERROR,
   LOGIN_PENDING,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
-  CLEAN_ERROR,
-  SET_AUTHENTICATION
+  CLEAN_ERROR
 } from 'redux/auth/constants';
 
 const initialState = {
@@ -14,6 +16,24 @@ const initialState = {
 
 export const logReducer = (state = initialState, action) => {
   switch (action.type) {
+    case REGISTER_PENDING:
+      return {
+        ...state,
+        isLoading: true,
+        error: initialState.error
+      };
+    case REGISTER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        authenticated: true
+      };
+    case REGISTER_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload
+      };
     case LOGIN_PENDING:
       return {
         ...state,
@@ -37,12 +57,6 @@ export const logReducer = (state = initialState, action) => {
         ...state,
         isLoading: true,
         error: initialState.error
-      };
-    case SET_AUTHENTICATION:
-      return {
-        ...state,
-        isLoading: false,
-        authenticated: action.payload
       };
 
     default:

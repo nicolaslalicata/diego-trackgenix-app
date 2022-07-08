@@ -1,15 +1,17 @@
 import styles from './signup.module.css';
 import { ButtonOption } from 'components/shared/buttonsOption';
 import InputControlled from 'components/shared/inputControlled';
-import { signup } from 'redux/employees/thunks';
+import { registerUser } from 'redux/auth/thunks';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import Modal from 'components/shared/modal';
 import { useState } from 'react';
+import { getAuth, createUserWithEmailAndPassword, setCustomUserClaims } from 'firebase/auth';
+import { app } from 'helper/firebase';
 
-function SignupUser() {
+function Signup() {
   const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
   const schema = Joi.object({
     email: Joi.string().email({ tlds: { allow: false } }),
@@ -34,20 +36,45 @@ function SignupUser() {
 
   const signupUser = ({ email, password }, e) => {
     e.preventDefault();
-    dispatch(signup(email, password)).then((response) => {
-      setShowModalMessage({
-        showModalMessage: true,
-        title: 'Message',
-        message: response.message
-      });
-      if (response?._id) {
+    // logueo con firebase
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        let firebaseUid = userCredential.uid;
+        app.default
+          .auth()
+          .setCustomUserClaims(firebaseUid, { role: 'EMPLOYEE' })
+          .then(() => {
+            console.log('User role set', firebaseUid);
+          });
+        if (user) {
+          // dispatch a la fetch
+          dispatch(registerUser(email, password)).then((response) => {
+            if (response.type === 'REGISTER_ERROR') {
+              setShowModalMessage({
+                showModalMessage: true,
+                title: 'Message',
+                message: response.data
+              });
+            } else {
+              setShowModalMessage({
+                showModalMessage: true,
+                title: 'Message',
+                message: 'User created successfully'
+              });
+            }
+          });
+        }
+      })
+      .catch((error) => {
         setShowModalMessage({
           showModalMessage: true,
-          title: 'Message',
-          message: 'Please, login!'
+          title: error.code,
+          message: error.messag
         });
-      }
-    });
+      });
   };
 
   return (
@@ -101,4 +128,4 @@ function SignupUser() {
   );
 }
 
-export default SignupUser;
+export default Signup;

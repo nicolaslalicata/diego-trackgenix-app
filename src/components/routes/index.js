@@ -23,9 +23,9 @@ const Routes = () => {
       <PrivateRoute path="/projects" exact component={Projects} />
       <PrivateRoute path="/time-sheets" exact component={TimeSheets} />
       <PrivateRoute path="/tasks" exact component={Tasks} />
-      <Route path="/sign-up" exact component={signupUser} />
-      <Route path="/login" exact component={loginUser} />
-      <Redirect to={'/login'} component={loginUser} />
+      <Route path="/auth/register" exact component={signupUser} />
+      <Route path="/auth/login" exact component={loginUser} />
+      {/* <Redirect to={'/auth/login'} component={loginUser} /> */}
     </Switch>
   );
 };

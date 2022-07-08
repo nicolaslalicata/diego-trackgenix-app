@@ -1,7 +1,7 @@
 import { set_user } from './actions';
 
-export const setUser = (email) => {
+export const setUser = (email, authenticated) => {
   return (dispatch) => {
-    dispatch(set_user(email));
+    dispatch(set_user(email, authenticated));
   };
 };
