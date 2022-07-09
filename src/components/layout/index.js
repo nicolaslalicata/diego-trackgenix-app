@@ -8,20 +8,18 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 function Layout({ children }) {
   const userLogged = useSelector((state) => state.user.email);
-
+  const name = sessionStorage.getItem('user');
   const auth = getAuth();
   const dispatch = useDispatch();
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      dispatch(setUser(user.email, true));
-      console.log(user);
+      dispatch(setUser(name, true));
+      console.log(name, user);
     } else {
       // User is signed out
       dispatch(setUser('', false));
     }
-    console.log(userLogged);
   });
-
   return (
     <>
       <div className={styles.container}>

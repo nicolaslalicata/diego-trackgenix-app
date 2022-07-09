@@ -1,6 +1,6 @@
 import { registerPending, registerSuccess, registerError } from './actions';
 
-export const registerUser = (email, password) => {
+export const registerUser = (firebaseUid, firstName, lastName, email, password) => {
   return (dispatch) => {
     dispatch(registerPending());
     const options = {
@@ -9,6 +9,9 @@ export const registerUser = (email, password) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
+        firebaseUid,
+        firstName,
+        lastName,
         email,
         password
       })

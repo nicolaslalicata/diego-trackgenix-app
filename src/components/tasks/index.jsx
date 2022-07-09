@@ -133,9 +133,6 @@ const Tasks = () => {
   }
   return (
     <div className={styles.container}>
-      <Button callback={() => setIsAdding(true)} icons={'add'}>
-        <IoIosAddCircleOutline />
-      </Button>
       <Modal isOpen={showModal} setIsOpen={setShowModal} title={'Delete task'}>
         <h3>Are you sure?</h3>
         <div>
@@ -245,6 +242,10 @@ const Tasks = () => {
       >
         <div className={styles.modalMessage}>{showModalMessage.message}</div>
       </Modal>
+      <Button callback={() => setIsAdding(true)} icons={'add'}>
+        <IoIosAddCircleOutline />
+        ddd
+      </Button>
       <TasksList tasklist={tasks} deleteItem={openDeleteModal} editItem={editItem}></TasksList>
     </div>
   );

@@ -8,13 +8,18 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import Modal from 'components/shared/modal';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { getAuth, createUserWithEmailAndPassword, setCustomUserClaims } from 'firebase/auth';
 import { app } from 'helper/firebase';
+import { setUser } from 'redux/user/thunks';
 
 function Signup() {
   const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
+
   const schema = Joi.object({
     email: Joi.string().email({ tlds: { allow: false } }),
+    firstName: Joi.string().required().min(3).max(20),
+    lastName: Joi.string().required().min(3).max(20),
     password: Joi.string().required().min(8),
     confirmPassword: Joi.string()
       .required()
@@ -34,7 +39,7 @@ function Signup() {
     resolver: joiResolver(schema)
   });
 
-  const signupUser = ({ email, password }, e) => {
+  const signupUser = ({ firstName, lastName, email, password }, e) => {
     e.preventDefault();
     // logueo con firebase
     const auth = getAuth();
@@ -42,30 +47,34 @@ function Signup() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        let firebaseUid = userCredential.uid;
-        app.default
-          .auth()
-          .setCustomUserClaims(firebaseUid, { role: 'EMPLOYEE' })
-          .then(() => {
-            console.log('User role set', firebaseUid);
-          });
+        const firebaseUid = user.uid;
+        //let firebaseUid = userCredential.uid;
+        // app.default
+        //   .auth()
+        //   .setCustomUserClaims(firebaseUid, { role: 'EMPLOYEE' })
+        //   .then(() => {
+        //     console.log('User role set', firebaseUid);
+        //   });
         if (user) {
           // dispatch a la fetch
-          dispatch(registerUser(email, password)).then((response) => {
-            if (response.type === 'REGISTER_ERROR') {
-              setShowModalMessage({
-                showModalMessage: true,
-                title: 'Message',
-                message: response.data
-              });
-            } else {
-              setShowModalMessage({
-                showModalMessage: true,
-                title: 'Message',
-                message: 'User created successfully'
-              });
+          console.log(firebaseUid, firstName, lastName, email, password);
+          dispatch(registerUser(firebaseUid, firstName, lastName, email, password)).then(
+            (response) => {
+              if (response.type === 'REGISTER_ERROR') {
+                setShowModalMessage({
+                  showModalMessage: true,
+                  title: 'Message',
+                  message: response.data
+                });
+              } else {
+                setShowModalMessage({
+                  showModalMessage: true,
+                  title: 'Message',
+                  message: 'User created successfully'
+                });
+              }
             }
-          });
+          );
         }
       })
       .catch((error) => {
@@ -75,12 +84,33 @@ function Signup() {
           message: error.messag
         });
       });
+    dispatch(setUser(firstName, false));
   };
 
   return (
     <section className={styles.container}>
       <h2 className={styles.tittle}>Welcome to Trackgenix!</h2>
       <form onSubmit={handleSubmit(signupUser)}>
+        <div>
+          <InputControlled
+            type={'text'}
+            label={'First Name'}
+            name="firstName"
+            register={register}
+            required
+            error={errors.firstName}
+          />
+        </div>
+        <div>
+          <InputControlled
+            type={'text'}
+            label={'Last Name'}
+            name="lastName"
+            register={register}
+            required
+            error={errors.lastName}
+          />
+        </div>
         <div>
           <InputControlled
             type={'text'}

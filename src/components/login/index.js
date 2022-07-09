@@ -6,11 +6,16 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import Modal from 'components/shared/modal';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getEmployeeByEmail } from 'redux/user/thunks';
+import { setUser } from 'redux/user/thunks';
 
 // actions
 
 function Loginuser() {
+  const dispatch = useDispatch();
+
   const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
 
   const schema = Joi.object({
@@ -41,6 +46,12 @@ function Loginuser() {
             message: 'Login Successful'
           });
         }
+        // find user by email and set user name
+        dispatch(getEmployeeByEmail(email)).then((response) => {
+          console.log(response.data);
+          sessionStorage.setItem('user', response.data);
+          dispatch(setUser(response.data, true));
+        });
       })
       .catch((error) => {
         setShowModalMessage({
@@ -81,7 +92,7 @@ function Loginuser() {
         </div>
       </form>
       <h3>
-        Not a member? <a href="http:/auth/register">signup!</a>
+        Not a member? <a href="http:/sign-up">signup!</a>
       </h3>
       <Modal
         isOpen={showModalMessage}
