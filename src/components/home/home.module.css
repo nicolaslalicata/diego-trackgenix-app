@@ -41,6 +41,9 @@
 }
 
 @media (max-width: 1024px) {
+  .container {
+    margin-left: 0rem;
+  }
   .homeContent {
     align-items: center;
   }
@@ -60,8 +63,11 @@
     margin: 0 0 0 31px;
   }
 }
-
+/* // tablet */
 @media (max-width: 700px) {
+  .container {
+    margin-left: 9rem;
+  }
   .homeh3 {
     margin: 0 0 0 37px;
     font-size: 35px;

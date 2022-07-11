@@ -19,6 +19,9 @@ const Sidebar = () => {
   const signOut = () => {
     const auth = getAuth();
     auth.signOut();
+    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('role');
   };
 
   return (
@@ -106,10 +109,10 @@ const Sidebar = () => {
         </li>
 
         <li>
-          <a onClick={signOut} href={user ? '/auth/logout' : '/auth/login'}>
+          <a onClick={signOut} href={user ? '/' : '/auth/login'}>
             <span>{user ? 'Logout' : 'Login'}</span>
             <span>
-              <a href={user ? '/auth/logout' : '/auth/login'}>
+              <a href={user ? '/' : '/auth/login'}>
                 <IoMdExit />
               </a>
             </span>

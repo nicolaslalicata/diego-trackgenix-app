@@ -6,15 +6,16 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import Modal from 'components/shared/modal';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { getEmployeeByEmail } from 'redux/user/thunks';
-import { setUser } from 'redux/user/thunks';
+import { useDispatch, useSelector } from 'react-redux';
+import Home from 'components/home';
+import { login } from 'redux/auth/thunks';
+import { getAuth } from 'firebase/auth';
 
 // actions
 
-function Loginuser() {
+function Login() {
   const dispatch = useDispatch();
+  const userLogged = useSelector((state) => state.user.authenticated);
 
   const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
 
@@ -33,39 +34,23 @@ function Loginuser() {
     resolver: joiResolver(schema)
   });
 
-  const login = ({ email, password }, e) => {
-    const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        if (user) {
-          setShowModalMessage({
-            showModalMessage: true,
-            title: 'Message',
-            message: 'Login Successful'
-          });
-        }
-        // find user by email and set user name
-        dispatch(getEmployeeByEmail(email)).then((response) => {
-          console.log(response.data);
-          sessionStorage.setItem('user', response.data);
-          dispatch(setUser(response.data, true));
-        });
-      })
-      .catch((error) => {
-        setShowModalMessage({
-          showModalMessage: true,
-          title: error.code,
-          message: error.message
-        });
-      });
+  const loginForm = ({ email, password }, e) => {
+    return dispatch(login(email, password)).then((response) => {
+      if (response.status === 200) {
+        setShowModalMessage(true, { message: 'Login successful' });
+      } else {
+        setShowModalMessage(true, { message: 'Login failed' });
+      }
+      console.log(response);
+    });
   };
 
-  return (
+  return userLogged ? (
+    <Home />
+  ) : (
     <section className={styles.container}>
       <h2 className={styles.tittle}>Log In!</h2>
-      <form onSubmit={handleSubmit(login)}>
+      <form onSubmit={handleSubmit(loginForm)}>
         <div>
           <InputControlled
             type={'text'}
@@ -106,4 +91,4 @@ function Loginuser() {
   );
 }
 
-export default Loginuser;
+export default Login;

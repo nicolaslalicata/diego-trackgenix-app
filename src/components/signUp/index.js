@@ -8,9 +8,6 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import Modal from 'components/shared/modal';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { getAuth, createUserWithEmailAndPassword, setCustomUserClaims } from 'firebase/auth';
-import { app } from 'helper/firebase';
 import { setUser } from 'redux/user/thunks';
 
 function Signup() {
@@ -41,49 +38,29 @@ function Signup() {
 
   const signupUser = ({ firstName, lastName, email, password }, e) => {
     e.preventDefault();
-    // logueo con firebase
-    const auth = getAuth();
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        const firebaseUid = user.uid;
-        //let firebaseUid = userCredential.uid;
-        // app.default
-        //   .auth()
-        //   .setCustomUserClaims(firebaseUid, { role: 'EMPLOYEE' })
-        //   .then(() => {
-        //     console.log('User role set', firebaseUid);
-        //   });
-        if (user) {
-          // dispatch a la fetch
-          console.log(firebaseUid, firstName, lastName, email, password);
-          dispatch(registerUser(firebaseUid, firstName, lastName, email, password)).then(
-            (response) => {
-              if (response.type === 'REGISTER_ERROR') {
-                setShowModalMessage({
-                  showModalMessage: true,
-                  title: 'Message',
-                  message: response.data
-                });
-              } else {
-                setShowModalMessage({
-                  showModalMessage: true,
-                  title: 'Message',
-                  message: 'User created successfully'
-                });
-              }
-            }
-          );
+    try {
+      dispatch(registerUser(firstName, lastName, email, password)).then((response) => {
+        if (response.type === 'REGISTER_ERROR') {
+          setShowModalMessage({
+            showModalMessage: true,
+            title: 'Message',
+            message: response.type
+          });
+        } else {
+          setShowModalMessage({
+            showModalMessage: true,
+            title: 'Message',
+            message: 'User created successfully'
+          });
         }
-      })
-      .catch((error) => {
-        setShowModalMessage({
-          showModalMessage: true,
-          title: error.code,
-          message: error.messag
-        });
       });
+    } catch (error) {
+      setShowModalMessage({
+        showModalMessage: true,
+        title: error.code,
+        message: error.messag
+      });
+    }
     dispatch(setUser(firstName, false));
   };
 
