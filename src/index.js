@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import store from 'redux/store';
 import ReactDOM from 'react-dom';
 import Layout from 'components/layout';
-import Routes from 'components/routes/routes';
+import Routes from 'components/routes';
 import './index.css';
 
 ReactDOM.render(

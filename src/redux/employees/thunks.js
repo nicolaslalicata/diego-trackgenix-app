@@ -8,20 +8,21 @@ import {
 } from 'redux/employees/actions';
 
 export const getEmployees = () => {
+  const token = sessionStorage.getItem('token');
   return (dispatch) => {
     dispatch(employeesPending());
-    return fetch(`${process.env.REACT_APP_API_URL}/employees`)
+    return fetch(`${process.env.REACT_APP_API_URL}/employees`, { headers: { token } })
       .then((response) => response.json())
       .then((response) => {
         dispatch(getEmployeesSuccess(response.data));
         return response.data;
       })
       .catch((error) => {
-        console.log(error);
         dispatch(employeesError(error.toString()));
       });
   };
 };
+
 export const deleteEmployees = (employees) => {
   return (dispatch) => {
     dispatch(employeesPending());
@@ -38,19 +39,10 @@ export const deleteEmployees = (employees) => {
       });
   };
 };
-export const editEmployee = (
-  employees,
-  firstName,
-  lastName,
-  email,
-  phone,
-  password,
-  active,
-  setIsEditModalOpen
-) => {
+
+export const editEmployee = (employees, firstName, lastName, email, phone, password, active) => {
   return (dispatch) => {
     dispatch(employeesPending());
-    console.log(firstName);
     return fetch(`${process.env.REACT_APP_API_URL}/employees/${employees._id}`, {
       method: 'PUT',
       headers: {
@@ -78,6 +70,7 @@ export const editEmployee = (
     // .then(() => getEmployees()(dispatch));
   };
 };
+
 export const addNewEmployee = (firstName, lastName, email, phone, password, active) => {
   return (dispatch) => {
     dispatch(employeesPending());

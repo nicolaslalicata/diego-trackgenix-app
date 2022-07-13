@@ -12,9 +12,10 @@ import {
 } from 'redux/projects/actions';
 
 export const getProjects = () => {
+  const token = sessionStorage.getItem('token');
   return async (dispatch) => {
     dispatch(getProjectsPending());
-    return fetch(`${process.env.REACT_APP_API_URL}/projects`)
+    return fetch(`${process.env.REACT_APP_API_URL}/projects`, { headers: { token } })
       .then((response) => response.json())
       .then((response) => {
         dispatch(getProjectsSuccess(response.data));

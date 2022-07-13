@@ -19,7 +19,6 @@ const Tasks = () => {
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.tasks.tasksList);
   const loader = useSelector((state) => state.tasks.isLoading);
-  const error = useSelector((state) => state.tasks.error);
 
   const [showModal, setShowModal] = useState(false, { id: null });
   const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
@@ -76,7 +75,8 @@ const Tasks = () => {
     setShowModal(!setShowModal);
     setShowModalMessage({
       showModalMessage: true,
-      title: 'Task deleted'
+      title: 'Message',
+      message: 'Task deleted'
     });
   };
 
@@ -110,7 +110,8 @@ const Tasks = () => {
     reset();
     setShowModalMessage({
       showModalMessage: true,
-      title: 'Task edited'
+      title: 'Message',
+      message: 'Task edited'
     });
   };
 
@@ -122,21 +123,16 @@ const Tasks = () => {
     reset();
     setShowModalMessage({
       showModalMessage: true,
-      title: 'Task added'
+      title: 'Message',
+      message: 'Task created'
     });
   };
 
-  if (error) {
-    return <Loader isLoading={loader} />;
-  }
   if (loader) {
     return <Loader isLoading={loader} />;
   }
   return (
     <div className={styles.container}>
-      <Button callback={() => setIsAdding(true)} icons={'add'}>
-        <IoIosAddCircleOutline />
-      </Button>
       <Modal isOpen={showModal} setIsOpen={setShowModal} title={'Delete task'}>
         <h3>Are you sure?</h3>
         <div>
@@ -144,8 +140,7 @@ const Tasks = () => {
           <Button callback={() => setShowModal(false)} text={'NO'}></Button>
         </div>
       </Modal>
-      <Modal isOpen={isAdding} setIsOpen={setIsAdding} reset={reset}>
-        <h3>Add a new Task</h3>
+      <Modal isOpen={isAdding} setIsOpen={setIsAdding} reset={reset} title={'Add task'}>
         <div className={styles.contenedorModal}>
           <form onSubmit={handleSubmit(addTask)}>
             <div>
@@ -189,8 +184,7 @@ const Tasks = () => {
           </form>
         </div>
       </Modal>
-      <Modal isOpen={showEditModal} setIsOpen={setShowEditModal} reset={reset}>
-        <h3>Edit Task</h3>
+      <Modal isOpen={showEditModal} setIsOpen={setShowEditModal} reset={reset} title={'Edit task'}>
         <div className={styles.contenedorModal}>
           <form onSubmit={handleSubmit(editTask)}>
             <div>
@@ -244,7 +238,14 @@ const Tasks = () => {
         isOpen={showModalMessage}
         setIsOpen={setShowModalMessage}
         title={showModalMessage.title}
-      ></Modal>
+        reset={reset}
+      >
+        <div className={styles.modalMessage}>{showModalMessage.message}</div>
+      </Modal>
+      <Button callback={() => setIsAdding(true)} icons={'add'}>
+        <IoIosAddCircleOutline />
+        ddd
+      </Button>
       <TasksList tasklist={tasks} deleteItem={openDeleteModal} editItem={editItem}></TasksList>
     </div>
   );

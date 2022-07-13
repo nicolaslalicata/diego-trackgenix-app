@@ -14,9 +14,10 @@ import {
 } from 'redux/superAdmins/actions';
 
 export const getSuperAdmins = () => {
+  const token = sessionStorage.getItem('token');
   return (dispatch) => {
     dispatch(getSuperAdminsPending());
-    return fetch(`${process.env.REACT_APP_API_URL}/super-admins`)
+    return fetch(`${process.env.REACT_APP_API_URL}/super-admins`, { headers: { token } })
       .then((response) => response.json())
       .then((response) => {
         dispatch(getSuperAdminsSuccess(response.data));

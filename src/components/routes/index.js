@@ -1,4 +1,4 @@
-import React from 'react';
+// import React, { Suspense, lazy } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Admins from 'components/admins';
 import SuperAdmins from 'components/superAdmins';
@@ -7,6 +7,11 @@ import Projects from 'components/projects';
 import TimeSheets from 'components/timesheets';
 import Tasks from 'components/tasks';
 import Home from 'components/home';
+import signupUser from 'components/signup';
+import loginUser from 'components/login';
+// import PrivateRoute from './privatesRoutes';
+
+//const EmployeesRoutes = lazy(() => import('components/routes/employeeRoutes'));
 
 const Routes = () => {
   return (
@@ -18,6 +23,9 @@ const Routes = () => {
       <Route path="/projects" exact component={Projects} />
       <Route path="/time-sheets" exact component={TimeSheets} />
       <Route path="/tasks" exact component={Tasks} />
+      <Route path="/sign-up" exact component={signupUser} />
+      <Route path="/auth/login" exact component={loginUser} />
+      {/* <Redirect to={'/auth/login'} component={loginUser} /> */}
     </Switch>
   );
 };

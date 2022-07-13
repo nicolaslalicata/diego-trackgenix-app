@@ -8,9 +8,10 @@ import {
 } from 'redux/timesheets/actions';
 
 export const getTimeSheets = () => {
+  const token = sessionStorage.getItem('token');
   return (dispatch) => {
     dispatch(timeSheetsPending());
-    return fetch(`${process.env.REACT_APP_API_URL}/timesheets`)
+    return fetch(`${process.env.REACT_APP_API_URL}/timesheets`, { headers: { token } })
       .then((response) => response.json())
       .then((response) => {
         dispatch(getTimeSheetsSuccess(response.data));
