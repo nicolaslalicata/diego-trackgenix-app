@@ -38,7 +38,8 @@ export const adminsReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        error: action.payload
+        error: action.payload,
+        list: []
       };
     case ADD_ADMIN_SUCCESS:
       return {

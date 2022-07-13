@@ -1,4 +1,4 @@
-import styles from './signup.module.css';
+import styles from './signUp.module.css';
 import { ButtonOption } from 'components/shared/buttonsOption';
 import InputControlled from 'components/shared/inputControlled';
 import { registerUser } from 'redux/auth/thunks';
