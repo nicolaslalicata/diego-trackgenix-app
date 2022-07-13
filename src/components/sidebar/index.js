@@ -10,13 +10,12 @@ import {
   BsClipboardPlus
 } from 'react-icons/bs';
 import { getAuth } from 'firebase/auth';
+// eslint-disable-next-line no-unused-vars
 import firebaseApp from 'helpers/firebase';
 import { useSelector } from 'react-redux';
 
 const Sidebar = () => {
   const user = useSelector((state) => state.isLogged.user);
-
-  console.log('sidebar', user);
 
   const signOut = () => {
     const auth = getAuth();

@@ -5,17 +5,19 @@ import Sidebar from 'components/sidebar';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setUser } from 'redux/auth/thunks';
-import { getAuth } from 'firebase/auth';
+
+// eslint-disable-next-line no-unused-vars
 import firebaseApp from 'helpers/firebase';
 
 function Layout({ children }) {
-  const auth = getAuth();
-
-  const user = auth.currentUser;
-  const token = sessionStorage.getItem('role');
+  const token = sessionStorage.getItem('token');
+  const role = sessionStorage.getItem('role');
+  const name = sessionStorage.getItem('displayName');
+  const displayName = sessionStorage.getItem('displayName') == null ? name : role;
+  console.log(displayName);
 
   const userLogged = {
-    displayName: sessionStorage.getItem('displayName'),
+    displayName,
     role: sessionStorage.getItem('role'),
     authenticated: token ? true : false
   };
@@ -24,7 +26,7 @@ function Layout({ children }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const token = sessionStorage.getItem('role');
+    const token = sessionStorage.getItem('token');
     if (token) {
       dispatch(setUser(userLogged));
     }
