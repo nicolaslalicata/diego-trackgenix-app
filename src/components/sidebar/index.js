@@ -18,6 +18,7 @@ const Sidebar = () => {
   const user = useSelector((state) => state.isLogged.user);
   const isAdmin = user.role === 'ADMIN';
   const isSuperAdmin = user.role === 'SUPERADMIN';
+  const isEmployee = user.role === 'EMPLOYEE';
   console.log(user);
   const signOut = () => {
     const auth = getAuth();
@@ -73,40 +74,44 @@ const Sidebar = () => {
           </li>
         ) : null}
 
-        <li>
-          <a href="/projects">
-            <span>Projects</span>
-            <span>
-              <BsClipboardData />
-            </span>
-          </a>
-        </li>
+        {isAdmin || isSuperAdmin || isEmployee ? (
+          <li>
+            <a href="/projects">
+              <span>Projects</span>
+              <span>
+                <BsClipboardData />
+              </span>
+            </a>
+          </li>
+        ) : null}
 
-        <li>
-          <a href="/time-sheets">
-            <span>Timesheets</span>
-            <span>
-              <BsClockHistory />
-            </span>
-          </a>
-        </li>
+        {isAdmin || isSuperAdmin || isEmployee ? (
+          <li>
+            <a href="/time-sheets">
+              <span>Timesheets</span>
+              <span>
+                <BsClockHistory />
+              </span>
+            </a>
+          </li>
+        ) : null}
 
-        <li>
-          <a href="/tasks">
-            <span>Tasks</span>
-            <span>
-              <BsClipboardPlus />
-            </span>
-          </a>
-        </li>
+        {isAdmin || isSuperAdmin || isEmployee ? (
+          <li>
+            <a href="/tasks">
+              <span>Tasks</span>
+              <span>
+                <BsClipboardPlus />
+              </span>
+            </a>
+          </li>
+        ) : null}
 
         <li>
           <a onClick={signOut} href={user.authenticated ? '/' : '/auth/login'}>
             <span>{user.authenticated ? 'Logout' : 'Login'}</span>
             <span>
-              <a href={user.authenticated ? '/' : '/auth/login'}>
-                <IoMdExit />
-              </a>
+              <IoMdExit />
             </span>
           </a>
         </li>

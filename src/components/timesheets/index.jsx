@@ -35,6 +35,7 @@ const TimeSheets = () => {
   const isFetchingProjects = useSelector((state) => state.projects.loading);
   const isFetchingEmployees = useSelector((state) => state.employees.isLoading);
   const isFetchingTasks = useSelector((state) => state.tasks.isLoading);
+  console.log(list);
   const onDelete = (timesheet) => {
     setIsModalDelete(true);
     setTimesheet(timesheet);

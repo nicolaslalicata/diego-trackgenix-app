@@ -20,12 +20,31 @@ const Routes = () => {
       <PrivateRoute roles={['SUPERADMIN']} path="/super-admins" exact component={SuperAdmins} />
       <PrivateRoute roles={['SUPERADMIN', 'ADMIN']} path="/admins" exact component={Admins} />
       <PrivateRoute roles={['SUPERADMIN', 'ADMIN']} path="/employees" exact component={Employees} />
-      <Route path="/projects" exact component={Projects} />
-      <Route path="/time-sheets" exact component={TimeSheets} />
-      <Route path="/tasks" exact component={Tasks} />
-      <Route path="/sign-up" exact component={signupUser} />
+      <PrivateRoute
+        roles={['SUPERADMIN', 'ADMIN', 'EMPLOYEE']}
+        path="/projects"
+        exact
+        component={Projects}
+      />
+      <PrivateRoute
+        roles={['SUPERADMIN', 'ADMIN', 'EMPLOYEE']}
+        path="/time-sheets"
+        exact
+        component={TimeSheets}
+      />
+      <PrivateRoute
+        roles={['SUPERADMIN', 'ADMIN', 'EMPLOYEE']}
+        path="/tasks"
+        exact
+        component={Tasks}
+      />
+      <PrivateRoute
+        roles={['SUPERADMIN', 'ADMIN', 'EMPLOYEE']}
+        path="/sign-up"
+        exact
+        component={signupUser}
+      />
       <Route path="/auth/login" exact component={loginUser} />
-      {/* <Redirect to={'/auth/login'} component={loginUser} /> */}
     </Switch>
   );
 };

@@ -24,10 +24,12 @@ export const getEmployees = () => {
 };
 
 export const deleteEmployees = (employees) => {
+  const token = sessionStorage.getItem('token');
   return (dispatch) => {
     dispatch(employeesPending());
     return fetch(`${process.env.REACT_APP_API_URL}/employees/${employees._id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: { token }
     })
       .then((response) => response.json())
       .then((response) => {
@@ -41,12 +43,14 @@ export const deleteEmployees = (employees) => {
 };
 
 export const editEmployee = (employees, firstName, lastName, email, phone, password, active) => {
+  const token = sessionStorage.getItem('token');
   return (dispatch) => {
     dispatch(employeesPending());
     return fetch(`${process.env.REACT_APP_API_URL}/employees/${employees._id}`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token
       },
       body: JSON.stringify({
         firstName: firstName,
@@ -61,23 +65,22 @@ export const editEmployee = (employees, firstName, lastName, email, phone, passw
       .then((data) => {
         if ((!firstName || !lastName || !email || !password) && data.error) {
           dispatch(employeesError(data.message));
-          // setIsEditModalOpen(false);
         } else {
           dispatch(editEmployeesSuccess(data.data));
-          // setIsEditModalOpen(false);
         }
       });
-    // .then(() => getEmployees()(dispatch));
   };
 };
 
 export const addNewEmployee = (firstName, lastName, email, phone, password, active) => {
+  const token = sessionStorage.getItem('token');
   return (dispatch) => {
     dispatch(employeesPending());
     fetch(`${process.env.REACT_APP_API_URL}/employees/`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token
       },
       body: JSON.stringify({
         firstName: firstName,
@@ -96,6 +99,5 @@ export const addNewEmployee = (firstName, lastName, email, phone, password, acti
           dispatch(employeesError(response.error));
         }
       });
-    // .then(() => getEmployees()(dispatch));
   };
 };
