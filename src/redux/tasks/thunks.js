@@ -57,6 +57,7 @@ export const addTaskThunks = (newTask) => {
       });
   };
 };
+
 export const editTaskThunks = (taskEdited) => {
   const token = sessionStorage.getItem('token');
   const url = `${process.env.REACT_APP_API_URL}/tasks/${taskEdited.id}`;

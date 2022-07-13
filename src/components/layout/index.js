@@ -2,27 +2,34 @@ import Footer from 'components/footer';
 import styles from './layout.module.css';
 import Header from 'components/header';
 import Sidebar from 'components/sidebar';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setUser } from 'redux/user/thunks';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { setUser } from 'redux/auth/thunks';
+import { getAuth } from 'firebase/auth';
 import firebaseApp from 'helpers/firebase';
 
 function Layout({ children }) {
   const auth = getAuth();
-  const dispatch = useDispatch();
-  const email = sessionStorage.getItem('email');
-  const role = sessionStorage.getItem('role');
-  const userNAme = `${email} (${role})`;
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      console.log('cambiando');
-      dispatch(setUser(userNAme, true));
-    } else {
-      // User is signed out
-      dispatch(setUser('', false));
+  const user = auth.currentUser;
+  const token = sessionStorage.getItem('role');
+
+  const userLogged = {
+    displayName: sessionStorage.getItem('displayName'),
+    role: sessionStorage.getItem('role'),
+    authenticated: token ? true : false
+  };
+  console.log('layout', userLogged);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('role');
+    if (token) {
+      dispatch(setUser(userLogged));
     }
-  });
+  }, []);
+
   return (
     <>
       <div className={styles.container}>

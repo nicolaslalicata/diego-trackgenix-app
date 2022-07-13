@@ -7,7 +7,7 @@ import { projectsReducer } from 'redux/projects/reducers';
 import { adminsReducer } from 'redux/admins/reducers';
 import { employeesReducer } from 'redux/employees/reducers';
 import { tasksReducer } from 'redux/tasks/reducers';
-import { user_reducer } from './user/reducers';
+import { logReducer } from './auth/reducers';
 
 const rootReducer = combineReducers({
   tasks: tasksReducer,
@@ -16,7 +16,7 @@ const rootReducer = combineReducers({
   projects: projectsReducer,
   employees: employeesReducer,
   admins: adminsReducer,
-  user: user_reducer
+  isLogged: logReducer
 });
 
 const configureStore = () => {

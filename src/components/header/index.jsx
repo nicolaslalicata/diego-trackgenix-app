@@ -3,7 +3,10 @@ import { withRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 function Header() {
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.isLogged);
+  const role = sessionStorage.getItem('role');
+
+  const displayName = user.user.displayName == null ? role : user.user.displayName;
 
   const path = window.location.pathname;
   let pathName = '';
@@ -47,7 +50,9 @@ function Header() {
           Track<span>GENIX</span>
         </div>
         <div className={styles.tittle}>{pathName}</div>
-        <div className={styles.userName}>Hi, {user ? user : 'Anonymous'}</div>
+        <div className={styles.userName}>
+          Hi, {user.user.authenticated ? displayName : 'Anonymous'}
+        </div>
       </div>
     </header>
   );

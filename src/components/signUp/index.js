@@ -8,7 +8,6 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import Modal from 'components/shared/modal';
 import { useState } from 'react';
-import { setUser } from 'redux/user/thunks';
 
 function Signup() {
   const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
@@ -61,7 +60,6 @@ function Signup() {
         message: error.messag
       });
     }
-    dispatch(setUser(firstName, false));
   };
 
   return (

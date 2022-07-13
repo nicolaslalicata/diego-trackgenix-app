@@ -9,13 +9,13 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Home from 'components/home';
 import { login } from 'redux/auth/thunks';
-import { getAuth } from 'firebase/auth';
 
 // actions
 
 function Login() {
   const dispatch = useDispatch();
-  const userLogged = useSelector((state) => state.user.authenticated);
+
+  const isLoggedIn = useSelector((state) => state.isLogged.authenticated);
 
   const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
 
@@ -34,18 +34,20 @@ function Login() {
     resolver: joiResolver(schema)
   });
 
-  const loginForm = ({ email, password }, e) => {
-    return dispatch(login(email, password)).then((response) => {
-      if (response.status === 200) {
-        setShowModalMessage(true, { message: 'Login successful' });
-      } else {
-        setShowModalMessage(true, { message: 'Login failed' });
+  const loginForm = ({ email, password }) => {
+    dispatch(login(email, password)).then((response) => {
+      const res = response.toString();
+      if (res.includes('Error')) {
+        setShowModalMessage({
+          showModalMessage: true,
+          title: 'Message',
+          message: 'invalid email or password'
+        });
       }
-      console.log(response);
     });
   };
 
-  return userLogged ? (
+  return isLoggedIn ? (
     <Home />
   ) : (
     <section className={styles.container}>

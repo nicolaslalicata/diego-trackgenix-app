@@ -1,5 +1,13 @@
-import { registerPending, registerSuccess, registerError } from './actions';
-import { loginPending, loginSuccess, loginError } from './actions';
+import {
+  registerPending,
+  registerSuccess,
+  registerError,
+  loginPending,
+  loginSuccess,
+  loginError,
+  setAuthentication
+} from './actions';
+
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 export const registerUser = (firstName, lastName, email, password) => {
@@ -40,24 +48,36 @@ export const login = (email, password) => {
   const auth = getAuth();
   return (dispatch) => {
     dispatch(loginPending());
-    signInWithEmailAndPassword(auth, email, password)
+    return signInWithEmailAndPassword(auth, email, password)
       .then(async (response) => {
+        if (response.user) {
+          const user = await response.user.getIdToken();
+          dispatch(loginSuccess(user));
+        }
         const token = await response.user.getIdToken();
+        const displayName = await response.user.displayName;
         const {
           claims: { role }
         } = await response.user.getIdTokenResult();
-        console.log('role', role);
         sessionStorage.setItem('role', role);
         sessionStorage.setItem('token', token);
-        sessionStorage.setItem('email', email);
+        sessionStorage.setItem('displayName', displayName);
+        dispatch(setAuthentication({ authenticated: true, displayName, role }));
+        return response;
       })
       .then((response) => {
         dispatch(loginSuccess(response));
-        return response;
+        return response.json();
       })
       .catch((error) => {
         dispatch(loginError(error));
-        return dispatch(registerError(error.toString()));
+        return error;
       });
+  };
+};
+
+export const setUser = (userLogged) => {
+  return (dispatch) => {
+    dispatch(setAuthentication(userLogged));
   };
 };

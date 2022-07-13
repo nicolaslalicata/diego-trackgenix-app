@@ -1,6 +1,3 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-
 import styles from './sidebar.module.css';
 import { IoMdExit } from 'react-icons/io';
 import {
@@ -13,15 +10,18 @@ import {
   BsClipboardPlus
 } from 'react-icons/bs';
 import { getAuth } from 'firebase/auth';
+import firebaseApp from 'helpers/firebase';
+import { useSelector } from 'react-redux';
 
 const Sidebar = () => {
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.isLogged.user);
+
+  console.log('sidebar', user);
+
   const signOut = () => {
     const auth = getAuth();
     auth.signOut();
-    sessionStorage.removeItem('user');
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('role');
+    sessionStorage.clear();
   };
 
   return (
@@ -109,10 +109,10 @@ const Sidebar = () => {
         </li>
 
         <li>
-          <a onClick={signOut} href={user ? '/' : '/auth/login'}>
-            <span>{user ? 'Logout' : 'Login'}</span>
+          <a onClick={signOut} href={user.authenticated ? '/' : '/auth/login'}>
+            <span>{user.authenticated ? 'Logout' : 'Login'}</span>
             <span>
-              <a href={user ? '/' : '/auth/login'}>
+              <a href={user.authenticated ? '/' : '/auth/login'}>
                 <IoMdExit />
               </a>
             </span>

@@ -5,12 +5,12 @@ import {
   LOGIN_PENDING,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
-  CLEAN_ERROR
+  SET_AUTHENTICATION
 } from 'redux/auth/constants';
 
 const initialState = {
   isLoading: false,
-  authenticated: false,
+  user: { displayName: '', role: '', authenticated: false },
   error: ''
 };
 
@@ -52,13 +52,13 @@ export const logReducer = (state = initialState, action) => {
         isLoading: false,
         error: action.payload
       };
-    case CLEAN_ERROR:
+    case SET_AUTHENTICATION: {
       return {
         ...state,
-        isLoading: true,
-        error: initialState.error
+        user: action.payload,
+        isFetching: false
       };
-
+    }
     default:
       return state;
   }

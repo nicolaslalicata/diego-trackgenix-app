@@ -5,7 +5,7 @@ import {
   LOGIN_PENDING,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
-  CLEAN_ERROR
+  SET_AUTHENTICATION
 } from 'redux/auth/constants';
 
 export const registerPending = () => {
@@ -34,6 +34,7 @@ export const loginError = (error) => ({
   type: LOGIN_ERROR,
   payload: error
 });
-export const cleanError = () => ({
-  type: CLEAN_ERROR
+export const setAuthentication = (data) => ({
+  type: SET_AUTHENTICATION,
+  payload: data
 });
