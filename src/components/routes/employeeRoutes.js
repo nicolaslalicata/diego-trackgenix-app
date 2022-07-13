@@ -1,10 +1,11 @@
+/* eslint-disable no-unused-vars */
 import { Switch, Redirect, useRouteMatch, Route } from 'react-router-dom';
 import Tasks from 'components/tasks';
 import Layout from 'components/layout';
 import TimeSheets from 'components/timesheets';
 import Projects from 'components/projects';
 import loginUser from 'components/login';
-import PrivateRoute from './privatesRoutes';
+// import PrivateRoute from './privatesRoutes';
 
 const employeesRoutes = [
   { name: 'Timesheets', path: '/time-sheets' },

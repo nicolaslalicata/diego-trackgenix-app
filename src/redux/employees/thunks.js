@@ -40,16 +40,7 @@ export const deleteEmployees = (employees) => {
   };
 };
 
-export const editEmployee = (
-  employees,
-  firstName,
-  lastName,
-  email,
-  phone,
-  password,
-  active,
-  setIsEditModalOpen
-) => {
+export const editEmployee = (employees, firstName, lastName, email, phone, password, active) => {
   return (dispatch) => {
     dispatch(employeesPending());
     return fetch(`${process.env.REACT_APP_API_URL}/employees/${employees._id}`, {
