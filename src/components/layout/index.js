@@ -12,16 +12,13 @@ import firebaseApp from 'helpers/firebase';
 function Layout({ children }) {
   const token = sessionStorage.getItem('token');
   const role = sessionStorage.getItem('role');
-  const name = sessionStorage.getItem('displayName');
-  const displayName = sessionStorage.getItem('displayName') == null ? name : role;
-  console.log(displayName);
+  const displayName = sessionStorage.getItem('displayName');
 
   const userLogged = {
-    displayName,
+    displayName: displayName === 'null' ? role : displayName,
     role: sessionStorage.getItem('role'),
     authenticated: token ? true : false
   };
-  console.log('layout', userLogged);
 
   const dispatch = useDispatch();
 
