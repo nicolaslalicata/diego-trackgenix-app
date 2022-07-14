@@ -7,4 +7,3 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 
 export const SET_AUTHENTICATION = 'SET_AUTHENTICATION';
-export const ISLOGGED = 'ISLOGGED';

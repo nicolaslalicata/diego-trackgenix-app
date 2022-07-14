@@ -15,7 +15,7 @@ import firebaseApp from 'helpers/firebase';
 import { useSelector } from 'react-redux';
 
 const Sidebar = () => {
-  const user = useSelector((state) => state.isLogged.user);
+  const user = useSelector((state) => state.userLogged.user);
   const isAdmin = user.role === 'ADMIN';
   const isSuperAdmin = user.role === 'SUPERADMIN';
   const isEmployee = user.role === 'EMPLOYEE';
@@ -42,7 +42,7 @@ const Sidebar = () => {
           </a>
         </li>
 
-        {isAdmin || isSuperAdmin ? (
+        {isSuperAdmin ? (
           <li>
             <a href="/admins">
               <span>Admins</span>
@@ -63,7 +63,7 @@ const Sidebar = () => {
           </li>
         ) : null}
 
-        {isAdmin || isSuperAdmin ? (
+        {isAdmin ? (
           <li>
             <a href="/employees">
               <span>Employees</span>
@@ -74,7 +74,7 @@ const Sidebar = () => {
           </li>
         ) : null}
 
-        {isAdmin || isSuperAdmin || isEmployee ? (
+        {isAdmin || isEmployee ? (
           <li>
             <a href="/projects">
               <span>Projects</span>
@@ -85,7 +85,7 @@ const Sidebar = () => {
           </li>
         ) : null}
 
-        {isAdmin || isSuperAdmin || isEmployee ? (
+        {isAdmin || isEmployee ? (
           <li>
             <a href="/time-sheets">
               <span>Timesheets</span>
@@ -96,7 +96,7 @@ const Sidebar = () => {
           </li>
         ) : null}
 
-        {isAdmin || isSuperAdmin || isEmployee ? (
+        {isAdmin || isEmployee ? (
           <li>
             <a href="/tasks">
               <span>Tasks</span>

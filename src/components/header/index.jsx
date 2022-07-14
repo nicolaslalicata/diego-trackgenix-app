@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 function Header() {
-  const user = useSelector((state) => state.isLogged);
+  const user = useSelector((state) => state.userLogged);
   const role = sessionStorage.getItem('role');
 
   const displayName = user.user.displayName == null ? role : user.user.displayName;

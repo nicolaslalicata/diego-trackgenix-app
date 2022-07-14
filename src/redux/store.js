@@ -16,7 +16,7 @@ const rootReducer = combineReducers({
   projects: projectsReducer,
   employees: employeesReducer,
   admins: adminsReducer,
-  isLogged: logReducer
+  userLogged: logReducer
 });
 
 const configureStore = () => {
