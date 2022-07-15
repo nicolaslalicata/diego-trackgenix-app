@@ -30,12 +30,14 @@ export const getAdmins = () => {
 };
 
 export const createAdmin = (name, lastName, email, gender, status, password) => {
+  const token = sessionStorage.getItem('token');
   return (dispatch) => {
     dispatch(addAdminPending());
     fetch(`${process.env.REACT_APP_API_URL}/admins/`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token
       },
       body: JSON.stringify({
         firstName: name,
@@ -60,10 +62,12 @@ export const createAdmin = (name, lastName, email, gender, status, password) => 
 };
 
 export const deleteAdmin = (admin) => {
+  const token = sessionStorage.getItem('token');
   return (dispatch) => {
     dispatch(deleteAdminPending());
     return fetch(`${process.env.REACT_APP_API_URL}/admins/${admin._id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: { token }
     })
       .then((response) => response.json())
       .then((response) => {
@@ -78,12 +82,14 @@ export const deleteAdmin = (admin) => {
 };
 
 export const editAdmin = (name, lastName, email, gender, status, password, admin) => {
+  const token = sessionStorage.getItem('token');
   return (dispatch) => {
     dispatch(editAdminPending());
     return fetch(`${process.env.REACT_APP_API_URL}/admins/${admin._id}`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token
       },
       body: JSON.stringify({
         firstName: name,

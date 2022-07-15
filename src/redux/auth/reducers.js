@@ -10,7 +10,11 @@ import {
 
 const initialState = {
   isLoading: false,
-  user: { displayName: '', role: '', authenticated: false },
+  user: {
+    displayName: sessionStorage.getItem('displayName'),
+    role: sessionStorage.getItem('role'),
+    authenticated: false
+  },
   error: ''
 };
 

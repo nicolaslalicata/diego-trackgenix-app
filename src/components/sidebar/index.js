@@ -15,8 +15,11 @@ import firebaseApp from 'helpers/firebase';
 import { useSelector } from 'react-redux';
 
 const Sidebar = () => {
-  const user = useSelector((state) => state.isLogged.user);
-
+  const user = useSelector((state) => state.userLogged.user);
+  const isAdmin = user.role === 'ADMIN';
+  const isSuperAdmin = user.role === 'SUPERADMIN';
+  const isEmployee = user.role === 'EMPLOYEE';
+  console.log(user);
   const signOut = () => {
     const auth = getAuth();
     auth.signOut();
@@ -34,86 +37,81 @@ const Sidebar = () => {
           <a href="/">
             <span>Home</span>
             <span>
-              <a href="/">
-                <BsHouseDoor />
-              </a>
+              <BsHouseDoor />
             </span>
           </a>
         </li>
 
-        <li>
-          <a href="/admins">
-            <span>Admins</span>
-            <span>
-              <a href="/admins">
+        {isSuperAdmin ? (
+          <li>
+            <a href="/admins">
+              <span>Admins</span>
+              <span>
                 <BsPerson />
-              </a>
-            </span>
-          </a>
-        </li>
-
-        <li>
-          <a href="/super-admin">
-            <span>Super Admins</span>
-            <span>
-              <a href="/super-admins">
+              </span>
+            </a>
+          </li>
+        ) : null}
+        {isSuperAdmin ? (
+          <li>
+            <a href="/super-admin">
+              <span>Super Admins</span>
+              <span>
                 <BsKey />
-              </a>
-            </span>
-          </a>
-        </li>
+              </span>
+            </a>
+          </li>
+        ) : null}
 
-        <li>
-          <a href="/employees">
-            <span>Employees</span>
-            <span>
-              <a href="/employees">
+        {isAdmin ? (
+          <li>
+            <a href="/employees">
+              <span>Employees</span>
+              <span>
                 <BsPeople />
-              </a>
-            </span>
-          </a>
-        </li>
+              </span>
+            </a>
+          </li>
+        ) : null}
 
-        <li>
-          <a href="/projects">
-            <span>Projects</span>
-            <span>
-              <a href="/projects">
+        {isAdmin || isEmployee ? (
+          <li>
+            <a href="/projects">
+              <span>Projects</span>
+              <span>
                 <BsClipboardData />
-              </a>
-            </span>
-          </a>
-        </li>
+              </span>
+            </a>
+          </li>
+        ) : null}
 
-        <li>
-          <a href="/time-sheets">
-            <span>Timesheets</span>
-            <span>
-              <a href="/time-sheets">
+        {isAdmin || isEmployee ? (
+          <li>
+            <a href="/time-sheets">
+              <span>Timesheets</span>
+              <span>
                 <BsClockHistory />
-              </a>
-            </span>
-          </a>
-        </li>
+              </span>
+            </a>
+          </li>
+        ) : null}
 
-        <li>
-          <a href="/tasks">
-            <span>Tasks</span>
-            <span>
-              <a href="/tasks">
+        {isAdmin || isEmployee ? (
+          <li>
+            <a href="/tasks">
+              <span>Tasks</span>
+              <span>
                 <BsClipboardPlus />
-              </a>
-            </span>
-          </a>
-        </li>
+              </span>
+            </a>
+          </li>
+        ) : null}
 
         <li>
           <a onClick={signOut} href={user.authenticated ? '/' : '/auth/login'}>
             <span>{user.authenticated ? 'Logout' : 'Login'}</span>
             <span>
-              <a href={user.authenticated ? '/' : '/auth/login'}>
-                <IoMdExit />
-              </a>
+              <IoMdExit />
             </span>
           </a>
         </li>

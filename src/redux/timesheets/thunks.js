@@ -23,10 +23,12 @@ export const getTimeSheets = () => {
   };
 };
 export const deleteTimeSheet = (timeSheet) => {
+  const token = sessionStorage.getItem('token');
   return (dispatch) => {
     dispatch(timeSheetsPending());
     return fetch(`${process.env.REACT_APP_API_URL}/timesheets/${timeSheet._id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: { token }
     })
       .then((response) => response.json())
       .then((response) => {
@@ -49,12 +51,14 @@ export const editTimeSheet = (
   employeeId,
   projectId
 ) => {
+  const token = sessionStorage.getItem('token');
   return (dispatch) => {
     dispatch(timeSheetsPending());
     return fetch(`${process.env.REACT_APP_API_URL}/timesheets/${timeSheet._id}`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token
       },
       body: JSON.stringify({
         description: description,
@@ -88,12 +92,14 @@ export const addTimesheet = (
   endDate,
   hours
 ) => {
+  const token = sessionStorage.getItem('token');
   return (dispatch) => {
     dispatch(timeSheetsPending());
     return fetch(`${process.env.REACT_APP_API_URL}/timesheets/`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token
       },
       body: JSON.stringify({
         description: description,

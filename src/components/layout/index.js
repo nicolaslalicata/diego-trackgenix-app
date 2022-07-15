@@ -5,7 +5,6 @@ import Sidebar from 'components/sidebar';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setUser } from 'redux/auth/thunks';
-
 // eslint-disable-next-line no-unused-vars
 import firebaseApp from 'helpers/firebase';
 

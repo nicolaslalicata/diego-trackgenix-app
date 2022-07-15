@@ -9,7 +9,7 @@ import Loader from 'components/shared/loading';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdmins } from 'redux/admins/thunks';
 import ModalSuc from 'components/admins/modalSuccess';
-
+import NotAllowed from 'components/notAllowed';
 function Admins() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -37,6 +37,7 @@ function Admins() {
   };
 
   const getData = () => {
+    console.log(adminsRedux);
     return adminsRedux.map((admin) => ({
       ...admin,
       edit: (
@@ -59,6 +60,8 @@ function Admins() {
   };
   if (isLoading) {
     return <Loader isLoading={isLoading}></Loader>;
+  } else if (adminsRedux === [] || adminsRedux === undefined) {
+    return <NotAllowed></NotAllowed>;
   } else {
     return (
       <section className={styles.container}>

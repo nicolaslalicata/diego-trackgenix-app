@@ -15,7 +15,7 @@ import { login } from 'redux/auth/thunks';
 function Login() {
   const dispatch = useDispatch();
 
-  const isLoggedIn = useSelector((state) => state.isLogged.authenticated);
+  const userLoggedIn = useSelector((state) => state.userLogged.authenticated);
 
   const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
 
@@ -47,7 +47,7 @@ function Login() {
     });
   };
 
-  return isLoggedIn ? (
+  return userLoggedIn ? (
     <Home />
   ) : (
     <section className={styles.container}>

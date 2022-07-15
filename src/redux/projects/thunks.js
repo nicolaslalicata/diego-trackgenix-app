@@ -27,13 +27,15 @@ export const getProjects = () => {
 };
 
 export const addProject = (userInput, setModalNotification) => {
+  const token = sessionStorage.getItem('token');
   return async (dispatch) => {
     dispatch(addProjectsPending());
     return fetch(`${process.env.REACT_APP_API_URL}/projects`, {
       method: 'POST',
       body: JSON.stringify(userInput),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token
       }
     })
       .then((response) => response.json())
@@ -56,15 +58,16 @@ export const addProject = (userInput, setModalNotification) => {
 };
 
 export const editProject = (userInput, setModalNotification) => {
-  // eslint-disable-next-line no-unused-vars
-  const { _id, __v, ...other } = userInput;
+  const token = sessionStorage.getItem('token');
+  const { _id, ...other } = userInput;
   return async (dispatch) => {
     dispatch(editProjectsPending());
     return fetch(`${process.env.REACT_APP_API_URL}/projects/${_id}`, {
       method: 'PUT',
       body: JSON.stringify(other),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        token
       }
     })
       .then((response) => response.json())

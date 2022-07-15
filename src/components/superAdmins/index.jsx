@@ -15,7 +15,7 @@ import InputControlled from 'components/shared/inputControlled';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
-
+import NotAllowed from 'components/notAllowed';
 function SuperAdmins() {
   const schema = Joi.object({
     firstName: Joi.string()
@@ -72,7 +72,7 @@ function SuperAdmins() {
 
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.superAdmins.isLoading);
-  const error = useSelector((state) => state.superAdmins.error);
+  // const error = useSelector((state) => state.superAdmins.error);
 
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
@@ -102,6 +102,7 @@ function SuperAdmins() {
   }, [isOpenAdd === true]);
 
   const getData = () => {
+    console.log('superAdm', superAdmins);
     return superAdmins.map((superAdmin) => ({
       ...superAdmin,
       edit: (
@@ -146,11 +147,13 @@ function SuperAdmins() {
 
   const headers = ['Name', 'Last Name', 'Email', 'Password', 'Edit', 'Delete'];
   const objProp = ['firstName', 'lastName', 'email', 'password', 'edit', 'delete'];
-  if (error) {
-    return <Loader isLoading={isLoading} />;
-  }
+  // if (error) {
+  //   return <Loader isLoading={isLoading} />;
+  // }
   if (isLoading) {
     return <Loader isLoading={isLoading} />;
+  } else if (!superAdmins || (Array.isArray(superAdmins) && !superAdmins.length)) {
+    return <NotAllowed></NotAllowed>;
   } else {
     return (
       <section className={styles.container}>
