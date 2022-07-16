@@ -15,6 +15,8 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
   const [isModalSuccess, setIsModalSuccess] = useState(false);
   const error = useSelector((state) => state.timeSheets.error);
   const successMessage = useSelector((state) => state.timeSheets.successMessage);
+  console.log(tasks);
+  console.log(projects);
   const schema = Joi.object({
     description: Joi.string()
       .min(5)
@@ -152,7 +154,10 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
               <DropdownForm
                 initialOption="Is Validated?"
                 label="Validated"
-                options={['true', 'false']}
+                options={[
+                  { id: 1, name: 'true' },
+                  { id: 0, name: 'false' }
+                ]}
                 name="validated"
                 register={register}
                 required

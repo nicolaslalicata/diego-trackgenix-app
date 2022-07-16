@@ -5,6 +5,10 @@
   min-height: 100vh;
 }
 
+.children {
+  margin: 0 0 0 180px;
+}
+
 .body {
   margin-left: 200px;
   margin-top: 150px;
@@ -24,9 +28,19 @@
   }
 }
 
-/* @media (min-width: 769px) {
-  .body {
-    margin-left: 200px;
-    margin-top: 70px;
+ /* TABLET desde 992px */
+ @media (max-width: 1024px) {
+  .children {
+    margin: 120px 0 0 0px;
   }
-} */
+  }
+
+ /* MOBILE hasta 800px */
+ @media (min-width: 800px) {
+
+}
+
+ /* TABLET desde 992px */
+ @media (min-width: 1024px) {
+
+}

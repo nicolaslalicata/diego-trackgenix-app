@@ -7,6 +7,8 @@ import styles from './manageItem.module.css';
 import InputControlled from 'components/shared/inputControlled';
 import Button from 'components/shared/buttons';
 import { useEffect } from 'react';
+import DropdownForm from 'components/shared/dropdown';
+import Table from 'components/shared/table';
 
 const ManageItem = function ({ handler, project }) {
   useEffect(() => {
@@ -16,6 +18,7 @@ const ManageItem = function ({ handler, project }) {
       setValue('client', project.client);
       setValue('startDate', project.startDate);
       setValue('endDate', project.endDate);
+      setValue('tasks', project.tasks);
     }
   }, []);
 
@@ -124,6 +127,20 @@ const ManageItem = function ({ handler, project }) {
             required
             error={errors.endDate}
           />
+          <DropdownForm
+            initialOption="Is Active?"
+            label="Members"
+            options={['true', 'false']}
+            name="active"
+            register={register}
+            required
+            error={errors.active}
+          />
+          <Table
+            data={project.tasks}
+            objProp={['description', 'workedHours', 'date', 'edit', 'delete']}
+            headers={['Description', 'Worked Hours', 'Date', 'Edit', 'Delete']}
+          ></Table>
         </div>
       </div>
       <div className={styles.buttonConteiner}>

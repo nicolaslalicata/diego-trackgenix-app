@@ -1,9 +1,7 @@
 import React from 'react';
-import styles from './table.module.css';
+import styles from './modalTable.module.css';
 import { useState, useEffect } from 'react';
-import { FcNext, FcPrevious } from 'react-icons/fc';
-
-const Table = ({ data, headers, objProp }) => {
+const ModalTable = ({ data, headers, objProp }) => {
   const [indexPage, setIndexPage] = useState(1);
   const pageData = data.slice(5 * (indexPage - 1), 5 * indexPage);
   useEffect(() => {
@@ -47,17 +45,11 @@ const Table = ({ data, headers, objProp }) => {
           })}
         </tbody>
       </table>
-      <div className={styles.pageButtons}>
-        <button onClick={() => previousPage()}>
-          <FcPrevious />
-        </button>
-        <p>Page {indexPage}</p>
-        <button onClick={() => nextPage()}>
-          <FcNext />
-        </button>
-      </div>
+      <button onClick={() => nextPage()}>next</button>
+      <button onClick={() => previousPage()}>prev</button>
+      <p>Page {indexPage}</p>
     </div>
   );
 };
 
-export default Table;
+export default ModalTable;

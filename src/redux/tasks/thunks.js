@@ -39,9 +39,12 @@ export const addTaskThunks = (newTask) => {
       token
     },
     body: JSON.stringify({
+      employeeId: newTask.employeeId,
+      projectId: newTask.projectId,
       description: newTask.description,
       workedHours: newTask.workedHours,
-      date: newTask.date
+      date: newTask.date,
+      done: newTask.done
     })
   };
   return (dispatch) => {
@@ -68,9 +71,12 @@ export const editTaskThunks = (taskEdited) => {
       token
     },
     body: JSON.stringify({
+      employeeId: taskEdited.employeeId,
+      projectId: taskEdited.projectId,
       description: taskEdited.description,
       workedHours: taskEdited.workedHours,
-      date: taskEdited.date
+      date: taskEdited.date,
+      done: taskEdited.done
     })
   };
   return (dispatch) => {

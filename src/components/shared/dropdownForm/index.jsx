@@ -14,13 +14,19 @@ const DropdownForm = ({
   return (
     <div className={styles.dropdownContainer} style={dropStyle}>
       <label className={styles.labelDropdown}>{label}</label>
-      <select className={styles.selectDropdown} value={value} {...register(name, { required })}>
-        <option value="none" selected hidden>
+      <select
+        className={styles.selectDropdown}
+        defaultValue={''}
+        value={value}
+        {...register(name, { required })}
+      >
+        <option value={''} disabled>
           {initialOption}
         </option>
+
         {options.map((option, index) => (
-          <option key={index} value={option.value}>
-            {option._id || option}
+          <option key={index} value={option._id}>
+            {option.name || option.lastName || option.description || options}
           </option>
         ))}
       </select>

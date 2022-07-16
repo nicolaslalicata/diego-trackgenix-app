@@ -35,7 +35,7 @@ const TimeSheets = () => {
   const isFetchingProjects = useSelector((state) => state.projects.loading);
   const isFetchingEmployees = useSelector((state) => state.employees.isLoading);
   const isFetchingTasks = useSelector((state) => state.tasks.isLoading);
-  console.log(list);
+  console.log(tasks);
   const onDelete = (timesheet) => {
     setIsModalDelete(true);
     setTimesheet(timesheet);
@@ -52,6 +52,7 @@ const TimeSheets = () => {
         createdAt: new Date(timesheet.createdAt).toISOString().substr(0, 10),
         startDate: new Date(timesheet.startDate).toISOString().substr(0, 10),
         endDate: new Date(timesheet.endDate).toISOString().substr(0, 10),
+        tasks: timesheet.tasks,
         validated: timesheet.validated.toString() === 'true' ? 'Yes' : 'No',
         edit: (
           <Button

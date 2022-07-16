@@ -34,7 +34,7 @@ function Layout({ children }) {
       <div className={styles.container}>
         <Header />
         <Sidebar />
-        {children}
+        <div className={styles.children}>{children}</div>
         <Footer />
       </div>
     </>
