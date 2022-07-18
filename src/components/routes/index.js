@@ -7,7 +7,7 @@ import Projects from 'components/projects';
 import TimeSheets from 'components/timesheets';
 import Tasks from 'components/tasks';
 import Home from 'components/home';
-import signupUser from 'components/signUp';
+import SignUpUser from 'components/signUp';
 import loginUser from 'components/login';
 import PrivateRoute from './privateRoutes';
 
@@ -38,12 +38,7 @@ const Routes = () => {
         exact
         component={Tasks}
       />
-      <PrivateRoute
-        roles={['SUPERADMIN', 'ADMIN', 'EMPLOYEE']}
-        path="/sign-up"
-        exact
-        component={signupUser}
-      />
+      <Route path="/sign-up" exact component={SignUpUser} />
       <Route path="/auth/login" exact component={loginUser} />
     </Switch>
   );

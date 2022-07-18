@@ -22,7 +22,7 @@ const PrivateRoute = ({ component: RouteComponent, ...props }) => {
         if (role && !error) {
           return <Redirect to={'/'} />;
         }
-        return <Redirect to={'/login'} />;
+        return <Redirect to={'/auth/login'} />;
       }}
     />
   );
