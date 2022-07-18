@@ -6,6 +6,9 @@ import { FcNext, FcPrevious } from 'react-icons/fc';
 const Table = ({ data, headers, objProp }) => {
   const [indexPage, setIndexPage] = useState(1);
   const pageData = data.slice(5 * (indexPage - 1), 5 * indexPage);
+  const totalPages = Math.ceil(data.length / 5);
+  console.log(totalPages);
+
   useEffect(() => {
     const maxIndexPage = data.length > 5 ? Math.floor((data.length - 0.01) / 5) + 1 : 1;
     if (indexPage < 1) {
@@ -51,7 +54,9 @@ const Table = ({ data, headers, objProp }) => {
         <button onClick={() => previousPage()}>
           <FcPrevious />
         </button>
-        <p>Page {indexPage}</p>
+        <p>
+          Page {indexPage} of {totalPages}
+        </p>
         <button onClick={() => nextPage()}>
           <FcNext />
         </button>

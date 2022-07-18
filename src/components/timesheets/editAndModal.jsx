@@ -5,6 +5,7 @@ import Button from 'components/shared/buttons';
 import Modal from 'components/shared/modal';
 import DropdownForm from 'components/shared/dropdownForm';
 import InputControlled from 'components/shared/inputControlled';
+import { ButtonOption } from 'components/shared/buttonsOption';
 import * as timesheetThunks from 'redux/timesheets/thunks';
 import { useDispatch } from 'react-redux/es/exports';
 import { useForm } from 'react-hook-form';
@@ -53,6 +54,7 @@ const ModalTimeSheetEdit = ({
     employees: Joi.string().required(),
     validated: Joi.boolean().required()
   });
+
   const {
     register,
     handleSubmit,
@@ -62,6 +64,7 @@ const ModalTimeSheetEdit = ({
     mode: 'onSubmit',
     resolver: joiResolver(schema)
   });
+
   useEffect(() => {
     reset({
       description: timeSheet.description,
@@ -69,15 +72,16 @@ const ModalTimeSheetEdit = ({
       endDate: new Date(timeSheet.endDate).toISOString().substr(0, 10),
       hours: timeSheet.hours,
       projects: timeSheet.projectId,
-      tasks: timeSheet.taskId,
+      tasks: tasks.description,
       employees: timeSheet.employeeId,
       validated: timeSheet.validated
     });
   }, [timeSheet]);
   const editTimeSheetHandler = (
-    { description, hours, startDate, endDate, tasks, validated, employees, projects },
+    { description, hours, startDate, endDate, tasks, project, validated, employees },
     e
   ) => {
+    console.log(project);
     e.preventDefault();
     dispatch(
       timesheetThunks.editTimeSheet(
@@ -89,7 +93,7 @@ const ModalTimeSheetEdit = ({
         tasks,
         validated,
         employees,
-        projects
+        project
       )
     );
     setIsModalEdit(false);
@@ -97,7 +101,7 @@ const ModalTimeSheetEdit = ({
 
   return (
     <section>
-      <Modal isOpen={isModalEdit} setIsOpen={setIsModalEdit}>
+      <Modal isOpen={isModalEdit} setIsOpen={setIsModalEdit} title={'Edit Timesheet'}>
         <form onSubmit={handleSubmit(editTimeSheetHandler)} className={styles.formContainer}>
           <div className={styles.inputContainer}>
             <div className={styles.inputColumnOne}>
@@ -165,7 +169,10 @@ const ModalTimeSheetEdit = ({
               <DropdownForm
                 initialOption="Is Validated?"
                 label="Validated"
-                options={['true', 'false']}
+                options={[
+                  { id: 1, name: 'true' },
+                  { id: 0, name: 'false' }
+                ]}
                 name="validated"
                 register={register}
                 required
@@ -174,13 +181,15 @@ const ModalTimeSheetEdit = ({
             </div>
           </div>
           <div className={styles.btnModalContainer}>
-            <Button
+            <ButtonOption option={'yes'} text={'Confirm'}></ButtonOption>
+            <ButtonOption
+              option={'no'}
               callback={() => {
                 setIsModalEdit(false);
+                reset();
               }}
               text={'Cancel'}
-            ></Button>
-            <Button text={'Edit'}></Button>
+            ></ButtonOption>
           </div>
         </form>
       </Modal>

@@ -17,7 +17,6 @@ import InputControlled from 'components/shared/inputControlled';
 import Loader from 'components/shared/loading';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import DropdownForm from 'components/shared/dropdownForm';
-import ModalDelete from 'components/admins/modalDelete';
 
 const Tasks = () => {
   const dispatch = useDispatch();
@@ -154,131 +153,133 @@ const Tasks = () => {
   }
   return (
     <div className={styles.container}>
-      {/* Modal for deleting task */}
-      <Modal isOpen={isModalDelete} setIsOpen={setIsModalDelete} title={'Delete task'}>
-        <h3>Are you sure?</h3>
-        <div className={styles.container}>
-          <ButtonOption callback={deleteItem} option={'yes'} text={'Confirm'}></ButtonOption>
-          <ButtonOption
-            option={'no'}
-            callback={() => {
-              setIsModalDelete(false);
-              reset();
-            }}
-            text={'Cancel'}
-          ></ButtonOption>
-        </div>
-      </Modal>
-      {/* Modal for adding/editing task */}
-      <Modal
-        isOpen={showModal}
-        setIsOpen={setShowModal}
-        reset={reset}
-        title={isAdding ? 'Add tasks' : 'Edit Task'}
-      >
-        <div className={styles.contenedorModal}>
-          <form onSubmit={handleSubmit(isAdding ? addTask : editTask)}>
-            <div className={styles.modalContent}>
-              <div className={styles.modalColumn}>
-                <div>
-                  <DropdownForm
-                    initialOption={'Select a project'}
-                    label="Projects"
-                    options={projects}
-                    name="projectId"
-                    register={register}
-                    required
-                    error={errors.projectId}
-                  />
+      <div className={styles.tasksContainer}>
+        {/* Add button */}
+        <Button
+          callback={() => {
+            setShowModal(true);
+            setIsAdding(true);
+          }}
+          icons={'add'}
+        >
+          <IoIosAddCircleOutline />
+        </Button>
+        {/* Modal for deleting task */}
+        <Modal isOpen={isModalDelete} setIsOpen={setIsModalDelete} title={'Delete task'}>
+          <h3>Are you sure?</h3>
+          <div className={styles.ButtonContainer}>
+            <ButtonOption callback={deleteItem} option={'yes'} text={'Confirm'}></ButtonOption>
+            <ButtonOption
+              option={'no'}
+              callback={() => {
+                setIsModalDelete(false);
+                reset();
+              }}
+              text={'Cancel'}
+            ></ButtonOption>
+          </div>
+        </Modal>
+        {/* Modal for adding/editing task */}
+        <Modal
+          isOpen={showModal}
+          setIsOpen={setShowModal}
+          reset={reset}
+          title={isAdding ? 'Add tasks' : 'Edit Task'}
+        >
+          <div className={styles.contenedorModal}>
+            <form onSubmit={handleSubmit(isAdding ? addTask : editTask)}>
+              <div className={styles.modalContent}>
+                <div className={styles.modalColumn}>
+                  <div>
+                    <DropdownForm
+                      initialOption={'Select a project'}
+                      label="Projects"
+                      options={projects}
+                      name="projectId"
+                      register={register}
+                      required
+                      error={errors.projectId}
+                    />
+                  </div>
+                  <div>
+                    <DropdownForm
+                      initialOption="Select an employee"
+                      label="Employees"
+                      options={employees}
+                      name="employeeId"
+                      register={register}
+                      required
+                      error={errors.employeeId}
+                    />
+                  </div>
+                  <div>
+                    <InputControlled
+                      type={'text'}
+                      label={'Description'}
+                      name="description"
+                      register={register}
+                      required
+                      error={errors.description}
+                    />
+                  </div>
                 </div>
-                <div>
-                  <DropdownForm
-                    initialOption="Select an employee"
-                    label="Employees"
-                    options={employees}
-                    name="employeeId"
-                    register={register}
-                    required
-                    error={errors.employeeId}
-                  />
-                </div>
-                <div>
-                  <InputControlled
-                    type={'text'}
-                    label={'Description'}
-                    name="description"
-                    register={register}
-                    required
-                    error={errors.description}
-                  />
+                <div className={styles.modalColumn}>
+                  <div>
+                    <InputControlled
+                      type={'text'}
+                      label={'Worked Hours'}
+                      name="workedHours"
+                      register={register}
+                      required
+                      error={errors.workedHours}
+                    />
+                  </div>
+                  <div>
+                    <InputControlled
+                      type={'date'}
+                      label={'Date'}
+                      name="date"
+                      register={register}
+                      required
+                      error={errors.date}
+                    />
+                  </div>
+                  <div>
+                    <InputControlled
+                      type={'checkbox'}
+                      label={'Done'}
+                      name="done"
+                      register={register}
+                      required
+                      error={errors.done}
+                    />
+                  </div>
                 </div>
               </div>
-              <div className={styles.modalColumn}>
-                <div>
-                  <InputControlled
-                    type={'text'}
-                    label={'Worked Hours'}
-                    name="workedHours"
-                    register={register}
-                    required
-                    error={errors.workedHours}
-                  />
-                </div>
-                <div>
-                  <InputControlled
-                    type={'date'}
-                    label={'Date'}
-                    name="date"
-                    register={register}
-                    required
-                    error={errors.date}
-                  />
-                </div>
-                <div>
-                  <InputControlled
-                    type={'checkbox'}
-                    label={'Done'}
-                    name="done"
-                    register={register}
-                    required
-                    error={errors.done}
-                  />
-                </div>
+              <div className={styles.modalbuttons}>
+                <ButtonOption option={'yes'} text={'Confirm'}></ButtonOption>
+                <ButtonOption
+                  option={'no'}
+                  callback={() => {
+                    setShowModal(false);
+                    reset();
+                  }}
+                  text={'Cancel'}
+                ></ButtonOption>
               </div>
-            </div>
-            <div className={styles.modalbuttons}>
-              <ButtonOption option={'yes'} text={'Confirm'}></ButtonOption>
-              <ButtonOption
-                option={'no'}
-                callback={() => {
-                  setShowModal(false);
-                  reset();
-                }}
-                text={'Cancel'}
-              ></ButtonOption>
-            </div>
-          </form>
-        </div>
-      </Modal>
-      {/* Modal for messagges */}
-      <Modal
-        isOpen={showModalMessage}
-        setIsOpen={setShowModalMessage}
-        title={showModalMessage.title}
-        reset={reset}
-      >
-        <div className={styles.modalMessage}>{showModalMessage.message}</div>
-      </Modal>
-      <Button
-        callback={() => {
-          setShowModal(true);
-          setIsAdding(true);
-        }}
-        icons={'add'}
-      >
-        <IoIosAddCircleOutline />
-      </Button>
-      <TasksList tasklist={tasks} deleteItem={openDeleteModal} editItem={editItem}></TasksList>
+            </form>
+          </div>
+        </Modal>
+        <Modal
+          isOpen={showModalMessage}
+          setIsOpen={setShowModalMessage}
+          title={showModalMessage.title}
+          reset={reset}
+        >
+          <div className={styles.modalMessage}>{showModalMessage.message}</div>
+        </Modal>
+        <TasksList tasklist={tasks} deleteItem={openDeleteModal} editItem={editItem}></TasksList>
+      </div>
     </div>
   );
 };

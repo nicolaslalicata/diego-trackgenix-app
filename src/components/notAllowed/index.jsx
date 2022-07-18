@@ -1,11 +1,12 @@
 import React from 'react';
 import styles from './notAllowed.module.css';
-function notAllowed() {
+
+function NotAllowed() {
   return (
     <div className={styles.container}>
-      <h1>You are not allowed. Please, login!</h1>
+      <h1>You are not authorized. Please login.</h1>
     </div>
   );
 }
 
-export default notAllowed;
+export default NotAllowed;

@@ -1,8 +1,6 @@
 import styles from '../tasks.module.css';
 import Table from 'components/shared/table';
 import Button from 'components/shared/buttons';
-// import { useState } from 'react';
-// const [setIsAdding] = useState(false);
 
 const TasksList = ({ tasklist, deleteItem, editItem }) => {
   const handleDelete = (id) => {

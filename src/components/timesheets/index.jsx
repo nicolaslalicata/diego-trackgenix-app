@@ -29,13 +29,13 @@ const TimeSheets = () => {
   const dispatch = useDispatch();
   const list = useSelector((state) => state.timeSheets.timeSheetsList);
   const projects = useSelector((state) => state.projects.projectsList);
-  const employees = useSelector((state) => state.employees.employeesList);
+  // const employees = useSelector((state) => state.employees.employeesList); need memebers
   const tasks = useSelector((state) => state.tasks.tasksList);
   const isFetchingTimesheets = useSelector((state) => state.timeSheets.isLoading);
   const isFetchingProjects = useSelector((state) => state.projects.loading);
   const isFetchingEmployees = useSelector((state) => state.employees.isLoading);
   const isFetchingTasks = useSelector((state) => state.tasks.isLoading);
-  console.log(tasks);
+
   const onDelete = (timesheet) => {
     setIsModalDelete(true);
     setTimesheet(timesheet);
@@ -44,6 +44,7 @@ const TimeSheets = () => {
     setIsModalEdit(true);
     setTimesheet(timesheet);
   };
+
   console.log(list);
   const getData = () => {
     return list.map((timesheet) => {
@@ -52,7 +53,8 @@ const TimeSheets = () => {
         createdAt: new Date(timesheet.createdAt).toISOString().substr(0, 10),
         startDate: new Date(timesheet.startDate).toISOString().substr(0, 10),
         endDate: new Date(timesheet.endDate).toISOString().substr(0, 10),
-        tasks: timesheet.tasks,
+        project: timesheet.projectId.name,
+        // employee: timesheet.employeeId.name, need members thunks
         validated: timesheet.validated.toString() === 'true' ? 'Yes' : 'No',
         edit: (
           <Button
@@ -70,7 +72,7 @@ const TimeSheets = () => {
     try {
       await timesheetThunks.getTimeSheets()(dispatch);
       projectsThunks.getProjects()(dispatch);
-      employeesThunks.getEmployees()(dispatch);
+      // employeesThunks.getEmployees()(dispatch); NEED MEMBERS THAT ARE ASSIGNED TO PROJECTS
       tasksThunks.getTasks()(dispatch);
     } catch (error) {
       console.error(error);
@@ -93,7 +95,6 @@ const TimeSheets = () => {
           isModalAdd={isModalAdd}
           setIsModalAdd={setIsModalAdd}
           fetchTimeSheets={() => timesheetThunks.getTimeSheets()(dispatch)}
-          employees={employees}
           tasks={tasks}
           projects={projects}
         ></ModalAddTimeSheet>
@@ -105,6 +106,7 @@ const TimeSheets = () => {
             'startDate',
             'endDate',
             'hours',
+            'project',
             'validated',
             'edit',
             'delete'
@@ -115,6 +117,7 @@ const TimeSheets = () => {
             'Start Date',
             'End Date',
             'Hours',
+            'Project',
             'Validated',
             'Edit',
             'Delete'
@@ -132,7 +135,6 @@ const TimeSheets = () => {
           setIsModalEdit={setIsModalEdit}
           fetchTimeSheets={timesheetThunks.getTimeSheets}
           timeSheet={timeSheet}
-          employees={employees}
           tasks={tasks}
           projects={projects}
         ></ModalTimeSheetEdit>

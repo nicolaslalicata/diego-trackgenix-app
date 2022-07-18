@@ -5,6 +5,7 @@ import Sidebar from 'components/sidebar';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setUser } from 'redux/auth/thunks';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 // eslint-disable-next-line no-unused-vars
 import firebaseApp from 'helpers/firebase';
@@ -13,12 +14,23 @@ function Layout({ children }) {
   const token = sessionStorage.getItem('token');
   const role = sessionStorage.getItem('role');
   const displayName = sessionStorage.getItem('displayName');
+  const auth = getAuth();
 
-  const userLogged = {
+  let userLogged = {
     displayName: displayName === 'null' ? role : displayName,
     role: sessionStorage.getItem('role'),
     authenticated: token ? true : false
   };
+
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      userLogged = {
+        displayName: '',
+        role: '',
+        authenticated: false
+      };
+    }
+  });
 
   const dispatch = useDispatch();
 
@@ -34,7 +46,7 @@ function Layout({ children }) {
       <div className={styles.container}>
         <Header />
         <Sidebar />
-        <div className={styles.children}>{children}</div>
+        {children}
         <Footer />
       </div>
     </>

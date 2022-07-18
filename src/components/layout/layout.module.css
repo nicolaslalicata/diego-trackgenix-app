@@ -6,7 +6,9 @@
 }
 
 .children {
-  margin: 0 0 0 180px;
+  margin: 70px 0 0 180px;
+
+  /* margin: 0 0 0 180px; */
 }
 
 .body {
@@ -31,7 +33,7 @@
  /* TABLET desde 992px */
  @media (max-width: 1024px) {
   .children {
-    margin: 120px 0 0 0px;
+    margin: 35px 0 0 0px;
   }
   }
 
