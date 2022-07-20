@@ -17,6 +17,7 @@ const Routes = () => {
   return (
     <Switch>
       <Route path="/" exact component={Home} />
+      <Route path="/signup" component={signupUser} />
       <PrivateRoute roles={['SUPERADMIN']} path="/super-admins" exact component={SuperAdmins} />
       <PrivateRoute roles={['SUPERADMIN', 'ADMIN']} path="/admins" exact component={Admins} />
       <PrivateRoute roles={['SUPERADMIN', 'ADMIN']} path="/employees" exact component={Employees} />

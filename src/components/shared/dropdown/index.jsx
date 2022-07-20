@@ -20,7 +20,7 @@ const DropdownForm = ({
         </option>
         {options.map((option, index) => (
           <option key={index} value={option.value}>
-            {option._id || option}
+            {option._id || option || option.name || option.description}
           </option>
         ))}
       </select>
