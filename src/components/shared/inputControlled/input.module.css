@@ -37,7 +37,7 @@ input:last-of-type {
   margin-bottom: 1rem;
 }
 
-p {
+.pInput {
   margin-left: initial;
   font-size: small;
   font-weight: 500;

@@ -15,7 +15,7 @@ const InputControlled = ({ label, type, value, name, placeholder, register, requ
         />
       </div>
       <div>
-        <p> {error?.message && error?.message}</p>
+        <p className={styles.pInput}> {error?.message && error?.message}</p>
       </div>
     </div>
   );

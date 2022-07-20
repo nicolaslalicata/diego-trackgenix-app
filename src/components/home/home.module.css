@@ -1,42 +1,222 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,100;1,400&display=swap');
 
-.container {
-  flex: 1;
+
+
+.generalContainer {
+  margin-left: 200px;
+  padding: 7em;
+}
+
+.text {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.25em;
+  line-height: 1.4375em;
+  color: #373867;
+}
+
+.containerGeneral {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+.sectionText {
+  display: flex;
   flex-direction: column;
+  padding-bottom: 5em;
+  justify-content: space-evenly;
+  padding-top: 2.6875em;
 }
-
-.tittle {
-  margin: 0 0 0 10px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 70px;
-  color: #373867;
+.watch {
+  width: 50%;
+  height: 24.375em;
+  padding-top: 3.75em;
 }
-
-.homeContent{
+.startsec {
+  display: flex;
+  width: 50%;
+}
+.imgparrafo {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+.timerepor {
   display: flex;
 }
 
-.homeIco {
-  height: 300px;
+.rocketlaunch {
+  height: 24.375em;
 }
-
-.homeh3 {
-  margin: 68px 0 0 65px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 50px;
-  font-weight: 100;
+.about-us {
+  padding-top: 3.125em;
+}
+.solution {
+  display: flex;
+}
+/* p.text {
+  height: 6.25em;
+} */
+.informacion {
+  padding-top: 6.25em;
+}
+.project {
+font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.50em;
+  line-height: 1.4375em;
   color: #373867;
 }
 
-.homeP {
-  margin: 0 0 15px 65px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 35px;
-  font-weight: 100;
-  color: #37386763;
+.h3Home {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.25em;
+  line-height: 1.4375em;
+  color: #373867;
+  padding: 1em;
+}
+
+.h2Home {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.875em;
+    line-height: 2.1875em;
+    color: #373867;
+  }
+
+
+/* p.project {
+  padding-top: 0.3125em;
+} */
+.form {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.formControl {
+  width: 50%;
+  height: 2.3125em;
+  border: 1px solid #373867;
+  margin: 0.625em;
+  border-radius: 0.25em;
+}
+.spaceOptions {
+  display: flex;
+  padding-top: 2.6875em;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.inputHome {
+  
+  padding-top: 2.6875em;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.sendreset {
+  display: flex;
+}
+.textsendreset {
+  margin-top: 3em;
+}
+.inputTextarea {
+  width: 100%;
+  height: 12.25em;
+  margin-bottom: 1.25em;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.8125em;
+  line-height: 0.9375em;
+  border: 1px solid #373867;
+  border-radius: 0.25em;
+}
+.submitButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.875em 2.25em;
+  background: #aace9b;
+  border-radius: 0.3125em;
+  border: none;
+}
+.resetButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.875em 2.25em;
+  background: #ffffff;
+  border: none;
+  margin-left: 1.875em;
+  border: 1px solid #373867;
+  box-sizing: border-box;
+  border-radius: 0.3125em;
+}
+.labelHome {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.875em;
+  line-height: 1em;
+  color: #373867;
+}
+.card {
+  display: flex;
+  flex: 2 0 382px;
+  width: 100%;
+  align-items: center;
+  padding-top: 1.375em;
+}
+
+.homeH1{
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 3.75em;
+  color: #373867;
+}
+.functions {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.use {
+  margin-top: 2.125em;
+  padding-bottom: 3.875em;
+}
+.whyuse {
+  border-bottom: 1px solid #373867;
+  opacity: 0.5;
+  border-radius: 0.125em;
+  padding-bottom: 6.25em;
+}
+.test4 {
+  display: none;
+}
+.funcion {
+  padding-top: 2.1875em;
+}
+
+.filapro {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.h4Home {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.875em;
+  line-height: 1em;
+  color: #373867;
 }
 
 @media (max-width: 1024px) {
@@ -61,6 +241,11 @@
     font-size: 25px;
     margin: 0 0 0 31px;
   }
+
+  .generalContainer {
+    margin: 0;
+  }
+
 }
 /* // tablet */
 @media (max-width: 700px) {
@@ -80,6 +265,8 @@
   .homeP {
     font-size: 25px;
   }
+
+  
 }
 @media (max-width: 480px) {
   .tittle {
@@ -99,4 +286,6 @@
     font-size: 15px;
     margin: 0 0 15px 42px;
   }
+
+  
 }
