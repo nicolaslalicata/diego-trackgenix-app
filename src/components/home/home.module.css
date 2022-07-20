@@ -221,7 +221,7 @@ font-family: "Roboto";
 
 @media (max-width: 1024px) {
   .container {
-    margin-left: 0;
+    margin-left: 0rem;
   }
   .homeContent {
     align-items: center;
