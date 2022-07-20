@@ -51,7 +51,10 @@ function Header() {
         </div>
         <div className={styles.tittle}>{pathName}</div>
         <div className={styles.userName}>
-          Hi, {user.user.authenticated ? displayName : 'Anonymous'}
+          Hi,{' '}
+          {user.user.authenticated
+            ? displayName.replace(/(^\w{1})|(\s+\w{1})/g, (letter) => letter.toUpperCase())
+            : 'Anonymous'}
         </div>
       </div>
     </header>
