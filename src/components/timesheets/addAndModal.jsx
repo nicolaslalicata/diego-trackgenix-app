@@ -1,20 +1,22 @@
 import React from 'react';
 import styles from './time-sheets.module.css';
 import { useState, useEffect } from 'react';
-import Modal from 'components/shared/modal';
-import Button from 'components/shared/buttons';
-import DropdownForm from 'components/shared/dropdownForm';
 import * as timesheetThunks from 'redux/timesheets/thunks';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
-
 import Joi from 'joi';
+
+import Modal from 'components/shared/modal';
+import DropdownForm from 'components/shared/dropdownForm';
+import { ButtonOption } from 'components/shared/buttonsOption';
 import InputControlled from 'components/shared/inputControlled';
+
 const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projects }) => {
   const [isModalSuccess, setIsModalSuccess] = useState(false);
   const error = useSelector((state) => state.timeSheets.error);
   const successMessage = useSelector((state) => state.timeSheets.successMessage);
+
   const schema = Joi.object({
     description: Joi.string()
       .min(5)
@@ -84,7 +86,7 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
   };
   return (
     <>
-      <Modal isOpen={isModalAdd} setIsOpen={setIsModalAdd}>
+      <Modal isOpen={isModalAdd} setIsOpen={setIsModalAdd} title={'Add new Timesheet'}>
         <form onSubmit={handleSubmit(addTimeSheetHandler)} className={styles.formContainer}>
           <div className={styles.inputContainer}>
             <div className={styles.inputColumnOne}>
@@ -152,7 +154,10 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
               <DropdownForm
                 initialOption="Is Validated?"
                 label="Validated"
-                options={['true', 'false']}
+                options={[
+                  { id: 1, name: 'true' },
+                  { id: 0, name: 'false' }
+                ]}
                 name="validated"
                 register={register}
                 required
@@ -161,14 +166,15 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
             </div>
           </div>
           <div className={styles.btnModalContainer}>
-            <Button
-              text={'Cancel'}
+            <ButtonOption option={'yes'} text={'Confirm'}></ButtonOption>
+            <ButtonOption
+              option={'no'}
               callback={() => {
                 setIsModalAdd(false);
                 reset();
               }}
-            ></Button>
-            <Button text={'Add'} />
+              text={'Cancel'}
+            ></ButtonOption>
           </div>
         </form>
       </Modal>

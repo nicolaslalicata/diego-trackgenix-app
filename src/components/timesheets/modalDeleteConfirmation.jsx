@@ -2,6 +2,8 @@ import React from 'react';
 import Modal from 'components/shared/modal';
 import styles from './time-sheets.module.css';
 import Button from 'components/shared/buttons';
+import { ButtonOption } from 'components/shared/buttonsOption';
+
 const ModalDeleteConfirmation = ({
   deleteTimeSheet,
   timeSheet,
@@ -17,18 +19,18 @@ const ModalDeleteConfirmation = ({
       <div>Are you sure you want to delete the item?</div>
       <div className={styles.modalActions}>
         <div className={styles.actionsContainer}>
-          <Button
+          <ButtonOption
             callback={() => {
               deleteTimeSheet(timeSheet)(dispatch).then(() => setIsModalDelete(false));
             }}
-            text={'Delete'}
-          />
-          <Button
-            callback={() => {
-              setIsModalDelete(false);
-            }}
+            option={'yes'}
+            text={'Confirm'}
+          ></ButtonOption>
+          <ButtonOption
+            option={'no'}
+            callback={() => setIsModalDelete(false)}
             text={'Cancel'}
-          />
+          ></ButtonOption>
         </div>
       </div>
     </Modal>

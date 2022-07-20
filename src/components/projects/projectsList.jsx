@@ -79,10 +79,13 @@ function ProjectsList() {
 
   return (
     <div className={styles.container}>
-      <Modal isOpen={modalAddItemOpen} setIsOpen={setModalAddItemOpen} reset={reset}>
-        <div className={styles.modalHeader}>
-          <h5 className={styles.heading}>Create project</h5>
-        </div>
+      <Modal
+        isOpen={modalAddItemOpen}
+        setIsOpen={setModalAddItemOpen}
+        reset={reset}
+        title={'Create a Project'}
+      >
+        <div className={styles.modalHeader}></div>
         <ManageItem handler={addItem} />
       </Modal>
       <Modal isOpen={modalEditItemOpen} setIsOpen={setModalEditItemOpen} reset={reset}>

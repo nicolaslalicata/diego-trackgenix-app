@@ -7,8 +7,6 @@ const PrivateRoute = ({ component: RouteComponent, ...props }) => {
   const user = useSelector((state) => state.userLogged.user);
   const isLoading = useSelector((state) => state.userLogged.isLoading);
   const error = useSelector((state) => state.userLogged.error);
-  console.log('role', role, 'errror', error);
-  console.log(user);
   return (
     <Route
       {...props}

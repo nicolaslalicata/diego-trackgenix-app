@@ -6,6 +6,9 @@ import styles from './manageItem.module.css';
 import Dropdown from 'components/shared/dropdown';
 import InputControlled from 'components/shared/inputControlled';
 import Button from 'components/shared/buttons';
+import DropdownForm from 'components/shared/dropdown';
+import Table from 'components/shared/table';
+
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import * as membersThunks from 'redux/members/thunks';
@@ -33,6 +36,7 @@ const ManageItem = function ({ handler, project }) {
       setValue('client', project.client);
       setValue('startDate', project.startDate);
       setValue('endDate', project.endDate);
+      setValue('tasks', project.tasks);
     }
   }, []);
   const schema = joi.object({
@@ -174,15 +178,20 @@ const ManageItem = function ({ handler, project }) {
             required
             error={errors.endDate}
           />
-          <InputControlled
-            className={styles.input}
-            type="date"
-            label="End Date"
+          <DropdownForm
+            initialOption="Is Active?"
+            label="Members"
+            options={['true', 'false']}
+            name="active"
             register={register}
-            name="endDate"
             required
-            error={errors.endDate}
+            error={errors.active}
           />
+          <Table
+            data={project.tasks}
+            objProp={['description', 'workedHours', 'date', 'edit', 'delete']}
+            headers={['Description', 'Worked Hours', 'Date', 'Edit', 'Delete']}
+          ></Table>
         </div>
       </div>
       {project.members.map((e, index) => {

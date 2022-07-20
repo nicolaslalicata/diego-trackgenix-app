@@ -1,11 +1,16 @@
 import React from 'react';
 import styles from './table.module.css';
 import { useState, useEffect } from 'react';
+import { FcNext, FcPrevious } from 'react-icons/fc';
+
 const Table = ({ data, headers, objProp }) => {
   const [indexPage, setIndexPage] = useState(1);
-  const pageData = data.slice(10 * (indexPage - 1), 10 * indexPage);
+  const pageData = data.slice(5 * (indexPage - 1), 5 * indexPage);
+  const totalPages = Math.ceil(data.length / 5);
+  console.log(totalPages);
+
   useEffect(() => {
-    const maxIndexPage = data.length > 10 ? Math.floor((data.length - 0.01) / 10) + 1 : 1;
+    const maxIndexPage = data.length > 5 ? Math.floor((data.length - 0.01) / 5) + 1 : 1;
     if (indexPage < 1) {
       setIndexPage(1);
     }
@@ -14,7 +19,7 @@ const Table = ({ data, headers, objProp }) => {
     }
   }, [data]);
   const nextPage = () => {
-    if (data.length / 10 > indexPage) {
+    if (data.length / 5 > indexPage) {
       setIndexPage(indexPage + 1);
     }
   };
@@ -45,9 +50,17 @@ const Table = ({ data, headers, objProp }) => {
           })}
         </tbody>
       </table>
-      <button onClick={() => nextPage()}>next</button>
-      <button onClick={() => previousPage()}>prev</button>
-      <p>Page {indexPage}</p>
+      <div className={styles.pageButtons}>
+        <button onClick={() => previousPage()}>
+          <FcPrevious />
+        </button>
+        <p>
+          Page {indexPage} of {totalPages}
+        </p>
+        <button onClick={() => nextPage()}>
+          <FcNext />
+        </button>
+      </div>
     </div>
   );
 };

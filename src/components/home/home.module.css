@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,100;1,400&display=swap');
 
 
+
 .generalContainer {
   margin-left: 200px;
   padding: 7em;
@@ -248,9 +249,6 @@ font-family: "Roboto";
 }
 /* // tablet */
 @media (max-width: 700px) {
-  .container {
-    margin-left: 9rem;
-  }
   .homeh3 {
     margin: 0 0 0 37px;
     font-size: 35px;

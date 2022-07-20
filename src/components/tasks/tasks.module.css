@@ -2,10 +2,22 @@
   margin: 1rem;
 }
 
+.tasksContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  margin-left: 200px;
+}
+
 .closeForm {
   color: red;
   border-color: transparent;
   background-color: white;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: row;
 }
 
 .container {
@@ -14,6 +26,26 @@
   justify-content: center;
   align-items: center;
 }
+
+.ButtonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 15px;
+}
+
+.modalMessage {
+  margin: 1rem;
+}
+
 .table {
   margin: 1rem;
   border-collapse: collapse;
@@ -39,15 +71,31 @@
   color: white;
 }
 
-@media (max-width: 1080px) {
+@media screen and (max-width: 1024px) {
+  .tasksContainer {
+    margin-left: 0px;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    margin-left: 0;
+  }
   .modalbuttons {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+  }
+  .ButtonContainer {
     flex-direction: column;
   }
 }
 
-.modalMessage {
-  margin: 1rem;
+@media (min-width: 600px) {
+  .modalbuttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
