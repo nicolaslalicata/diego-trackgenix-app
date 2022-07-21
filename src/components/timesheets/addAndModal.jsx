@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './time-sheets.module.css';
 import { useState, useEffect } from 'react';
 import * as timesheetThunks from 'redux/timesheets/thunks';
-import getData from './index';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';

@@ -4,7 +4,6 @@ import { Route, Redirect } from 'react-router-dom';
 
 const PrivateRoute = ({ component: RouteComponent, ...props }) => {
   const role = useSelector((state) => state.userLogged.user.role);
-  const user = useSelector((state) => state.userLogged.user);
   const isLoading = useSelector((state) => state.userLogged.isLoading);
   const error = useSelector((state) => state.userLogged.error);
   return (
