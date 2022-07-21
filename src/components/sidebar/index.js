@@ -19,7 +19,6 @@ const Sidebar = () => {
   const isAdmin = user.role === 'ADMIN';
   const isSuperAdmin = user.role === 'SUPERADMIN';
   const isEmployee = user.role === 'EMPLOYEE';
-  console.log(user);
   const signOut = () => {
     const auth = getAuth();
     auth.signOut();
