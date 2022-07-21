@@ -3,6 +3,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import joi from 'joi';
 
 import styles from './manageItem.module.css';
+import Dropdown from 'components/shared/dropdown';
 import InputControlled from 'components/shared/inputControlled';
 import Button from 'components/shared/buttons';
 import DropdownForm from 'components/shared/dropdown';
@@ -25,19 +26,19 @@ const ManageItem = function ({ handler, project }) {
   }, []);
   const membersList = useSelector((state) => state.members.membersList);
   console.log('members', membersList);
-  console.log('project-member', project.members[0].memberId);
-  console.log('array members of this project', project.members);
+  // console.log('project-member', project.members[0].memberId);
+  // console.log('array members of this project', project.members);
   //---------------------------------------------------------------------------------
-  useEffect(() => {
-    if (project) {
-      setValue('name', project.name);
-      setValue('description', project.description);
-      setValue('client', project.client);
-      setValue('startDate', project.startDate);
-      setValue('endDate', project.endDate);
-      setValue('tasks', project.tasks);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (project) {
+  //     setValue('name', project.name);
+  //     setValue('description', project.description);
+  //     setValue('client', project.client);
+  //     setValue('startDate', project.startDate);
+  //     setValue('endDate', project.endDate);
+  //     setValue('tasks', project.tasks);
+  //   }
+  // }, []);
   const schema = joi.object({
     name: joi
       .string()

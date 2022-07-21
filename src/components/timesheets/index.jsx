@@ -29,7 +29,7 @@ const TimeSheets = () => {
   const dispatch = useDispatch();
   const list = useSelector((state) => state.timeSheets.timeSheetsList);
   const projects = useSelector((state) => state.projects.projectsList);
-  // const employees = useSelector((state) => state.employees.employeesList); need memebers
+  const employees = useSelector((state) => state.employees.employeesList);
   const tasks = useSelector((state) => state.tasks.tasksList);
   const isFetchingTimesheets = useSelector((state) => state.timeSheets.isLoading);
   const isFetchingProjects = useSelector((state) => state.projects.loading);
@@ -45,7 +45,6 @@ const TimeSheets = () => {
     setTimesheet(timesheet);
   };
 
-  console.log(list);
   const getData = () => {
     return list.map((timesheet) => {
       return {
@@ -54,7 +53,7 @@ const TimeSheets = () => {
         startDate: new Date(timesheet.startDate).toISOString().substr(0, 10),
         endDate: new Date(timesheet.endDate).toISOString().substr(0, 10),
         project: timesheet.projectId.name,
-        // employee: timesheet.employeeId.name, need members thunks
+        employee: timesheet.employeeId.lastName,
         validated: timesheet.validated.toString() === 'true' ? 'Yes' : 'No',
         edit: (
           <Button
@@ -68,17 +67,19 @@ const TimeSheets = () => {
       };
     });
   };
+
   useEffect(async () => {
     try {
       await timesheetThunks.getTimeSheets()(dispatch);
       projectsThunks.getProjects()(dispatch);
-      // employeesThunks.getEmployees()(dispatch); NEED MEMBERS THAT ARE ASSIGNED TO PROJECTS
+      employeesThunks.getEmployees()(dispatch);
       tasksThunks.getTasks()(dispatch);
     } catch (error) {
       console.error(error);
     }
   }, []);
-  if (isFetchingTimesheets) {
+
+  if (isFetchingProjects || isFetchingEmployees || isFetchingTasks) {
     return <Loader isLoading={isFetchingProjects || isFetchingEmployees || isFetchingTasks} />;
   } else {
     return (
@@ -95,30 +96,33 @@ const TimeSheets = () => {
           isModalAdd={isModalAdd}
           setIsModalAdd={setIsModalAdd}
           fetchTimeSheets={() => timesheetThunks.getTimeSheets()(dispatch)}
+          employees={employees}
           tasks={tasks}
           projects={projects}
         ></ModalAddTimeSheet>
         <Table
           data={getData()}
           objProp={[
-            'description',
-            'createdAt',
+            'employee',
+            'project',
             'startDate',
             'endDate',
             'hours',
-            'project',
             'validated',
+            'createdAt',
+            'description',
             'edit',
             'delete'
           ]}
           headers={[
-            'Description',
-            'Created At',
+            'Employee',
+            'Project',
             'Start Date',
             'End Date',
             'Hours',
-            'Project',
             'Validated',
+            'Created At',
+            'Description',
             'Edit',
             'Delete'
           ]}
@@ -135,6 +139,7 @@ const TimeSheets = () => {
           setIsModalEdit={setIsModalEdit}
           fetchTimeSheets={timesheetThunks.getTimeSheets}
           timeSheet={timeSheet}
+          employees={employees}
           tasks={tasks}
           projects={projects}
         ></ModalTimeSheetEdit>

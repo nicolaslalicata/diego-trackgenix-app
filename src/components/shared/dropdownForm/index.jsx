@@ -30,7 +30,7 @@ const DropdownForm = ({
           </option>
         ))}
       </select>
-      <p> {error?.message && error?.message}</p>
+      <p className={styles.error}> {error?.message && error?.message}</p>
     </div>
   );
 };

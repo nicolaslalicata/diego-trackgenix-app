@@ -10,8 +10,11 @@ const ModalDeleteConfirmation = ({
   setIsModalDelete,
   isModalDelete
 }) => {
+  const reset = () => {
+    '';
+  };
   return (
-    <Modal isOpen={isModalDelete} setIsOpen={setIsModalDelete} title={'Delete'}>
+    <Modal isOpen={isModalDelete} setIsOpen={setIsModalDelete} title={'Delete'} reset={reset}>
       <div className={styles.modalHeader}>
         <h5 className={styles.heading}>Confirmation</h5>
       </div>
