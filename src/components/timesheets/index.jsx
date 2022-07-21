@@ -31,7 +31,6 @@ const TimeSheets = () => {
   const projects = useSelector((state) => state.projects.projectsList);
   const employees = useSelector((state) => state.employees.employeesList);
   const tasks = useSelector((state) => state.tasks.tasksList);
-  const isFetchingTimesheets = useSelector((state) => state.timeSheets.isLoading);
   const isFetchingProjects = useSelector((state) => state.projects.loading);
   const isFetchingEmployees = useSelector((state) => state.employees.isLoading);
   const isFetchingTasks = useSelector((state) => state.tasks.isLoading);

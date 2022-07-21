@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './time-sheets.module.css';
 import Modal from 'components/shared/modal';
 import DropdownForm from 'components/shared/dropdownForm';
@@ -20,6 +20,8 @@ const ModalTimeSheetEdit = ({
   projects
 }) => {
   const dispatch = useDispatch();
+  const [isModalSuccess, setIsModalSuccess] = useState(false, { message: '' });
+
   const schema = Joi.object({
     description: Joi.string()
       .min(5)
@@ -49,7 +51,7 @@ const ModalTimeSheetEdit = ({
       .optional(),
     hours: Joi.number().required().positive(),
     projects: Joi.string().required(),
-    tasks: Joi.string(),
+    tasks: Joi.string().required(),
     employees: Joi.string().required(),
     validated: Joi.boolean().required()
   });
@@ -96,11 +98,17 @@ const ModalTimeSheetEdit = ({
       )
     );
     setIsModalEdit(false);
+    setIsModalSuccess(true);
   };
 
   return (
     <section>
-      <Modal isOpen={isModalEdit} setIsOpen={setIsModalEdit} title={'Edit Timesheet'} reset={reset}>
+      <Modal
+        isOpen={isModalEdit}
+        setIsOpen={setIsModalEdit}
+        title={`Updating ${timeSheet.employeeId.firstName} ${timeSheet.employeeId.lastName}'s timesheet`}
+        reset={reset}
+      >
         <form onSubmit={handleSubmit(editTimeSheetHandler)} className={styles.formContainer}>
           <div className={styles.inputContainer}>
             <div className={styles.inputColumnTwo}>
@@ -198,6 +206,9 @@ const ModalTimeSheetEdit = ({
             ></ButtonOption>
           </div>
         </form>
+      </Modal>
+      <Modal isOpen={isModalSuccess} setIsOpen={setIsModalSuccess} title={'Success'} reset={reset}>
+        <h1>Timesheet updated</h1>
       </Modal>
     </section>
   );
