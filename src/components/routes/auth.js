@@ -10,7 +10,6 @@ const AuthRoutes = () => {
     <Layout routes={authRoutes}>
       <Switch>
         <Route path={'/auth/login'} component={Login} />
-        <Route path={'/signup'} component={SignUp} />
         <Redirect to={'/auth/login'} />
       </Switch>
     </Layout>

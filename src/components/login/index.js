@@ -79,7 +79,7 @@ function Login() {
         </div>
       </form>
       <h3>
-        Not a member? <a href="http:/sign-up">signup!</a>
+        Not a member? <a href="/sign-up">signup!</a>
       </h3>
       <Modal
         isOpen={showModalMessage}
