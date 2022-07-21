@@ -7,7 +7,7 @@ import Projects from 'components/projects';
 import TimeSheets from 'components/timesheets';
 import Tasks from 'components/tasks';
 import Home from 'components/home';
-import signupUser from 'components/signUp';
+import SignUpUser from 'components/signUp';
 import loginUser from 'components/login';
 import PrivateRoute from './privateRoutes';
 
@@ -17,7 +17,6 @@ const Routes = () => {
   return (
     <Switch>
       <Route path="/" exact component={Home} />
-      <Route path="/signup" component={signupUser} />
       <PrivateRoute roles={['SUPERADMIN']} path="/super-admins" exact component={SuperAdmins} />
       <PrivateRoute roles={['SUPERADMIN', 'ADMIN']} path="/admins" exact component={Admins} />
       <PrivateRoute roles={['SUPERADMIN', 'ADMIN']} path="/employees" exact component={Employees} />
@@ -39,12 +38,7 @@ const Routes = () => {
         exact
         component={Tasks}
       />
-      <PrivateRoute
-        roles={['SUPERADMIN', 'ADMIN', 'EMPLOYEE']}
-        path="/sign-up"
-        exact
-        component={signupUser}
-      />
+      <Route path="/sign-up" exact component={SignUpUser} />
       <Route path="/auth/login" exact component={loginUser} />
     </Switch>
   );

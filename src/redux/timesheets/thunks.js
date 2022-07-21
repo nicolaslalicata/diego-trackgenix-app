@@ -22,7 +22,6 @@ export const getTimeSheets = () => {
       });
   };
 };
-
 export const deleteTimeSheet = (timeSheet) => {
   const token = sessionStorage.getItem('token');
   return (dispatch) => {
@@ -63,13 +62,13 @@ export const editTimeSheet = (
       },
       body: JSON.stringify({
         description: description,
-        startDate: startDate,
-        endDate: endDate,
-        hours: hours,
         taskId: tasks,
         validated: validated,
         employeeId: employeeId,
-        projectId: projectId
+        projectId: projectId,
+        startDate: startDate,
+        endDate: endDate,
+        hours: hours
       })
     })
       .then((response) => response.json())
@@ -104,18 +103,17 @@ export const addTimesheet = (
       },
       body: JSON.stringify({
         description: description,
-        startDate: startDate,
-        endDate: endDate,
-        hours: hours,
         taskId: taskId,
         validated: validated,
         employeeId: employeeId,
-        projectId: projectId
+        projectId: projectId,
+        startDate: startDate,
+        endDate: endDate,
+        hours: hours
       })
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         if (!response.error) {
           dispatch(addTimeSheetsSuccess(response.data));
         } else {
