@@ -76,7 +76,6 @@ const Tasks = () => {
     e.preventDefault();
     const newTask = { description, workedHours, date, employeeId, projectId, done };
     setShowModal(true);
-    console.log(newTask);
     dispatch(addTaskThunks(newTask));
     setIsAdding(false);
     reset();
