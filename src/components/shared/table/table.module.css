@@ -16,7 +16,8 @@
   .table td{
     /* border: 2px solid #ddd; */
     border-bottom: 1px solid #00000022;
-    padding: 8px;
+    /* padding: 8px; */
+    font-size: 15px;
     color: #373867;
   }
 

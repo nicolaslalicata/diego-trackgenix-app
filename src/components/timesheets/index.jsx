@@ -11,6 +11,8 @@ import * as timesheetThunks from 'redux/timesheets/thunks';
 import * as projectsThunks from 'redux/projects/thunks';
 import * as employeesThunks from 'redux/employees/thunks';
 import * as tasksThunks from 'redux/tasks/thunks';
+import Week from './week';
+
 const TimeSheets = () => {
   const [timeSheet, setTimesheet] = useState({
     description: '',
@@ -31,9 +33,9 @@ const TimeSheets = () => {
   const projects = useSelector((state) => state.projects.projectsList);
   const employees = useSelector((state) => state.employees.employeesList);
   const tasks = useSelector((state) => state.tasks.tasksList);
-  const isFetchingProjects = useSelector((state) => state.projects.loading);
-  const isFetchingEmployees = useSelector((state) => state.employees.isLoading);
-  const isFetchingTasks = useSelector((state) => state.tasks.isLoading);
+  // const isFetchingProjects = useSelector((state) => state.projects.loading);
+  // const isFetchingEmployees = useSelector((state) => state.employees.isLoading);
+  // const isFetchingTasks = useSelector((state) => state.tasks.isLoading);
   const isLoading = useSelector((state) => state.timeSheets.isLoading);
 
   const onDelete = (timesheet) => {
@@ -143,6 +145,7 @@ const TimeSheets = () => {
           tasks={tasks}
           projects={projects}
         ></ModalTimeSheetEdit>
+        <Week />
       </section>
     );
   }
