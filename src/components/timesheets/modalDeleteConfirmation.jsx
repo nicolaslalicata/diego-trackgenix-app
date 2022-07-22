@@ -19,10 +19,10 @@ const ModalDeleteConfirmation = ({
   return (
     <>
       <Modal isOpen={isModalDelete} setIsOpen={setIsModalDelete} title={'Delete'} reset={reset}>
-        <div className={styles.modalHeader}></div>
-        <h3>
-          {`Delete ${timeSheet.employeeId.firstName} ${timeSheet.employeeId.lastName}'s timesheet?`}
-        </h3>
+        <div className={styles.modalHeader}>
+          <h5 className={styles.heading}>Confirmation</h5>
+        </div>
+        <div>Are you sure you want to delete the item?</div>
         <div className={styles.modalActions}>
           <div className={styles.actionsContainer}>
             <ButtonOption

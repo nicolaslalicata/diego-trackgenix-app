@@ -14,10 +14,10 @@ import * as tasksThunks from 'redux/tasks/thunks';
 const TimeSheets = () => {
   const [timeSheet, setTimesheet] = useState({
     description: '',
-    taskId: '',
+    task: '',
     validated: '',
-    employeeId: [],
-    projectId: '',
+    employee: [],
+    project: '',
     startDate: '2022-06-08T00:00:00.000Z',
     endDate: '2022-06-08T00:00:00.000Z',
     hours: ''
@@ -51,8 +51,8 @@ const TimeSheets = () => {
         createdAt: new Date(timesheet.createdAt).toISOString().substr(0, 10),
         startDate: new Date(timesheet.startDate).toISOString().substr(0, 10),
         endDate: new Date(timesheet.endDate).toISOString().substr(0, 10),
-        project: timesheet.projectId.name,
-        employee: timesheet.employeeId.lastName,
+        project: timesheet.project.name,
+        employee: timesheet.employee.lastName,
         validated: timesheet.validated.toString() === 'true' ? 'Yes' : 'No',
         edit: (
           <Button

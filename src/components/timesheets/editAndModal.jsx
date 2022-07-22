@@ -1,10 +1,10 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import styles from './time-sheets.module.css';
 import Modal from 'components/shared/modal';
+import { ButtonOption } from 'components/shared/buttonsOption';
 import DropdownForm from 'components/shared/dropdownForm';
 import InputControlled from 'components/shared/inputControlled';
-import { ButtonOption } from 'components/shared/buttonsOption';
 import * as timesheetThunks from 'redux/timesheets/thunks';
 import { useDispatch } from 'react-redux/es/exports';
 import { useForm } from 'react-hook-form';
@@ -20,7 +20,6 @@ const ModalTimeSheetEdit = ({
   projects
 }) => {
   const dispatch = useDispatch();
-  const [isModalSuccess, setIsModalSuccess] = useState(false, { message: '' });
 
   const schema = Joi.object({
     description: Joi.string()
@@ -50,9 +49,9 @@ const ModalTimeSheetEdit = ({
       })
       .optional(),
     hours: Joi.number().required().positive(),
-    projects: Joi.string().required(),
-    tasks: Joi.string().required(),
-    employees: Joi.string().required(),
+    project: Joi.string().required(),
+    task: Joi.string().required(),
+    employee: Joi.string().required(),
     validated: Joi.boolean().required()
   });
 
@@ -72,17 +71,18 @@ const ModalTimeSheetEdit = ({
       startDate: new Date(timeSheet.startDate).toISOString().substr(0, 10),
       endDate: new Date(timeSheet.endDate).toISOString().substr(0, 10),
       hours: timeSheet.hours,
-      projects: timeSheet.projectId ? timeSheet.projectId._id : '',
-      tasks: timeSheet.taskId ? timeSheet.taskId._id : '',
-      employees: timeSheet.employeeId ? timeSheet.employeeId._id : '',
+      project: timeSheet.project._id,
+      task: timeSheet.task._id,
+      employee: timeSheet.employee._id,
       validated: timeSheet.validated
     });
   }, [timeSheet]);
+
   const editTimeSheetHandler = (
-    { description, hours, startDate, endDate, tasks, project, validated, employees },
+    { description, hours, startDate, endDate, task, validated, employee, project },
     e
   ) => {
-    console.log(project);
+    console.log(validated);
     e.preventDefault();
     dispatch(
       timesheetThunks.editTimeSheet(
@@ -91,55 +91,49 @@ const ModalTimeSheetEdit = ({
         startDate,
         endDate,
         hours,
-        tasks,
+        task,
         validated,
-        employees,
+        employee,
         project
       )
     );
     setIsModalEdit(false);
-    setIsModalSuccess(true);
   };
 
   return (
     <section>
-      <Modal
-        isOpen={isModalEdit}
-        setIsOpen={setIsModalEdit}
-        title={`Updating ${timeSheet.employeeId.firstName} ${timeSheet.employeeId.lastName}'s timesheet`}
-        reset={reset}
-      >
+      <Modal isOpen={isModalEdit} setIsOpen={setIsModalEdit} reset={reset} title={`Edit timesheet`}>
         <form onSubmit={handleSubmit(editTimeSheetHandler)} className={styles.formContainer}>
           <div className={styles.inputContainer}>
             <div className={styles.inputColumnTwo}>
               <DropdownForm
-                initialOption="Select a employee"
+                initialOption="Select an employee"
                 label="Employee"
                 options={employees}
-                name="employees"
+                name="employee"
                 register={register}
                 required
-                error={errors.employees}
+                error={errors.employee}
               />
 
               <DropdownForm
                 initialOption="Select a project"
                 label="Projects"
                 options={projects}
-                name="projects"
+                name="project"
                 register={register}
                 required
-                error={errors.projects}
+                error={errors.project}
               />
 
               <DropdownForm
                 initialOption="Select a task"
                 label="Tasks"
                 options={tasks}
-                name="tasks"
+                name="task"
                 register={register}
                 required
-                error={errors.tasks}
+                error={errors.task}
               />
 
               <DropdownForm
@@ -206,9 +200,6 @@ const ModalTimeSheetEdit = ({
             ></ButtonOption>
           </div>
         </form>
-      </Modal>
-      <Modal isOpen={isModalSuccess} setIsOpen={setIsModalSuccess} title={'Success'} reset={reset}>
-        <h1>Timesheet updated</h1>
       </Modal>
     </section>
   );
