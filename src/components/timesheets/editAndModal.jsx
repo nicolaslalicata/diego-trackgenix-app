@@ -82,7 +82,6 @@ const ModalTimeSheetEdit = ({
     { description, hours, startDate, endDate, task, validated, employee, project },
     e
   ) => {
-    console.log(validated);
     e.preventDefault();
     dispatch(
       timesheetThunks.editTimeSheet(

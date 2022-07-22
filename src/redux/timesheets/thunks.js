@@ -117,7 +117,6 @@ export const addTimesheet = (
     })
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         if (!response.error) {
           dispatch(addTimeSheetsSuccess(response.data));
         } else {
