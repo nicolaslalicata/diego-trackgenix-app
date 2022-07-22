@@ -34,6 +34,7 @@ const TimeSheets = () => {
   const isFetchingProjects = useSelector((state) => state.projects.loading);
   const isFetchingEmployees = useSelector((state) => state.employees.isLoading);
   const isFetchingTasks = useSelector((state) => state.tasks.isLoading);
+  const isLoading = useSelector((state) => state.timeSheets.isLoading);
 
   const onDelete = (timesheet) => {
     setIsModalDelete(true);
@@ -78,8 +79,8 @@ const TimeSheets = () => {
     }
   }, []);
 
-  if (isFetchingProjects || isFetchingEmployees || isFetchingTasks) {
-    return <Loader isLoading={isFetchingProjects || isFetchingEmployees || isFetchingTasks} />;
+  if (isLoading) {
+    return <Loader isLoading={isLoading} />;
   } else {
     return (
       <section className={styles.listSection}>

@@ -11,8 +11,6 @@ const ModalDeleteConfirmation = ({
   setIsModalDelete,
   isModalDelete
 }) => {
-  const [isModalSuccess, setIsModalSuccess] = useState(false, { message: '' });
-
   const reset = () => {
     '';
   };
@@ -27,10 +25,7 @@ const ModalDeleteConfirmation = ({
           <div className={styles.actionsContainer}>
             <ButtonOption
               callback={() => {
-                deleteTimeSheet(timeSheet)(dispatch).then(
-                  () => setIsModalDelete(false),
-                  setIsModalSuccess(true)
-                );
+                deleteTimeSheet(timeSheet)(dispatch).then(() => setIsModalDelete(false));
               }}
               option={'yes'}
               text={'Confirm'}
@@ -42,9 +37,6 @@ const ModalDeleteConfirmation = ({
             ></ButtonOption>
           </div>
         </div>
-      </Modal>
-      <Modal isOpen={isModalSuccess} setIsOpen={setIsModalSuccess} title={'Success'} reset={reset}>
-        <h1>Timesheet deleted</h1>
       </Modal>
     </>
   );
