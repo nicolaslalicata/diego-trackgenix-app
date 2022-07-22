@@ -26,8 +26,8 @@ const TasksList = ({ tasklist, deleteItem, editItem }) => {
               task.description,
               task.workedHours,
               task.date,
-              task.employeeId._id,
-              task.projectId._id,
+              task.employeeId ? task.employeeId._id : '',
+              task.projectId ? task.projectId._id : '',
               task.done
             );
           }}

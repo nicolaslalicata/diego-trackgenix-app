@@ -22,6 +22,7 @@ export const getTimeSheets = () => {
       });
   };
 };
+
 export const deleteTimeSheet = (timeSheet) => {
   const token = sessionStorage.getItem('token');
   return (dispatch) => {
@@ -46,12 +47,13 @@ export const editTimeSheet = (
   startDate,
   endDate,
   hours,
-  tasks,
+  task,
   validated,
-  employeeId,
-  projectId
+  employee,
+  project
 ) => {
   const token = sessionStorage.getItem('token');
+  console.log(validated);
   return (dispatch) => {
     dispatch(timeSheetsPending());
     return fetch(`${process.env.REACT_APP_API_URL}/timesheets/${timeSheet._id}`, {
@@ -62,13 +64,13 @@ export const editTimeSheet = (
       },
       body: JSON.stringify({
         description: description,
-        taskId: tasks,
-        validated: validated,
-        employeeId: employeeId,
-        projectId: projectId,
         startDate: startDate,
         endDate: endDate,
-        hours: hours
+        hours: hours,
+        task: task,
+        validated: validated,
+        employee: employee,
+        project: project
       })
     })
       .then((response) => response.json())
@@ -84,10 +86,10 @@ export const editTimeSheet = (
 
 export const addTimesheet = (
   description,
-  taskId,
+  task,
   validated,
-  employeeId,
-  projectId,
+  employee,
+  project,
   startDate,
   endDate,
   hours
@@ -95,6 +97,7 @@ export const addTimesheet = (
   const token = sessionStorage.getItem('token');
   return (dispatch) => {
     dispatch(timeSheetsPending());
+
     return fetch(`${process.env.REACT_APP_API_URL}/timesheets/`, {
       method: 'POST',
       headers: {
@@ -103,13 +106,13 @@ export const addTimesheet = (
       },
       body: JSON.stringify({
         description: description,
-        taskId: taskId,
-        validated: validated,
-        employeeId: employeeId,
-        projectId: projectId,
         startDate: startDate,
         endDate: endDate,
-        hours: hours
+        hours: hours,
+        task: task,
+        validated: validated,
+        employee: employee,
+        project: project
       })
     })
       .then((response) => response.json())

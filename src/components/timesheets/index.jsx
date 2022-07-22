@@ -14,10 +14,10 @@ import * as tasksThunks from 'redux/tasks/thunks';
 const TimeSheets = () => {
   const [timeSheet, setTimesheet] = useState({
     description: '',
-    taskId: '',
+    task: '',
     validated: '',
-    employeeId: [],
-    projectId: '',
+    employee: [],
+    project: '',
     startDate: '2022-06-08T00:00:00.000Z',
     endDate: '2022-06-08T00:00:00.000Z',
     hours: ''
@@ -29,12 +29,12 @@ const TimeSheets = () => {
   const dispatch = useDispatch();
   const list = useSelector((state) => state.timeSheets.timeSheetsList);
   const projects = useSelector((state) => state.projects.projectsList);
-  // const employees = useSelector((state) => state.employees.employeesList); need memebers
+  const employees = useSelector((state) => state.employees.employeesList);
   const tasks = useSelector((state) => state.tasks.tasksList);
-  const isFetchingTimesheets = useSelector((state) => state.timeSheets.isLoading);
   const isFetchingProjects = useSelector((state) => state.projects.loading);
   const isFetchingEmployees = useSelector((state) => state.employees.isLoading);
   const isFetchingTasks = useSelector((state) => state.tasks.isLoading);
+  const isLoading = useSelector((state) => state.timeSheets.isLoading);
 
   const onDelete = (timesheet) => {
     setIsModalDelete(true);
@@ -45,7 +45,6 @@ const TimeSheets = () => {
     setTimesheet(timesheet);
   };
 
-  console.log(list);
   const getData = () => {
     return list.map((timesheet) => {
       return {
@@ -53,8 +52,8 @@ const TimeSheets = () => {
         createdAt: new Date(timesheet.createdAt).toISOString().substr(0, 10),
         startDate: new Date(timesheet.startDate).toISOString().substr(0, 10),
         endDate: new Date(timesheet.endDate).toISOString().substr(0, 10),
-        project: timesheet.projectId.name,
-        // employee: timesheet.employeeId.name, need members thunks
+        project: timesheet.project.name,
+        employee: timesheet.employee.lastName,
         validated: timesheet.validated.toString() === 'true' ? 'Yes' : 'No',
         edit: (
           <Button
@@ -68,18 +67,20 @@ const TimeSheets = () => {
       };
     });
   };
+
   useEffect(async () => {
     try {
       await timesheetThunks.getTimeSheets()(dispatch);
       projectsThunks.getProjects()(dispatch);
-      // employeesThunks.getEmployees()(dispatch); NEED MEMBERS THAT ARE ASSIGNED TO PROJECTS
+      employeesThunks.getEmployees()(dispatch);
       tasksThunks.getTasks()(dispatch);
     } catch (error) {
       console.error(error);
     }
   }, []);
-  if (isFetchingTimesheets) {
-    return <Loader isLoading={isFetchingProjects || isFetchingEmployees || isFetchingTasks} />;
+
+  if (isLoading) {
+    return <Loader isLoading={isLoading} />;
   } else {
     return (
       <section className={styles.listSection}>
@@ -95,30 +96,33 @@ const TimeSheets = () => {
           isModalAdd={isModalAdd}
           setIsModalAdd={setIsModalAdd}
           fetchTimeSheets={() => timesheetThunks.getTimeSheets()(dispatch)}
+          employees={employees}
           tasks={tasks}
           projects={projects}
         ></ModalAddTimeSheet>
         <Table
           data={getData()}
           objProp={[
-            'description',
-            'createdAt',
+            'employee',
+            'project',
             'startDate',
             'endDate',
             'hours',
-            'project',
             'validated',
+            'createdAt',
+            'description',
             'edit',
             'delete'
           ]}
           headers={[
-            'Description',
-            'Created At',
+            'Employee',
+            'Project',
             'Start Date',
             'End Date',
             'Hours',
-            'Project',
             'Validated',
+            'Created At',
+            'Description',
             'Edit',
             'Delete'
           ]}
@@ -135,6 +139,7 @@ const TimeSheets = () => {
           setIsModalEdit={setIsModalEdit}
           fetchTimeSheets={timesheetThunks.getTimeSheets}
           timeSheet={timeSheet}
+          employees={employees}
           tasks={tasks}
           projects={projects}
         ></ModalTimeSheetEdit>

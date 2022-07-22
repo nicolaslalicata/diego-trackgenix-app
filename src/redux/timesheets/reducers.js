@@ -20,12 +20,14 @@ export const timeSheetReducer = (state = initialState, action) => {
         ...state,
         timeSheetsList: action.payload,
         isLoading: false,
-        successMessage: false
+        successMessage: false,
+        error: false
       };
     case TIMESHEETS_PENDING:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
+        error: false
       };
     case TIMESHEETS_ERROR:
       return {
