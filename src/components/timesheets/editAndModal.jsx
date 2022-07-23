@@ -71,9 +71,9 @@ const ModalTimeSheetEdit = ({
       startDate: new Date(timeSheet.startDate).toISOString().substr(0, 10),
       endDate: new Date(timeSheet.endDate).toISOString().substr(0, 10),
       hours: timeSheet.hours,
-      project: timeSheet.project._id,
-      task: timeSheet.task._id,
-      employee: timeSheet.employee._id,
+      project: timeSheet.project ? timeSheet.project._id : '',
+      task: timeSheet.task ? timeSheet.task._id : '',
+      employee: timeSheet.employee ? timeSheet.employee._id : '',
       validated: timeSheet.validated
     });
   }, [timeSheet]);

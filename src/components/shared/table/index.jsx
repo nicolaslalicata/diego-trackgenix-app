@@ -27,6 +27,10 @@ const Table = ({ data, headers, objProp }) => {
       setIndexPage(indexPage - 1);
     }
   };
+
+  if (data.length === 0) {
+    return <div>No data</div>;
+  }
   return (
     <div className={styles.container}>
       <table className={styles.table}>

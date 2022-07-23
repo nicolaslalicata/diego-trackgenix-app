@@ -29,6 +29,8 @@ const TimeSheets = () => {
   const [isModalEdit, setIsModalEdit] = useState(false);
 
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.userLogged);
+  // console.log(user);
   const list = useSelector((state) => state.timeSheets.timeSheetsList);
   const projects = useSelector((state) => state.projects.projectsList);
   const employees = useSelector((state) => state.employees.employeesList);
@@ -47,15 +49,30 @@ const TimeSheets = () => {
     setTimesheet(timesheet);
   };
 
+  let filteredList = [];
+
+  const filterData = () => {
+    filteredList = list.filter((item) => {
+      return (
+        item.employee.firebaseUid === user.user.localId ||
+        user.user.role === 'ADMIN' ||
+        user.user.role === 'MANAGER'
+      );
+    });
+    return filteredList;
+  };
+
+  filterData();
+
   const getData = () => {
-    return list.map((timesheet) => {
+    return filteredList.map((timesheet) => {
       return {
         ...timesheet,
         createdAt: new Date(timesheet.createdAt).toISOString().substr(0, 10),
         startDate: new Date(timesheet.startDate).toISOString().substr(0, 10),
         endDate: new Date(timesheet.endDate).toISOString().substr(0, 10),
-        project: timesheet.project.name,
-        employee: timesheet.employee.lastName,
+        project: timesheet.project ? timesheet.project.name : '',
+        employee: timesheet.employee ? timesheet.employee.lastName : '',
         validated: timesheet.validated.toString() === 'true' ? 'Yes' : 'No',
         edit: (
           <Button
@@ -86,9 +103,11 @@ const TimeSheets = () => {
   } else {
     return (
       <section className={styles.listSection}>
-        <div>
+        <div className={styles.employeeSection}></div>
+        <div className={styles.addButton}>
+          <div></div>
           <Button
-            icons={'add'}
+            text={'New entry'}
             callback={() => {
               setIsModalAdd(true);
             }}
@@ -102,33 +121,35 @@ const TimeSheets = () => {
           tasks={tasks}
           projects={projects}
         ></ModalAddTimeSheet>
-        <Table
-          data={getData()}
-          objProp={[
-            'employee',
-            'project',
-            'startDate',
-            'endDate',
-            'hours',
-            'validated',
-            'createdAt',
-            'description',
-            'edit',
-            'delete'
-          ]}
-          headers={[
-            'Employee',
-            'Project',
-            'Start Date',
-            'End Date',
-            'Hours',
-            'Validated',
-            'Created At',
-            'Description',
-            'Edit',
-            'Delete'
-          ]}
-        ></Table>
+        <div className={styles.tableSection}>
+          <Table
+            data={getData()}
+            objProp={[
+              'employee',
+              'project',
+              'startDate',
+              'endDate',
+              'hours',
+              'validated',
+              'createdAt',
+              'description',
+              'edit',
+              'delete'
+            ]}
+            headers={[
+              'Employee',
+              'Project',
+              'Start Date',
+              'End Date',
+              'Hours',
+              'Validated',
+              'Created At',
+              'Comments',
+              'Edit',
+              'Delete'
+            ]}
+          ></Table>
+        </div>
         <ModalDeleteConfirmation
           deleteTimeSheet={timesheetThunks.deleteTimeSheet}
           timeSheet={timeSheet}
@@ -145,7 +166,9 @@ const TimeSheets = () => {
           tasks={tasks}
           projects={projects}
         ></ModalTimeSheetEdit>
-        <Week />
+        <div className={styles.weekSection}>
+          <Week list={filteredList} />
+        </div>
       </section>
     );
   }

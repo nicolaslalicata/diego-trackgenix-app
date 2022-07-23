@@ -1,13 +1,12 @@
 import styles from './time-sheets.module.css';
-import { useSelector } from 'react-redux';
 
-const Week = (props) => {
-  const list = useSelector((state) => state.timeSheets.timeSheetsList);
+const Week = (filteredList) => {
+  const list = filteredList.list;
 
   let week = new Array();
 
   function days(current) {
-    // Starting Monday not Sunday
+    // setting gg Monday not Sunday
     let first = current.getDate() - current.getDay() + 1;
     for (let i = 0; i < 7; i++) {
       week.push(new Date(current.setDate(first++)));
@@ -25,7 +24,7 @@ const Week = (props) => {
   // console.log('initialDay: %s', initialDay);
   const finalDay = result[6].toString().substr(4, 6);
   let weekHours = [];
-  let weekObj = { day: [], hours: [] };
+  let weekHoursTotal = 0;
 
   // filling days with hours
 
@@ -47,35 +46,40 @@ const Week = (props) => {
 
   const monday = () => {
     for (let i = 0; i < list.length; i++) {
-      // console.log(list[i].startDate.toString().substr(5, 5));
       if (list[i].startDate.toString().substr(5, 5) === mond) {
-        // console.log('coincidencia', list[i].startDate.substr(0, 10));
         mondayHours += list[i].hours;
+        weekHoursTotal += list[i].hours;
         weekHours.push(list[i].hours);
       }
       if (list[i].startDate.toString().substr(5, 5) === tues) {
         tuesdayHours += list[i].hours;
+        weekHoursTotal += list[i].hours;
         weekHours.push(list[i].hours);
       }
       if (list[i].startDate.toString().substr(5, 5) === wed) {
         wednesdayHours += list[i].hours;
+        weekHoursTotal += list[i].hours;
         weekHours.push(list[i].hours);
       }
       if (list[i].startDate.toString().substr(5, 5) === thurs) {
         thursdayHours += list[i].hours;
+        weekHoursTotal += list[i].hours;
         weekHours.push(list[i].hours);
       }
       if (list[i].startDate.toString().substr(5, 5) === fri) {
         fridayHours += list[i].hours;
+        weekHoursTotal += list[i].hours;
         weekHours.push(list[i].hours);
       }
       if (list[i].startDate.toString().substr(5, 5) === sat) {
         saturdayHours += list[i].hours;
+        weekHoursTotal += list[i].hours;
         weekHours.push(list[i].hours);
       }
 
       if (list[i].startDate.toString().substr(5, 5) === sun) {
         sundayHours += list[i].hours;
+        weekHoursTotal += list[i].hours;
         weekHours.push(list[i].hours);
       }
     }
@@ -86,38 +90,39 @@ const Week = (props) => {
   return (
     <div className={styles.container}>
       <div className={styles.weekHeader}>
-        <h4>
-          Week: {initialDay} - {finalDay}
-        </h4>
+        <h5>
+          {initialDay} - {finalDay}
+        </h5>
+        <h5>Week Total: {weekHoursTotal}</h5>
       </div>
       <div className={styles.week}>
         <div className={styles.week}>
           <div className={styles.dayCard}>
-            <h5>Monday {mond.substr(3, 2)}</h5>
+            <p>Monday {mond.substr(3, 2)}</p>
             <p>Hours: {mondayHours}</p>
           </div>
           <div className={styles.dayCard}>
-            <h5>Tuesday {tues.substr(3, 2)}</h5>
+            <p>Tuesday {tues.substr(3, 2)}</p>
             <p>Hours: {tuesdayHours}</p>
           </div>
           <div className={styles.dayCard}>
-            <h5>Wednesday {wed.substr(3, 2)}</h5>
+            <p>Wednesday {wed.substr(3, 2)}</p>
             <p>Hours: {wednesdayHours}</p>
           </div>
           <div className={styles.dayCard}>
-            <h5>Thursday {thurs.substr(3, 2)}</h5>
+            <p>Thursday {thurs.substr(3, 2)}</p>
             <p>Hours: {thursdayHours}</p>
           </div>
           <div className={styles.dayCard}>
-            <h5>Friday {fri.substr(3, 2)}</h5>
+            <p>Friday {fri.substr(3, 2)}</p>
             <p>Hours: {fridayHours}</p>
           </div>
           <div className={styles.dayCard}>
-            <h5>Saturday {sat.substr(3, 2)}</h5>
+            <p>Saturday {sat.substr(3, 2)}</p>
             <p>Hours: {saturdayHours}</p>
           </div>
           <div className={styles.dayCard}>
-            <h5>Sunday {sun.substr(3, 2)}</h5>
+            <p>Sunday {sun.substr(3, 2)}</p>
             <p>Hours: {sundayHours}</p>
           </div>
         </div>

@@ -8,9 +8,11 @@ import {
   SET_AUTHENTICATION
 } from 'redux/auth/constants';
 
+// this state is being used in the header component
 const initialState = {
   isLoading: false,
   user: {
+    localId: sessionStorage.getItem('localId'),
     displayName: sessionStorage.getItem('displayName'),
     role: sessionStorage.getItem('role'),
     authenticated: false

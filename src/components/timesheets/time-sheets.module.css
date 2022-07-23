@@ -1,13 +1,36 @@
+.employeeSection {
+  /* margin-top: 5rem; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 20px;
+}
+
+.employee {
+  border: none;
+  border-bottom: 1px solid #00000022;
+}
+
+.tableSection {
+  height: 350px;
+  padding-bottom: 3rem;
+}
+
+.weekSection {
+  margin-bottom: -7rem;
+}
+
 .listSection{
   flex-direction: column;
   display: flex;
-  width: 100%;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   align-content: center;
-  justify-items: center;
-  margin-top: 70px;
-  margin-left: 100px;
+  /* margin-top: 70px; */
+  margin-left: 105px;
 }
 
 .heading {
@@ -52,10 +75,9 @@
 
 .weekHeader {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-top: 1rem;
 }
 
 .week {
@@ -63,9 +85,12 @@
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  margin-top: 1rem;
 }
 
+.week p {
+  font-size: small;
+  color: #fff;
+}
 .dayName {
   display: flex;
   flex-direction: column;
@@ -76,7 +101,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: #a0b7cf 2px solid;
+  background: #373867;
+  color: #bbb;
+  border: none;
   border-radius: 3px;
   padding: 10px;
   margin: 3px;
