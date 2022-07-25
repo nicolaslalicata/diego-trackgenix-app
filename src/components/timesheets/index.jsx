@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from './time-sheets.module.css';
 import Table from 'components/shared/table';
 import Button from 'components/shared/buttons';
+import { IoIosAddCircleOutline } from 'react-icons/io';
 import ModalAddTimeSheet from 'components/timesheets/addAndModal';
 import ModalTimeSheetEdit from 'components/timesheets/editAndModal';
 import ModalDeleteConfirmation from 'components/timesheets/modalDeleteConfirmation';
@@ -30,14 +31,10 @@ const TimeSheets = () => {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userLogged);
-  // console.log(user);
   const list = useSelector((state) => state.timeSheets.timeSheetsList);
   const projects = useSelector((state) => state.projects.projectsList);
   const employees = useSelector((state) => state.employees.employeesList);
   const tasks = useSelector((state) => state.tasks.tasksList);
-  // const isFetchingProjects = useSelector((state) => state.projects.loading);
-  // const isFetchingEmployees = useSelector((state) => state.employees.isLoading);
-  // const isFetchingTasks = useSelector((state) => state.tasks.isLoading);
   const isLoading = useSelector((state) => state.timeSheets.isLoading);
 
   const onDelete = (timesheet) => {
@@ -104,10 +101,9 @@ const TimeSheets = () => {
     return (
       <section className={styles.listSection}>
         <div className={styles.employeeSection}></div>
-        <div className={styles.addButton}>
-          <div></div>
+        <div>
           <Button
-            text={'New entry'}
+            icons={'add'}
             callback={() => {
               setIsModalAdd(true);
             }}
@@ -144,7 +140,7 @@ const TimeSheets = () => {
               'Hours',
               'Validated',
               'Created At',
-              'Comments',
+              'Description',
               'Edit',
               'Delete'
             ]}

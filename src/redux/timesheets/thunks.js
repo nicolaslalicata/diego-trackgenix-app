@@ -126,3 +126,28 @@ export const addTimesheet = (
       });
   };
 };
+
+export const addComment = ({ id, description }) => {
+  const token = sessionStorage.getItem('token');
+  return (dispatch) => {
+    dispatch(timeSheetsPending());
+    return fetch(`${process.env.REACT_APP_API_URL}/timesheets/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        token
+      },
+      body: JSON.stringify({
+        description: description
+      })
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        if (!response.error) {
+          dispatch(editTimeSheetsSuccess(response.data));
+        } else {
+          dispatch(timeSheetsError(response.message));
+        }
+      });
+  };
+};

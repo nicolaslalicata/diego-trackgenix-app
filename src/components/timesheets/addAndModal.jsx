@@ -18,17 +18,12 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
   const successMessage = useSelector((state) => state.timeSheets.successMessage);
 
   const schema = Joi.object({
-    description: Joi.string()
-      .min(5)
-      .max(40)
-      .trim()
-      .messages({
-        'string.min': 'Description must contain 5 or more characters',
-        'string.max': 'Description must contain 40 or less characters',
-        'string.pattern.base': 'Description is not valid',
-        'string.empty': 'This field is required'
-      })
-      .required(),
+    description: Joi.string().min(5).max(40).trim().messages({
+      'string.min': 'Description must contain 5 or more characters',
+      'string.max': 'Description must contain 40 or less characters',
+      'string.pattern.base': 'Description is not valid',
+      'string.empty': 'This field is required'
+    }),
     startDate: Joi.date()
       .messages({
         'date.base': 'Date is not valid',

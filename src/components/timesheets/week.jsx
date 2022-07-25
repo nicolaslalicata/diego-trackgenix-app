@@ -1,35 +1,51 @@
 import { ButtonOption } from 'components/shared/buttonsOption';
 import Modal from 'components/shared/modal';
+import InputControlled from 'components/shared/inputControlled';
 import styles from './time-sheets.module.css';
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import * as timesheetThunks from 'redux/timesheets/thunks';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
-import * as timesheetThunks from 'redux/timesheets/thunks';
 
 const Week = (filteredList) => {
   const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState(false, { id: '', description: '' });
+
+  const [dayComment, setDayComment] = useState('');
   const list = filteredList.list;
-  console.log(list);
   const weekDays = [];
-  const [comment, setComment] = useState({ id: '', comment: '' });
+
   const schema = Joi.object({
-    description: Joi.string()
-      .min(5)
-      .max(30)
-      .trim()
-      .messages({
-        'string.min': 'Description must contain 5 or more characters',
-        'string.max': 'Description must contain 30 or less characters',
-        'string.pattern.base': 'Description is not valid',
-        'string.empty': 'This field is required'
-      })
-      .required()
+    description: Joi.string().required().min(10).trim()
   });
 
-  const editTask = async (id, description) => {
+  const {
+    reset,
+    register,
+    setValue,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
+    mode: 'onSubmit',
+    resolver: joiResolver(schema)
+  });
+
+  const editComment = async (id, description) => {
+    setIsOpen({ id, description });
     console.log(id, description);
+    setValue('description', description);
+  };
+
+  const add = async (data) => {
+    const newComment = {
+      id: isOpen.id,
+      description: data.description
+    };
+    console.log(isOpen.id);
+    console.log(newComment);
+    dispatch(timesheetThunks.addComment(newComment));
   };
 
   let week = new Array();
@@ -50,16 +66,6 @@ const Week = (filteredList) => {
   let weekHours = [];
   let weekHoursTotal = 0;
 
-  // filling days with hours
-
-  let mondayComment = '';
-  let tuesdayComment = '';
-  let wednesdayComment = '';
-  let thursdayComment = '';
-  let fridayComment = '';
-  let saturdayComment = '';
-  let sundayComment = '';
-
   const mond = result[0].toISOString().substr(0, 10);
   const tues = result[1].toISOString().substr(0, 10);
   const wed = result[2].toISOString().substr(0, 10);
@@ -70,7 +76,6 @@ const Week = (filteredList) => {
 
   const monday = () => {
     const mondayDay = list.find((item) => item.startDate.toString().substr(0, 10) === mond);
-    console.log(mondayDay);
     if (mondayDay) {
       weekHoursTotal += mondayDay.hours;
       weekHours.push(mondayDay.hours);
@@ -241,14 +246,14 @@ const Week = (filteredList) => {
     <div className={styles.week}>
       <div className={styles.weekHeader}>
         <h5>
-          WeeK: {initialDay.substr(5, 5)} - {finalDay.substr(5, 5)}
+          Week: {initialDay.substr(5, 5)} - {finalDay.substr(5, 5)}
         </h5>
         <h5>Week Total: {weekHoursTotal}</h5>
       </div>
       <div className={styles.weekDays}>
         {weekDays.map((day) => {
           return (
-            <div key={day.id} className={styles.day}>
+            <div key={day.dayNumber} className={styles.day}>
               <p>
                 {day.dayName} {day.dayNumber}
               </p>
@@ -257,20 +262,56 @@ const Week = (filteredList) => {
                 <p className={styles.dayCardContent}>{day.hours}</p>
                 <div className={styles.line}></div>
                 <p className={styles.dayCardTittle}>Comment:</p>
-                <input type="text" className={styles.dayInput} value={day.comment} />
+                <input
+                  type="text"
+                  className={styles.dayInput}
+                  value={day.comment}
+                  onChange={(e) => {
+                    e.preventDefault();
+                    setDayComment(e.target.value);
+                  }}
+                />
                 <input
                   type="submit"
-                  className={styles.dayButton}
-                  value={'Add comment'}
-                  onClick={() => {
-                    editTask(day.id, day.comment);
+                  className={day.id ? styles.dayButton : styles.dayButtonDisabled}
+                  value={day.id ? 'Add comment' : 'Comment not available'}
+                  onChange={(e) => {
+                    e.preventDefault();
                   }}
+                  onClick={() => {
+                    editComment(day.id, day.comment);
+                  }}
+                  disabled={day.id ? '' : 'disabled'}
                 />
               </div>
             </div>
           );
         })}
       </div>
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen} title={'Leave a comment'} reset={reset}>
+        <div className={styles.modal}></div>
+        <form onSubmit={handleSubmit(add)}>
+          <InputControlled
+            type={'text'}
+            label={'Description'}
+            name="description"
+            register={register}
+            required
+            error={errors.description}
+          />
+          <div className={styles.modalbuttons}>
+            <ButtonOption option={'yes'} text={'Confirm'}></ButtonOption>
+            <ButtonOption
+              option={'no'}
+              callback={() => {
+                setIsOpen(false);
+                reset();
+              }}
+              text={'Cancel'}
+            ></ButtonOption>
+          </div>
+        </form>
+      </Modal>
     </div>
   );
 };

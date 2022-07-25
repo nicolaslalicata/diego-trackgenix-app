@@ -15,12 +15,11 @@
 }
 
 .tableSection {
-  height: 330px;
-  padding-bottom: 3rem;
+  height: 280px;
 }
 
 .weekSection {
-  margin-bottom: -7rem;
+  margin-bottom: -3rem;
 }
 
 .listSection{
@@ -29,7 +28,7 @@
   align-items: center;
   justify-content: flex-start;
   align-content: center;
-  /* margin-top: 70px; */
+  margin-top: 80px;
   margin-left: 105px;
 }
 
@@ -146,6 +145,18 @@
 .dayButton {
   margin-bottom: 13px;
   background-color: #373867;
+  border: none;
+  border-radius: 0;
+  text-align: center;
+  font-size: 10px;
+  color: #fff;
+  border: none;
+  height: 15px;
+  width: 100%;
+}
+
+.dayButtonDisabled {
+  background-color: #bbb;
   border-radius: 0;
   text-align: center;
   font-size: 10px;
