@@ -5,6 +5,10 @@
     justify-content: center;
     align-items: center;
   }
+.tableContainer {
+  height: 280px;
+}
+
   .table {
     margin: 1rem;
     border-collapse: collapse;

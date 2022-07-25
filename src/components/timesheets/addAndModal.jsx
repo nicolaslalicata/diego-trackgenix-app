@@ -21,7 +21,6 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
     description: Joi.string()
       .min(5)
       .max(40)
-      .regex(/^([ \u00c0-\u01ffa-zA-Z0-9'-])+$/)
       .trim()
       .messages({
         'string.min': 'Description must contain 5 or more characters',

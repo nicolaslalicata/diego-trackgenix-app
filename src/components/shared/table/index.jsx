@@ -33,26 +33,28 @@ const Table = ({ data, headers, objProp }) => {
   }
   return (
     <div className={styles.container}>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            {headers.map((header, index) => {
-              return <th key={index}>{header}</th>;
+      <div className={styles.tableContainer}>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              {headers.map((header, index) => {
+                return <th key={index}>{header}</th>;
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {pageData.map((row) => {
+              return (
+                <tr key={row._id}>
+                  {objProp.map((prop, index) => {
+                    return <td key={index}>{row[prop]}</td>;
+                  })}
+                </tr>
+              );
             })}
-          </tr>
-        </thead>
-        <tbody>
-          {pageData.map((row) => {
-            return (
-              <tr key={row._id}>
-                {objProp.map((prop, index) => {
-                  return <td key={index}>{row[prop]}</td>;
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
       <div className={styles.pageButtons}>
         <button onClick={() => previousPage()}>
           <FcPrevious />

@@ -26,7 +26,6 @@ const ModalTimeSheetEdit = ({
       .min(5)
       .max(30)
       .trim()
-      .regex(/^([ \u00c0-\u01ffa-zA-Z0-9'-])+$/)
       .messages({
         'string.min': 'Description must contain 5 or more characters',
         'string.max': 'Description must contain 30 or less characters',
