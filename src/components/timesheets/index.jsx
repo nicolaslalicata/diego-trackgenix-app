@@ -128,7 +128,6 @@ const TimeSheets = () => {
               'hours',
               'validated',
               'createdAt',
-              'description',
               'edit',
               'delete'
             ]}
@@ -140,7 +139,6 @@ const TimeSheets = () => {
               'Hours',
               'Validated',
               'Created At',
-              'Description',
               'Edit',
               'Delete'
             ]}
