@@ -3,6 +3,7 @@ import Modal from 'components/shared/modal';
 import InputControlled from 'components/shared/inputControlled';
 import styles from './time-sheets.module.css';
 import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import * as timesheetThunks from 'redux/timesheets/thunks';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -20,6 +21,16 @@ const Week = (filteredList) => {
   const schema = Joi.object({
     description: Joi.string().required().min(10).trim()
   });
+
+  useEffect(() => {
+    const close = (e) => {
+      if (e.keyCode === 27) {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener('keydown', close);
+    return () => window.removeEventListener('keydown', close);
+  }, []);
 
   const {
     reset,

@@ -60,6 +60,16 @@ const ModalTimeSheetEdit = ({
   });
 
   useEffect(() => {
+    const close = (e) => {
+      if (e.keyCode === 27) {
+        setIsModalEdit(false);
+      }
+    };
+    window.addEventListener('keydown', close);
+    return () => window.removeEventListener('keydown', close);
+  }, []);
+
+  useEffect(() => {
     reset({
       description: timeSheet.description,
       startDate: new Date(timeSheet.startDate).toISOString().substr(0, 10),

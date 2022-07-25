@@ -45,6 +45,17 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
     validated: Joi.boolean().required()
   });
 
+  useEffect(() => {
+    const close = (e) => {
+      if (e.keyCode === 27) {
+        setIsModalSuccess(false);
+        setIsModalAdd(false);
+      }
+    };
+    window.addEventListener('keydown', close);
+    return () => window.removeEventListener('keydown', close);
+  }, []);
+
   const {
     register,
     handleSubmit,
