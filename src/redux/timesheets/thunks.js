@@ -41,6 +41,7 @@ export const deleteTimeSheet = (timeSheet) => {
       });
   };
 };
+
 export const editTimeSheet = (
   timeSheet,
   description,
@@ -53,7 +54,6 @@ export const editTimeSheet = (
   project
 ) => {
   const token = sessionStorage.getItem('token');
-  console.log(validated);
   return (dispatch) => {
     dispatch(timeSheetsPending());
     return fetch(`${process.env.REACT_APP_API_URL}/timesheets/${timeSheet._id}`, {
@@ -121,6 +121,31 @@ export const addTimesheet = (
           dispatch(addTimeSheetsSuccess(response.data));
         } else {
           dispatch(timeSheetsError(response.error));
+        }
+      });
+  };
+};
+
+export const addComment = ({ id, description }) => {
+  const token = sessionStorage.getItem('token');
+  return (dispatch) => {
+    dispatch(timeSheetsPending());
+    return fetch(`${process.env.REACT_APP_API_URL}/timesheets/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        token
+      },
+      body: JSON.stringify({
+        description: description
+      })
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        if (!response.error) {
+          dispatch(editTimeSheetsSuccess(response.data));
+        } else {
+          dispatch(timeSheetsError(response.message));
         }
       });
   };

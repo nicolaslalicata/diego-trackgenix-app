@@ -18,18 +18,12 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
   const successMessage = useSelector((state) => state.timeSheets.successMessage);
 
   const schema = Joi.object({
-    description: Joi.string()
-      .min(5)
-      .max(40)
-      .regex(/^([ \u00c0-\u01ffa-zA-Z0-9'-])+$/)
-      .trim()
-      .messages({
-        'string.min': 'Description must contain 5 or more characters',
-        'string.max': 'Description must contain 40 or less characters',
-        'string.pattern.base': 'Description is not valid',
-        'string.empty': 'This field is required'
-      })
-      .required(),
+    description: Joi.string().min(5).max(40).trim().messages({
+      'string.min': 'Description must contain 5 or more characters',
+      'string.max': 'Description must contain 40 or less characters',
+      'string.pattern.base': 'Description is not valid',
+      'string.empty': 'This field is required'
+    }),
     startDate: Joi.date()
       .messages({
         'date.base': 'Date is not valid',
@@ -50,6 +44,17 @@ const ModalAddTimeSheet = ({ setIsModalAdd, isModalAdd, employees, tasks, projec
     employees: Joi.string().required().min(10),
     validated: Joi.boolean().required()
   });
+
+  useEffect(() => {
+    const close = (e) => {
+      if (e.keyCode === 27) {
+        setIsModalSuccess(false);
+        setIsModalAdd(false);
+      }
+    };
+    window.addEventListener('keydown', close);
+    return () => window.removeEventListener('keydown', close);
+  }, []);
 
   const {
     register,

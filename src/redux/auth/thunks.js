@@ -54,15 +54,17 @@ export const login = (email, password) => {
           const user = await response.user.getIdToken();
           dispatch(loginSuccess(user));
         }
+        const localId = await response.user.auth.currentUser.reloadUserInfo.localId;
         const token = await response.user.getIdToken();
         const displayName = await response.user.displayName;
         const {
           claims: { role }
         } = await response.user.getIdTokenResult();
+        sessionStorage.setItem('localId', localId);
         sessionStorage.setItem('role', role);
         sessionStorage.setItem('token', token);
         sessionStorage.setItem('displayName', displayName);
-        dispatch(setAuthentication({ authenticated: true, displayName, role }));
+        dispatch(setAuthentication({ authenticated: true, displayName, role, localId }));
         return response;
       })
       .then((response) => {

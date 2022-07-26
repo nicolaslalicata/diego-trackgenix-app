@@ -37,7 +37,6 @@ function Admins() {
   };
 
   const getData = () => {
-    console.log(adminsRedux);
     return adminsRedux.map((admin) => ({
       ...admin,
       edit: (

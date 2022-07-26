@@ -11,6 +11,8 @@ import * as timesheetThunks from 'redux/timesheets/thunks';
 import * as projectsThunks from 'redux/projects/thunks';
 import * as employeesThunks from 'redux/employees/thunks';
 import * as tasksThunks from 'redux/tasks/thunks';
+import Week from './week';
+
 const TimeSheets = () => {
   const [timeSheet, setTimesheet] = useState({
     description: '',
@@ -27,13 +29,11 @@ const TimeSheets = () => {
   const [isModalEdit, setIsModalEdit] = useState(false);
 
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.userLogged);
   const list = useSelector((state) => state.timeSheets.timeSheetsList);
   const projects = useSelector((state) => state.projects.projectsList);
   const employees = useSelector((state) => state.employees.employeesList);
   const tasks = useSelector((state) => state.tasks.tasksList);
-  const isFetchingProjects = useSelector((state) => state.projects.loading);
-  const isFetchingEmployees = useSelector((state) => state.employees.isLoading);
-  const isFetchingTasks = useSelector((state) => state.tasks.isLoading);
   const isLoading = useSelector((state) => state.timeSheets.isLoading);
 
   const onDelete = (timesheet) => {
@@ -45,15 +45,30 @@ const TimeSheets = () => {
     setTimesheet(timesheet);
   };
 
+  let filteredList = [];
+
+  const filterData = () => {
+    filteredList = list.filter((item) => {
+      return (
+        item.employee.firebaseUid === user.user.localId ||
+        user.user.role === 'ADMIN' ||
+        user.user.role === 'MANAGER'
+      );
+    });
+    return filteredList;
+  };
+
+  filterData();
+
   const getData = () => {
-    return list.map((timesheet) => {
+    return filteredList.map((timesheet) => {
       return {
         ...timesheet,
         createdAt: new Date(timesheet.createdAt).toISOString().substr(0, 10),
         startDate: new Date(timesheet.startDate).toISOString().substr(0, 10),
         endDate: new Date(timesheet.endDate).toISOString().substr(0, 10),
-        project: timesheet.project.name,
-        employee: timesheet.employee.lastName,
+        project: timesheet.project ? timesheet.project.name : '',
+        employee: timesheet.employee ? timesheet.employee.lastName : '',
         validated: timesheet.validated.toString() === 'true' ? 'Yes' : 'No',
         edit: (
           <Button
@@ -84,6 +99,7 @@ const TimeSheets = () => {
   } else {
     return (
       <section className={styles.listSection}>
+        <div className={styles.employeeSection}></div>
         <div>
           <Button
             icons={'add'}
@@ -100,33 +116,35 @@ const TimeSheets = () => {
           tasks={tasks}
           projects={projects}
         ></ModalAddTimeSheet>
-        <Table
-          data={getData()}
-          objProp={[
-            'employee',
-            'project',
-            'startDate',
-            'endDate',
-            'hours',
-            'validated',
-            'createdAt',
-            'description',
-            'edit',
-            'delete'
-          ]}
-          headers={[
-            'Employee',
-            'Project',
-            'Start Date',
-            'End Date',
-            'Hours',
-            'Validated',
-            'Created At',
-            'Description',
-            'Edit',
-            'Delete'
-          ]}
-        ></Table>
+        <div className={styles.tableSection}>
+          <Table
+            data={getData()}
+            objProp={[
+              'employee',
+              'project',
+              'startDate',
+              'endDate',
+              'hours',
+              'validated',
+              'createdAt',
+              'description',
+              'edit',
+              'delete'
+            ]}
+            headers={[
+              'Employee',
+              'Project',
+              'Start Date',
+              'End Date',
+              'Hours',
+              'Validated',
+              'Created',
+              'Description',
+              'Edit',
+              'Delete'
+            ]}
+          ></Table>
+        </div>
         <ModalDeleteConfirmation
           deleteTimeSheet={timesheetThunks.deleteTimeSheet}
           timeSheet={timeSheet}
@@ -143,6 +161,9 @@ const TimeSheets = () => {
           tasks={tasks}
           projects={projects}
         ></ModalTimeSheetEdit>
+        <div className={styles.weekSection}>
+          <Week list={filteredList} />
+        </div>
       </section>
     );
   }

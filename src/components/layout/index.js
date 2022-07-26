@@ -19,7 +19,8 @@ function Layout({ children }) {
   let userLogged = {
     displayName: displayName === 'null' ? role : displayName,
     role: sessionStorage.getItem('role'),
-    authenticated: token ? true : false
+    authenticated: token ? true : false,
+    localId: sessionStorage.getItem('localId')
   };
 
   onAuthStateChanged(auth, (user) => {
@@ -27,7 +28,8 @@ function Layout({ children }) {
       userLogged = {
         displayName: '',
         role: '',
-        authenticated: false
+        authenticated: false,
+        localId: ''
       };
     }
   });

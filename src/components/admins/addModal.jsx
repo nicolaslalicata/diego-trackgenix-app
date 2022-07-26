@@ -60,7 +60,6 @@ const ModalAddAdmin = ({ setShowAddModal, showAddModal, setSucModalIsOpen }) => 
 
   const addAdminHandler = ({ name, lastName, email, gender, status, password }, e) => {
     e.preventDefault();
-    console.log(name, lastName, email, gender, status, password);
     dispatch(createAdmin(name, lastName, email, gender, status, password));
     setShowAddModal(false);
     setSucModalIsOpen(true);
