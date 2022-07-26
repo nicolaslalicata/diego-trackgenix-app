@@ -3,7 +3,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import joi from 'joi';
 
 import styles from './manageItem.module.css';
-import Dropdown from 'components/shared/dropdown';
+// import Dropdown from 'components/shared/dropdown';
 import InputControlled from 'components/shared/inputControlled';
 import Button from 'components/shared/buttons';
 import DropdownForm from 'components/shared/dropdown';
@@ -25,7 +25,6 @@ const ManageItem = function ({ handler, project }) {
     }
   }, []);
   const membersList = useSelector((state) => state.members.membersList);
-  console.log('members', membersList);
   // console.log('project-member', project.members[0].memberId);
   // console.log('array members of this project', project.members);
   //---------------------------------------------------------------------------------

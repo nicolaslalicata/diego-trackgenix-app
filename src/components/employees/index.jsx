@@ -18,7 +18,6 @@ const Employees = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.employees.isLoading);
-  console.log(isLoading);
   const list = useSelector((state) => state.employees.employeesList);
 
   useEffect(async () => {
@@ -28,8 +27,6 @@ const Employees = () => {
       console.error(error);
     }
   }, []);
-
-  console.log(list);
 
   if (isLoading) {
     return <Loader isLoading={isLoading} />;

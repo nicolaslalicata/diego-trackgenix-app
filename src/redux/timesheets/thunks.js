@@ -54,7 +54,6 @@ export const editTimeSheet = (
   project
 ) => {
   const token = sessionStorage.getItem('token');
-  console.log(validated);
   return (dispatch) => {
     dispatch(timeSheetsPending());
     return fetch(`${process.env.REACT_APP_API_URL}/timesheets/${timeSheet._id}`, {

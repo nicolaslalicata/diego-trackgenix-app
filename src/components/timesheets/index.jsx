@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import styles from './time-sheets.module.css';
 import Table from 'components/shared/table';
 import Button from 'components/shared/buttons';
-import { IoIosAddCircleOutline } from 'react-icons/io';
 import ModalAddTimeSheet from 'components/timesheets/addAndModal';
 import ModalTimeSheetEdit from 'components/timesheets/editAndModal';
 import ModalDeleteConfirmation from 'components/timesheets/modalDeleteConfirmation';
@@ -128,6 +127,7 @@ const TimeSheets = () => {
               'hours',
               'validated',
               'createdAt',
+              'description',
               'edit',
               'delete'
             ]}
@@ -138,7 +138,8 @@ const TimeSheets = () => {
               'End Date',
               'Hours',
               'Validated',
-              'Created At',
+              'Created',
+              'Description',
               'Edit',
               'Delete'
             ]}

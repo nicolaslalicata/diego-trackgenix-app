@@ -32,7 +32,8 @@ export const logReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        authenticated: true
+        authenticated: true,
+        error: action.payload
       };
     case REGISTER_ERROR:
       return {

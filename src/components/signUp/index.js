@@ -11,7 +11,7 @@ import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 function Signup() {
-  const [showModalMessage, setShowModalMessage] = useState(false, { message: '' });
+  const [showModalMessage, setShowModalMessage] = useState(false, { message: '', error: false });
   const history = useHistory();
   const schema = Joi.object({
     email: Joi.string().email({ tlds: { allow: false } }),
@@ -42,24 +42,26 @@ function Signup() {
       dispatch(registerUser(firstName, lastName, email, password)).then((response) => {
         if (response.type === 'REGISTER_ERROR') {
           setShowModalMessage({
+            error: true,
             showModalMessage: true,
             title: 'Message',
-            message: response.type
+            message: response.payload
           });
-        } else {
+        }
+        if (response.error === false) {
           setShowModalMessage({
+            error: false,
             showModalMessage: true,
-            title: 'Message',
-            message: 'User created successfully'
+            title: 'Success',
+            message: response.message
           });
-          history.push('/auth/login');
         }
       });
     } catch (error) {
       setShowModalMessage({
         showModalMessage: true,
         title: error.code,
-        message: error.messag
+        message: error.data.message
       });
     }
   };
@@ -127,7 +129,13 @@ function Signup() {
         isOpen={showModalMessage}
         setIsOpen={setShowModalMessage}
         title={showModalMessage.title}
-        reset={reset}
+        reset={
+          showModalMessage.error
+            ? reset
+            : () => {
+                history.push('/');
+              }
+        }
       >
         <div className={styles.modalMessage}>{showModalMessage.message}</div>
       </Modal>

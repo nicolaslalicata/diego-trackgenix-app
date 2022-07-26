@@ -45,7 +45,6 @@ const Week = (filteredList) => {
 
   const editComment = async (id, description) => {
     setIsOpen({ id, description });
-    console.log(id, description);
     setValue('description', description);
   };
 
@@ -54,8 +53,6 @@ const Week = (filteredList) => {
       id: isOpen.id,
       description: data.description
     };
-    console.log(isOpen.id);
-    console.log(newComment);
     dispatch(timesheetThunks.addComment(newComment));
   };
 

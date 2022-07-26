@@ -5,7 +5,7 @@ import Button from 'components/shared/buttons';
 import { useState } from 'react';
 import ModalDeleteEmp from 'components/employees/modal/modalDelete';
 import EmployeeForm from 'components/employees/employeeForm';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 const ListEmployee = ({
   list,
@@ -26,8 +26,7 @@ const ListEmployee = ({
 }) => {
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [employeeItem, setemployeeItem] = useState({});
-  const isLoading = useSelector((state) => state.employees.isLoading);
-  console.log(isLoading);
+  // const isLoading = useSelector((state) => state.employees.isLoading);
   const getData = () => {
     return list.map((employee) => ({
       ...employee,
