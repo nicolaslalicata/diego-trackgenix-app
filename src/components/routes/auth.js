@@ -1,7 +1,6 @@
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Login from 'components/login';
 import Layout from 'components/layout';
-import SignUp from 'components/signUp';
 
 const authRoutes = [{ name: 'Log In', path: '/auth/login' }];
 
