@@ -192,6 +192,7 @@ body {
  /* TABLET desde 1024px */
 @media (min-width: 1024px) {
   .navbar {
+    height: 0;
     align-items: flex-end;
     justify-content: flex-start;
     background-color: transparent;

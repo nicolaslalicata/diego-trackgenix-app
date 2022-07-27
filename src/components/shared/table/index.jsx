@@ -29,7 +29,7 @@ const Table = ({ data, headers, objProp }) => {
   };
 
   if (data.length === 0) {
-    return <div>No data</div>;
+    return <div>Empty table: no data</div>;
   }
   return (
     <div className={styles.container}>

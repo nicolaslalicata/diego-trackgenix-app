@@ -28,8 +28,8 @@
   align-items: center;
   justify-content: flex-start;
   align-content: center;
-  margin-top: 90px;
-  margin-left: 105px;
+  margin-top: 80px;
+  margin-left: 200px;
 }
 
 .heading {
@@ -84,6 +84,7 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  margin-bottom: 50px;
   width: 100%;
 }
 
@@ -191,5 +192,6 @@
 @media screen and (max-width: 1024px) {
   .listSection {
     margin-left: 0px;
+    margin-top: 125px;
   }
 }
