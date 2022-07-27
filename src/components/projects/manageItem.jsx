@@ -3,20 +3,21 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import joi from 'joi';
 
 import styles from './manageItem.module.css';
-import Dropdown from 'components/shared/dropdown';
+// import Dropdown from 'components/shared/dropdown';
 import InputControlled from 'components/shared/inputControlled';
 import Button from 'components/shared/buttons';
 import DropdownForm from 'components/shared/dropdown';
 import Table from 'components/shared/table';
-
+import Modal from 'components/shared/modal';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import * as membersThunks from 'redux/members/thunks';
-import Select from 'react-select';
+const arrayRoles = ['QA', 'Dev', 'PM'];
 const ManageItem = function ({ handler, project }) {
   // -------------------------------------------------------------------------------
   const dispatch = useDispatch();
-
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [modalMember, setModalMember] = useState(false);
   useEffect(async () => {
     try {
       await membersThunks.getMembers()(dispatch);
@@ -24,9 +25,39 @@ const ManageItem = function ({ handler, project }) {
       console.error(error);
     }
   }, []);
+  useEffect(() => {
+    const mappedOpt = project.members.map(({ memberId, _id }) => {
+      console.log('id', _id);
+      console.log('memberid', memberId._id);
+      return {
+        role: (
+          <select
+            onChange={() =>
+              dispatch(
+                membersThunks.editMember(_id, memberId.employeeId._id, memberId.role, memberId.rate)
+              )
+            }
+            defaultValue={memberId.role}
+          >
+            {arrayRoles.map((e) => (
+              <option key={e} value={e}>
+                {e}
+              </option>
+            ))}
+          </select>
+        ),
+        rate: memberId.rate,
+        name: memberId.employeeId.firstName,
+        lastName: memberId.employeeId.lastName,
+        delete: <button></button>
+      };
+    });
+    setSelectedOptions(mappedOpt);
+  }, [project.members]);
   const membersList = useSelector((state) => state.members.membersList);
   console.log('members', membersList);
-  console.log('project-member', project.members[0].memberId);
+  console.log('project', project);
+  console.log('selectedOptions', selectedOptions);
   console.log('array members of this project', project.members);
   //---------------------------------------------------------------------------------
   useEffect(() => {
@@ -37,6 +68,7 @@ const ManageItem = function ({ handler, project }) {
       setValue('startDate', project.startDate);
       setValue('endDate', project.endDate);
       setValue('tasks', project.tasks);
+      setValue('members', project.members);
     }
   }, []);
   const schema = joi.object({
@@ -92,24 +124,12 @@ const ManageItem = function ({ handler, project }) {
       handler({ ...data, isActive: true, members: [] });
     }
   };
-  const options = [
-    membersList.map((e) => {
-      return { value: `${e._id}`, label: `${e.role}` };
-    })
-    // { value: 'produto 01', label: 'Produto 01' },
-    // { value: 'produto 02', label: 'Produto 02' },
-    // { value: 'produto 03', label: 'Produto 03' },
-    // { value: 'produto 04', label: 'Produto 04' },
-    // { value: 'produto 05', label: 'Produto 05' },
-    // { value: 'produto 06', label: 'Produto 06' },
-    // { value: 'produto 07', label: 'Produto 07' },
-    // { value: 'produto 08', label: 'Produto 08' }
-  ];
-  const [selectedOptions, setSelectedOptions] = useState([]);
 
-  const handleSelect = () => {
-    console.log(selectedOptions);
+  const editMemberHandler = ({ role, rate, employeeId }, e) => {
+    e.preventDefault();
+    dispatch(membersThunks.editMember(selectedOptions, role, rate, employeeId));
   };
+
   return (
     <form id="projectForm" className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.inputConteiner}>
@@ -141,23 +161,16 @@ const ManageItem = function ({ handler, project }) {
             required
             error={errors.client}
           />
-          <Select
-            defaultValue={[options[0], options[2]]}
-            isMulti
-            options={membersList.map((e) => {
-              return { value: `${e._id}`, label: `${e.role}` };
-            })}
-            onChange={(item) => setSelectedOptions(item)}
-            className="select"
-            isClearable={true}
-            isSearchable={true}
-            isDisabled={false}
-            isLoading={false}
-            isRtl={false}
-            closeMenuOnSelect={false}
-          />
 
-          <button onClick={handleSelect}>Imprimir itens</button>
+          <Modal title={'Edit members'} isOpen={modalMember} setIsOpen={setModalMember}>
+            <Table
+              data={selectedOptions}
+              objProp={['name', 'lastName', 'role', 'rate', 'delete']}
+              headers={['Name', 'Last Name', 'Role', 'Rate', 'Delete']}
+            ></Table>
+            <button onClick={() => setModalMember(false)}>Cancel</button>
+          </Modal>
+          <button onClick={() => setModalMember(true)}>See members</button>
         </div>
         <div>
           <InputControlled
@@ -187,16 +200,8 @@ const ManageItem = function ({ handler, project }) {
             required
             error={errors.active}
           />
-          <Table
-            data={project.tasks}
-            objProp={['description', 'workedHours', 'date', 'edit', 'delete']}
-            headers={['Description', 'Worked Hours', 'Date', 'Edit', 'Delete']}
-          ></Table>
         </div>
       </div>
-      {project.members.map((e, index) => {
-        return <p key={index}>{e.memberId}</p>;
-      })}
       <div className={styles.buttonConteiner}>
         <Button icons="submit" />
       </div>

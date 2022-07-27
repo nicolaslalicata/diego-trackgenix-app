@@ -48,6 +48,7 @@ function ProjectsList() {
   };
 
   const onEdit = (project) => {
+    console.log('project', project);
     const projectWithUpdatedDates = {
       ...project,
       startDate: new Date(project.startDate).toISOString().substr(0, 10),
@@ -62,7 +63,6 @@ function ProjectsList() {
     setProject(project);
   };
 
-  console.log(projects);
   const getData = (projects) => {
     return projects.map((project) => ({
       ...project,

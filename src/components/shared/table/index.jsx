@@ -7,7 +7,7 @@ const Table = ({ data, headers, objProp }) => {
   const [indexPage, setIndexPage] = useState(1);
   const pageData = data.slice(5 * (indexPage - 1), 5 * indexPage);
   const totalPages = Math.ceil(data.length / 5);
-  console.log(totalPages);
+  console.log('pageData', pageData);
 
   useEffect(() => {
     const maxIndexPage = data.length > 5 ? Math.floor((data.length - 0.01) / 5) + 1 : 1;
@@ -43,6 +43,7 @@ const Table = ({ data, headers, objProp }) => {
             return (
               <tr key={row._id}>
                 {objProp.map((prop, index) => {
+                  console.log('prop', prop);
                   return <td key={index}>{row[prop]}</td>;
                 })}
               </tr>
