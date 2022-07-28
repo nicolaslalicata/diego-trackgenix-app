@@ -6,15 +6,9 @@
     align-items: center;
     overflow-x:auto;
   }
-<<<<<<< HEAD
-.tableContainer {
-  height: 260px;
-}
-=======
 /* .tableContainer {
   height: 260px;
 } */
->>>>>>> origin/master
 
   .table {
     margin: 1rem;

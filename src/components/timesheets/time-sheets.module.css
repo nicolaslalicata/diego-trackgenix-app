@@ -28,13 +28,8 @@
   align-items: center;
   justify-content: flex-start;
   align-content: center;
-<<<<<<< HEAD
-  margin-top: 90px;
-  margin-left: 105px;
-=======
   margin-top: 80px;
   margin-left: 200px;
->>>>>>> origin/master
 }
 
 .heading {
@@ -89,10 +84,7 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-<<<<<<< HEAD
-=======
   margin-bottom: 50px;
->>>>>>> origin/master
   width: 100%;
 }
 

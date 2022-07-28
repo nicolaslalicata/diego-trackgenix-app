@@ -63,16 +63,16 @@ const ManageItem = function ({ handler, project }) {
   // console.log('project-member', project.members[0].memberId);
   // console.log('array members of this project', project.members);
   //---------------------------------------------------------------------------------
-  // useEffect(() => {
-  //   if (project) {
-  //     setValue('name', project.name);
-  //     setValue('description', project.description);
-  //     setValue('client', project.client);
-  //     setValue('startDate', project.startDate);
-  //     setValue('endDate', project.endDate);
-  //     setValue('tasks', project.tasks);
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (project) {
+      setValue('name', project.name);
+      setValue('description', project.description);
+      setValue('client', project.client);
+      setValue('startDate', project.startDate);
+      setValue('endDate', project.endDate);
+      setValue('tasks', project.tasks);
+    }
+  }, []);
   const schema = joi.object({
     name: joi
       .string()
