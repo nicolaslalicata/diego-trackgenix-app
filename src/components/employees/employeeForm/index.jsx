@@ -92,7 +92,13 @@ const EmployeeForm = ({
     mode: 'onSubmit',
     resolver: joiResolver(employeeSchema)
   });
+
+  useEffect(() => {
+    reset();
+  }, []);
+
   const editEmployeeHandler = ({ firstName, lastName, email, phone, password, active }, e) => {
+    const uid = initialValue.firebaseUid;
     e.preventDefault();
     dispatch(
       editEmployee(
@@ -103,6 +109,7 @@ const EmployeeForm = ({
         phone,
         password,
         active,
+        uid,
         setEditItem,
         setIsEditModalOpen
       )
@@ -134,7 +141,12 @@ const EmployeeForm = ({
             icons={'add'}
           ></Button>
         </div>
-        <Modal isOpen={isAddModalOpen} setIsOpen={setIsAddModalOpen} title={'Add new Employee'}>
+        <Modal
+          isOpen={isAddModalOpen}
+          setIsOpen={setIsAddModalOpen}
+          title={'Add new Employee'}
+          reset={reset}
+        >
           <div className={styles.container}>
             <form className={styles.containerForm} onSubmit={handleSubmit(addEmployeeHandler)}>
               <div>
@@ -218,7 +230,12 @@ const EmployeeForm = ({
             </form>
           </div>
         </Modal>
-        <Modal isOpen={isEditModalOpen} setIsOpen={setIsEditModalOpen} title={'Edit employee'}>
+        <Modal
+          isOpen={isEditModalOpen}
+          setIsOpen={setIsEditModalOpen}
+          title={'Edit employee'}
+          reset={reset}
+        >
           <div className={styles.container}>
             <form className={styles.containerForm} onSubmit={handleSubmit(editEmployeeHandler)}>
               <div>
@@ -279,7 +296,7 @@ const EmployeeForm = ({
                   />
                 </div>
                 <DropdownForm
-                  initialOption="Is Active?"
+                  // initialOption="Is Active?"
                   label="Active"
                   options={['true', 'false']}
                   name="active"
@@ -300,7 +317,12 @@ const EmployeeForm = ({
             </form>
           </div>
         </Modal>
-        <Modal isOpen={isModalSuccess} setIsOpen={setIsModalSuccess}>
+        <Modal
+          isOpen={isModalSuccess}
+          setIsOpen={setIsModalSuccess}
+          reset={reset}
+          title={'Message'}
+        >
           <h3>{successMessage}</h3>
         </Modal>
       </div>

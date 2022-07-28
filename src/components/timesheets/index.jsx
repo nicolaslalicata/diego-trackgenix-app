@@ -31,7 +31,7 @@ const TimeSheets = () => {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userLogged);
-  const list = useSelector((state) => state.timeSheets.timeSheetsList);
+  let list = useSelector((state) => state.timeSheets.timeSheetsList);
   const projects = useSelector((state) => state.projects.projectsList);
   const employees = useSelector((state) => state.employees.employeesList);
   const tasks = useSelector((state) => state.tasks.tasksList);
@@ -49,6 +49,9 @@ const TimeSheets = () => {
   let filteredList = [];
 
   const filterData = () => {
+    if (list === null) {
+      list = [];
+    }
     filteredList = list.filter((item) => {
       return (
         item.employee.firebaseUid === user.user.localId ||

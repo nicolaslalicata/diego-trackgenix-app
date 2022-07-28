@@ -54,17 +54,17 @@ const Table = ({ data, headers, objProp }) => {
             })}
           </tbody>
         </table>
-      </div>
-      <div className={styles.pageButtons}>
-        <button onClick={() => previousPage()}>
-          <FcPrevious />
-        </button>
-        <p>
-          Page {indexPage} of {totalPages}
-        </p>
-        <button onClick={() => nextPage()}>
-          <FcNext />
-        </button>
+        <div className={styles.pageButtons}>
+          <button onClick={() => previousPage()}>
+            <FcPrevious />
+          </button>
+          <p>
+            Page {indexPage} of {totalPages}
+          </p>
+          <button onClick={() => nextPage()}>
+            <FcNext />
+          </button>
+        </div>
       </div>
     </div>
   );
