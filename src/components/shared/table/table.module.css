@@ -6,14 +6,14 @@
     align-items: center;
     overflow-x:auto;
   }
-.tableContainer {
+/* .tableContainer {
   height: 260px;
-}
+} */
 
   .table {
     margin: 1rem;
     border-collapse: collapse;
-    border-radius: 3px;
+    border-radius: 2px;
     overflow: hidden;
     text-align: center;
   }

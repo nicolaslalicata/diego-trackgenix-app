@@ -29,7 +29,7 @@ const Table = ({ data, headers, objProp }) => {
   };
 
   if (data.length === 0) {
-    return <div>No data</div>;
+    return <div>Empty table: no data</div>;
   }
   return (
     <div className={styles.container}>
@@ -54,17 +54,19 @@ const Table = ({ data, headers, objProp }) => {
             })}
           </tbody>
         </table>
-      </div>
-      <div className={styles.pageButtons}>
-        <button onClick={() => previousPage()}>
-          <FcPrevious />
-        </button>
-        <p>
-          Page {indexPage} of {totalPages}
-        </p>
-        <button onClick={() => nextPage()}>
-          <FcNext />
-        </button>
+        {totalPages > 1 && (
+          <div className={styles.pageButtons}>
+            <button onClick={() => previousPage()}>
+              <FcPrevious />
+            </button>
+            <p>
+              Page {indexPage} of {totalPages}
+            </p>
+            <button onClick={() => nextPage()}>
+              <FcNext />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -46,7 +46,7 @@ export const employeesReducer = (state = initialState, action) => {
         employeesList: [...state.employeesList, action.payload],
         isLoading: false,
         error: false,
-        successMessage: 'Employee added successfully'
+        successMessage: 'Employee added'
       };
 
     case DELETE_EMPLOYEES_SUCCESS:
@@ -55,7 +55,7 @@ export const employeesReducer = (state = initialState, action) => {
         employeesList: state.employeesList.filter((e) => e._id !== action.payload._id),
         isLoading: false,
         error: false,
-        successMessage: 'Employee deleted successfully'
+        successMessage: 'Employee deleted'
       };
 
     case EDIT_EMPLOYEES_SUCCESS:
@@ -66,7 +66,7 @@ export const employeesReducer = (state = initialState, action) => {
         ),
         isLoading: false,
         error: false,
-        successMessage: 'Employee edited successfully'
+        successMessage: 'Employee edited'
       };
     case LOGIN_PENDING:
       return {
