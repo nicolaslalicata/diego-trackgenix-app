@@ -40,20 +40,20 @@ export const deleteMember = (member) => {
       });
   };
 };
-export const editMember = (member, employee, role, rate) => {
+export const editMember = (_id, employeeId, role, rate) => {
   const token = sessionStorage.getItem('token');
   return (dispatch) => {
     dispatch(membersPending());
-    return fetch(`${process.env.REACT_APP_API_URL}/members/${member._id}`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/members/${_id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         token
       },
       body: JSON.stringify({
-        employee: employee,
-        role: role,
-        rate: rate
+        employeeId,
+        role,
+        rate
       })
     })
       .then((response) => response.json())

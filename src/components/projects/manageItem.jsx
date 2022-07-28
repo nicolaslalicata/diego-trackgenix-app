@@ -4,19 +4,21 @@ import joi from 'joi';
 
 import styles from './manageItem.module.css';
 // import Dropdown from 'components/shared/dropdown';
+import { getProjects } from 'redux/projects/thunks';
 import InputControlled from 'components/shared/inputControlled';
 import Button from 'components/shared/buttons';
 import DropdownForm from 'components/shared/dropdown';
 import Table from 'components/shared/table';
-
+import Modal from 'components/shared/modal';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import * as membersThunks from 'redux/members/thunks';
-import Select from 'react-select';
+const arrayRoles = ['QA', 'Dev', 'PM'];
 const ManageItem = function ({ handler, project }) {
   // -------------------------------------------------------------------------------
   const dispatch = useDispatch();
-
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [modalMember, setModalMember] = useState(false);
   useEffect(async () => {
     try {
       await membersThunks.getMembers()(dispatch);
@@ -24,20 +26,53 @@ const ManageItem = function ({ handler, project }) {
       console.error(error);
     }
   }, []);
+  useEffect(() => {
+    const mappedOpt = project.members.map(({ memberId }) => {
+      return {
+        role: (
+          <select
+            onChange={(e) => {
+              dispatch(
+                membersThunks.editMember(
+                  memberId._id,
+                  memberId.employeeId._id,
+                  e.target.value,
+                  memberId.rate
+                )
+              );
+            }}
+            defaultValue={memberId.role}
+          >
+            {arrayRoles.map((e) => (
+              <option key={e} value={e}>
+                {e}
+              </option>
+            ))}
+          </select>
+        ),
+        rate: memberId.rate,
+        name: memberId.employeeId.firstName,
+        lastName: memberId.employeeId.lastName,
+        delete: <Button icons="close" />
+      };
+    });
+    setSelectedOptions(mappedOpt);
+  }, [project.members]);
+
   const membersList = useSelector((state) => state.members.membersList);
   // console.log('project-member', project.members[0].memberId);
   // console.log('array members of this project', project.members);
   //---------------------------------------------------------------------------------
-  // useEffect(() => {
-  //   if (project) {
-  //     setValue('name', project.name);
-  //     setValue('description', project.description);
-  //     setValue('client', project.client);
-  //     setValue('startDate', project.startDate);
-  //     setValue('endDate', project.endDate);
-  //     setValue('tasks', project.tasks);
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (project) {
+      setValue('name', project.name);
+      setValue('description', project.description);
+      setValue('client', project.client);
+      setValue('startDate', project.startDate);
+      setValue('endDate', project.endDate);
+      setValue('tasks', project.tasks);
+    }
+  }, []);
   const schema = joi.object({
     name: joi
       .string()
@@ -45,12 +80,12 @@ const ManageItem = function ({ handler, project }) {
       .trim()
       .regex(/^([ \u00c0-\u01ffa-zA-Z'-])+$/, 'Is not in correct format')
       .required(),
-    description: joi
-      .string()
-      .min(5)
-      .trim()
-      .regex(/^([a-zA-Z0-9!@#$%&*])+$/, 'Is not in correct format')
-      .required(),
+    description: joi.string().min(5).max(40).trim().messages({
+      'string.min': 'Description must contain 5 or more characters',
+      'string.max': 'Description must contain 40 or less characters',
+      'string.pattern.base': 'Description is not valid',
+      'string.empty': 'This field is required'
+    }),
     client: joi
       .string()
       .min(3)
@@ -69,6 +104,7 @@ const ManageItem = function ({ handler, project }) {
       .min(joi.ref('startDate'))
       .messages({
         'date.base': 'Date is not valid',
+        'date.greater': 'End date must be after the start date',
         'any.ref': 'Start date is required'
       })
       .optional()
@@ -91,24 +127,12 @@ const ManageItem = function ({ handler, project }) {
       handler({ ...data, isActive: true, members: [] });
     }
   };
-  const options = [
-    membersList.map((e) => {
-      return { value: `${e._id}`, label: `${e.role}` };
-    })
-    // { value: 'produto 01', label: 'Produto 01' },
-    // { value: 'produto 02', label: 'Produto 02' },
-    // { value: 'produto 03', label: 'Produto 03' },
-    // { value: 'produto 04', label: 'Produto 04' },
-    // { value: 'produto 05', label: 'Produto 05' },
-    // { value: 'produto 06', label: 'Produto 06' },
-    // { value: 'produto 07', label: 'Produto 07' },
-    // { value: 'produto 08', label: 'Produto 08' }
-  ];
-  const [selectedOptions, setSelectedOptions] = useState([]);
 
-  const handleSelect = () => {
-    console.log(selectedOptions);
-  };
+  // const editMemberHandler = ({ role, rate, employeeId }, e) => {
+  //   e.preventDefault();
+  //   dispatch(membersThunks.editMember(selectedOptions, role, rate, employeeId));
+  // };
+
   return (
     <form id="projectForm" className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.inputConteiner}>
@@ -140,23 +164,16 @@ const ManageItem = function ({ handler, project }) {
             required
             error={errors.client}
           />
-          <Select
-            defaultValue={[options[0], options[2]]}
-            isMulti
-            options={membersList.map((e) => {
-              return { value: `${e._id}`, label: `${e.role}` };
-            })}
-            onChange={(item) => setSelectedOptions(item)}
-            className="select"
-            isClearable={true}
-            isSearchable={true}
-            isDisabled={false}
-            isLoading={false}
-            isRtl={false}
-            closeMenuOnSelect={false}
-          />
 
-          <button onClick={handleSelect}>Imprimir itens</button>
+          <Modal title={'Edit members'} isOpen={modalMember} setIsOpen={setModalMember}>
+            <Table
+              data={selectedOptions}
+              objProp={['name', 'lastName', 'role', 'rate', 'delete']}
+              headers={['Name', 'Last Name', 'Role', 'Rate', 'Delete']}
+            ></Table>
+            <button onClick={() => setModalMember(false)}>Cancel</button>
+          </Modal>
+          <button onClick={() => setModalMember(true)}>See members</button>
         </div>
         <div>
           <InputControlled
@@ -179,23 +196,15 @@ const ManageItem = function ({ handler, project }) {
           />
           <DropdownForm
             initialOption="Is Active?"
-            label="Members"
+            label="Validated?"
             options={['true', 'false']}
             name="active"
             register={register}
             required
             error={errors.active}
           />
-          <Table
-            data={project.tasks}
-            objProp={['description', 'workedHours', 'date', 'edit', 'delete']}
-            headers={['Description', 'Worked Hours', 'Date', 'Edit', 'Delete']}
-          ></Table>
         </div>
       </div>
-      {project.members.map((e, index) => {
-        return <p key={index}>{e.memberId}</p>;
-      })}
       <div className={styles.buttonConteiner}>
         <Button icons="submit" />
       </div>
