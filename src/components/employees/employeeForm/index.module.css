@@ -13,36 +13,9 @@
 
 .containerForm{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
 }
-
-/* .formItem{
-    display: flex;
-    align-items: center;
-    width: auto;
-    margin: 2%;
-}
-
-.formItem input{
-    width: 100%;
-    height: 30px;
-    margin-left: 3px;
-    border: 3px solid #EA3354;
-    background-color: #F0F4F9;
-    color: #000;
-}
-.formItemSend{
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    width: auto;
-    height: 50px;
-}
-.formItemSend input{
-    background-color: #000;
-    color: #fff;
-} */
 
 .employeeTitle Button {
     margin-left: 25%;

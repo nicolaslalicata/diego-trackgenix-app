@@ -7,6 +7,7 @@ import { deleteEmployees, getEmployees, editEmployee } from 'redux/employees/thu
 
 const Employees = () => {
   const [editItem, setEditItem] = useState({
+    firebaseUid: '',
     firstName: '',
     lastName: '',
     email: '',

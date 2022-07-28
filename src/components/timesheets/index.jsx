@@ -4,6 +4,7 @@ import Table from 'components/shared/table';
 import Button from 'components/shared/buttons';
 import ModalAddTimeSheet from 'components/timesheets/addAndModal';
 import ModalTimeSheetEdit from 'components/timesheets/editAndModal';
+import Week from './week';
 import ModalDeleteConfirmation from 'components/timesheets/modalDeleteConfirmation';
 import Loader from 'components/shared/loading';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,7 +12,7 @@ import * as timesheetThunks from 'redux/timesheets/thunks';
 import * as projectsThunks from 'redux/projects/thunks';
 import * as employeesThunks from 'redux/employees/thunks';
 import * as tasksThunks from 'redux/tasks/thunks';
-import Week from './week';
+import { IoIosAddCircleOutline } from 'react-icons/io';
 
 const TimeSheets = () => {
   const [timeSheet, setTimesheet] = useState({
@@ -30,7 +31,7 @@ const TimeSheets = () => {
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.userLogged);
-  const list = useSelector((state) => state.timeSheets.timeSheetsList);
+  let list = useSelector((state) => state.timeSheets.timeSheetsList);
   const projects = useSelector((state) => state.projects.projectsList);
   const employees = useSelector((state) => state.employees.employeesList);
   const tasks = useSelector((state) => state.tasks.tasksList);
@@ -48,11 +49,14 @@ const TimeSheets = () => {
   let filteredList = [];
 
   const filterData = () => {
+    if (list === null) {
+      list = [];
+    }
     filteredList = list.filter((item) => {
       return (
         item.employee.firebaseUid === user.user.localId ||
         user.user.role === 'ADMIN' ||
-        user.user.role === 'MANAGER'
+        user.user.role === 'PM'
       );
     });
     return filteredList;
@@ -99,15 +103,15 @@ const TimeSheets = () => {
   } else {
     return (
       <section className={styles.listSection}>
-        <div className={styles.employeeSection}></div>
-        <div>
-          <Button
-            icons={'add'}
-            callback={() => {
-              setIsModalAdd(true);
-            }}
-          />
-        </div>
+        {/* Add button */}
+        <Button
+          callback={() => {
+            setIsModalAdd(true);
+          }}
+          icons={'add'}
+        >
+          <IoIosAddCircleOutline />
+        </Button>
         <ModalAddTimeSheet
           isModalAdd={isModalAdd}
           setIsModalAdd={setIsModalAdd}

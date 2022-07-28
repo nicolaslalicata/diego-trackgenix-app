@@ -6,14 +6,20 @@
     align-items: center;
     overflow-x:auto;
   }
+<<<<<<< HEAD
 .tableContainer {
   height: 260px;
 }
+=======
+/* .tableContainer {
+  height: 260px;
+} */
+>>>>>>> origin/master
 
   .table {
     margin: 1rem;
     border-collapse: collapse;
-    border-radius: 3px;
+    border-radius: 2px;
     overflow: hidden;
     text-align: center;
   }

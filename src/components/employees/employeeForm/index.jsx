@@ -4,6 +4,7 @@ import Button from 'components/shared/buttons';
 import Modal from 'components/shared/modal';
 import InputControlled from 'components/shared/inputControlled';
 import DropdownForm from 'components/shared/dropdown';
+import { ButtonOption } from 'components/shared/buttonsOption';
 import { addNewEmployee } from 'redux/employees/thunks';
 import Joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -62,7 +63,7 @@ const EmployeeForm = ({
       .messages({
         'string.pattern.base': 'The password must have letters and numbers'
       }),
-    active: Joi.string().valid('true', 'false')
+    active: Joi.boolean()
   });
 
   useEffect(() => {
@@ -92,7 +93,12 @@ const EmployeeForm = ({
     resolver: joiResolver(employeeSchema)
   });
 
+  useEffect(() => {
+    reset();
+  }, []);
+
   const editEmployeeHandler = ({ firstName, lastName, email, phone, password, active }, e) => {
+    const uid = initialValue.firebaseUid;
     e.preventDefault();
     dispatch(
       editEmployee(
@@ -103,6 +109,7 @@ const EmployeeForm = ({
         phone,
         password,
         active,
+        uid,
         setEditItem,
         setIsEditModalOpen
       )
@@ -134,11 +141,13 @@ const EmployeeForm = ({
             icons={'add'}
           ></Button>
         </div>
-        <Modal isOpen={isAddModalOpen} setIsOpen={setIsAddModalOpen} title={'Add'}>
+        <Modal
+          isOpen={isAddModalOpen}
+          setIsOpen={setIsAddModalOpen}
+          title={'Add new Employee'}
+          reset={reset}
+        >
           <div className={styles.container}>
-            <div className={styles.title}>
-              <h2>Add new Employee</h2>
-            </div>
             <form className={styles.containerForm} onSubmit={handleSubmit(addEmployeeHandler)}>
               <div>
                 <div className={styles.formItem}>
@@ -221,11 +230,13 @@ const EmployeeForm = ({
             </form>
           </div>
         </Modal>
-        <Modal isOpen={isEditModalOpen} setIsOpen={setIsEditModalOpen} title={'Edit'}>
+        <Modal
+          isOpen={isEditModalOpen}
+          setIsOpen={setIsEditModalOpen}
+          title={'Edit employee'}
+          reset={reset}
+        >
           <div className={styles.container}>
-            <div className={styles.title}>
-              <h2>Edit employee</h2>
-            </div>
             <form className={styles.containerForm} onSubmit={handleSubmit(editEmployeeHandler)}>
               <div>
                 <div className={styles.formItem}>
@@ -285,30 +296,33 @@ const EmployeeForm = ({
                   />
                 </div>
                 <DropdownForm
-                  initialOption="Is Active?"
+                  // initialOption="Is Active?"
                   label="Active"
                   options={['true', 'false']}
                   name="active"
                   register={register}
-                  required
                   error={errors.active}
                 />
               </div>
               <div className={styles.formItemSend}>
-                <Button type="submit" value="Submit" icons={'submit'} />
-              </div>
-              <div className={styles.formItemSend}>
-                <Button
+                <ButtonOption option={'yes'} text={'Confirm'}></ButtonOption>
+                <ButtonOption
+                  option={'no'}
                   text="Cancel"
                   callback={() => {
                     setIsEditModalOpen(false);
                   }}
-                />
+                ></ButtonOption>
               </div>
             </form>
           </div>
         </Modal>
-        <Modal isOpen={isModalSuccess} setIsOpen={setIsModalSuccess}>
+        <Modal
+          isOpen={isModalSuccess}
+          setIsOpen={setIsModalSuccess}
+          reset={reset}
+          title={'Message'}
+        >
           <h3>{successMessage}</h3>
         </Modal>
       </div>
