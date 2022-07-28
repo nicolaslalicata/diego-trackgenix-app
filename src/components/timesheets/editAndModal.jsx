@@ -1,11 +1,10 @@
 import React from 'react';
 import { useEffect } from 'react';
 import styles from './time-sheets.module.css';
-import Button from 'components/shared/buttons';
 import Modal from 'components/shared/modal';
+import { ButtonOption } from 'components/shared/buttonsOption';
 import DropdownForm from 'components/shared/dropdownForm';
 import InputControlled from 'components/shared/inputControlled';
-import { ButtonOption } from 'components/shared/buttonsOption';
 import * as timesheetThunks from 'redux/timesheets/thunks';
 import { useDispatch } from 'react-redux/es/exports';
 import { useForm } from 'react-hook-form';
@@ -21,19 +20,14 @@ const ModalTimeSheetEdit = ({
   projects
 }) => {
   const dispatch = useDispatch();
+
   const schema = Joi.object({
-    description: Joi.string()
-      .min(5)
-      .max(30)
-      .trim()
-      .regex(/^([ \u00c0-\u01ffa-zA-Z0-9'-])+$/)
-      .messages({
-        'string.min': 'Description must contain 5 or more characters',
-        'string.max': 'Description must contain 30 or less characters',
-        'string.pattern.base': 'Description is not valid',
-        'string.empty': 'This field is required'
-      })
-      .required(),
+    description: Joi.string().min(5).max(30).trim().messages({
+      'string.min': 'Description must contain 5 or more characters',
+      'string.max': 'Description must contain 30 or less characters',
+      'string.pattern.base': 'Description is not valid',
+      'string.empty': 'This field is required'
+    }),
     startDate: Joi.date()
       .messages({
         'date.base': 'Date is not valid',
@@ -49,9 +43,9 @@ const ModalTimeSheetEdit = ({
       })
       .optional(),
     hours: Joi.number().required().positive(),
-    projects: Joi.string().required(),
-    tasks: Joi.string().required(),
-    employees: Joi.string().required(),
+    project: Joi.string().required(),
+    task: Joi.string().required(),
+    employee: Joi.string().required(),
     validated: Joi.boolean().required()
   });
 
@@ -66,22 +60,32 @@ const ModalTimeSheetEdit = ({
   });
 
   useEffect(() => {
+    const close = (e) => {
+      if (e.keyCode === 27) {
+        setIsModalEdit(false);
+      }
+    };
+    window.addEventListener('keydown', close);
+    return () => window.removeEventListener('keydown', close);
+  }, []);
+
+  useEffect(() => {
     reset({
       description: timeSheet.description,
       startDate: new Date(timeSheet.startDate).toISOString().substr(0, 10),
       endDate: new Date(timeSheet.endDate).toISOString().substr(0, 10),
       hours: timeSheet.hours,
-      projects: timeSheet.projectId,
-      tasks: tasks.description,
-      employees: timeSheet.employeeId,
+      project: timeSheet.project ? timeSheet.project._id : '',
+      task: timeSheet.task ? timeSheet.task._id : '',
+      employee: timeSheet.employee ? timeSheet.employee._id : '',
       validated: timeSheet.validated
     });
   }, [timeSheet]);
+
   const editTimeSheetHandler = (
-    { description, hours, startDate, endDate, tasks, project, validated, employees },
+    { description, hours, startDate, endDate, task, validated, employee, project },
     e
   ) => {
-    console.log(project);
     e.preventDefault();
     dispatch(
       timesheetThunks.editTimeSheet(
@@ -90,9 +94,9 @@ const ModalTimeSheetEdit = ({
         startDate,
         endDate,
         hours,
-        tasks,
+        task,
         validated,
-        employees,
+        employee,
         project
       )
     );
@@ -101,71 +105,40 @@ const ModalTimeSheetEdit = ({
 
   return (
     <section>
-      <Modal isOpen={isModalEdit} setIsOpen={setIsModalEdit} title={'Edit Timesheet'}>
+      <Modal isOpen={isModalEdit} setIsOpen={setIsModalEdit} reset={reset} title={`Edit timesheet`}>
         <form onSubmit={handleSubmit(editTimeSheetHandler)} className={styles.formContainer}>
           <div className={styles.inputContainer}>
-            <div className={styles.inputColumnOne}>
-              <InputControlled
-                type={'text'}
-                label={'Description'}
-                name="description"
-                register={register}
-                required
-                error={errors.description}
-              />
-              <InputControlled
-                type={'text'}
-                label={'Hours'}
-                name="hours"
-                register={register}
-                required
-                error={errors.hours}
-              />
-              <InputControlled
-                type={'date'}
-                label={'Start Date'}
-                name="startDate"
-                register={register}
-                required
-                error={errors.startDate}
-              />
-              <InputControlled
-                type={'date'}
-                label={'End Date'}
-                name="endDate"
-                register={register}
-                required
-                error={errors.endDate}
-              />
-            </div>
             <div className={styles.inputColumnTwo}>
+              <DropdownForm
+                initialOption="Select an employee"
+                label="Employee"
+                options={employees}
+                name="employee"
+                register={register}
+                required
+                error={errors.employee}
+              />
+
               <DropdownForm
                 initialOption="Select a project"
                 label="Projects"
                 options={projects}
-                name="projects"
+                name="project"
                 register={register}
                 required
-                error={errors.projects}
+                error={errors.project}
               />
-              <DropdownForm
-                initialOption="Select a employee"
-                label="Employees"
-                options={employees}
-                name="employees"
-                register={register}
-                required
-                error={errors.employees}
-              />
+
               <DropdownForm
                 initialOption="Select a task"
                 label="Tasks"
                 options={tasks}
-                name="tasks"
+                name="task"
                 register={register}
                 required
-                error={errors.tasks}
+                error={errors.task}
               />
+
               <DropdownForm
                 initialOption="Is Validated?"
                 label="Validated"
@@ -177,6 +150,44 @@ const ModalTimeSheetEdit = ({
                 register={register}
                 required
                 error={errors.validated}
+              />
+            </div>
+
+            <div className={styles.inputColumnOne}>
+              <InputControlled
+                type={'text'}
+                label={'Hours'}
+                name="hours"
+                register={register}
+                required
+                error={errors.hours}
+              />
+
+              <InputControlled
+                type={'date'}
+                label={'Start Date'}
+                name="startDate"
+                register={register}
+                required
+                error={errors.startDate}
+              />
+
+              <InputControlled
+                type={'date'}
+                label={'End Date'}
+                name="endDate"
+                register={register}
+                required
+                error={errors.endDate}
+              />
+
+              <InputControlled
+                type={'text'}
+                label={'Comments'}
+                name="description"
+                register={register}
+                required
+                error={errors.description}
               />
             </div>
           </div>

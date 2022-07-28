@@ -4,6 +4,7 @@ import joi from 'joi';
 
 import styles from './manageItem.module.css';
 // import Dropdown from 'components/shared/dropdown';
+import { getProjects } from 'redux/projects/thunks';
 import InputControlled from 'components/shared/inputControlled';
 import Button from 'components/shared/buttons';
 import DropdownForm from 'components/shared/dropdown';
@@ -26,17 +27,20 @@ const ManageItem = function ({ handler, project }) {
     }
   }, []);
   useEffect(() => {
-    const mappedOpt = project.members.map(({ memberId, _id }) => {
-      console.log('id', _id);
-      console.log('memberid', memberId._id);
+    const mappedOpt = project.members.map(({ memberId }) => {
       return {
         role: (
           <select
-            onChange={() =>
+            onChange={(e) => {
               dispatch(
-                membersThunks.editMember(_id, memberId.employeeId._id, memberId.role, memberId.rate)
-              )
-            }
+                membersThunks.editMember(
+                  memberId._id,
+                  memberId.employeeId._id,
+                  e.target.value,
+                  memberId.rate
+                )
+              );
+            }}
             defaultValue={memberId.role}
           >
             {arrayRoles.map((e) => (
@@ -49,16 +53,17 @@ const ManageItem = function ({ handler, project }) {
         rate: memberId.rate,
         name: memberId.employeeId.firstName,
         lastName: memberId.employeeId.lastName,
-        delete: <button></button>
+        delete: <Button icons="close" />
       };
     });
     setSelectedOptions(mappedOpt);
   }, [project.members]);
+
   const membersList = useSelector((state) => state.members.membersList);
   console.log('members', membersList);
-  console.log('project', project);
-  console.log('selectedOptions', selectedOptions);
-  console.log('array members of this project', project.members);
+  // console.log('project', project);
+  // console.log('selectedOptions', selectedOptions);
+  // console.log('array members of this project', project.members);
   //---------------------------------------------------------------------------------
   useEffect(() => {
     if (project) {
@@ -78,12 +83,12 @@ const ManageItem = function ({ handler, project }) {
       .trim()
       .regex(/^([ \u00c0-\u01ffa-zA-Z'-])+$/, 'Is not in correct format')
       .required(),
-    description: joi
-      .string()
-      .min(5)
-      .trim()
-      .regex(/^([a-zA-Z0-9!@#$%&*])+$/, 'Is not in correct format')
-      .required(),
+    description: joi.string().min(5).max(40).trim().messages({
+      'string.min': 'Description must contain 5 or more characters',
+      'string.max': 'Description must contain 40 or less characters',
+      'string.pattern.base': 'Description is not valid',
+      'string.empty': 'This field is required'
+    }),
     client: joi
       .string()
       .min(3)
@@ -102,6 +107,7 @@ const ManageItem = function ({ handler, project }) {
       .min(joi.ref('startDate'))
       .messages({
         'date.base': 'Date is not valid',
+        'date.greater': 'End date must be after the start date',
         'any.ref': 'Start date is required'
       })
       .optional()
@@ -125,10 +131,10 @@ const ManageItem = function ({ handler, project }) {
     }
   };
 
-  const editMemberHandler = ({ role, rate, employeeId }, e) => {
-    e.preventDefault();
-    dispatch(membersThunks.editMember(selectedOptions, role, rate, employeeId));
-  };
+  // const editMemberHandler = ({ role, rate, employeeId }, e) => {
+  //   e.preventDefault();
+  //   dispatch(membersThunks.editMember(selectedOptions, role, rate, employeeId));
+  // };
 
   return (
     <form id="projectForm" className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -193,7 +199,7 @@ const ManageItem = function ({ handler, project }) {
           />
           <DropdownForm
             initialOption="Is Active?"
-            label="Members"
+            label="Validated?"
             options={['true', 'false']}
             name="active"
             register={register}

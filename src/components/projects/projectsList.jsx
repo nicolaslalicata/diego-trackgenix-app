@@ -17,7 +17,6 @@ function ProjectsList() {
   const [modalCloseOpen, setModalCloseOpen] = useState(false);
   const [modalAddItemOpen, setModalAddItemOpen] = useState(false);
   const [modalEditItemOpen, setModalEditItemOpen] = useState(false);
-
   const [modalNotification, setModalNotification] = useState(false, { title: '' });
 
   useEffect(() => {
@@ -48,7 +47,6 @@ function ProjectsList() {
   };
 
   const onEdit = (project) => {
-    console.log('project', project);
     const projectWithUpdatedDates = {
       ...project,
       startDate: new Date(project.startDate).toISOString().substr(0, 10),

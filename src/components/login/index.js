@@ -80,8 +80,7 @@ function Login() {
         </div>
       </form>
       <h3>
-        Not a member?
-        <a href="https://diego-trackgenix-app.vercel.app/sign-up">signUp</a>
+        Not a member? <a href="https://diego-trackgenix-app.vercel.app/sign-up">signup!</a>
       </h3>
       <Modal
         isOpen={showModalMessage}

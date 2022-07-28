@@ -9,7 +9,6 @@ function Members() {
 
   const membersList = useSelector((state) => state.members.membersList);
   const dispatch = useDispatch();
-  console.log('members', membersList);
   useEffect(async () => {
     try {
       await membersThunks.getMembers()(dispatch);

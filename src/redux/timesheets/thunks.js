@@ -22,6 +22,7 @@ export const getTimeSheets = () => {
       });
   };
 };
+
 export const deleteTimeSheet = (timeSheet) => {
   const token = sessionStorage.getItem('token');
   return (dispatch) => {
@@ -40,16 +41,17 @@ export const deleteTimeSheet = (timeSheet) => {
       });
   };
 };
+
 export const editTimeSheet = (
   timeSheet,
   description,
   startDate,
   endDate,
   hours,
-  tasks,
+  task,
   validated,
-  employeeId,
-  projectId
+  employee,
+  project
 ) => {
   const token = sessionStorage.getItem('token');
   return (dispatch) => {
@@ -62,13 +64,13 @@ export const editTimeSheet = (
       },
       body: JSON.stringify({
         description: description,
-        taskId: tasks,
-        validated: validated,
-        employeeId: employeeId,
-        projectId: projectId,
         startDate: startDate,
         endDate: endDate,
-        hours: hours
+        hours: hours,
+        task: task,
+        validated: validated,
+        employee: employee,
+        project: project
       })
     })
       .then((response) => response.json())
@@ -84,10 +86,10 @@ export const editTimeSheet = (
 
 export const addTimesheet = (
   description,
-  taskId,
+  task,
   validated,
-  employeeId,
-  projectId,
+  employee,
+  project,
   startDate,
   endDate,
   hours
@@ -95,6 +97,7 @@ export const addTimesheet = (
   const token = sessionStorage.getItem('token');
   return (dispatch) => {
     dispatch(timeSheetsPending());
+
     return fetch(`${process.env.REACT_APP_API_URL}/timesheets/`, {
       method: 'POST',
       headers: {
@@ -103,13 +106,13 @@ export const addTimesheet = (
       },
       body: JSON.stringify({
         description: description,
-        taskId: taskId,
-        validated: validated,
-        employeeId: employeeId,
-        projectId: projectId,
         startDate: startDate,
         endDate: endDate,
-        hours: hours
+        hours: hours,
+        task: task,
+        validated: validated,
+        employee: employee,
+        project: project
       })
     })
       .then((response) => response.json())
@@ -118,6 +121,31 @@ export const addTimesheet = (
           dispatch(addTimeSheetsSuccess(response.data));
         } else {
           dispatch(timeSheetsError(response.error));
+        }
+      });
+  };
+};
+
+export const addComment = ({ id, description }) => {
+  const token = sessionStorage.getItem('token');
+  return (dispatch) => {
+    dispatch(timeSheetsPending());
+    return fetch(`${process.env.REACT_APP_API_URL}/timesheets/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        token
+      },
+      body: JSON.stringify({
+        description: description
+      })
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        if (!response.error) {
+          dispatch(editTimeSheetsSuccess(response.data));
+        } else {
+          dispatch(timeSheetsError(response.message));
         }
       });
   };

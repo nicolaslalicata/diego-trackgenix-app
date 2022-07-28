@@ -13,9 +13,9 @@ const TasksList = ({ tasklist, deleteItem, editItem }) => {
   const getData = () => {
     return tasklist.map((task) => ({
       ...task,
-      employee: task.employeeId.lastName,
+      employee: task.employeeId ? task.employeeId.lastName : '',
       done: task.done ? 'Yes' : 'No',
-      project: task.projectId.name,
+      project: task.projectId ? task.projectId.name : '',
       date: new Date(task.date).toISOString().substr(0, 10),
       edit: (
         <Button
@@ -26,8 +26,8 @@ const TasksList = ({ tasklist, deleteItem, editItem }) => {
               task.description,
               task.workedHours,
               task.date,
-              task.employeeId._id,
-              task.projectId._id,
+              task.employeeId ? task.employeeId._id : '',
+              task.projectId ? task.projectId._id : '',
               task.done
             );
           }}

@@ -102,7 +102,6 @@ function SuperAdmins() {
   }, [isOpenAdd === true]);
 
   const getData = () => {
-    console.log('superAdm', superAdmins);
     return superAdmins.map((superAdmin) => ({
       ...superAdmin,
       edit: (

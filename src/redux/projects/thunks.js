@@ -90,7 +90,8 @@ export const editProject = (userInput, setModalNotification) => {
 };
 
 export const deleteProject = (userInput, setModalNotification) => {
-  const params = { method: 'delete' };
+  const token = sessionStorage.getItem('token');
+  const params = { method: 'DELETE', headers: { token } };
   const id = userInput._id;
   return async (dispatch) => {
     dispatch(deleteProjectsPending());

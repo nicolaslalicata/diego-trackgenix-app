@@ -1,11 +1,11 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Modal from 'components/shared/modal';
 import Button from 'components/shared/buttons';
 import DropdownForm from 'components/shared/dropdownForm';
 import styles from './admins.module.css';
 import InputControlled from 'components/shared/inputControlled';
-import Joi, { required } from 'joi';
+import Joi from 'joi';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { createAdmin } from '../../redux/admins/thunks';
 import { useDispatch } from 'react-redux';
@@ -60,7 +60,6 @@ const ModalAddAdmin = ({ setShowAddModal, showAddModal, setSucModalIsOpen }) => 
 
   const addAdminHandler = ({ name, lastName, email, gender, status, password }, e) => {
     e.preventDefault();
-    console.log(name, lastName, email, gender, status, password);
     dispatch(createAdmin(name, lastName, email, gender, status, password));
     setShowAddModal(false);
     setSucModalIsOpen(true);

@@ -26,11 +26,11 @@ const DropdownForm = ({
 
         {options.map((option, index) => (
           <option key={index} value={option._id}>
-            {option.name || option.lastName || option.description || options}
+            {option.name || option.lastName || option.description || option}
           </option>
         ))}
       </select>
-      <p> {error?.message && error?.message}</p>
+      <p className={styles.error}> {error?.message && error?.message}</p>
     </div>
   );
 };

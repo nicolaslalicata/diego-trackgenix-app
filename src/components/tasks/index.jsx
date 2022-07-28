@@ -76,9 +76,7 @@ const Tasks = () => {
     e.preventDefault();
     const newTask = { description, workedHours, date, employeeId, projectId, done };
     setShowModal(true);
-    console.log(newTask);
     dispatch(addTaskThunks(newTask));
-    dispatch(getTasks());
     setIsAdding(false);
     reset();
     setShowModalMessage({
@@ -126,7 +124,6 @@ const Tasks = () => {
       title: 'Message',
       message: 'Task edited'
     });
-    dispatch(getTasks());
   };
 
   const openDeleteModal = (id) => {

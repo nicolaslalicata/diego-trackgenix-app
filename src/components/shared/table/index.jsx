@@ -7,7 +7,6 @@ const Table = ({ data, headers, objProp }) => {
   const [indexPage, setIndexPage] = useState(1);
   const pageData = data.slice(5 * (indexPage - 1), 5 * indexPage);
   const totalPages = Math.ceil(data.length / 5);
-  console.log('pageData', pageData);
 
   useEffect(() => {
     const maxIndexPage = data.length > 5 ? Math.floor((data.length - 0.01) / 5) + 1 : 1;
@@ -28,29 +27,34 @@ const Table = ({ data, headers, objProp }) => {
       setIndexPage(indexPage - 1);
     }
   };
+
+  if (data.length === 0) {
+    return <div>No data</div>;
+  }
   return (
     <div className={styles.container}>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            {headers.map((header, index) => {
-              return <th key={index}>{header}</th>;
+      <div className={styles.tableContainer}>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              {headers.map((header, index) => {
+                return <th key={index}>{header}</th>;
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {pageData.map((row) => {
+              return (
+                <tr key={row._id}>
+                  {objProp.map((prop, index) => {
+                    return <td key={index}>{row[prop]}</td>;
+                  })}
+                </tr>
+              );
             })}
-          </tr>
-        </thead>
-        <tbody>
-          {pageData.map((row) => {
-            return (
-              <tr key={row._id}>
-                {objProp.map((prop, index) => {
-                  console.log('prop', prop);
-                  return <td key={index}>{row[prop]}</td>;
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
       <div className={styles.pageButtons}>
         <button onClick={() => previousPage()}>
           <FcPrevious />

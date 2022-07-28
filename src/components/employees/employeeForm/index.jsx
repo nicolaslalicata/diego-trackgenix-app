@@ -82,8 +82,6 @@ const EmployeeForm = ({
     }
   }, []);
 
-  console.log(successMessage, error);
-
   const {
     handleSubmit,
     register,

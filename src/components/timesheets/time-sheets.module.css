@@ -1,13 +1,37 @@
+.employeeSection {
+  /* margin-top: 5rem; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 20px;
+}
+
+.employee {
+  border: none;
+  border-bottom: 1px solid #00000022;
+}
+
+.tableSection {
+  height: 290px;
+}
+
+.weekSection {
+  margin-bottom: -3rem;
+}
+
 .listSection{
   flex-direction: column;
   display: flex;
-  width: 100%;
   align-items: center;
-justify-content: center;
-align-content: center;
-justify-items: center;
-margin-left: 100px;
+  justify-content: flex-start;
+  align-content: center;
+  margin-top: 90px;
+  margin-left: 105px;
 }
+
 .heading {
   margin: 0;
   padding: 10px;
@@ -16,21 +40,25 @@ margin-left: 100px;
   font-size: 18px;
   text-align: center;
 }
+
 .modalActions {
   bottom: 2px;
   margin-bottom: 10px;
   width: 100%;
 }
+
 .actionsContainer {
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
+
 .inputContainer{
   display: flex;
   justify-content: space-around;
   width: 100%;
 }
+
 .btnModalContainer{
   display: flex;
   justify-content: space-around;
@@ -38,9 +66,126 @@ margin-left: 100px;
   width: 100%;
   height: 50px;
 }
+
 .formContainer{
   width: 100%;
 
+}
+
+.weekHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.week {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.week h5 {
+  margin: 5px;
+}
+
+
+.weekDays {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.day p {
+  font-size: 12px;
+  color: #000000;
+}
+
+.dayName {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dayCard {
+  color: #bbb;
+  box-shadow: #00000022 0px 0px 5px;
+  border: 2px solid #00000022;
+  border-radius: 3px;
+  padding: 7px;
+  margin: 3px;
+  margin-bottom: 30px;
+  width: 130px;
+  height: 120px;
+}
+
+.dayCardTittle {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.line {
+  margin-bottom: 5px;
+  background-color: #373867;
+  height: 2px;
+  width: 100%;
+}
+
+.dayInput {
+  margin-top: 5px;
+  width: 100%;
+  border: none;
+  border-radius: 0;
+  border-bottom: 3px solid #373867;
+  background: transparent;
+  color: rgb(0, 0, 0);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.dayButton {
+  margin-bottom: 13px;
+  background-color: #373867;
+  border: none;
+  border-radius: 0;
+  text-align: center;
+  font-size: 10px;
+  color: #fff;
+  border: none;
+  height: 15px;
+  width: 100%;
+}
+
+.dayButtonDisabled {
+  background-color: #bbb;
+  border-radius: 0;
+  text-align: center;
+  font-size: 10px;
+  color: #fff;
+  border: none;
+  height: 15px;
+  width: 100%;
+}
+
+.dayButton:hover {
+  border: 1px solid black;
+  cursor: pointer
+}
+
+.dayCardContent {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 3px;
+}
+
+.dayCard p {
+  font-size: 12px;
+  color: rgb(0, 0, 0);
 }
 
 @media screen and (max-width: 1024px) {

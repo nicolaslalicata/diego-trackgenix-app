@@ -11,9 +11,11 @@ export const getTimeSheetsSuccess = (timeSheets) => ({
   type: GET_TIMESHEETS_SUCCESS,
   payload: timeSheets
 });
+
 export const timeSheetsPending = () => ({
   type: TIMESHEETS_PENDING
 });
+
 export const timeSheetsError = (error) => ({
   type: TIMESHEETS_ERROR,
   payload: error
