@@ -9,7 +9,8 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Home from 'components/home';
 import { login } from 'redux/auth/thunks';
-
+// import Routes from 'components/routes';
+import { Route } from 'react-router-dom';
 // actions
 
 function Login() {
