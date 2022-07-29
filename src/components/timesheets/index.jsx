@@ -53,11 +53,7 @@ const TimeSheets = () => {
       list = [];
     }
     filteredList = list.filter((item) => {
-      return (
-        item.employee.firebaseUid === user.user.localId ||
-        user.user.role === 'ADMIN' ||
-        user.user.role === 'PM'
-      );
+      return item.employee?.firebaseUid === user.user.localId || user.user.role === 'ADMIN';
     });
     return filteredList;
   };

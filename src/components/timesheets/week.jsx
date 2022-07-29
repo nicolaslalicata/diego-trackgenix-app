@@ -60,7 +60,7 @@ const Week = (filteredList) => {
 
   function days(current) {
     // setting gg Monday not Sunday
-    let first = current.getDate() - current.getDay() + 1;
+    let first = current.getDate() - current.getDay();
     for (let i = 0; i < 7; i++) {
       week.push(new Date(current.setDate(first++)));
     }

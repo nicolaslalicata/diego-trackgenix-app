@@ -5,7 +5,32 @@
   justify-content: center;
   align-items: center;
   margin-left: 100px;
+  width: 100%;
 }
+
+.buttonsOptions {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin: 10px;
+  width: 100%;
+}
+
+.textCenter {
+  text-align: center;
+}
+
+.itemsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 10px;
+  width: 100%;
+}
+
 .buttons {
   width: 100px;
   height: 25px;

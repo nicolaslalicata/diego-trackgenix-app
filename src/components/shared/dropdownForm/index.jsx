@@ -7,6 +7,7 @@ const DropdownForm = ({
   initialOption,
   dropStyle,
   register,
+  onChange,
   name,
   required,
   error
@@ -15,6 +16,7 @@ const DropdownForm = ({
     <div className={styles.dropdownContainer} style={dropStyle}>
       <label className={styles.labelDropdown}>{label}</label>
       <select
+        onChange={onChange}
         className={styles.selectDropdown}
         defaultValue={''}
         value={value}
@@ -25,8 +27,8 @@ const DropdownForm = ({
         </option>
 
         {options.map((option, index) => (
-          <option key={index} value={option._id}>
-            {option.name || option.lastName || option.description || option}
+          <option key={index} value={option?._id}>
+            {option.name || option.lastName || option.description || option.employeeId._id}
           </option>
         ))}
       </select>

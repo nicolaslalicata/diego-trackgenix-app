@@ -27,6 +27,7 @@ export const getProjects = () => {
 };
 
 export const addProject = (userInput, setModalNotification) => {
+  console.log('Info al dispatch', userInput);
   const token = sessionStorage.getItem('token');
   return async (dispatch) => {
     dispatch(addProjectsPending());
@@ -58,6 +59,7 @@ export const addProject = (userInput, setModalNotification) => {
 };
 
 export const editProject = (userInput, setModalNotification) => {
+  console.log('Info al dispatch', userInput);
   const token = sessionStorage.getItem('token');
   const { _id, ...other } = userInput;
   return async (dispatch) => {
@@ -91,13 +93,18 @@ export const editProject = (userInput, setModalNotification) => {
 
 export const deleteProject = (userInput, setModalNotification) => {
   const token = sessionStorage.getItem('token');
+  console.log('Info al dispatch', userInput);
   const params = { method: 'DELETE', headers: { token } };
   const id = userInput._id;
-  return async (dispatch) => {
+  return (dispatch) => {
     dispatch(deleteProjectsPending());
-    return fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, params)
+    return fetch(`${process.env.REACT_APP_API_URL}/projects/${id}`, {
+      method: 'DELETE',
+      headers: { token }
+    })
       .then((response) => response.json())
       .then((response) => {
+        console.log(response);
         if (!response.error) {
           dispatch(deleteProjectsSuccess(response.data));
           setModalNotification({

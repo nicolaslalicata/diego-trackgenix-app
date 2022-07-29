@@ -22,6 +22,7 @@ export const getMembers = () => {
       });
   };
 };
+
 export const deleteMember = (member) => {
   const token = sessionStorage.getItem('token');
   return (dispatch) => {
@@ -40,7 +41,8 @@ export const deleteMember = (member) => {
       });
   };
 };
-export const editMember = (_id, employeeId, role, rate) => {
+
+export const editMember = (_id, employee, role, rate) => {
   const token = sessionStorage.getItem('token');
   return (dispatch) => {
     dispatch(membersPending());
@@ -51,7 +53,7 @@ export const editMember = (_id, employeeId, role, rate) => {
         token
       },
       body: JSON.stringify({
-        employeeId,
+        employee,
         role,
         rate
       })
@@ -68,6 +70,7 @@ export const editMember = (_id, employeeId, role, rate) => {
 };
 
 export const addMember = (employee, role, rate) => {
+  console.log(employee, role, rate);
   const token = sessionStorage.getItem('token');
   return (dispatch) => {
     dispatch(membersPending());
@@ -78,7 +81,7 @@ export const addMember = (employee, role, rate) => {
         token
       },
       body: JSON.stringify({
-        employee: employee,
+        employeeId: employee,
         role: role,
         rate: rate
       })
@@ -86,6 +89,7 @@ export const addMember = (employee, role, rate) => {
       .then((response) => response.json())
       .then((response) => {
         if (!response.error) {
+          console.log('response', response);
           dispatch(addMembersSuccess(response.data));
         } else {
           dispatch(membersError(response.error));

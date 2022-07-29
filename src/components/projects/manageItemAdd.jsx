@@ -13,6 +13,8 @@ import Modal from 'components/shared/modal';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import * as membersThunks from 'redux/members/thunks';
+import { ButtonOption } from 'components/shared/buttonsOption';
+
 const arrayRoles = ['QA', 'Dev', 'PM'];
 const ManageItem = function ({ handler, project }) {
   // -------------------------------------------------------------------------------
@@ -26,53 +28,12 @@ const ManageItem = function ({ handler, project }) {
       console.error(error);
     }
   }, []);
-  useEffect(() => {
-    const mappedOpt = project.members.map(({ memberId }) => {
-      return {
-        role: (
-          <select
-            onChange={(e) => {
-              dispatch(
-                membersThunks.editMember(
-                  memberId._id,
-                  memberId.employeeId._id,
-                  e.target.value,
-                  memberId.rate
-                )
-              );
-            }}
-            defaultValue={memberId.role}
-          >
-            {arrayRoles.map((e) => (
-              <option key={e} value={e}>
-                {e}
-              </option>
-            ))}
-          </select>
-        ),
-        rate: memberId.rate,
-        name: memberId.employeeId.firstName,
-        lastName: memberId.employeeId.lastName,
-        delete: <Button icons="close" />
-      };
-    });
-    setSelectedOptions(mappedOpt);
-  }, [project.members]);
 
   const membersList = useSelector((state) => state.members.membersList);
   // console.log('project-member', project.members[0].memberId);
   // console.log('array members of this project', project.members);
   //---------------------------------------------------------------------------------
-  useEffect(() => {
-    if (project) {
-      setValue('name', project.name);
-      setValue('description', project.description);
-      setValue('client', project.client);
-      setValue('startDate', project.startDate);
-      setValue('endDate', project.endDate);
-      setValue('tasks', project.tasks);
-    }
-  }, []);
+
   const schema = joi.object({
     name: joi
       .string()
@@ -107,12 +68,12 @@ const ManageItem = function ({ handler, project }) {
         'date.greater': 'End date must be after the start date',
         'any.ref': 'Start date is required'
       })
-      .optional()
+      .optional(),
+    isActive: joi.boolean()
   });
 
   const {
     register,
-    setValue,
     handleSubmit,
     formState: { errors }
   } = useForm({
@@ -127,11 +88,6 @@ const ManageItem = function ({ handler, project }) {
       handler({ ...data, isActive: true, members: [] });
     }
   };
-
-  // const editMemberHandler = ({ role, rate, employeeId }, e) => {
-  //   e.preventDefault();
-  //   dispatch(membersThunks.editMember(selectedOptions, role, rate, employeeId));
-  // };
 
   return (
     <form id="projectForm" className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -164,16 +120,6 @@ const ManageItem = function ({ handler, project }) {
             required
             error={errors.client}
           />
-
-          <Modal title={'Edit members'} isOpen={modalMember} setIsOpen={setModalMember}>
-            <Table
-              data={selectedOptions}
-              objProp={['name', 'lastName', 'role', 'rate', 'delete']}
-              headers={['Name', 'Last Name', 'Role', 'Rate', 'Delete']}
-            ></Table>
-            <button onClick={() => setModalMember(false)}>Cancel</button>
-          </Modal>
-          <button onClick={() => setModalMember(true)}>See members</button>
         </div>
         <div>
           <InputControlled
@@ -195,18 +141,18 @@ const ManageItem = function ({ handler, project }) {
             error={errors.endDate}
           />
           <DropdownForm
-            initialOption="Is Active?"
             label="Validated?"
             options={['true', 'false']}
-            name="active"
+            name="isActive"
             register={register}
             required
-            error={errors.active}
+            error={errors.isActive}
           />
         </div>
       </div>
       <div className={styles.buttonConteiner}>
-        <Button icons="submit" />
+        <ButtonOption option={'yes'} text={'Confirm'}></ButtonOption>
+        <ButtonOption option={'no'} text={'Cancel'}></ButtonOption>
       </div>
     </form>
   );
