@@ -10,7 +10,7 @@ import {
 
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
-export const registerUser = (firstName, lastName, email, password) => {
+export const registerUser = (uid, firstName, lastName, email, password) => {
   return (dispatch) => {
     dispatch(registerPending());
     const options = {
@@ -19,6 +19,7 @@ export const registerUser = (firstName, lastName, email, password) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
+        uid,
         firstName,
         lastName,
         email,
