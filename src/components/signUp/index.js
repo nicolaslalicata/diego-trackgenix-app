@@ -9,6 +9,9 @@ import Joi from 'joi';
 import Modal from 'components/shared/modal';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { GoogleAuthProvider } from 'firebase/auth';
+const provider = new GoogleAuthProvider();
+import { getAuth, signInWithPopup } from 'firebase/auth';
 
 function Signup() {
   const [showModalMessage, setShowModalMessage] = useState(false, { message: '', error: false });
@@ -35,6 +38,75 @@ function Signup() {
     mode: 'onSubmit',
     resolver: joiResolver(schema)
   });
+
+  const SignUpWithGoogle = () => {
+    const auth = getAuth();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        console.log(user.email);
+        const firstName = user.displayName.split(' ')[0];
+        const lastName = user.displayName.split(' ')[1];
+        const email = user.email;
+        const uid = user.uid;
+        console.log(uid);
+        const password = '123456';
+        // ...
+        setShowModalMessage({
+          error: true,
+          showModalMessage: true,
+          title: 'Message',
+          message: 'Logged in with Google'
+        });
+        history.push('/');
+        //Register user with firebase
+        try {
+          dispatch(registerUser(uid, firstName, lastName, email, password)).then((response) => {
+            if (response.type === 'REGISTER_ERROR') {
+              setShowModalMessage({
+                error: true,
+                showModalMessage: true,
+                title: 'Message',
+                message: response.payload
+              });
+            }
+            if (response.error === false) {
+              setShowModalMessage({
+                error: false,
+                showModalMessage: true,
+                title: 'Success',
+                message: response.message
+              });
+            }
+          });
+        } catch (error) {
+          setShowModalMessage({
+            showModalMessage: true,
+            title: error.code,
+            message: error.data.message
+          });
+        }
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        // const email = error.customData.email;
+        // The AuthCredential type that was used.
+        // const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+        setShowModalMessage({
+          showModalMessage: true,
+          title: errorCode,
+          message: errorMessage
+        });
+      });
+  };
 
   const signupUser = ({ firstName, lastName, email, password }, e) => {
     e.preventDefault();
@@ -133,12 +205,13 @@ function Signup() {
           showModalMessage.error
             ? reset
             : () => {
-                history.push('/');
+                history.push('/auth/login');
               }
         }
       >
         <div className={styles.modalMessage}>{showModalMessage.message}</div>
       </Modal>
+      <button onClick={SignUpWithGoogle}>Google</button>
     </section>
   );
 }

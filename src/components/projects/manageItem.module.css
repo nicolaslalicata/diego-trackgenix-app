@@ -21,7 +21,20 @@
 
 .buttonConteiner{
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	align-items: center;
+	justify-content: center;
 	max-width: 1500px;
+}
+
+.formContainer {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+  }
+
+.selectContianer {
+	display: flex;
+	justify-content: center;
+	width: 100%;
 }

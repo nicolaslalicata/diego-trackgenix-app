@@ -10,6 +10,26 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 // eslint-disable-next-line no-unused-vars
 import firebaseApp from 'helpers/firebase';
 
+const auth = getAuth();
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    auth.currentUser.getIdToken(true);
+    auth.currentUser.getIdTokenResult().then((data) => console.log(data));
+
+    // sessionStorage.setItem('localId', localId);
+    // sessionStorage.setItem('role', role);
+    // sessionStorage.setItem('token', token);
+    // sessionStorage.setItem('displayName', displayName);
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    const uid = user.uid;
+    // ...
+  } else {
+    // User is signed out
+    // ...
+  }
+});
+
 function Layout({ children }) {
   const token = sessionStorage.getItem('token');
   const role = sessionStorage.getItem('role');
